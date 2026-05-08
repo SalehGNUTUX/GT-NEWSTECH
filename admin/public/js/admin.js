@@ -115,46 +115,67 @@ async function renderDashboard(c) {
 }
 
 // Articles ──────────────────────────────────────────────────────
-async function renderArticles(c) {
-  let url = `/api/articles?lang=${S.langFilter}`;
-  if(S.catFilter) url += `&cat=${S.catFilter}`;
-  if(S.searchQ)   url += `&q=${encodeURIComponent(S.searchQ)}`;
-  S.articles = await api(url);
-  c.innerHTML = `
-  <div class="table-toolbar">
-    <input class="search-box" id="searchBox" placeholder="ابحث في عنوان المقال..." value="${S.searchQ}">
-    <select class="filter-select" id="catFilter">
-      <option value="">كل الأقسام</option>
-      ${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${S.catFilter===k?'selected':''}>${v.ar}</option>`).join('')}
-    </select>
-    <button class="btn btn-gold" onclick="openEditor(null)">
-      <i class="fa-solid fa-plus"></i> مقال جديد
-    </button>
-  </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr>
-        <th>العنوان</th><th>القسم</th><th>التاريخ</th><th>Slug</th><th>أقسام إضافية</th><th>إجراءات</th>
-      </tr></thead>
-      <tbody>
-        ${S.articles.length ? S.articles.map(a=>`
-        <tr>
-          <td class="td-title" title="${a.title||''}">${a.title||a._file}</td>
-          <td>${catBadge(a._cat)}</td>
-          <td style="font-family:'Inter',monospace;font-size:.78rem">${(a.date||'').toString().slice(0,10)}</td>
-          <td style="font-size:.72rem;color:var(--muted);font-family:monospace">${a.slug||'-'}</td>
-          <td style="font-size:.72rem">${(a.also_in||[]).map(c=>`<span class="r-cat cc-${c}" style="font-size:.6rem">${CATS[c]?.ar||c}</span>`).join(' ')||'-'}</td>
-          <td><div class="td-actions">
-            <button class="btn-icon edit" title="تحرير" onclick="editFrom('${a._lang}','${a._cat}','${a._file}')"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button class="btn-icon danger" title="حذف" onclick="deleteArticle('${a._lang}','${a._cat}','${a._file}','${(a.title||a._file).replace(/'/g,"\\'")}')"><i class="fa-solid fa-trash"></i></button>
-          </div></td>
-        </tr>`).join('') : `<tr class="empty-row"><td colspan="6"><i class="fa-solid fa-inbox"></i> لا توجد مقالات</td></tr>`}
-      </tbody>
-    </table>
-  </div>`;
+function articlesTableRows(list) {
+  if (!list.length) return `<tr class="empty-row"><td colspan="6"><i class="fa-solid fa-inbox"></i> لا توجد مقالات</td></tr>`;
+  return list.map(a => `
+  <tr>
+    <td class="td-title" title="${a.title||''}">${a.title||a._file}</td>
+    <td>${catBadge(a._cat)}</td>
+    <td style="font-family:'Inter',monospace;font-size:.78rem">${(a.date||'').toString().slice(0,10)}</td>
+    <td style="font-size:.72rem;color:var(--muted);font-family:monospace">${a.slug||'-'}</td>
+    <td style="font-size:.72rem">${(a.also_in||[]).map(c=>`<span class="r-cat cc-${c}" style="font-size:.6rem">${CATS[c]?.ar||c}</span>`).join(' ')||'-'}</td>
+    <td><div class="td-actions">
+      <button class="btn-icon edit" title="تحرير" onclick="editFrom('${a._lang}','${a._cat}','${a._file}')"><i class="fa-solid fa-pen-to-square"></i></button>
+      <button class="btn-icon danger" title="حذف" onclick="deleteArticle('${a._lang}','${a._cat}','${a._file}','${(a.title||a._file).replace(/'/g,"\\'")}')"><i class="fa-solid fa-trash"></i></button>
+    </div></td>
+  </tr>`).join('');
+}
 
-  $('searchBox').addEventListener('input', e => { S.searchQ = e.target.value; renderArticles($('content')); });
-  $('catFilter').addEventListener('change', e => { S.catFilter = e.target.value; renderArticles($('content')); });
+async function fetchAndRenderRows() {
+  let url = `/api/articles?lang=${S.langFilter}`;
+  if (S.catFilter) url += `&cat=${S.catFilter}`;
+  if (S.searchQ)   url += `&q=${encodeURIComponent(S.searchQ)}`;
+  S.articles = await api(url);
+  const tbody = document.querySelector('#articlesTable tbody');
+  if (tbody) tbody.innerHTML = articlesTableRows(S.articles);
+}
+
+async function renderArticles(c) {
+  /* الهيكل يُرسم مرة واحدة فقط — لا يُعاد رسمه عند البحث */
+  if (!$('articlesTable')) {
+    c.innerHTML = `
+    <div class="table-toolbar">
+      <input class="search-box" id="searchBox" placeholder="ابحث في عنوان المقال..."
+             value="${S.searchQ}" autocomplete="off">
+      <select class="filter-select" id="catFilter">
+        <option value="">كل الأقسام</option>
+        ${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${S.catFilter===k?'selected':''}>${v.ar}</option>`).join('')}
+      </select>
+      <button class="btn btn-gold" onclick="openEditor(null)">
+        <i class="fa-solid fa-plus"></i> مقال جديد
+      </button>
+    </div>
+    <div class="table-wrap">
+      <table id="articlesTable">
+        <thead><tr>
+          <th>العنوان</th><th>القسم</th><th>التاريخ</th><th>Slug</th><th>أقسام إضافية</th><th>إجراءات</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>`;
+
+    /* المستمعون يُضافون مرة واحدة فقط — بدون إعادة رسم الصفحة */
+    $('searchBox').addEventListener('input', e => {
+      S.searchQ = e.target.value;
+      fetchAndRenderRows();           /* يُحدَّث tbody فقط */
+    });
+    $('catFilter').addEventListener('change', e => {
+      S.catFilter = e.target.value;
+      fetchAndRenderRows();
+    });
+  }
+
+  await fetchAndRenderRows();
 }
 
 // Images ────────────────────────────────────────────────────────
