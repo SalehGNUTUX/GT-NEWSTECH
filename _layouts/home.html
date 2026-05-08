@@ -2,32 +2,49 @@
 layout: default
 ---
 
-<!-- Hero Section -->
+{% assign lang = page.lang | default: 'ar' %}
+{% assign lang_posts = site[lang] | sort: "date" | reverse %}
+
+<!-- Hero -->
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-badge">GNUTUX NEWS TECH</div>
     <h1 class="hero-title">
       <span class="hero-title-gt">GT</span>-NEWSTECH
     </h1>
-    <p class="hero-desc">أخبار ومقالات تقنية متخصصة — بالعربية والإنجليزية</p>
-    <p class="hero-desc-en">Tech news &amp; articles — Arabic &amp; English</p>
-    <div class="hero-actions">
-      <a href="{{ site.baseurl }}/ar/" class="btn btn-gold">تصفح العربية</a>
-      <a href="{{ site.baseurl }}/en/" class="btn btn-outline">Browse English</a>
+    {% if lang == 'ar' %}
+    <p class="hero-desc">أخبار ومقالات تقنية متخصصة — باللغة العربية</p>
+    <div class="hero-cats">
+      <a href="{{ site.baseurl }}/ar/category/gnutux-projects/" class="hero-cat-link">مشاريع GNUTUX</a>
+      <a href="{{ site.baseurl }}/ar/category/foss/" class="hero-cat-link">برمجيات حرة</a>
+      <a href="{{ site.baseurl }}/ar/category/gnulinux/" class="hero-cat-link">غنو/لينكس</a>
+      <a href="{{ site.baseurl }}/ar/category/tech-news/" class="hero-cat-link">التقنية</a>
+      <a href="{{ site.baseurl }}/ar/category/ai/" class="hero-cat-link">الذكاء الاصطناعي</a>
     </div>
+    {% else %}
+    <p class="hero-desc">Specialized tech news &amp; articles — In English</p>
+    <div class="hero-cats">
+      <a href="{{ site.baseurl }}/en/category/gnutux-projects/" class="hero-cat-link">GNUTUX Projects</a>
+      <a href="{{ site.baseurl }}/en/category/foss/" class="hero-cat-link">FOSS</a>
+      <a href="{{ site.baseurl }}/en/category/gnulinux/" class="hero-cat-link">GNU/Linux</a>
+      <a href="{{ site.baseurl }}/en/category/tech-news/" class="hero-cat-link">Tech News</a>
+      <a href="{{ site.baseurl }}/en/category/ai/" class="hero-cat-link">AI News</a>
+    </div>
+    {% endif %}
   </div>
   <div class="hero-glow"></div>
 </section>
 
-<!-- Latest Articles: combined, sorted by date -->
-{% assign all_posts = site.ar | concat: site.en | sort: "date" | reverse %}
-
-<!-- Featured (first 3) -->
-{% assign featured = all_posts | slice: 0, 3 %}
+<!-- Latest / Featured -->
+{% assign featured = lang_posts | slice: 0, 3 %}
+{% if featured.size > 0 %}
 <section class="section">
   <div class="section-header">
-    <h2 class="section-title">أحدث المقالات / Latest Articles</h2>
+    <h2 class="section-title">{% if lang == 'ar' %}أحدث المقالات{% else %}Latest Articles{% endif %}</h2>
     <div class="section-line"></div>
+    <a href="{{ site.baseurl }}/{{ lang }}/" class="see-all">
+      {% if lang == 'ar' %}الأرشيف الكامل{% else %}Full archive{% endif %}
+    </a>
   </div>
   <div class="featured-grid">
     {% for post in featured %}
@@ -35,31 +52,38 @@ layout: default
     {% endfor %}
   </div>
 </section>
+{% endif %}
 
-<!-- Per-category sections -->
+<!-- Category sections — current language only -->
 {% assign categories = "gnutux-projects,foss,gnulinux,tech-news,ai" | split: "," %}
-{% assign cat_names_ar = site.categories_ar %}
-{% assign cat_names_en = site.categories_en %}
 
 {% for cat in categories %}
-  {% assign cat_posts = all_posts | where: "category", cat | slice: 0, 4 %}
+  {% assign cat_posts = lang_posts | where: "category", cat | slice: 0, 4 %}
   {% if cat_posts.size > 0 %}
   <section class="section category-section" data-category="{{ cat }}">
     <div class="section-header">
-      <div class="cat-icon cat-{{ cat }}"></div>
+      <div class="cat-dot cat-{{ cat }}"></div>
       <h2 class="section-title">
-        {% if cat == 'gnutux-projects' %}مشاريع GNUTUX / GNUTUX Projects
-        {% elsif cat == 'foss' %}البرمجيات الحرة / Free &amp; Open Source
-        {% elsif cat == 'gnulinux' %}غنو/لينكس / GNU-Linux
-        {% elsif cat == 'tech-news' %}أخبار التقنية / Tech News
-        {% elsif cat == 'ai' %}الذكاء الاصطناعي / AI News
+        {% if lang == 'ar' %}
+          {% if cat == 'gnutux-projects' %}مشاريع GNUTUX
+          {% elsif cat == 'foss' %}البرمجيات الحرة
+          {% elsif cat == 'gnulinux' %}غنو / لينكس
+          {% elsif cat == 'tech-news' %}أخبار التقنية
+          {% elsif cat == 'ai' %}الذكاء الاصطناعي
+          {% endif %}
+        {% else %}
+          {% if cat == 'gnutux-projects' %}GNUTUX Projects
+          {% elsif cat == 'foss' %}Free &amp; Open Source
+          {% elsif cat == 'gnulinux' %}GNU/Linux
+          {% elsif cat == 'tech-news' %}Tech News
+          {% elsif cat == 'ai' %}AI News
+          {% endif %}
         {% endif %}
       </h2>
       <div class="section-line"></div>
-      <div class="section-links">
-        <a href="{{ site.baseurl }}/ar/category/{{ cat }}/" class="see-all">عرض الكل AR</a>
-        <a href="{{ site.baseurl }}/en/category/{{ cat }}/" class="see-all">See all EN</a>
-      </div>
+      <a href="{{ site.baseurl }}/{{ lang }}/category/{{ cat }}/" class="see-all">
+        {% if lang == 'ar' %}عرض الكل{% else %}See all{% endif %}
+      </a>
     </div>
     <div class="articles-grid">
       {% for post in cat_posts %}
@@ -69,3 +93,10 @@ layout: default
   </section>
   {% endif %}
 {% endfor %}
+
+{% if lang_posts.size == 0 %}
+<div class="empty-state" style="margin-top:3rem">
+  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+  <p>{% if lang == 'ar' %}لا توجد مقالات بعد. تابعنا قريباً!{% else %}No articles yet. Check back soon!{% endif %}</p>
+</div>
+{% endif %}

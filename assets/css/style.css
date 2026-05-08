@@ -462,7 +462,31 @@ ul { list-style: none; }
   color: #666;
   font-size: 0.9rem;
   font-family: var(--font-en);
+  margin-bottom: 1.25rem;
+}
+
+.hero-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
   margin-bottom: 2rem;
+}
+
+.hero-cat-link {
+  font-size: 0.78rem;
+  color: var(--gold-dim);
+  border: 1px solid #2a2000;
+  padding: 0.3rem 0.85rem;
+  border-radius: 100px;
+  transition: all var(--transition);
+  background: rgba(212,160,23,0.04);
+}
+
+.hero-cat-link:hover {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+  background: var(--gold-subtle);
 }
 
 .hero-actions {
@@ -471,6 +495,19 @@ ul { list-style: none; }
   justify-content: center;
   flex-wrap: wrap;
 }
+
+/* Category dot in section header */
+.cat-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cat-dot.cat-gnutux-projects { background: var(--cat-gnutux); }
+.cat-dot.cat-foss             { background: var(--cat-foss); }
+.cat-dot.cat-gnulinux         { background: var(--cat-gnulinux); }
+.cat-dot.cat-tech-news        { background: var(--cat-tech); }
+.cat-dot.cat-ai               { background: var(--cat-ai); }
 
 /* ── Buttons ────────────────────────────────────────────────── */
 .btn {

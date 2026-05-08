@@ -36,7 +36,7 @@
           {% endif %}
         {% endif %}
       </span>
-      <span class="card-lang-tag">{{ post.lang | upcase }}</span>
+      {% comment %}lang tag hidden — pages are now language-specific{% endcomment %}
     </div>
     <div class="card-body">
       <h3 class="card-title">{{ post.title }}</h3>
