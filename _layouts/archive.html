@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+<div class="archive-page" lang="{{ page.lang }}" dir="{% if page.lang == 'en' %}ltr{% else %}rtl{% endif %}">
+  <div class="archive-header">
+    <h1 class="archive-title">
+      {% if page.lang == 'en' %}All English Articles{% else %}جميع المقالات العربية{% endif %}
+    </h1>
+    <a href="{{ site.baseurl }}/{% if page.lang == 'en' %}ar{% else %}en{% endif %}/" class="lang-switch">
+      {% if page.lang == 'en' %}العربية{% else %}English{% endif %}
+    </a>
+  </div>
+
+  <!-- Category filter -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">
+      {% if page.lang == 'en' %}All{% else %}الكل{% endif %}
+    </button>
+    <button class="filter-btn" data-filter="gnutux-projects">
+      {% if page.lang == 'en' %}GNUTUX Projects{% else %}مشاريع GNUTUX{% endif %}
+    </button>
+    <button class="filter-btn" data-filter="foss">
+      {% if page.lang == 'en' %}FOSS{% else %}البرمجيات الحرة{% endif %}
+    </button>
+    <button class="filter-btn" data-filter="gnulinux">GNU/Linux</button>
+    <button class="filter-btn" data-filter="tech-news">
+      {% if page.lang == 'en' %}Tech News{% else %}التقنية{% endif %}
+    </button>
+    <button class="filter-btn" data-filter="ai">AI</button>
+  </div>
+
+  {% assign lang_posts = site[page.lang] | sort: "date" | reverse %}
+  {% assign grouped = lang_posts | group_by: "category" %}
+
+  {% for group in grouped %}
+  <section class="archive-group" data-category="{{ group.name }}">
+    <h2 class="archive-group-title">
+      {% if page.lang == 'en' %}
+        {% if group.name == 'gnutux-projects' %}GNUTUX Projects
+        {% elsif group.name == 'foss' %}Free &amp; Open Source
+        {% elsif group.name == 'gnulinux' %}GNU/Linux
+        {% elsif group.name == 'tech-news' %}Tech News
+        {% elsif group.name == 'ai' %}AI News
+        {% endif %}
+      {% else %}
+        {% if group.name == 'gnutux-projects' %}مشاريع GNUTUX
+        {% elsif group.name == 'foss' %}البرمجيات الحرة
+        {% elsif group.name == 'gnulinux' %}غنو/لينكس
+        {% elsif group.name == 'tech-news' %}أخبار التقنية
+        {% elsif group.name == 'ai' %}الذكاء الاصطناعي
+        {% endif %}
+      {% endif %}
+      <span class="group-count">({{ group.items.size }})</span>
+    </h2>
+    <div class="articles-grid">
+      {% for post in group.items %}
+        {% include article-card.html post=post size="normal" %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</div>

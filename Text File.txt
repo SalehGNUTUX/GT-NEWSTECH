@@ -1,0 +1,549 @@
+سأصمم لك هيكل الموقع بالكامل الجاهز للرفع على مستودع `GT-NEWSTECH`، مع نظام ثنائي اللغة، صور حسب اللغة، دعم الوضع الداكن، وأيقونة وشعار GNUTUX (ذهبي × أسود). سيربط الموقع بين المقالات العربية ونظيراتها الإنجليزية تلقائياً عبر `slug` مشترك، مما يتيح تبديل اللغة في صفحة المقال بسلاسة.
+
+---
+
+## هيكل المستودع
+
+```
+GT-NEWSTECH/
+├── _config.yml
+├── index.html               # الصفحة الرئيسية (عرض المقالات حسب التصنيف زمنياً)
+├── _layouts/
+│   ├── default.html         # القالب العام (هيدر و فوتير)
+│   ├── home.html            # تنسيق الصفحة الرئيسية
+│   ├── post.html            # صفحة المقال المفرد
+│   └── category.html        # صفحة أرشيف تصنيف (باللغة)
+├── assets/
+│   ├── css/
+│   │   └── style.css        # التنسيقات + الوضع الداكن + اللونين الذهبي والأسود
+│   ├── images/
+│   │   ├── ar/              # صور المقالات العربية
+│   │   └── en/              # صور المقالات الإنجليزية
+│   ├── icons/
+│   │   └── gt-newstech-icon.png
+│   └── js/
+│       └── theme.js         # تبديل الوضع الداكن/الفاتح مع اكتشاف تلقائي
+├── _ar/                     # المقالات العربية
+├── _en/                     # المقالات الإنجليزية
+├── ar/
+│   ├── index.html           # أرشيف جميع العربية
+│   └── category/
+│       ├── gnustux-projects.html
+│       ├── foss.html
+│       ├── gnulinux.html
+│       ├── tech-news.html
+│       └── ai.html
+├── en/
+│   ├── index.html
+│   └── category/
+│       ├── gnustux-projects.html
+│       ├── foss.html
+│       ├── gnulinux.html
+│       ├── tech-news.html
+│       └── ai.html
+├── CNAME (اختياري)
+└── README.md
+```
+
+---
+
+## ١. إعدادات جيكل `_config.yml`
+
+```yaml
+title: GT-NEWSTECH
+tagline: GNUTUX NEWS TECH
+description: "أخبار ومقالات تقنية حول مشاريع GNUTUX، البرمجيات الحرة، غنو/لينكس، أخبار التقنية والذكاء الاصطناعي – بالعربية والإنجليزية"
+baseurl: "/GT-NEWSTECH"          # اسم المستودع، تأكد أنه مطابق لحسابك
+url: "https://mytechnoweb.github.io"  # استبدل mytechnoweb باسم مستخدم GitHub
+logo: /GT-NEWSTECH/assets/icons/gt-newstech-icon.png
+
+collections:
+  ar:
+    output: true
+    permalink: /ar/:categories/:slug/
+  en:
+    output: true
+    permalink: /en/:categories/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: "ar"
+    values:
+      layout: "post"
+      lang: "ar"
+  - scope:
+      path: ""
+      type: "en"
+    values:
+      layout: "post"
+      lang: "en"
+
+# إضافات مفيدة
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# الإضافات الآمنة التي يدعمها GitHub Pages
+# (لا تحتاج إدراجًا، تُفعّل تلقائياً)
+```
+
+---
+
+## ٢. آلية الربط بين المقالات ثنائية اللغة
+
+كل مقالة تملك في مقدمتها (`front matter`) مفتاحين أساسيين:
+- `slug`: اسم فريد يربط النسختين العربية والإنجليزية **متطابق تماماً** في المقالتين.
+- `image`: اسم ملف الصورة داخل مجلد `assets/images/ar/` أو `en/` حسب اللغة.
+
+**مثال مقال عربي** `_ar/ai/2025-06-01-ثورة-الذكاء.md`:
+```yaml
+---
+layout: post
+title: "ثورة الذكاء الاصطناعي في 2025"
+date: 2025-06-01
+category: ai
+lang: ar
+slug: ai-revolution-2025
+image: ai-revolution.jpg
+---
+محتوى المقال...
+```
+
+**نظيره الإنجليزي** `_en/ai/2025-06-01-ai-revolution.md`:
+```yaml
+---
+layout: post
+title: "The AI Revolution of 2025"
+date: 2025-06-01
+category: ai
+lang: en
+slug: ai-revolution-2025
+image: ai-revolution.jpg
+---
+Article content...
+```
+
+بهذا الشكل، في صفحة المقال نستطيع الوصول إلى الترجمة عن طريق البحث عن مقالة من المجموعة الأخرى بنفس `slug`، وعرض رابط "English / العربية".
+كما أن الصورة تُجلَب تلقائياً من المجلد المناسب:
+`/assets/images/{{ page.lang }}/{{ page.image }}`.
+
+---
+
+## ٣. قوالب الموقع (Layouts)
+
+### `_layouts/default.html`
+يشمل الشريط العلوي بشعار GNUTUX، زر تبديل الوضع الليلي، أزرار التنقل (العربية / English)، والفوتر الذهبي-الأسود.
+
+```html
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'ar' }}" dir="{% if page.lang == 'en' %}ltr{% else %}rtl{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% seo %}
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="icon" type="image/png" href="{{ site.logo | relative_url }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="{{ '/' | relative_url }}" class="logo">
+        <img src="{{ site.logo | relative_url }}" alt="GT-NEWSTECH" width="48" height="48">
+        <span class="site-title">{{ site.title }}</span>
+      </a>
+      <nav class="main-nav">
+        <a href="{{ '/ar/' | relative_url }}">العربية</a>
+        <a href="{{ '/en/' | relative_url }}">English</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" aria-label="تبديل الوضع الليلي">
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-main container">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© {{ site.time | date: '%Y' }} GT-NEWSTECH — GNUTUX NEWS TECH</p>
+    </div>
+  </footer>
+
+  <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
+</body>
+</html>
+```
+
+### `_layouts/home.html`
+خاص بالصفحة الرئيسية، يعرض جميع المقالات (عربية + إنجليزية) مجمعة بالتصنيف ومرتبة زمنياً من الأحدث للأقدم.
+
+```html
+---
+layout: default
+---
+<h1 class="page-title">أحدث المقالات</h1>
+
+{% assign all_posts = site.ar | concat: site.en | sort: "date" | reverse %}
+{% assign grouped = all_posts | group_by: "category" %}
+
+{% for group in grouped %}
+  <section class="category-block">
+    <h2 class="category-title">{{ group.name | replace: '-', ' ' | capitalize }}</h2>
+    <div class="articles-grid">
+      {% for post in group.items %}
+        <article class="article-card">
+          <a href="{{ post.url | relative_url }}" class="card-link">
+            <div class="card-image">
+              <img src="{{ '/assets/images/' | append: post.lang | append: '/' | append: post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+            </div>
+            <div class="card-body">
+              <span class="card-lang-badge">{{ post.lang | upcase }}</span>
+              <h3 class="card-title">{{ post.title }}</h3>
+              <time class="card-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+            </div>
+          </a>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endfor %}
+```
+
+### `_layouts/post.html`
+صفحة المقال مع صورة ترويسة  من مجلد اللغة، ومحتوى المقال، ومُبدّل اللغة الذي يبحث عن الترجمة.
+
+```html
+---
+layout: default
+---
+<article class="single-post" lang="{{ page.lang }}" dir="{% if page.lang == 'en' %}ltr{% else %}rtl{% endif %}">
+  <header class="post-header">
+    {% if page.image %}
+      <img src="{{ '/assets/images/' | append: page.lang | append: '/' | append: page.image | relative_url }}" alt="{{ page.title }}" class="post-featured-image">
+    {% endif %}
+    <h1>{{ page.title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%B %d, %Y" }}</time>
+      <span class="post-category">{{ page.category | replace: '-', ' ' | capitalize }}</span>
+    </div>
+
+    {% assign translated_slug = page.slug %}
+    {% if page.lang == 'ar' %}
+      {% assign translation = site.en | where: "slug", translated_slug | first %}
+    {% else %}
+      {% assign translation = site.ar | where: "slug", translated_slug | first %}
+    {% endif %}
+    {% if translation %}
+      <a href="{{ translation.url | relative_url }}" class="lang-switch">
+        {% if page.lang == 'ar' %}Read in English{% else %}اقرأ بالعربية{% endif %}
+      </a>
+    {% endif %}
+  </header>
+  <div class="post-content">
+    {{ content }}
+  </div>
+</article>
+```
+
+### `_layouts/category.html`
+قائمة مقالات تصنيف معين بلغة واحدة.
+
+```html
+---
+layout: default
+---
+{% assign lang_posts = site[page.lang] | where: "category", page.category | sort: "date" | reverse %}
+<h1>{{ page.category | replace: '-', ' ' | capitalize }} –
+{% if page.lang == 'ar' %}العربية{% else %}English{% endif %}</h1>
+
+{% if lang_posts.size > 0 %}
+  <ul class="post-list">
+    {% for post in lang_posts %}
+      <li>
+        <a href="{{ post.url | relative_url }}">
+          {% if post.image %}
+            <img src="{{ '/assets/images/' | append: post.lang | append: '/' | append: post.image | relative_url }}" alt="{{ post.title }}" class="list-thumb" loading="lazy">
+          {% endif %}
+          <span class="list-title">{{ post.title }}</span>
+          <time>{{ post.date | date: "%Y-%m-%d" }}</time>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>لا توجد مقالات بعد.</p>
+{% endif %}
+```
+
+---
+
+## ٤. صفحات التصنيف (مثال لـ AI بالعربية)
+
+ملف `ar/category/ai.html`:
+```yaml
+---
+layout: category
+lang: ar
+category: ai
+permalink: /ar/category/ai/
+---
+```
+وبالمثل لباقي التصنيفات واللغتين (`en/category/ai.html`، ...)
+
+الصفحات الرئيسية للغة `ar/index.html`:
+```yaml
+---
+layout: default
+title: أرشيف العربية
+lang: ar
+---
+{% assign ar_posts = site.ar | sort: "date" | reverse %}
+{% assign grouped = ar_posts | group_by: "category" %}
+{% for group in grouped %}
+  <section>
+    <h2>{{ group.name | replace: '-', ' ' | capitalize }}</h2>
+    <ul>
+      {% for post in group.items %}
+        <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a> <time>{{ post.date | date: "%Y-%m-%d" }}</time></li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endfor %}
+```
+
+`en/index.html` مماثل مع `site.en`.
+
+---
+
+## ٥. التصميم (CSS) – ذهبي × أسود ووضع داكن
+
+ملف `assets/css/style.css` (مقتطفات رئيسية مع دعم الوضعين):
+
+```css
+/* الألوان الأساسية */
+:root {
+  --gold: #d4af37;
+  --gold-light: #f3d35e;
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --bg: #f4f4f4;
+  --card-bg: #ffffff;
+  --text: #222;
+  --text-muted: #555;
+  --header-bg: var(--black);
+  --footer-bg: #111;
+  --header-text: var(--gold);
+  --link-color: var(--gold);
+  --border-color: #e0e0e0;
+}
+
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --card-bg: #2a2a2a;
+  --text: #eee;
+  --text-muted: #aaa;
+  --header-bg: #000;
+  --border-color: #444;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+.site-header {
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 0.8rem 0;
+  border-bottom: 3px solid var(--gold);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.main-nav a {
+  color: var(--gold);
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 500;
+}
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  cursor: pointer;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 1.2rem;
+}
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: inline; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
+:not([data-theme="dark"]) .theme-toggle .icon-moon { display: inline; }
+
+/* الكروت */
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.article-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.card-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.card-lang-badge {
+  background: var(--gold);
+  color: #000;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+.card-title {
+  margin: 0.5rem 0 0.2rem;
+  color: var(--text);
+}
+/* ... باقي التنسيقات للروابط وأقسام التصنيف */
+
+.post-featured-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.lang-switch {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.3rem 1rem;
+  background: var(--gold);
+  color: #000;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+footer {
+  background: var(--footer-bg);
+  color: var(--gold);
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 3rem;
+  border-top: 2px solid var(--gold);
+}
+```
+
+---
+
+## ٦. سكريبت تبديل الوضع الداكن (تلقائي + يدوي)
+
+`assets/js/theme.js`:
+```javascript
+(function () {
+  const html = document.documentElement;
+  const toggleBtn = document.getElementById('theme-toggle');
+
+  const getPreferredTheme = () => {
+    const stored = localStorage.getItem('theme');
+    if (stored) return stored;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  const applyTheme = (theme) => {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  };
+
+  // تطبيق أولي
+  applyTheme(getPreferredTheme());
+
+  // استماع لتغيير إعدادات النظام
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      applyTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+
+  // التبديل اليدوي
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+    });
+  }
+})();
+```
+
+---
+
+## ٧. أيقونة الموقع
+
+ضع شعار GNUTUX بصيغة PNG في `assets/icons/gt-newstech-icon.png` بمقاس 512×512 على الأقل. سيُستخدم كـ favicon وأيضاً في الهيدر.
+
+---
+
+## ٨. إضافات مفيدة اقترحتها
+
+- **RSS تلقائي** للمقالات من آخر 10 منشورات (بفضل `jekyll-feed`).
+- **خريطة موقع XML** لتحسين محركات البحث (`jekyll-sitemap`).
+- **مُحسّنات SEO** عبر `jekyll-seo-tag`.
+- **نظام تعليقات** يمكن إضافته بسهولة باستخدام Disqus (سأدمج مقتطفاً بسيطاً في `post.html`).
+- **زر "شارك"** لشبكات التواصل (تويتر، فيسبوك) – سأضيف كوداً اختيارياً.
+- **تحميل كسول** للصور (`loading="lazy"`) لتحسين الأداء.
+- **تصميم متجاوب** بالكامل (grid + flex).
+- **دعم اتجاهي RTL/LTR** تلقائي حسب اللغة.
+
+(سأضمّن تعليقات في القالب لتسهيل إضافة Disqus إذا أردت).
+
+---
+
+## ٩. خطوات النشر
+
+1. أنشئ مستودعاً باسم `GT-NEWSTECH` في حسابك على GitHub.
+2. انسخ جميع الملفات أعلاه مع الحفاظ على الهيكل.
+3. تأكد من وضع بعض المقالات العربية والإنجليزية في `_ar` و `_en` مع رابط `slug` متطابق للترجمة.
+4. ارفع التغييرات (push) إلى الفرع `main`.
+5. انتقل إلى إعدادات المستودع > Pages، وتأكد من أن المصدر هو `Deploy from a branch` واختر `main` والمجلد `/ (root)`. ستجد موقعك على `https://username.github.io/GT-NEWSTECH/`.
+
+لإضافة مقال جديد:
+- ضع ملف `.md` في المجلد الصحيح (`_ar` أو `_en`).
+- تأكد من الحقول: `slug`, `category`, `image`, `lang`.
+- ارفع الصورة المناسبة في `assets/images/ar/` أو `en/`.
+- سيظهر المقال تلقائياً في الصفحة الرئيسية وفي صفحة التصنيف المناسبة.
+
+---
+
+هذا الموقع يلبي جميع طلباتك: يدعم العربية والإنجليزية، يُظهر صورة ترويسة مختلفة لكل لغة، ويُبدّل بين المقالات المترابطة بزر واحد. التصميم مزيّن باللونين الذهبي والأسود، مع وضع داكن/فاتح ذكي وتجربة استخدام عصرية.
+إن أردت أي تفصيل إضافي (مثل التعليقات، إحصائيات، أو صفحات خاصة) أخبرني لأضيفه فوراً.

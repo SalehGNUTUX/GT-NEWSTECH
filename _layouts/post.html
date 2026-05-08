@@ -1,0 +1,178 @@
+---
+layout: default
+---
+
+{% assign translated_slug = page.slug %}
+{% if page.lang == 'ar' %}
+  {% assign translation = site.en | where: "slug", translated_slug | first %}
+  {% assign alt_label = "Read in English" %}
+  {% assign related_pool = site.ar | where: "category", page.category %}
+{% else %}
+  {% assign translation = site.ar | where: "slug", translated_slug | first %}
+  {% assign alt_label = "اقرأ بالعربية" %}
+  {% assign related_pool = site.en | where: "category", page.category %}
+{% endif %}
+
+<article class="single-post" lang="{{ page.lang }}" dir="{% if page.lang == 'en' %}ltr{% else %}rtl{% endif %}">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="مسار التنقل">
+    <a href="{{ site.baseurl }}/">
+      {% if page.lang == 'en' %}Home{% else %}الرئيسية{% endif %}
+    </a>
+    <span class="bc-sep">›</span>
+    <a href="{{ site.baseurl }}/{{ page.lang }}/">
+      {% if page.lang == 'en' %}English{% else %}العربية{% endif %}
+    </a>
+    <span class="bc-sep">›</span>
+    <a href="{{ site.baseurl }}/{{ page.lang }}/category/{{ page.category }}/">
+      {% if page.lang == 'en' %}
+        {% if page.category == 'gnutux-projects' %}GNUTUX Projects
+        {% elsif page.category == 'foss' %}Free & Open Source
+        {% elsif page.category == 'gnulinux' %}GNU/Linux
+        {% elsif page.category == 'tech-news' %}Tech News
+        {% elsif page.category == 'ai' %}AI News
+        {% endif %}
+      {% else %}
+        {% if page.category == 'gnutux-projects' %}مشاريع GNUTUX
+        {% elsif page.category == 'foss' %}البرمجيات الحرة
+        {% elsif page.category == 'gnulinux' %}غنو/لينكس
+        {% elsif page.category == 'tech-news' %}أخبار التقنية
+        {% elsif page.category == 'ai' %}الذكاء الاصطناعي
+        {% endif %}
+      {% endif %}
+    </a>
+    <span class="bc-sep">›</span>
+    <span class="bc-current">{{ page.title | truncate: 40 }}</span>
+  </nav>
+
+  <!-- Post header -->
+  <header class="post-header">
+    <div class="post-meta-top">
+      <span class="post-cat-badge cat-{{ page.category }}">
+        {% if page.lang == 'en' %}
+          {% if page.category == 'gnutux-projects' %}GNUTUX Projects
+          {% elsif page.category == 'foss' %}Free & Open Source
+          {% elsif page.category == 'gnulinux' %}GNU/Linux
+          {% elsif page.category == 'tech-news' %}Tech News
+          {% elsif page.category == 'ai' %}AI News
+          {% endif %}
+        {% else %}
+          {% if page.category == 'gnutux-projects' %}مشاريع GNUTUX
+          {% elsif page.category == 'foss' %}البرمجيات الحرة
+          {% elsif page.category == 'gnulinux' %}غنو/لينكس
+          {% elsif page.category == 'tech-news' %}أخبار التقنية
+          {% elsif page.category == 'ai' %}الذكاء الاصطناعي
+          {% endif %}
+        {% endif %}
+      </span>
+      <span class="post-lang-badge">{{ page.lang | upcase }}</span>
+      {% if translation %}
+      <a href="{{ translation.url | relative_url }}" class="lang-switch-inline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        {{ alt_label }}
+      </a>
+      {% endif %}
+    </div>
+
+    <h1 class="post-title">{{ page.title }}</h1>
+
+    <div class="post-meta">
+      <time class="post-date" datetime="{{ page.date | date: '%Y-%m-%d' }}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        {{ page.date | date: "%Y-%m-%d" }}
+      </time>
+      {% if page.author %}
+      <span class="post-author">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        {{ page.author }}
+      </span>
+      {% endif %}
+      <span class="reading-time" id="readingTimeDisplay"></span>
+    </div>
+  </header>
+
+  <!-- Featured Image -->
+  {% if page.image %}
+  <div class="post-featured-wrap">
+    <img src="{{ site.baseurl }}/assets/images/{{ page.lang }}/{{ page.image }}"
+         alt="{{ page.title }}"
+         class="post-featured-image"
+         loading="eager">
+    {% if page.image_caption %}
+    <p class="image-caption">{{ page.image_caption }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- Content + Sidebar -->
+  <div class="post-layout">
+    <div class="post-content-wrap">
+      <!-- Translation banner -->
+      {% if translation %}
+      <div class="translation-banner">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>{% if page.lang == 'ar' %}هذا المقال متاح بالإنجليزية{% else %}This article is available in Arabic{% endif %}</span>
+        <a href="{{ translation.url | relative_url }}" class="btn-sm">{{ alt_label }}</a>
+      </div>
+      {% endif %}
+
+      <!-- Article body -->
+      <div class="post-body" id="postBody">
+        {{ content }}
+      </div>
+
+      <!-- Tags -->
+      {% if page.tags and page.tags.size > 0 %}
+      <div class="post-tags">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        {% for tag in page.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Share -->
+      <div class="post-share">
+        <span class="share-label">{% if page.lang == 'en' %}Share:{% else %}شارك:{% endif %}</span>
+        <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}"
+           target="_blank" rel="noopener" class="share-btn share-x" aria-label="Share on X">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.261 5.632 5.903-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}"
+           target="_blank" rel="noopener" class="share-btn share-fb" aria-label="Share on Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://t.me/share/url?url={{ page.url | absolute_url | url_encode }}&text={{ page.title | url_encode }}"
+           target="_blank" rel="noopener" class="share-btn share-tg" aria-label="Share on Telegram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </a>
+        <button class="share-btn share-copy" id="copyLink" aria-label="Copy link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar: Table of contents -->
+    <aside class="post-sidebar">
+      <div class="toc-box" id="tocBox">
+        <h3 class="toc-title">{% if page.lang == 'en' %}Contents{% else %}المحتويات{% endif %}</h3>
+        <nav class="toc" id="tocNav"></nav>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Related Articles -->
+  {% assign related = related_pool | where_exp: "p", "p.slug != page.slug" | sort: "date" | reverse | slice: 0, 3 %}
+  {% if related.size > 0 %}
+  <section class="related-posts">
+    <h3 class="related-title">{% if page.lang == 'en' %}Related Articles{% else %}مقالات ذات صلة{% endif %}</h3>
+    <div class="articles-grid">
+      {% for post in related %}
+        {% include article-card.html post=post size="normal" %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</article>

@@ -1,0 +1,71 @@
+---
+layout: default
+---
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">GNUTUX NEWS TECH</div>
+    <h1 class="hero-title">
+      <span class="hero-title-gt">GT</span>-NEWSTECH
+    </h1>
+    <p class="hero-desc">أخبار ومقالات تقنية متخصصة — بالعربية والإنجليزية</p>
+    <p class="hero-desc-en">Tech news &amp; articles — Arabic &amp; English</p>
+    <div class="hero-actions">
+      <a href="{{ site.baseurl }}/ar/" class="btn btn-gold">تصفح العربية</a>
+      <a href="{{ site.baseurl }}/en/" class="btn btn-outline">Browse English</a>
+    </div>
+  </div>
+  <div class="hero-glow"></div>
+</section>
+
+<!-- Latest Articles: combined, sorted by date -->
+{% assign all_posts = site.ar | concat: site.en | sort: "date" | reverse %}
+
+<!-- Featured (first 3) -->
+{% assign featured = all_posts | slice: 0, 3 %}
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">أحدث المقالات / Latest Articles</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="featured-grid">
+    {% for post in featured %}
+      {% include article-card.html post=post size="featured" %}
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Per-category sections -->
+{% assign categories = "gnutux-projects,foss,gnulinux,tech-news,ai" | split: "," %}
+{% assign cat_names_ar = site.categories_ar %}
+{% assign cat_names_en = site.categories_en %}
+
+{% for cat in categories %}
+  {% assign cat_posts = all_posts | where: "category", cat | slice: 0, 4 %}
+  {% if cat_posts.size > 0 %}
+  <section class="section category-section" data-category="{{ cat }}">
+    <div class="section-header">
+      <div class="cat-icon cat-{{ cat }}"></div>
+      <h2 class="section-title">
+        {% if cat == 'gnutux-projects' %}مشاريع GNUTUX / GNUTUX Projects
+        {% elsif cat == 'foss' %}البرمجيات الحرة / Free &amp; Open Source
+        {% elsif cat == 'gnulinux' %}غنو/لينكس / GNU-Linux
+        {% elsif cat == 'tech-news' %}أخبار التقنية / Tech News
+        {% elsif cat == 'ai' %}الذكاء الاصطناعي / AI News
+        {% endif %}
+      </h2>
+      <div class="section-line"></div>
+      <div class="section-links">
+        <a href="{{ site.baseurl }}/ar/category/{{ cat }}/" class="see-all">عرض الكل AR</a>
+        <a href="{{ site.baseurl }}/en/category/{{ cat }}/" class="see-all">See all EN</a>
+      </div>
+    </div>
+    <div class="articles-grid">
+      {% for post in cat_posts %}
+        {% include article-card.html post=post size="normal" %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+{% endfor %}

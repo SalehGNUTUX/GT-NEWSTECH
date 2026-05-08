@@ -1,0 +1,16 @@
+---
+layout: none
+---
+[
+  {% assign all_posts = site.ar | concat: site.en | sort: "date" | reverse %}
+  {% for post in all_posts %}
+  {
+    "title": {{ post.title | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }},
+    "excerpt": {{ post.excerpt | strip_html | truncate: 150 | jsonify }},
+    "category": {{ post.category | jsonify }},
+    "lang": {{ post.lang | jsonify }},
+    "date": {{ post.date | date: "%Y-%m-%d" | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]

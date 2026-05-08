@@ -1,0 +1,62 @@
+---
+layout: default
+---
+
+<div class="category-page" lang="{{ page.lang }}" dir="{% if page.lang == 'en' %}ltr{% else %}rtl{% endif %}">
+
+  <!-- Category Header -->
+  <div class="cat-page-header cat-bg-{{ page.category }}">
+    <div class="cat-page-header-inner">
+      <div class="cat-icon-lg cat-{{ page.category }}"></div>
+      <div>
+        <p class="cat-page-super">{% if page.lang == 'en' %}Category{% else %}القسم{% endif %}</p>
+        <h1 class="cat-page-title">
+          {% if page.lang == 'en' %}
+            {% if page.category == 'gnutux-projects' %}GNUTUX Projects
+            {% elsif page.category == 'foss' %}Free &amp; Open Source Software
+            {% elsif page.category == 'gnulinux' %}GNU/Linux News
+            {% elsif page.category == 'tech-news' %}Technology News
+            {% elsif page.category == 'ai' %}Artificial Intelligence
+            {% endif %}
+          {% else %}
+            {% if page.category == 'gnutux-projects' %}مشاريع GNUTUX
+            {% elsif page.category == 'foss' %}البرمجيات الحرة والمفتوحة المصدر
+            {% elsif page.category == 'gnulinux' %}أخبار غنو/لينكس
+            {% elsif page.category == 'tech-news' %}أخبار التقنية
+            {% elsif page.category == 'ai' %}الذكاء الاصطناعي
+            {% endif %}
+          {% endif %}
+        </h1>
+        <!-- Language switch for category -->
+        {% assign other_lang = 'en' %}
+        {% if page.lang == 'en' %}{% assign other_lang = 'ar' %}{% endif %}
+        <a href="{{ site.baseurl }}/{{ other_lang }}/category/{{ page.category }}/" class="cat-lang-switch">
+          {% if page.lang == 'en' %}عرض بالعربية{% else %}View in English{% endif %}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Posts grid -->
+  {% assign lang_posts = site[page.lang] | where: "category", page.category | sort: "date" | reverse %}
+
+  {% if lang_posts.size > 0 %}
+    <p class="posts-count">
+      {% if page.lang == 'en' %}
+        {{ lang_posts.size }} article{% if lang_posts.size != 1 %}s{% endif %}
+      {% else %}
+        {{ lang_posts.size }} مقالة
+      {% endif %}
+    </p>
+    <div class="articles-grid articles-grid--wide">
+      {% for post in lang_posts %}
+        {% include article-card.html post=post size="normal" %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <p>{% if page.lang == 'en' %}No articles yet. Check back soon!{% else %}لا توجد مقالات بعد. تابعنا قريباً!{% endif %}</p>
+    </div>
+  {% endif %}
+</div>

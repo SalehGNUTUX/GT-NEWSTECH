@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1200"/>
+      <stop offset="100%" style="stop-color:#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0c040"/>
+      <stop offset="100%" style="stop-color:#d4a017"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="96" fill="none" stroke="url(#gold)" stroke-width="8" opacity="0.4"/>
+
+  <!-- Decorative circuit lines -->
+  <g stroke="#d4a017" stroke-width="1.5" opacity="0.15" fill="none">
+    <line x1="60" y1="120" x2="200" y2="120"/>
+    <line x1="200" y1="120" x2="200" y2="80"/>
+    <line x1="60" y1="392" x2="180" y2="392"/>
+    <line x1="180" y1="392" x2="180" y2="432"/>
+    <line x1="452" y1="140" x2="320" y2="140"/>
+    <line x1="320" y1="140" x2="320" y2="90"/>
+    <line x1="452" y1="380" x2="340" y2="380"/>
+    <line x1="340" y1="380" x2="340" y2="430"/>
+    <circle cx="200" cy="80" r="4" fill="#d4a017" opacity="0.4"/>
+    <circle cx="180" cy="432" r="4" fill="#d4a017" opacity="0.4"/>
+    <circle cx="320" cy="90" r="4" fill="#d4a017" opacity="0.4"/>
+    <circle cx="340" cy="430" r="4" fill="#d4a017" opacity="0.4"/>
+  </g>
+
+  <!-- Main letters: GT -->
+  <g filter="url(#glow)">
+    <!-- G -->
+    <text x="72" y="310"
+          font-family="'Arial Black', 'Helvetica Neue', sans-serif"
+          font-size="230" font-weight="900"
+          fill="url(#gold)" opacity="0.95">G</text>
+    <!-- T -->
+    <text x="248" y="310"
+          font-family="'Arial Black', 'Helvetica Neue', sans-serif"
+          font-size="230" font-weight="900"
+          fill="url(#gold)" opacity="0.95">T</text>
+  </g>
+
+  <!-- Horizontal gold line accent -->
+  <rect x="60" y="330" width="392" height="4" rx="2" fill="url(#gold)" opacity="0.7"/>
+
+  <!-- NEWSTECH label -->
+  <text x="256" y="390"
+        font-family="'Arial', sans-serif"
+        font-size="42" font-weight="700"
+        fill="#d4a017" opacity="0.85"
+        text-anchor="middle" letter-spacing="8">NEWSTECH</text>
+
+  <!-- Corner dots -->
+  <circle cx="60"  cy="60"  r="5" fill="#d4a017" opacity="0.5"/>
+  <circle cx="452" cy="60"  r="5" fill="#d4a017" opacity="0.5"/>
+  <circle cx="60"  cy="452" r="5" fill="#d4a017" opacity="0.5"/>
+  <circle cx="452" cy="452" r="5" fill="#d4a017" opacity="0.5"/>
+</svg>

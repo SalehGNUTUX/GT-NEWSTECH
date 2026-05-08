@@ -1,0 +1,72 @@
+title: GT-NEWSTECH
+tagline: "GNUTUX NEWS TECH"
+description: "أخبار ومقالات تقنية حول مشاريع GNUTUX، البرمجيات الحرة، غنو/لينكس، التقنية، والذكاء الاصطناعي – بالعربية والإنجليزية"
+baseurl: "/GT-NEWSTECH"
+url: "https://SalehGNUTUX.github.io"
+logo: "/GT-NEWSTECH/assets/icons/gt-newstech-icon.svg"
+author: "GNUTUX"
+email: "gnutux.arabic@gmail.com"
+github_username: SalehGNUTUX
+license: "GNU AGPL v3"
+license_url: "https://www.gnu.org/licenses/agpl-3.0.html"
+
+collections:
+  ar:
+    output: true
+    permalink: /ar/:categories/:slug/
+  en:
+    output: true
+    permalink: /en/:categories/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: "ar"
+    values:
+      layout: "post"
+      lang: "ar"
+  - scope:
+      path: ""
+      type: "en"
+    values:
+      layout: "post"
+      lang: "en"
+
+# Category labels (used in templates)
+categories_ar:
+  gnutux-projects: "مشاريع GNUTUX"
+  foss: "البرمجيات الحرة"
+  gnulinux: "غنو/لينكس"
+  tech-news: "أخبار التقنية"
+  ai: "الذكاء الاصطناعي"
+
+categories_en:
+  gnutux-projects: "GNUTUX Projects"
+  foss: "Free & Open Source"
+  gnulinux: "GNU/Linux"
+  tech-news: "Tech News"
+  ai: "Artificial Intelligence"
+
+# Pagination (optional)
+paginate: 12
+paginate_path: "/page/:num/"
+
+# Markdown processor
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - "Text File.txt"
+  - "هيكل المشروع.txt"
+  - vendor/
+  - node_modules/

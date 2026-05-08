@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'ar' }}" dir="{% if page.lang == 'en' %}ltr{% else %}rtl{% endif %}" data-theme="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}</title>
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {% if page.lang == 'ar' %}
+    {% assign alt_lang = 'en' %}
+  {% else %}
+    {% assign alt_lang = 'ar' %}
+  {% endif %}
+  {% if page.slug %}
+    {% if page.lang == 'ar' %}
+      {% assign translation = site.en | where: "slug", page.slug | first %}
+    {% else %}
+      {% assign translation = site.ar | where: "slug", page.slug | first %}
+    {% endif %}
+    {% if translation %}
+  <link rel="alternate" hreflang="{{ alt_lang }}" href="{{ translation.url | absolute_url }}">
+    {% endif %}
+  {% endif %}
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ page.title | default: site.title }}">
+  <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  {% if page.image %}
+  <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/{{ page.lang }}/{{ page.image }}">
+  {% endif %}
+  <meta property="og:site_name" content="{{ site.title }}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/icons/gt-newstech-icon.svg">
+  <link rel="apple-touch-icon" href="{{ site.baseurl }}/assets/icons/gt-newstech-icon.svg">
+  <meta name="baseurl" content="{{ site.baseurl }}">
+
+  <!-- Fonts: Arabic + Latin -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Theme script (before CSS to prevent flash) -->
+  <script>
+    (function(){
+      var t=localStorage.getItem('gnt-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+      document.documentElement.setAttribute('data-theme',t);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+
+  {% seo %}
+</head>
+<body class="lang-{{ page.lang | default: 'ar' }}">
+
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <!-- Logo -->
+      <a href="{{ site.baseurl }}/" class="site-logo" aria-label="{{ site.title }}">
+        <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png" alt="GT-NEWSTECH" width="44" height="44" class="logo-img">
+        <div class="logo-text">
+          <span class="logo-title">GT-NEWSTECH</span>
+          <span class="logo-tagline">GNUTUX NEWS TECH</span>
+        </div>
+      </a>
+
+      <!-- Nav -->
+      <nav class="main-nav" role="navigation" aria-label="القائمة الرئيسية">
+        <a href="{{ site.baseurl }}/ar/" class="nav-link {% if page.lang == 'ar' %}active{% endif %}">
+          <span>العربية</span>
+        </a>
+        <a href="{{ site.baseurl }}/en/" class="nav-link {% if page.lang == 'en' %}active{% endif %}">
+          <span>English</span>
+        </a>
+
+        <!-- Categories Dropdown -->
+        <div class="nav-dropdown">
+          <button class="nav-link dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+            {% if page.lang == 'en' %}Categories{% else %}الأقسام{% endif %}
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2 4l4 4 4-4"/></svg>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            {% if page.lang == 'en' %}
+            <li><a href="{{ site.baseurl }}/en/category/gnutux-projects/" role="menuitem">GNUTUX Projects</a></li>
+            <li><a href="{{ site.baseurl }}/en/category/foss/" role="menuitem">Free & Open Source</a></li>
+            <li><a href="{{ site.baseurl }}/en/category/gnulinux/" role="menuitem">GNU/Linux</a></li>
+            <li><a href="{{ site.baseurl }}/en/category/tech-news/" role="menuitem">Tech News</a></li>
+            <li><a href="{{ site.baseurl }}/en/category/ai/" role="menuitem">AI News</a></li>
+            {% else %}
+            <li><a href="{{ site.baseurl }}/ar/category/gnutux-projects/" role="menuitem">مشاريع GNUTUX</a></li>
+            <li><a href="{{ site.baseurl }}/ar/category/foss/" role="menuitem">البرمجيات الحرة</a></li>
+            <li><a href="{{ site.baseurl }}/ar/category/gnulinux/" role="menuitem">غنو/لينكس</a></li>
+            <li><a href="{{ site.baseurl }}/ar/category/tech-news/" role="menuitem">أخبار التقنية</a></li>
+            <li><a href="{{ site.baseurl }}/ar/category/ai/" role="menuitem">الذكاء الاصطناعي</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Controls -->
+      <div class="header-controls">
+        <!-- Search toggle -->
+        <button class="icon-btn" id="searchToggle" aria-label="بحث">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <!-- Theme toggle -->
+        <button class="icon-btn theme-toggle" id="themeToggle" aria-label="تبديل الوضع الليلي">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <!-- Mobile menu -->
+        <button class="icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="القائمة">
+          <svg class="menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg class="close-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar" id="searchBar" hidden>
+      <div class="container">
+        <input type="search" id="searchInput" class="search-input"
+          placeholder="{% if page.lang == 'en' %}Search articles...{% else %}ابحث في المقالات...{% endif %}"
+          aria-label="Search">
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </div>
+
+    <!-- Category strip -->
+    <div class="category-strip">
+      <div class="container category-strip-inner">
+        {% if page.lang == 'en' %}
+        <a href="{{ site.baseurl }}/en/category/gnutux-projects/" class="strip-link {% if page.category == 'gnutux-projects' %}active{% endif %}">GNUTUX Projects</a>
+        <a href="{{ site.baseurl }}/en/category/foss/" class="strip-link {% if page.category == 'foss' %}active{% endif %}">Free &amp; Open Source</a>
+        <a href="{{ site.baseurl }}/en/category/gnulinux/" class="strip-link {% if page.category == 'gnulinux' %}active{% endif %}">GNU/Linux</a>
+        <a href="{{ site.baseurl }}/en/category/tech-news/" class="strip-link {% if page.category == 'tech-news' %}active{% endif %}">Tech News</a>
+        <a href="{{ site.baseurl }}/en/category/ai/" class="strip-link {% if page.category == 'ai' %}active{% endif %}">AI News</a>
+        {% else %}
+        <a href="{{ site.baseurl }}/ar/category/gnutux-projects/" class="strip-link {% if page.category == 'gnutux-projects' %}active{% endif %}">مشاريع GNUTUX</a>
+        <a href="{{ site.baseurl }}/ar/category/foss/" class="strip-link {% if page.category == 'foss' %}active{% endif %}">البرمجيات الحرة</a>
+        <a href="{{ site.baseurl }}/ar/category/gnulinux/" class="strip-link {% if page.category == 'gnulinux' %}active{% endif %}">غنو/لينكس</a>
+        <a href="{{ site.baseurl }}/ar/category/tech-news/" class="strip-link {% if page.category == 'tech-news' %}active{% endif %}">أخبار التقنية</a>
+        <a href="{{ site.baseurl }}/ar/category/ai/" class="strip-link {% if page.category == 'ai' %}active{% endif %}">الذكاء الاصطناعي</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="site-main" id="main-content" role="main">
+    <div class="container">
+      {{ content }}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png" alt="GT-NEWSTECH" width="40" height="40">
+        <div>
+          <div class="footer-title">GT-NEWSTECH</div>
+          <div class="footer-sub">GNUTUX NEWS TECH</div>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>الأقسام / Sections</h4>
+          <a href="{{ site.baseurl }}/ar/category/gnutux-projects/">مشاريع GNUTUX</a>
+          <a href="{{ site.baseurl }}/ar/category/foss/">البرمجيات الحرة</a>
+          <a href="{{ site.baseurl }}/ar/category/gnulinux/">غنو/لينكس</a>
+          <a href="{{ site.baseurl }}/ar/category/tech-news/">أخبار التقنية</a>
+          <a href="{{ site.baseurl }}/ar/category/ai/">الذكاء الاصطناعي</a>
+        </div>
+        <div class="footer-col">
+          <h4>اللغة / Language</h4>
+          <a href="{{ site.baseurl }}/ar/">العربية</a>
+          <a href="{{ site.baseurl }}/en/">English</a>
+        </div>
+        <div class="footer-col">
+          <h4>GNUTUX</h4>
+          <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener">GitHub</a>
+          <a href="{{ site.baseurl }}/feed.xml">RSS Feed</a>
+          <a href="{{ site.baseurl }}/sitemap.xml">Sitemap</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <span>© {{ site.time | date: '%Y' }} GT-NEWSTECH — GNUTUX NEWS TECH</span>
+        <a href="{{ site.license_url }}" target="_blank" rel="noopener" class="license-badge">
+          GNU AGPL v3
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" aria-label="العودة للأعلى">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script src="{{ site.baseurl }}/assets/js/theme.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+</body>
+</html>

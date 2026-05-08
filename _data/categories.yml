@@ -1,0 +1,29 @@
+- id: gnutux-projects
+  name_ar: "مشاريع GNUTUX"
+  name_en: "GNUTUX Projects"
+  color: "#d4a017"
+  icon: "⚙️"
+
+- id: foss
+  name_ar: "البرمجيات الحرة"
+  name_en: "Free & Open Source"
+  color: "#2ea043"
+  icon: "🔓"
+
+- id: gnulinux
+  name_ar: "غنو/لينكس"
+  name_en: "GNU/Linux"
+  color: "#e95420"
+  icon: "🐧"
+
+- id: tech-news
+  name_ar: "أخبار التقنية"
+  name_en: "Tech News"
+  color: "#0969da"
+  icon: "📡"
+
+- id: ai
+  name_ar: "الذكاء الاصطناعي"
+  name_en: "Artificial Intelligence"
+  color: "#8957e5"
+  icon: "🤖"

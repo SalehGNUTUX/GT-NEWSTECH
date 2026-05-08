@@ -1,0 +1,30 @@
+GT-NEWSTECH/
+├── _config.yml
+├── index.html
+├── _layouts/
+│   ├── default.html
+│   ├── home.html
+│   ├── post.html
+│   └── archive.html (for category listing)
+├── assets/
+│   ├── css/
+│   │   └── style.css
+│   ├── images/
+│   │   ├── ar/
+│   │   │   └── (featured images for AR articles)
+│   │   └── en/
+│   │       └── (featured images for EN articles)
+│   └── icons/
+│       └── gt-newstech-icon.png
+├── _ar/
+│   └── (Arabic articles .md)
+├── _en/
+│   └── (English articles .md)
+├── ar/ (archive page for Arabic)
+│   └── index.html
+├── en/ (archive page for English)
+│   └── index.html
+├── category/ (maybe category pages with language filter)
+├── _data/
+│   └── (optional)
+└── README.md

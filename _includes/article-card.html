@@ -1,0 +1,56 @@
+{% assign post = include.post %}
+{% assign size = include.size | default: "normal" %}
+<article class="article-card article-card--{{ size }}" data-category="{{ post.category }}">
+  <a href="{{ post.url | relative_url }}" class="card-link">
+    <div class="card-image">
+      {% if post.image %}
+      <img src="{{ site.baseurl }}/assets/images/{{ post.lang }}/{{ post.image }}"
+           alt="{{ post.title }}"
+           loading="lazy"
+           onerror="this.parentElement.classList.add('no-image')">
+      {% else %}
+      <div class="card-image-placeholder cat-bg-{{ post.category }}">
+        <span class="placeholder-icon">
+          {% if post.category == 'ai' %}🤖
+          {% elsif post.category == 'gnulinux' %}🐧
+          {% elsif post.category == 'foss' %}🔓
+          {% elsif post.category == 'gnutux-projects' %}⚙️
+          {% else %}📡{% endif %}
+        </span>
+      </div>
+      {% endif %}
+      <span class="card-cat-badge cat-{{ post.category }}">
+        {% if post.lang == 'en' %}
+          {% if post.category == 'gnutux-projects' %}GNUTUX
+          {% elsif post.category == 'foss' %}FOSS
+          {% elsif post.category == 'gnulinux' %}GNU/Linux
+          {% elsif post.category == 'tech-news' %}Tech
+          {% elsif post.category == 'ai' %}AI
+          {% endif %}
+        {% else %}
+          {% if post.category == 'gnutux-projects' %}GNUTUX
+          {% elsif post.category == 'foss' %}حرة
+          {% elsif post.category == 'gnulinux' %}لينكس
+          {% elsif post.category == 'tech-news' %}تقنية
+          {% elsif post.category == 'ai' %}ذكاء
+          {% endif %}
+        {% endif %}
+      </span>
+      <span class="card-lang-tag">{{ post.lang | upcase }}</span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">{{ post.title }}</h3>
+      {% if post.excerpt %}
+      <p class="card-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
+      {% endif %}
+      <div class="card-footer">
+        <time class="card-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">
+          {{ post.date | date: "%Y-%m-%d" }}
+        </time>
+        <span class="card-read-more">
+          {% if post.lang == 'en' %}Read more{% else %}اقرأ المزيد{% endif %} →
+        </span>
+      </div>
+    </div>
+  </a>
+</article>
