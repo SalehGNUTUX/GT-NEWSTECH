@@ -7,7 +7,19 @@ layout: default
   <!-- Category Header -->
   <div class="cat-page-header cat-bg-{{ page.category }}">
     <div class="cat-page-header-inner">
-      <div class="cat-icon-lg cat-{{ page.category }}"></div>
+      <div class="cat-icon-lg cat-{{ page.category }}">
+        {% if page.category == 'gnutux-projects' %}
+          <i class="fa-solid fa-terminal"></i>
+        {% elsif page.category == 'foss' %}
+          <i class="fa-solid fa-code"></i>
+        {% elsif page.category == 'gnulinux' %}
+          <i class="fa-brands fa-linux"></i>
+        {% elsif page.category == 'tech-news' %}
+          <i class="fa-solid fa-microchip"></i>
+        {% elsif page.category == 'ai' %}
+          <i class="fa-solid fa-robot"></i>
+        {% endif %}
+      </div>
       <div>
         <p class="cat-page-super">{% if page.lang == 'en' %}Category{% else %}القسم{% endif %}</p>
         <h1 class="cat-page-title">
