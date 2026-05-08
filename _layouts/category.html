@@ -49,8 +49,10 @@ layout: default
     </div>
   </div>
 
-  <!-- Posts grid -->
-  {% assign lang_posts = site[page.lang] | where: "category", page.category | sort: "date" | reverse %}
+  <!-- Posts grid: القسم الرئيسي + المقالات المشتركة عبر also_in -->
+  {% assign primary_posts = site[page.lang] | where: "category", page.category %}
+  {% assign cross_posts   = site[page.lang] | where_exp: "item", "item.also_in contains page.category" %}
+  {% assign lang_posts    = primary_posts | concat: cross_posts | uniq | sort: "date" | reverse %}
 
   {% if lang_posts.size > 0 %}
     <p class="posts-count">

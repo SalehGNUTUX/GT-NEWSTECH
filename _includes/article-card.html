@@ -1,5 +1,9 @@
 {% assign post = include.post %}
 {% assign size = include.size | default: "normal" %}
+
+{% comment %} مساعد لترجمة اسم القسم {% endcomment %}
+{% capture cat_label %}{% if post.lang == 'en' %}{% if post.category == 'gnutux-projects' %}GNUTUX{% elsif post.category == 'foss' %}FOSS{% elsif post.category == 'gnulinux' %}GNU/Linux{% elsif post.category == 'tech-news' %}Tech{% elsif post.category == 'ai' %}AI{% endif %}{% else %}{% if post.category == 'gnutux-projects' %}GNUTUX{% elsif post.category == 'foss' %}حرة{% elsif post.category == 'gnulinux' %}لينكس{% elsif post.category == 'tech-news' %}تقنية{% elsif post.category == 'ai' %}ذكاء{% endif %}{% endif %}{% endcapture %}
+
 <article class="article-card article-card--{{ size }}" data-category="{{ post.category }}">
   <a href="{{ post.url | relative_url }}" class="card-link">
     <div class="card-image">
@@ -16,25 +20,34 @@
              loading="lazy">
       </div>
       {% endif %}
-      <span class="card-cat-badge cat-{{ post.category }}">
-        {% if post.lang == 'en' %}
-          {% if post.category == 'gnutux-projects' %}GNUTUX
-          {% elsif post.category == 'foss' %}FOSS
-          {% elsif post.category == 'gnulinux' %}GNU/Linux
-          {% elsif post.category == 'tech-news' %}Tech
-          {% elsif post.category == 'ai' %}AI
+
+      <!-- شارة القسم الرئيسي -->
+      <span class="card-cat-badge cat-{{ post.category }}">{{ cat_label }}</span>
+
+      <!-- شارات الأقسام الإضافية (also_in) -->
+      {% if post.also_in %}
+        {% for extra_cat in post.also_in %}
+        <span class="card-cat-badge card-cat-badge--extra cat-{{ extra_cat }}">
+          {% if post.lang == 'en' %}
+            {% if extra_cat == 'gnutux-projects' %}GNUTUX
+            {% elsif extra_cat == 'foss' %}FOSS
+            {% elsif extra_cat == 'gnulinux' %}GNU/Linux
+            {% elsif extra_cat == 'tech-news' %}Tech
+            {% elsif extra_cat == 'ai' %}AI
+            {% endif %}
+          {% else %}
+            {% if extra_cat == 'gnutux-projects' %}GNUTUX
+            {% elsif extra_cat == 'foss' %}حرة
+            {% elsif extra_cat == 'gnulinux' %}لينكس
+            {% elsif extra_cat == 'tech-news' %}تقنية
+            {% elsif extra_cat == 'ai' %}ذكاء
+            {% endif %}
           {% endif %}
-        {% else %}
-          {% if post.category == 'gnutux-projects' %}GNUTUX
-          {% elsif post.category == 'foss' %}حرة
-          {% elsif post.category == 'gnulinux' %}لينكس
-          {% elsif post.category == 'tech-news' %}تقنية
-          {% elsif post.category == 'ai' %}ذكاء
-          {% endif %}
-        {% endif %}
-      </span>
-      {% comment %}lang tag hidden — pages are now language-specific{% endcomment %}
+        </span>
+        {% endfor %}
+      {% endif %}
     </div>
+
     <div class="card-body">
       <h3 class="card-title">{{ post.title }}</h3>
       {% if post.excerpt %}

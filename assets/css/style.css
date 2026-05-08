@@ -696,6 +696,14 @@ ul { list-style: none; }
   color: #000;
 }
 
+.card-cat-badge--extra {
+  inset-inline-start: auto;
+  inset-inline-end: 0.6rem;
+  bottom: 0.6rem;
+  font-size: 0.65rem;
+  opacity: 0.9;
+}
+
 .card-lang-tag {
   position: absolute;
   top: 0.6rem;

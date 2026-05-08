@@ -8,6 +8,7 @@ slug: arm-chips-laptop-market-2026
 image: arm-chips-en.jpg
 author: GNUTUX
 tags: [ARM, chips, hardware, tech market]
+also_in: [gnulinux]
 excerpt: "IDC figures show ARM chips now command 35% of the global laptop market, driven by Apple Silicon success and Qualcomm Snapdragon X Elite."
 ---
 

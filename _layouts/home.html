@@ -58,7 +58,9 @@ layout: default
 {% assign categories = "gnutux-projects,foss,gnulinux,tech-news,ai" | split: "," %}
 
 {% for cat in categories %}
-  {% assign cat_posts = lang_posts | where: "category", cat | slice: 0, 4 %}
+  {% assign cat_primary = lang_posts | where: "category", cat %}
+  {% assign cat_cross   = lang_posts | where_exp: "item", "item.also_in contains cat" %}
+  {% assign cat_posts   = cat_primary | concat: cat_cross | uniq | sort: "date" | reverse | slice: 0, 4 %}
   {% if cat_posts.size > 0 %}
   <section class="section category-section" data-category="{{ cat }}">
     <div class="section-header">
