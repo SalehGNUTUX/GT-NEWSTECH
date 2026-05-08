@@ -163,8 +163,11 @@
   </main>
 
   <!-- Footer -->
+  {% assign lang = page.lang | default: 'ar' %}
   <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
+
+      <!-- Brand -->
       <div class="footer-brand">
         <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png" alt="GT-NEWSTECH" width="40" height="40">
         <div>
@@ -174,49 +177,74 @@
       </div>
 
       <div class="footer-links">
+
+        <!-- Sections column — language-aware -->
         <div class="footer-col">
-          <h4>الأقسام / Sections</h4>
+          {% if lang == 'en' %}
+          <h4>Sections</h4>
+          <a href="{{ site.baseurl }}/en/category/gnutux-projects/">GNUTUX Projects</a>
+          <a href="{{ site.baseurl }}/en/category/foss/">Free &amp; Open Source</a>
+          <a href="{{ site.baseurl }}/en/category/gnulinux/">GNU/Linux</a>
+          <a href="{{ site.baseurl }}/en/category/tech-news/">Tech News</a>
+          <a href="{{ site.baseurl }}/en/category/ai/">AI News</a>
+          {% else %}
+          <h4>الأقسام</h4>
           <a href="{{ site.baseurl }}/ar/category/gnutux-projects/">مشاريع GNUTUX</a>
           <a href="{{ site.baseurl }}/ar/category/foss/">البرمجيات الحرة</a>
           <a href="{{ site.baseurl }}/ar/category/gnulinux/">غنو/لينكس</a>
           <a href="{{ site.baseurl }}/ar/category/tech-news/">أخبار التقنية</a>
           <a href="{{ site.baseurl }}/ar/category/ai/">الذكاء الاصطناعي</a>
+          {% endif %}
         </div>
+
+        <!-- Archive + Language switch column -->
         <div class="footer-col">
-          <h4>اللغة / Language</h4>
-          <a href="{{ site.baseurl }}/ar/">العربية</a>
-          <a href="{{ site.baseurl }}/en/">English</a>
+          {% if lang == 'en' %}
+          <h4>Browse</h4>
+          <a href="{{ site.baseurl }}/en/">All Articles</a>
+          <a href="{{ site.baseurl }}/ar/" data-lang="ar" data-lang-link>العربية 🌐</a>
+          {% else %}
+          <h4>تصفح</h4>
+          <a href="{{ site.baseurl }}/ar/">جميع المقالات</a>
+          <a href="{{ site.baseurl }}/en/" data-lang="en" data-lang-link>English 🌐</a>
+          {% endif %}
         </div>
+
+        <!-- GNUTUX links column -->
         <div class="footer-col">
           <h4>GNUTUX</h4>
           <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener">GitHub</a>
           <a href="{{ site.baseurl }}/feed.xml">RSS Feed</a>
           <a href="{{ site.baseurl }}/sitemap.xml">Sitemap</a>
         </div>
+
       </div>
     </div>
 
+    <!-- Legal bar — current language only -->
     <div class="footer-legal">
       <div class="container footer-legal-inner">
+        {% if lang == 'en' %}
+        <a href="{{ site.baseurl }}/en/terms/">Terms of Service</a>
+        <span class="legal-sep">·</span>
+        <a href="{{ site.baseurl }}/en/privacy/">Privacy Policy</a>
+        <span class="legal-sep">·</span>
+        <a href="{{ site.baseurl }}/en/rss-terms/">RSS Terms</a>
+        {% else %}
         <a href="{{ site.baseurl }}/ar/terms/">شروط الاستخدام</a>
         <span class="legal-sep">·</span>
         <a href="{{ site.baseurl }}/ar/privacy/">سياسة الخصوصية</a>
         <span class="legal-sep">·</span>
         <a href="{{ site.baseurl }}/ar/rss-terms/">شروط RSS</a>
-        <span class="legal-sep">·</span>
-        <a href="{{ site.baseurl }}/en/terms/">Terms</a>
-        <span class="legal-sep">·</span>
-        <a href="{{ site.baseurl }}/en/privacy/">Privacy</a>
-        <span class="legal-sep">·</span>
-        <a href="{{ site.baseurl }}/en/rss-terms/">RSS Terms</a>
+        {% endif %}
       </div>
     </div>
+
+    <!-- Copyright -->
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
         <span>© {{ site.time | date: '%Y' }} GT-NEWSTECH — GNUTUX NEWS TECH</span>
-        <a href="{{ site.license_url }}" target="_blank" rel="noopener" class="license-badge">
-          GNU AGPL v3
-        </a>
+        <a href="{{ site.license_url }}" target="_blank" rel="noopener" class="license-badge">GNU AGPL v3</a>
       </div>
     </div>
   </footer>
