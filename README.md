@@ -4,19 +4,20 @@
 
 An open-source bilingual tech news site covering GNUTUX projects, FOSS, GNU/Linux, tech news, and AI.
 
-**URL:** https://SalehGNUTUX.github.io/GT-NEWSTECH
+**الموقع:** https://SalehGNUTUX.github.io/GT-NEWSTECH  
+**الترخيص:** GNU Affero General Public License v3.0
 
 ---
 
 ## الأقسام / Sections
 
-| القسم | Section | URL |
-|-------|---------|-----|
-| مشاريع GNUTUX | GNUTUX Projects | `/ar/category/gnutux-projects/` |
-| البرمجيات الحرة | Free & Open Source | `/ar/category/foss/` |
-| غنو/لينكس | GNU/Linux | `/ar/category/gnulinux/` |
-| أخبار التقنية | Tech News | `/ar/category/tech-news/` |
-| الذكاء الاصطناعي | AI News | `/ar/category/ai/` |
+| القسم | Section | الأيقونة | العربية | الإنجليزية |
+|---|---|---|---|---|
+| مشاريع GNUTUX | GNUTUX Projects | `fa-terminal` | `/ar/category/gnutux-projects/` | `/en/category/gnutux-projects/` |
+| البرمجيات الحرة | Free & Open Source | `fa-code` | `/ar/category/foss/` | `/en/category/foss/` |
+| غنو/لينكس | GNU/Linux | `fa-linux` | `/ar/category/gnulinux/` | `/en/category/gnulinux/` |
+| أخبار التقنية | Tech News | `fa-microchip` | `/ar/category/tech-news/` | `/en/category/tech-news/` |
+| الذكاء الاصطناعي | AI News | `fa-robot` | `/ar/category/ai/` | `/en/category/ai/` |
 
 ---
 
@@ -24,66 +25,157 @@ An open-source bilingual tech news site covering GNUTUX projects, FOSS, GNU/Linu
 
 ```
 GT-NEWSTECH/
-├── _config.yml             # إعدادات Jekyll
-├── index.html              # الصفحة الرئيسية
-├── _layouts/               # قوالب الصفحات
-│   ├── default.html        # القالب الأساسي (header + footer)
-│   ├── home.html           # الصفحة الرئيسية
-│   ├── post.html           # صفحة المقال
-│   ├── category.html       # صفحة القسم
-│   └── archive.html        # أرشيف اللغة
+├── _config.yml                  # إعدادات Jekyll الرئيسية
+├── _config.local.yml            # إعدادات التشغيل المحلي (baseurl فارغ)
+├── index.html                   # موجّه ذكي → /ar/ أو /en/ حسب اللغة
+│
+├── _layouts/
+│   ├── default.html             # القالب الأساسي (header، footer، SEO)
+│   ├── home.html                # الصفحة الرئيسية (محتوى اللغة الحالية فقط)
+│   ├── post.html                # صفحة المقال (TOC، مشاركة، أفيلييت)
+│   ├── category.html            # صفحة القسم (أيقونة FA + مقالات)
+│   ├── archive.html             # أرشيف اللغة مع فلتر
+│   └── page.html                # الصفحات الثابتة (Terms، Privacy...)
+│
 ├── _includes/
-│   └── article-card.html   # بطاقة المقال (مكوّن مشترك)
+│   ├── article-card.html        # بطاقة المقال (صورة/شعار + أقسام متعددة)
+│   ├── affiliate-disclosure.html # شريط الأفيلييت (يظهر تلقائياً)
+│   └── seo-jsonld.html          # بيانات JSON-LD لـ Google
+│
 ├── assets/
-│   ├── css/style.css       # التنسيقات (ذهبي × أسود + وضع داكن)
+│   ├── css/style.css            # تصميم ذهبي × أسود + وضع داكن/فاتح
 │   ├── js/
-│   │   ├── theme.js        # تبديل الوضع الداكن/الفاتح
-│   │   └── main.js         # تفاعلات الواجهة (TOC، بحث، تقدم القراءة...)
+│   │   ├── theme.js             # تبديل الوضع + اكتشاف تلقائي
+│   │   └── main.js              # TOC، بحث، تقدم القراءة، مشاركة، فلتر
 │   ├── images/
-│   │   ├── ar/             # صور المقالات العربية
-│   │   └── en/             # صور المقالات الإنجليزية
+│   │   ├── ar/                  # صور المقالات العربية
+│   │   └── en/                  # صور المقالات الإنجليزية
 │   └── icons/
-│       └── gt-newstech-icon.png
-├── _ar/                    # مقالات عربية (مجلد فرعي لكل قسم)
-├── _en/                    # مقالات إنجليزية (مجلد فرعي لكل قسم)
+│       └── gt-newstech-icon.png # الشعار الرسمي (512×512)
+│
+├── _ar/                         # مقالات عربية (مجلد لكل قسم)
+│   ├── gnutux-projects/
+│   ├── foss/
+│   ├── gnulinux/
+│   ├── tech-news/
+│   └── ai/
+├── _en/                         # مقالات إنجليزية (نفس الهيكل)
+│
 ├── ar/
-│   ├── index.html          # أرشيف العربية
-│   └── category/           # صفحات أقسام عربية
+│   ├── index.html               # الصفحة الرئيسية العربية
+│   ├── category/                # صفحات الأقسام العربية (5 ملفات)
+│   ├── terms.md                 # شروط الاستخدام
+│   ├── privacy.md               # سياسة الخصوصية
+│   └── rss-terms.md             # شروط RSS
 ├── en/
-│   ├── index.html          # English archive
-│   └── category/           # English category pages
+│   ├── index.html               # English home page
+│   ├── category/                # English category pages (5 files)
+│   ├── terms.md
+│   ├── privacy.md
+│   └── rss-terms.md
+│
 ├── _data/
-│   └── categories.yml      # تعريف الأقسام
-├── search.json             # فهرس البحث
-└── Gemfile
+│   └── categories.yml           # تعريف الأقسام (اسم، لون، أيقونة)
+│
+├── admin/                       # لوحة التحكم المحلية (لا تُنشر)
+│   ├── server.js                # Express API (CRUD + Git + صور)
+│   ├── package.json
+│   └── public/                  # واجهة لوحة التحكم (HTML/CSS/JS)
+│
+├── .github/workflows/pages.yml  # نشر تلقائي عبر GitHub Actions
+├── search.json                  # فهرس البحث (مولَّد تلقائياً)
+├── robots.txt                   # توجيه محركات البحث
+├── Gemfile                      # حزم Ruby
+│
+├── start.sh                     # تشغيل الموقع ولوحة التحكم معاً
+├── serve.sh                     # تشغيل الموقع فقط
+├── admin-start.sh               # تشغيل لوحة التحكم فقط
+│
+├── دليل-العمل.md                # دليل إضافة المقالات والصور
+├── دليل-تغيير-النطاق.md         # دليل الانتقال لنطاق مخصص
+└── دليل-الربط-بـGitHub.md       # دليل الربط بـ GitHub والدفع
 ```
+
+---
+
+## التشغيل المحلي
+
+### الموقع ولوحة التحكم معاً (الموصى به)
+
+```bash
+bash start.sh
+```
+
+| الخدمة | الرابط |
+|---|---|
+| الموقع | http://localhost:4000/ |
+| لوحة التحكم | http://localhost:4001/ |
+
+`Ctrl+C` يوقف الخدمتين معاً.
+
+### الموقع فقط
+
+```bash
+bash serve.sh
+```
+
+### لوحة التحكم فقط
+
+```bash
+bash admin-start.sh
+```
+
+> السكريبتات تثبت Ruby وNode وحزمهما تلقائياً عند أول تشغيل.
+
+---
+
+## لوحة التحكم — المزايا
+
+لوحة تحكم محلية مبنية بـ Node.js + Express، تصميم ذهبي/أسود يطابق هوية الموقع.
+
+| القسم | الصلاحيات |
+|---|---|
+| **Dashboard** | إحصائيات + مخطط الأقسام + آخر المقالات |
+| **المقالات** | بحث حي + فلتر لغة/قسم + تحرير + حذف |
+| **محرر المقال** | Form كامل (front matter) + محرر Markdown + معاينة |
+| **شريط الأدوات** | غامق، مائل، عناوين، كود، رابط، رابط أفيلييت |
+| **مدير الصور** | رفع drag & drop + نسخ الاسم + حذف |
+| **Git / نشر** | حالة الملفات + commit + push مباشرة |
+| **الإعدادات** | عرض `_config.yml` |
 
 ---
 
 ## إضافة مقال جديد
 
-### 1. أنشئ ملف المقال
+### من لوحة التحكم (الأسهل)
+1. شغّل `bash start.sh`
+2. افتح http://localhost:4001/
+3. اضغط **مقال جديد** واملأ الحقول
+4. اضغط **حفظ** ثم **Git / نشر** للرفع
 
-**مقال عربي** في `_ar/<القسم>/YYYY-MM-DD-عنوان.md`:
+### يدوياً
+
+**مقال عربي** `_ar/<القسم>/YYYY-MM-DD-عنوان.md`:
 
 ```yaml
 ---
 layout: post
 title: "عنوان المقال"
 date: 2026-05-10
-category: ai          # gnutux-projects | foss | gnulinux | tech-news | ai
+category: ai
 lang: ar
-slug: my-unique-slug  # نفس الـ slug في المقال الإنجليزي للربط بينهما
-image: my-image.jpg   # في assets/images/ar/
+slug: my-unique-slug
+image: my-image.jpg
 author: GNUTUX
 tags: [وسم1, وسم2]
-excerpt: "ملخص قصير للمقال..."
+excerpt: "ملخص قصير..."
+also_in: [tech-news]        # اختياري: أقسام إضافية يظهر فيها المقال
 ---
 
 محتوى المقال بصيغة Markdown...
 ```
 
-**المقال الإنجليزي النظير** في `_en/<category>/YYYY-MM-DD-title.md`:
+**المقال الإنجليزي النظير** `_en/<category>/YYYY-MM-DD-title.md`:
 
 ```yaml
 ---
@@ -92,57 +184,107 @@ title: "Article Title"
 date: 2026-05-10
 category: ai
 lang: en
-slug: my-unique-slug  # نفس الـ slug أعلاه — هذا يربط النسختين
-image: my-image.jpg   # في assets/images/en/
+slug: my-unique-slug        # ← نفس الـ slug بالضبط يربط النسختين
+image: my-image.jpg
 author: GNUTUX
 tags: [tag1, tag2]
-excerpt: "Short article summary..."
+excerpt: "Short summary..."
+also_in: [tech-news]
 ---
 
-Article content in Markdown...
+Article content...
 ```
 
-### 2. أضف الصورة
+**الصور:**
+- `assets/images/ar/my-image.jpg` ← للمقال العربي
+- `assets/images/en/my-image.jpg` ← للمقال الإنجليزي
+- المقاس الموصى به: **1200×630 px**
+- بدون صورة: يظهر شعار الموقع تلقائياً
 
-- صورة عربية: `assets/images/ar/my-image.jpg`
-- صورة إنجليزية: `assets/images/en/my-image.jpg`
-- مقاس مقترح: **1200×630 px** (نسبة 16:9)
+---
 
-### 3. ارفع التغييرات
+## نظام الأقسام المتعددة
+
+مقال يظهر في أكثر من قسم بدون تكرار الملف:
+
+```yaml
+category: tech-news        # القسم الرئيسي (مكان الملف)
+also_in: [gnulinux, ai]   # أقسام إضافية
+```
+
+---
+
+## نظام الأفيلييت
+
+الكشف تلقائي — لا حاجة لإعداد يدوي. أضف رابط أفيلييت في المحتوى:
+
+```markdown
+[اسم المنتج](https://رابط.com){: .aff-link rel="nofollow sponsored" target="_blank"}
+```
+
+سيظهر شريط الإفصاح القانوني تلقائياً فوق المقال.
+
+---
+
+## نظام اللغة
+
+- الجذر `/` يحوّل تلقائياً حسب اللغة المحفوظة أو لغة المتصفح
+- `/ar/` — صفحة رئيسية عربية (محتوى عربي حصري)
+- `/en/` — English home page (English content only)
+- البحث مفلتر حسب لغة الصفحة الحالية
+- تبديل اللغة يُحفظ في `localStorage`
+
+---
+
+## الصفحات القانونية
+
+تظهر في الـ footer فقط، لا في القوائم العلوية:
+
+| الصفحة | عربي | إنجليزي |
+|---|---|---|
+| شروط الاستخدام | `/ar/terms/` | `/en/terms/` |
+| سياسة الخصوصية | `/ar/privacy/` | `/en/privacy/` |
+| شروط RSS | `/ar/rss-terms/` | `/en/rss-terms/` |
+
+---
+
+## الدفع للمستودع
 
 ```bash
 git add .
-git commit -m "add: مقال جديد — عنوان المقال"
+git commit -m "add: مقال — عنوان المقال"
 git push origin main
 ```
 
-سيُنشر المقال تلقائياً بعد دقائق عبر GitHub Pages.
+الموقع يتحدث خلال دقيقة تلقائياً عبر GitHub Actions.
 
----
-
-## التشغيل المحلي
-
-```bash
-# تثبيت Ruby و Bundler أولاً
-gem install bundler
-bundle install
-
-# تشغيل الخادم المحلي
-bundle exec jekyll serve --livereload
-
-# الموقع على: http://localhost:4000/GT-NEWSTECH/
-```
+> راجع `دليل-الربط-بـGitHub.md` لإعداد المصادقة.
 
 ---
 
 ## التقنيات
 
-- **Jekyll** — محرك المواقع الثابتة
-- **GitHub Pages** — الاستضافة
-- **HTML5 / CSS3 / Vanilla JS** — بدون frameworks ثقيلة
-- **Google Fonts** — Cairo (عربي) + Inter (لاتيني)
-- ثنائي اللغة عبر `slug` مشترك بين المقالات
-- وضع داكن/فاتح تلقائي مع حفظ التفضيل
+| التقنية | الاستخدام |
+|---|---|
+| **Jekyll** | محرك المواقع الثابتة |
+| **GitHub Pages** | الاستضافة المجانية |
+| **GitHub Actions** | النشر التلقائي عند كل push |
+| **Node.js + Express** | لوحة التحكم المحلية |
+| **Font Awesome 6** | أيقونات الأقسام |
+| **Google Fonts** | Cairo (عربي) + Inter (لاتيني) |
+| **Vanilla JS** | بدون frameworks (أداء عالٍ) |
+| **CSS Custom Properties** | تبديل الوضع الداكن/الفاتح |
+| **JSON-LD** | بيانات SEO منظمة لـ Google |
+
+---
+
+## الأدلة المتاحة
+
+| الملف | المحتوى |
+|---|---|
+| `دليل-العمل.md` | إضافة مقالات، صور، أفيلييت، also_in |
+| `دليل-تغيير-النطاق.md` | الانتقال لنطاق مخصص (DNS + CNAME) |
+| `دليل-الربط-بـGitHub.md` | Token، credentials، دفع التغييرات |
 
 ---
 
