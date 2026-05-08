@@ -48,7 +48,7 @@ fi
 
 # ── تشغيل الخادم ──────────────────────────────────────────────
 echo ""
-echo -e "${GREEN}✓ الموقع متاح على: http://localhost:4000${NC}"
+echo -e "${GREEN}✓ الموقع متاح على: http://localhost:4000/${NC}"
 echo -e "${GOLD}  اضغط Ctrl+C للإيقاف${NC}"
 echo ""
 

@@ -89,5 +89,15 @@ echo -e "  ${CYAN}[Admin] ${NC} → http://localhost:4001"
 echo -e "${CYAN}─────────────────────────────────────────────${NC}"
 echo ""
 
+# ── فتح المتصفح بعد ثانيتين ─────────────────────────────────
+sleep 3
+if command -v xdg-open &>/dev/null; then
+  xdg-open "http://localhost:4000/" &>/dev/null &
+  xdg-open "http://localhost:4001/" &>/dev/null &
+elif command -v open &>/dev/null; then
+  open "http://localhost:4000/"
+  open "http://localhost:4001/"
+fi
+
 # ── انتظار حتى Ctrl+C ────────────────────────────────────────
 wait "$JEKYLL_PID" "$ADMIN_PID"
