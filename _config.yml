@@ -25,12 +25,14 @@ defaults:
     values:
       layout: "post"
       lang: "ar"
+      affiliate: true
   - scope:
       path: ""
       type: "en"
     values:
       layout: "post"
       lang: "en"
+      affiliate: true
 
 # Category labels (used in templates)
 categories_ar:
