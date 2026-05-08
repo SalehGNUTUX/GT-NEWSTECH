@@ -10,3 +10,5 @@ node_modules/
 *.swo
 .DS_Store
 Thumbs.db
+_config.local.yml
+assets/icons/gt-newstech-icon.svg

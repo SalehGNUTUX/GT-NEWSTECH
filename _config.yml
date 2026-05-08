@@ -3,7 +3,7 @@ tagline: "GNUTUX NEWS TECH"
 description: "أخبار ومقالات تقنية حول مشاريع GNUTUX، البرمجيات الحرة، غنو/لينكس، التقنية، والذكاء الاصطناعي – بالعربية والإنجليزية"
 baseurl: "/GT-NEWSTECH"
 url: "https://SalehGNUTUX.github.io"
-logo: "/GT-NEWSTECH/assets/icons/gt-newstech-icon.svg"
+logo: "/GT-NEWSTECH/assets/icons/gt-newstech-icon.png"
 author: "GNUTUX"
 email: "gnutux.arabic@gmail.com"
 github_username: SalehGNUTUX
