@@ -72,3 +72,9 @@ exclude:
   - "هيكل المشروع.txt"
   - vendor/
   - node_modules/
+  - admin/
+  - serve.sh
+  - admin-start.sh
+  - start.sh
+  - "دليل-العمل.md"
+  - "دليل-تغيير-النطاق.md"
