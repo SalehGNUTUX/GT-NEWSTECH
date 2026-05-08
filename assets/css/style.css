@@ -1326,6 +1326,199 @@ ul { list-style: none; }
   border-color: var(--gold-dim);
 }
 
+/* ── Footer Legal Bar ───────────────────────────────────────── */
+.footer-legal {
+  border-top: 1px solid #111;
+  padding: 0.75rem 1.25rem;
+}
+
+.footer-legal-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: 0.78rem;
+}
+
+.footer-legal-inner a {
+  color: #444;
+  transition: color var(--transition);
+}
+
+.footer-legal-inner a:hover { color: var(--gold); }
+
+.legal-sep {
+  color: #2a2a2a;
+  user-select: none;
+}
+
+/* ── Static Pages ────────────────────────────────────────────── */
+.static-page { max-width: 800px; margin: 0 auto; }
+
+.static-page-header {
+  background: linear-gradient(135deg, #0a0a0a, #1a1200);
+  border: 1px solid #2a2000;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.static-page-header-inner { max-width: 600px; }
+
+.static-page-super {
+  font-size: 0.72rem;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-en);
+}
+
+.static-page-title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.static-page-date {
+  font-size: 0.8rem;
+  color: #555;
+  font-family: var(--font-en);
+}
+
+.static-page-body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.static-page-body h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.static-page-body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.static-page-body p { margin-bottom: 1rem; }
+
+.static-page-body a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.static-page-body ul,
+.static-page-body ol {
+  padding-inline-start: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.static-page-body ul { list-style: disc; }
+.static-page-body ol { list-style: decimal; }
+.static-page-body li { margin-bottom: 0.4rem; }
+
+.static-page-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.static-page-body th {
+  background: #111;
+  color: var(--gold);
+  padding: 0.6rem 0.9rem;
+  text-align: start;
+  border-bottom: 2px solid var(--gold-dim);
+}
+
+.static-page-body td {
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.static-page-body code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  color: var(--gold);
+  word-break: break-all;
+}
+
+.static-page-body pre {
+  background: #0d0d0d;
+  border: 1px solid #222;
+  border-radius: var(--radius);
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.static-page-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #e8e0d0;
+}
+
+.static-page-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Affiliate ───────────────────────────────────────────────── */
+.affiliate-disclosure {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: rgba(212, 160, 23, 0.06);
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.affiliate-disclosure svg {
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Affiliate link styling in post body */
+.post-body a.aff-link {
+  color: var(--gold);
+  font-weight: 600;
+  background: var(--gold-subtle);
+  padding: 0.05em 0.3em;
+  border-radius: 3px;
+}
+
+.post-body a.aff-link::after {
+  content: " ↗";
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
 /* ── Back to top ────────────────────────────────────────────── */
 .back-to-top {
   position: fixed;

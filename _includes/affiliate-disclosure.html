@@ -1,0 +1,12 @@
+{% if page.affiliate %}
+<div class="affiliate-disclosure" role="note" aria-label="إفصاح تجاري">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+  </svg>
+  {% if page.lang == 'en' %}
+  <span><strong>Disclosure:</strong> This article contains affiliate links. We may earn a commission at no extra cost to you if you purchase through these links. Our reviews are always independent.</span>
+  {% else %}
+  <span><strong>إفصاح:</strong> يحتوي هذا المقال على روابط أفيلييت. قد نحصل على عمولة دون أي تكلفة إضافية عليك عند الشراء عبر هذه الروابط. مراجعاتنا دائماً مستقلة وغير متحيزة.</span>
+  {% endif %}
+</div>
+{% endif %}

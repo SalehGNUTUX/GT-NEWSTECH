@@ -54,6 +54,7 @@
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 
   {% seo %}
+  {% include seo-jsonld.html %}
 </head>
 <body class="lang-{{ page.lang | default: 'ar' }}">
 
@@ -195,6 +196,21 @@
       </div>
     </div>
 
+    <div class="footer-legal">
+      <div class="container footer-legal-inner">
+        <a href="{{ site.baseurl }}/ar/terms/">شروط الاستخدام</a>
+        <span class="legal-sep">·</span>
+        <a href="{{ site.baseurl }}/ar/privacy/">سياسة الخصوصية</a>
+        <span class="legal-sep">·</span>
+        <a href="{{ site.baseurl }}/ar/rss-terms/">شروط RSS</a>
+        <span class="legal-sep">·</span>
+        <a href="{{ site.baseurl }}/en/terms/">Terms</a>
+        <span class="legal-sep">·</span>
+        <a href="{{ site.baseurl }}/en/privacy/">Privacy</a>
+        <span class="legal-sep">·</span>
+        <a href="{{ site.baseurl }}/en/rss-terms/">RSS Terms</a>
+      </div>
+    </div>
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
         <span>© {{ site.time | date: '%Y' }} GT-NEWSTECH — GNUTUX NEWS TECH</span>

@@ -117,6 +117,9 @@ layout: default
       </div>
       {% endif %}
 
+      <!-- Affiliate disclosure (shown only when affiliate: true in front matter) -->
+      {% include affiliate-disclosure.html %}
+
       <!-- Article body -->
       <div class="post-body" id="postBody">
         {{ content }}

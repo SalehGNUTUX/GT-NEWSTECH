@@ -1,0 +1,31 @@
+---
+layout: default
+---
+<div class="static-page" lang="{{ page.lang | default: 'ar' }}" dir="{% if page.lang == 'en' %}ltr{% else %}rtl{% endif %}">
+
+  <div class="static-page-header">
+    <div class="static-page-header-inner">
+      <p class="static-page-super">
+        {% if page.lang == 'en' %}Legal{% else %}قانوني{% endif %}
+      </p>
+      <h1 class="static-page-title">{{ page.title }}</h1>
+      {% if page.last_updated %}
+      <p class="static-page-date">
+        {% if page.lang == 'en' %}Last updated:{% else %}آخر تحديث:{% endif %}
+        {{ page.last_updated }}
+      </p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="static-page-body">
+    {{ content }}
+  </div>
+
+  <div class="static-page-footer">
+    <a href="{{ site.baseurl }}/" class="btn btn-outline">
+      {% if page.lang == 'en' %}← Back to Home{% else %}→ العودة للرئيسية{% endif %}
+    </a>
+  </div>
+
+</div>
