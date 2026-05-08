@@ -665,11 +665,22 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #0f0e0a, #1a1600);
 }
 
-.placeholder-icon {
-  font-size: 3rem;
-  opacity: 0.6;
+/* شعار الموقع كبديل للصورة في البطاقة */
+.card-fallback-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 12px rgba(212,160,23,0.3));
+  transition: opacity var(--transition), filter var(--transition);
+}
+
+.article-card:hover .card-fallback-logo {
+  opacity: 1;
+  filter: drop-shadow(0 0 18px rgba(212,160,23,0.5));
 }
 
 .card-cat-badge {
@@ -874,6 +885,17 @@ ul { list-style: none; }
   padding: 0.5rem;
   background: var(--bg-alt);
   border-top: 1px solid var(--border);
+}
+
+/* شعار الموقع كبديل في صفحة المقال */
+.post-featured-fallback {
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  background: linear-gradient(135deg, #0f0e0a, #1a1600);
+  padding: 2.5rem;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 24px rgba(212,160,23,0.25));
 }
 
 /* Post Layout: content + sidebar */

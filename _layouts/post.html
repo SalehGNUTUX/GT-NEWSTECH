@@ -93,17 +93,22 @@ layout: default
   </header>
 
   <!-- Featured Image -->
-  {% if page.image %}
   <div class="post-featured-wrap">
+    {% if page.image %}
     <img src="{{ site.baseurl }}/assets/images/{{ page.lang }}/{{ page.image }}"
          alt="{{ page.title }}"
          class="post-featured-image"
-         loading="eager">
+         loading="eager"
+         onerror="this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('post-featured-fallback')">
     {% if page.image_caption %}
     <p class="image-caption">{{ page.image_caption }}</p>
     {% endif %}
+    {% else %}
+    <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png"
+         alt="GT-NEWSTECH"
+         class="post-featured-image post-featured-fallback">
+    {% endif %}
   </div>
-  {% endif %}
 
   <!-- Content + Sidebar -->
   <div class="post-layout">

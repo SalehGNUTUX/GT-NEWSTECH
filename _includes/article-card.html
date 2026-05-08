@@ -7,16 +7,13 @@
       <img src="{{ site.baseurl }}/assets/images/{{ post.lang }}/{{ post.image }}"
            alt="{{ post.title }}"
            loading="lazy"
-           onerror="this.parentElement.classList.add('no-image')">
+           onerror="this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('card-fallback-logo')">
       {% else %}
-      <div class="card-image-placeholder cat-bg-{{ post.category }}">
-        <span class="placeholder-icon">
-          {% if post.category == 'ai' %}🤖
-          {% elsif post.category == 'gnulinux' %}🐧
-          {% elsif post.category == 'foss' %}🔓
-          {% elsif post.category == 'gnutux-projects' %}⚙️
-          {% else %}📡{% endif %}
-        </span>
+      <div class="card-image-placeholder">
+        <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png"
+             alt="GT-NEWSTECH"
+             class="card-fallback-logo"
+             loading="lazy">
       </div>
       {% endif %}
       <span class="card-cat-badge cat-{{ post.category }}">
