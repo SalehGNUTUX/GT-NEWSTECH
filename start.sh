@@ -69,7 +69,6 @@ echo -e "${CYAN}─────────────────────�
   bundle exec jekyll serve \
     --config _config.yml,_config.local.yml \
     --livereload \
-    --incremental \
     --force_polling \
     2>&1 | while IFS= read -r line; do
       # تجاهل الأخطاء غير المهمة
