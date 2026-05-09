@@ -52,9 +52,11 @@ echo -e "${GREEN}✓ الموقع متاح على: http://localhost:4000/${NC}"
 echo -e "${GOLD}  اضغط Ctrl+C للإيقاف${NC}"
 echo ""
 
+echo -e "  افتح المتصفح على: ${BOLD}http://localhost:4000/${NC}"
+echo ""
+
 bundle exec jekyll serve \
   --config _config.yml,_config.local.yml \
   --livereload \
   --incremental \
-  --force_polling \
-  --open-url
+  --force_polling
