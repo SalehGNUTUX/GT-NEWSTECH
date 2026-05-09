@@ -14,7 +14,7 @@ const PORT = 4001;
 const ROOT       = path.join(__dirname, '..');
 const CATS       = ['gnutux-projects', 'foss', 'gnulinux', 'tech-news', 'ai'];
 const LANGS      = ['ar', 'en'];
-const IMG_EXTS   = /\.(jpg|jpeg|png|gif|webp|svg|avif)$/i;
+const IMG_EXTS   = /\.(jpg|jpeg|png|gif|webp|svg|avif|webp)$/i;
 
 // ── Middleware ─────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
@@ -24,17 +24,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/site-images', express.static(path.join(ROOT, 'assets', 'images')));
 app.use('/site-icons',  express.static(path.join(ROOT, 'assets', 'icons')));
 
-// ── Multer — memory storage (نحوّل الصورة بعد الرفع) ──────────
+// ── Image format sets ──────────────────────────────────────────
+// صيغ مدعومة مباشرة في المتصفحات الحديثة — تُحفظ كما هي
+const WEB_FORMATS = /\.(jpg|jpeg|png|webp|avif|gif|svg)$/i;
+// صيغ تحتاج تحويل إلى JPEG (غير مدعومة في المتصفحات)
+const CONV_FORMATS = /\.(heic|heif|tiff?|bmp|ico|jfif|pjpeg|pjp)$/i;
+// كل الصيغ المقبولة
+const ALL_FORMATS  = /\.(jpg|jpeg|png|webp|avif|gif|svg|heic|heif|tiff?|bmp|ico|jfif)$/i;
+
+// ── Multer — memory storage ─────────────────────────────────────
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 20 * 1024 * 1024 },   // 20MB
+  limits: { fileSize: 20 * 1024 * 1024 },
   fileFilter(_req, file, cb) {
-    if (IMG_EXTS.test(file.originalname)) return cb(null, true);
-    cb(new Error('صيغة غير مدعومة: ' + file.originalname));
+    if (ALL_FORMATS.test(file.originalname)) return cb(null, true);
+    cb(new Error('صيغة غير مدعومة: ' + path.extname(file.originalname)));
   }
 });
 
-// معالج أخطاء Multer
 function handleUpload(req, res, next) {
   upload.array('files', 20)(req, res, err => {
     if (err) return res.status(400).json({ error: err.message });
@@ -43,65 +50,57 @@ function handleUpload(req, res, next) {
 }
 
 // ── Image helpers ──────────────────────────────────────────────
-const JPEG_EXTS = /\.(jpg|jpeg)$/i;
 
-/** تعقيم اسم الملف وإزالة الامتداد */
-function sanitizeBasename(original) {
+/** تعقيم اسم الملف مع الاحتفاظ بامتداده الأصلي */
+function sanitizeFilename(original) {
   const ext  = path.extname(original).toLowerCase();
-  const base = path.basename(original, ext);
-  return base
+  const base = path.basename(original, ext)
     .replace(/[^a-zA-Z0-9._-]/g, '-')
     .replace(/-{2,}/g, '-')
     .replace(/^-+|-+$/g, '')
     .toLowerCase() || 'image';
+  return { base, ext };
 }
 
 /**
- * يحوّل buffer أي صورة إلى JPEG ويحفظها
+ * يحفظ الصورة:
+ * - صيغة ويب → تحفظ مباشرة بامتدادها
+ * - صيغة غير مدعومة → تُحوَّل إلى JPEG
+ * القيمة المُعادة: { filename, converted }
  */
-async function saveAsJpeg(buffer, mimeType, baseName, destDir) {
+async function saveImage(buffer, originalName, destDir) {
   fs.mkdirSync(destDir, { recursive: true });
-  const filename = baseName + '.jpg';
-  const dest     = path.join(destDir, filename);
+  const { base, ext } = sanitizeFilename(originalName);
 
-  const isSvg  = mimeType === 'image/svg+xml';
-  const opts   = isSvg ? { density: 150 } : {};
-
-  try {
-    await sharp(buffer, opts)
-      .jpeg({ quality: 88, mozjpeg: true })
-      .toFile(dest);
-  } catch (e) {
-    /* fallback: بدون mozjpeg */
-    await sharp(buffer, opts)
-      .jpeg({ quality: 88 })
-      .toFile(dest);
+  if (WEB_FORMATS.test(originalName)) {
+    // صيغة ويب — حفظ مباشر
+    const filename = base + ext;
+    fs.writeFileSync(path.join(destDir, filename), buffer);
+    return { filename, converted: false };
   }
 
-  return filename;
+  // صيغة غير مدعومة — تحويل إلى JPEG
+  const filename = base + '.jpg';
+  await sharp(buffer).jpeg({ quality: 88 }).toFile(path.join(destDir, filename));
+  return { filename, converted: true };
 }
 
 /**
- * يحوّل ملف مسار إلى JPEG ويحفظه
+ * يحفظ صورة من مسار محلي
  */
-async function fileToJpeg(sourcePath, baseName, destDir) {
+async function saveImageFromPath(sourcePath, destDir) {
   fs.mkdirSync(destDir, { recursive: true });
-  const filename = baseName + '.jpg';
-  const dest     = path.join(destDir, filename);
+  const { base, ext } = sanitizeFilename(path.basename(sourcePath));
 
-  if (JPEG_EXTS.test(sourcePath)) {
-    fs.copyFileSync(sourcePath, dest);
-  } else {
-    const isSvg = sourcePath.toLowerCase().endsWith('.svg');
-    const opts  = isSvg ? { density: 150 } : {};
-    try {
-      await sharp(sourcePath, opts).jpeg({ quality: 88, mozjpeg: true }).toFile(dest);
-    } catch (e) {
-      await sharp(sourcePath, opts).jpeg({ quality: 88 }).toFile(dest);
-    }
+  if (WEB_FORMATS.test(sourcePath)) {
+    const filename = base + ext;
+    fs.copyFileSync(sourcePath, path.join(destDir, filename));
+    return { filename, converted: false };
   }
 
-  return filename;
+  const filename = base + '.jpg';
+  await sharp(sourcePath).jpeg({ quality: 88 }).toFile(path.join(destDir, filename));
+  return { filename, converted: true };
 }
 
 // ── Helpers ────────────────────────────────────────────────────
@@ -230,29 +229,24 @@ app.get('/api/images', (req, res) => {
   res.json([...getImages('ar'), ...getImages('en')]);
 });
 
-/* Upload image — تحويل تلقائي إلى JPEG */
+/* Upload images — صيغ الويب تُحفظ كما هي، غيرها يُحوَّل */
 app.post('/api/images/:lang', handleUpload, async (req, res) => {
   const lang     = req.params.lang;
+  const destDir  = path.join(ROOT, 'assets', 'images', lang);
   const uploaded = [];
 
   for (const file of req.files || []) {
     try {
-      const baseName  = sanitizeBasename(file.originalname);
-      const destDir   = path.join(ROOT, 'assets', 'images', lang);
-      const wasJpeg   = JPEG_EXTS.test(file.originalname);
-      const filename  = await saveAsJpeg(file.buffer, file.mimetype, baseName, destDir);
-      const size      = fs.statSync(path.join(destDir, filename)).size;
+      const { filename, converted } = await saveImage(file.buffer, file.originalname, destDir);
       uploaded.push({
         name: filename, lang,
-        url: `/site-images/${lang}/${filename}`,
-        size,
-        converted: !wasJpeg
+        url:  `/site-images/${lang}/${filename}`,
+        size: fs.statSync(path.join(destDir, filename)).size,
+        converted
       });
     } catch (err) {
       console.error('[Upload Error]', file.originalname, err.message);
-      return res.status(500).json({
-        error: `فشل معالجة "${file.originalname}": ${err.message}`
-      });
+      return res.status(500).json({ error: `فشل "${file.originalname}": ${err.message}` });
     }
   }
   res.json({ ok: true, uploaded });
@@ -266,30 +260,29 @@ app.delete('/api/images/:lang/:name', (req, res) => {
   res.json({ ok: true });
 });
 
-/* Import image from filesystem path — تحويل تلقائي إلى JPEG */
+/* Import image from filesystem path */
 app.post('/api/images/import', async (req, res) => {
   const { sourcePath, langs } = req.body;
   if (!sourcePath || !langs) return res.status(400).json({ error: 'sourcePath and langs required' });
-  if (!fs.existsSync(sourcePath)) return res.status(404).json({ error: 'Source file not found: ' + sourcePath });
-  if (!IMG_EXTS.test(sourcePath)) return res.status(400).json({ error: 'صيغة غير مدعومة' });
+  if (!fs.existsSync(sourcePath)) return res.status(404).json({ error: 'الملف غير موجود: ' + sourcePath });
+  if (!ALL_FORMATS.test(sourcePath)) return res.status(400).json({ error: 'صيغة غير مدعومة' });
 
-  const baseName = sanitizeBasename(path.basename(sourcePath));
-  const wasJpeg  = JPEG_EXTS.test(sourcePath);
-  const targets  = langs === 'both' ? ['ar', 'en'] : [langs];
-  const copied   = [];
+  const targets = langs === 'both' ? ['ar', 'en'] : [langs];
+  const copied  = [];
+  let converted = false;
 
   try {
     for (const lang of targets) {
-      const destDir  = path.join(ROOT, 'assets', 'images', lang);
-      const filename = await fileToJpeg(sourcePath, baseName, destDir);
-      copied.push({ lang, filename, url: `/site-images/${lang}/${filename}` });
+      const destDir = path.join(ROOT, 'assets', 'images', lang);
+      const result  = await saveImageFromPath(sourcePath, destDir);
+      converted = result.converted;
+      copied.push({ lang, filename: result.filename, url: `/site-images/${lang}/${result.filename}` });
     }
   } catch (err) {
-    return res.status(500).json({ error: 'فشل التحويل: ' + err.message });
+    return res.status(500).json({ error: 'فشل الاستيراد: ' + err.message });
   }
 
-  const filename  = copied[0]?.filename;
-  res.json({ ok: true, filename, copied, converted: !wasJpeg });
+  res.json({ ok: true, filename: copied[0]?.filename, copied, converted });
 });
 
 /* Config */
