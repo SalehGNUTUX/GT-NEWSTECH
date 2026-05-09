@@ -5,7 +5,6 @@ date: 2026-05-06
 category: gnulinux
 lang: en
 slug: ubuntu-2504-plucky-puffin
-image: ubuntu-2504-en.jpg
 author: GNUTUX
 tags: [Ubuntu, linux, distros, GNOME]
 excerpt: "Canonical released Ubuntu 25.04 codenamed Plucky Puffin, featuring GNOME 48, Linux 6.14, and improved hardware support."

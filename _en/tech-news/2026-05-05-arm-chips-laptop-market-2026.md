@@ -5,7 +5,6 @@ date: 2026-05-05
 category: tech-news
 lang: en
 slug: arm-chips-laptop-market-2026
-image: arm-chips-en.jpg
 author: GNUTUX
 tags: [ARM, chips, hardware, tech market]
 also_in: [gnulinux]

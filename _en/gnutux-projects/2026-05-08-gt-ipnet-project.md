@@ -5,7 +5,6 @@ date: 2026-05-08
 category: gnutux-projects
 lang: en
 slug: gt-ipnet-v1
-image: gt-ipnet-en.jpg
 author: GNUTUX
 tags: [GNUTUX, networking, linux, Electron, React]
 excerpt: "GT-IPNET is an open-source desktop application that brings the most-used network tools together in a sleek GUI built with Electron and React."

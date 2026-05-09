@@ -5,7 +5,6 @@ date: 2026-05-07
 category: foss
 lang: en
 slug: libreoffice-248-release
-image: libreoffice-en.jpg
 author: GNUTUX
 tags: [LibreOffice, FOSS, productivity, open-source]
 excerpt: "The Document Foundation released LibreOffice 24.8 with significant performance improvements and better Microsoft Office format compatibility."

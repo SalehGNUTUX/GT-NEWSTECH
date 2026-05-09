@@ -5,7 +5,6 @@ date: 2026-05-04
 category: ai
 lang: en
 slug: open-llm-challenge-2026
-image: open-llm-en.jpg
 author: GNUTUX
 tags: [AI, LLM, open-source, Llama, Mistral]
 excerpt: "With Llama 4, Mistral Large, and Qwen-3 maturing rapidly, the debate around open models challenging top commercial AI is becoming very real."
