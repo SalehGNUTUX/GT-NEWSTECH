@@ -40,20 +40,46 @@
   /* ── Mobile Menu ──────────────────────────────────────────── */
   var menuToggle = document.getElementById('mobileMenuToggle');
   var mainNav    = document.querySelector('.main-nav');
+
+  function closeNav() {
+    if (!mainNav) return;
+    mainNav.classList.remove('open');
+    if (menuToggle) {
+      menuToggle.setAttribute('aria-expanded', 'false');
+      var mi = menuToggle.querySelector('.menu-icon');
+      var ci = menuToggle.querySelector('.close-icon');
+      if (mi) mi.style.display = '';
+      if (ci) ci.style.display = 'none';
+    }
+  }
+
   if (menuToggle && mainNav) {
     menuToggle.addEventListener('click', function () {
       var open = mainNav.classList.toggle('open');
       menuToggle.setAttribute('aria-expanded', String(open));
-      menuToggle.querySelector('.menu-icon').style.display  = open ? 'none' : '';
-      menuToggle.querySelector('.close-icon').style.display = open ? ''     : 'none';
+      var mi = menuToggle.querySelector('.menu-icon');
+      var ci = menuToggle.querySelector('.close-icon');
+      if (mi) mi.style.display = open ? 'none' : '';
+      if (ci) ci.style.display = open ? ''     : 'none';
     });
+
+    /* إغلاق عند النقر خارج القائمة */
     document.addEventListener('click', function (e) {
       if (!menuToggle.contains(e.target) && !mainNav.contains(e.target)) {
-        mainNav.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.querySelector('.menu-icon').style.display  = '';
-        menuToggle.querySelector('.close-icon').style.display = 'none';
+        closeNav();
       }
+    });
+
+    /* إغلاق عند النقر على أي رابط داخل القائمة (موبايل) */
+    mainNav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (window.innerWidth <= 768) closeNav();
+      });
+    });
+
+    /* إغلاق بـ Escape */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeNav();
     });
   }
 
