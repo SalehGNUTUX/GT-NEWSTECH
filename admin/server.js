@@ -181,6 +181,34 @@ app.delete('/api/images/:lang/:name', (req, res) => {
   res.json({ ok: true });
 });
 
+/* Import image from filesystem path → copy to assets/images/lang */
+app.post('/api/images/import', (req, res) => {
+  const { sourcePath, langs } = req.body;
+  // langs: 'ar' | 'en' | 'both'
+  if (!sourcePath || !langs) return res.status(400).json({ error: 'sourcePath and langs required' });
+  if (!fs.existsSync(sourcePath)) return res.status(404).json({ error: 'Source file not found: ' + sourcePath });
+
+  const ext  = path.extname(sourcePath).toLowerCase();
+  if (!IMG_EXTS.test(sourcePath)) return res.status(400).json({ error: 'Not a supported image format' });
+
+  const filename = path.basename(sourcePath)
+    .replace(/[^a-zA-Z0-9._-]/g, '-')
+    .toLowerCase();
+
+  const targets = langs === 'both' ? ['ar', 'en'] : [langs];
+  const copied  = [];
+
+  for (const lang of targets) {
+    const dir  = path.join(ROOT, 'assets', 'images', lang);
+    fs.mkdirSync(dir, { recursive: true });
+    const dest = path.join(dir, filename);
+    fs.copyFileSync(sourcePath, dest);
+    copied.push({ lang, filename, url: `/site-images/${lang}/${filename}` });
+  }
+
+  res.json({ ok: true, filename, copied });
+});
+
 /* Config */
 app.get('/api/config', (_req, res) => {
   const fp = path.join(ROOT, '_config.yml');

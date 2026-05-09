@@ -579,7 +579,8 @@ $('saveArticle').addEventListener('click', async () => {
     d = await api(`/api/article?lang=${ref.lang}&cat=${ref.cat}&file=${encodeURIComponent(ref.file)}`,
       { method:'PUT', body:JSON.stringify({...fm, content}) });
   } else {
-    d = await api('/api/article', { method:'POST', body:JSON.stringify({...fm, content}) });
+    /* POST: يجب إرسال cat و lang و slug صراحةً بجانب fm */
+    d = await api('/api/article', { method:'POST', body:JSON.stringify({...fm, cat, lang, slug, content}) });
   }
 
   if(d.ok) {
@@ -636,6 +637,81 @@ document.querySelectorAll('.ptab').forEach(t => {
 });
 
 $('closeImagePicker').addEventListener('click', () => $('imagePickerModal').setAttribute('hidden', ''));
+
+// ── Image Import from filesystem ──────────────────────────────
+/* زر تصفح: يفتح file picker للاختيار من الجهاز */
+$('browseFileBtn').addEventListener('click', () => $('browseFileInput').click());
+
+$('browseFileInput').addEventListener('change', function() {
+  if (!this.files.length) return;
+  const file = this.files[0];
+  /* نستخدم اسم الملف كـ placeholder في خانة المسار (المتصفح لا يكشف المسار الكامل) */
+  $('importPathInput').value = file.name;
+  /* نحفظ الملف في S لنستخدمه عند الضغط على استيراد */
+  S._importFile = file;
+});
+
+$('importImageBtn').addEventListener('click', async function() {
+  const resultEl = $('importResult');
+  const dest     = document.querySelector('[name=importDest]:checked')?.value || 'ar';
+  const pathVal  = $('importPathInput').value.trim();
+
+  if (!pathVal) {
+    resultEl.className = 'import-result error';
+    resultEl.textContent = 'اختر صورة أولاً.';
+    resultEl.removeAttribute('hidden');
+    return;
+  }
+
+  resultEl.setAttribute('hidden', '');
+  const langs = dest === 'both' ? ['ar','en'] : [dest];
+
+  /* إذا اختار المستخدم ملفاً من file picker → رفع مباشر */
+  if (S._importFile) {
+    let allUploaded = [];
+    for (const lang of langs) {
+      const fd = new FormData();
+      fd.append('files', S._importFile);
+      const r = await fetch(`/api/images/${lang}`, { method:'POST', body:fd });
+      const d = await r.json();
+      if (d.uploaded) allUploaded = allUploaded.concat(d.uploaded);
+    }
+    if (allUploaded.length) {
+      const name = allUploaded[0].name;
+      resultEl.className = 'import-result success';
+      resultEl.innerHTML = `✓ تم نسخ <strong>${name}</strong> إلى: ${langs.join(', ')}
+        <button class="btn btn-sm" style="margin-right:.5rem" onclick="selectImage('${name}')">
+          <i class="fa-solid fa-check"></i> اختر هذه الصورة
+        </button>`;
+      resultEl.removeAttribute('hidden');
+      S._importFile = null;
+      $('importPathInput').value = '';
+      await loadPickerImages();
+    }
+    return;
+  }
+
+  /* إذا كتب مساراً نصياً → إرسال للخادم ليقوم بالنسخ */
+  const d = await api('/api/images/import', {
+    method: 'POST',
+    body: JSON.stringify({ sourcePath: pathVal, langs: dest })
+  });
+
+  if (d.ok) {
+    resultEl.className = 'import-result success';
+    resultEl.innerHTML = `✓ تم نسخ <strong>${d.filename}</strong> إلى: ${d.copied.map(c=>c.lang).join(', ')}
+      <button class="btn btn-sm" style="margin-right:.5rem" onclick="selectImage('${d.filename}')">
+        <i class="fa-solid fa-check"></i> اختر هذه الصورة
+      </button>`;
+    resultEl.removeAttribute('hidden');
+    $('importPathInput').value = '';
+    await loadPickerImages();
+  } else {
+    resultEl.className = 'import-result error';
+    resultEl.textContent = 'خطأ: ' + (d.error || 'فشل الاستيراد');
+    resultEl.removeAttribute('hidden');
+  }
+});
 
 // ── Language filter (topbar) ────────────────────────────────────
 $('filterAr').addEventListener('click', () => {

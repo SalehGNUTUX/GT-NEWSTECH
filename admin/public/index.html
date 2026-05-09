@@ -226,10 +226,39 @@
 <div class="modal-overlay" id="imagePickerModal" hidden>
   <div class="modal-box modal-sm">
     <div class="modal-header">
-      <h2>اختر صورة</h2>
+      <h2>اختر أو استورد صورة</h2>
       <button class="btn-icon" id="closeImagePicker"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body">
+
+      <!-- استيراد من الجهاز -->
+      <div class="import-section">
+        <div class="import-title">
+          <i class="fa-solid fa-folder-open" style="color:var(--gold)"></i>
+          استيراد من الجهاز
+        </div>
+        <div class="import-row">
+          <input type="text" id="importPathInput" class="import-path-input"
+            placeholder="/home/user/Pictures/image.jpg  أو اختر بالزر →" dir="ltr">
+          <button class="btn btn-sm" id="browseFileBtn" title="تصفح الملفات">
+            <i class="fa-solid fa-folder-open"></i>
+          </button>
+          <input type="file" id="browseFileInput" accept="image/*" hidden>
+        </div>
+        <div class="import-dest-row">
+          <span class="import-dest-label">النسخ إلى:</span>
+          <label class="radio-label"><input type="radio" name="importDest" value="ar" checked> AR فقط</label>
+          <label class="radio-label"><input type="radio" name="importDest" value="en"> EN فقط</label>
+          <label class="radio-label"><input type="radio" name="importDest" value="both"> AR + EN</label>
+        </div>
+        <button class="btn btn-gold btn-sm" id="importImageBtn" style="margin-top:.5rem">
+          <i class="fa-solid fa-file-import"></i> استيراد ونسخ
+        </button>
+        <div id="importResult" class="import-result" hidden></div>
+      </div>
+
+      <div class="picker-divider">— أو اختر من الصور المحفوظة —</div>
+
       <div class="picker-lang-tabs">
         <button class="ptab active" data-lang="ar">AR صور</button>
         <button class="ptab" data-lang="en">EN Images</button>
