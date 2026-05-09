@@ -406,3 +406,44 @@ small { color:var(--muted); font-size:.7rem; }
   .form-grid { grid-template-columns:1fr; }
   .modal-box { max-width:100%; margin:8px; }
 }
+
+/* ── Front Matter Paste ──────────────────────────────── */
+.fm-paste-intro {
+  display:flex; align-items:flex-start; gap:.6rem;
+  background:rgba(212,160,23,.07); border:1px solid var(--gold-dim);
+  border-radius:8px; padding:.85rem 1rem; margin-bottom:1rem;
+  font-size:.83rem; color:var(--muted); line-height:1.5;
+}
+.fm-paste-intro i { color:var(--gold); margin-top:2px; flex-shrink:0; }
+.fm-paste-intro code {
+  background:var(--bg4); padding:.1em .35em; border-radius:3px;
+  font-family:'Fira Code',monospace; font-size:.85em; color:var(--gold);
+}
+.fm-paste-area {
+  width:100%; min-height:220px; max-height:340px;
+  background:var(--bg3); border:1px solid var(--border);
+  color:#a0c878; border-radius:8px; padding:1rem;
+  font-family:'Fira Code','Cascadia Code',monospace; font-size:.85rem;
+  line-height:1.7; resize:vertical; outline:none;
+  transition:border-color .2s;
+}
+.fm-paste-area:focus { border-color:var(--gold); }
+.fm-paste-actions {
+  display:flex; gap:.75rem; margin-top:.85rem; flex-wrap:wrap;
+}
+.fm-parse-result {
+  margin-top:1rem; padding:.85rem 1rem;
+  border-radius:8px; font-size:.82rem; line-height:1.6;
+}
+.fm-parse-result.success {
+  background:rgba(61,186,111,.1); border:1px solid rgba(61,186,111,.3);
+  color:#3dba6f;
+}
+.fm-parse-result.error {
+  background:rgba(224,82,82,.1); border:1px solid rgba(224,82,82,.3);
+  color:#e05252;
+}
+.fm-parsed-list { list-style:none; margin-top:.5rem; display:flex; flex-direction:column; gap:.3rem; }
+.fm-parsed-list li { display:flex; gap:.5rem; align-items:baseline; }
+.fm-parsed-key { color:var(--gold); font-weight:600; min-width:90px; font-family:'Fira Code',monospace; font-size:.78rem; }
+.fm-parsed-val { color:#e0d8c8; }

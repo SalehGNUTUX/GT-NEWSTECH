@@ -79,12 +79,34 @@
         <button class="etab active" data-tab="details">
           <i class="fa-solid fa-sliders"></i> البيانات
         </button>
+        <button class="etab" data-tab="paste-fm">
+          <i class="fa-solid fa-paste"></i> لصق FM
+        </button>
         <button class="etab" data-tab="content">
           <i class="fa-solid fa-pen-nib"></i> المحتوى
         </button>
         <button class="etab" data-tab="preview">
           <i class="fa-solid fa-eye"></i> معاينة
         </button>
+      </div>
+
+      <!-- Tab: Paste Front Matter -->
+      <div class="etab-pane" id="tab-paste-fm">
+        <div class="fm-paste-intro">
+          <i class="fa-solid fa-circle-info"></i>
+          الصق كتلة الـ Front Matter كاملةً (مع أو بدون <code>---</code>) وسيتم توزيع كل حقل تلقائياً على خانته.
+        </div>
+        <textarea id="fmPasteArea" class="fm-paste-area"
+          placeholder="---&#10;layout: post&#10;title: &quot;عنوان المقال&quot;&#10;date: 2026-05-09&#10;category: foss&#10;lang: ar&#10;slug: my-slug&#10;author: GNUTUX&#10;tags: [وسم1, وسم2]&#10;excerpt: &quot;ملخص المقال...&quot;&#10;---"></textarea>
+        <div class="fm-paste-actions">
+          <button class="btn btn-gold" id="parseFmBtn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> تحليل وملء الحقول
+          </button>
+          <button class="btn btn-ghost" id="clearFmBtn">
+            <i class="fa-solid fa-trash"></i> مسح
+          </button>
+        </div>
+        <div id="fmParseResult" class="fm-parse-result" hidden></div>
       </div>
 
       <!-- Tab: Details -->

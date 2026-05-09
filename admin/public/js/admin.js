@@ -332,6 +332,146 @@ function syncAlsoInWithCat() {
 
 $('fCategory').addEventListener('change', syncAlsoInWithCat);
 
+/* ── Front Matter Parser ──────────────────────────────────────── */
+function parseFrontMatterText(raw) {
+  /* نزع --- في البداية والنهاية */
+  var text = raw.trim().replace(/^---+\s*\n?/, '').replace(/\n?---+\s*$/, '').trim();
+  var result = {};
+  var lines  = text.split('\n');
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    var colonIdx = line.indexOf(':');
+    if (colonIdx < 1) continue;
+
+    var key = line.slice(0, colonIdx).trim();
+    var val = line.slice(colonIdx + 1).trim();
+    if (!key) continue;
+
+    /* قيمة بين علامتي اقتباس مزدوجة أو مفردة */
+    if ((val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+
+    /* مصفوفة: [item1, item2, ...] */
+    if (val.startsWith('[') && val.endsWith(']')) {
+      var inner = val.slice(1, -1).trim();
+      val = inner ? inner.split(',').map(function(s) { return s.trim().replace(/^["']|["']$/g, ''); }) : [];
+    }
+
+    result[key] = val;
+  }
+  return result;
+}
+
+function fillFormFromParsed(data) {
+  var filled = [];
+  var skipped = [];
+
+  var fieldMap = {
+    title:    function(v) { $('fTitle').value = v; },
+    slug:     function(v) { $('fSlug').value  = v; },
+    author:   function(v) { $('fAuthor').value = v; },
+    excerpt:  function(v) { $('fExcerpt').value = v; },
+    image:    function(v) { $('fImage').value = v; updateImgPreview(); },
+    date:     function(v) { $('fDate').value  = v; },
+    category: function(v) {
+      var opt = $('fCategory').querySelector('option[value="'+v+'"]');
+      if (opt) { $('fCategory').value = v; syncAlsoInWithCat(); }
+    },
+    lang: function(v) {
+      var r = document.querySelector('[name=fLang][value="'+v+'"]');
+      if (r) r.checked = true;
+    },
+    tags: function(v) {
+      $('fTags').value = Array.isArray(v) ? v.join(', ') : v;
+    },
+    also_in: function(v) {
+      var arr = Array.isArray(v) ? v : [v];
+      $('fAlsoIn').querySelectorAll('input').forEach(function(cb) {
+        cb.checked = arr.includes(cb.value);
+      });
+      syncAlsoInWithCat();
+    },
+    affiliate: function(v) {
+      $('fAffiliate').checked = (v === 'true' || v === true);
+    },
+  };
+
+  var SKIP_KEYS = ['layout']; /* يُتجاهل */
+
+  Object.keys(data).forEach(function(key) {
+    if (SKIP_KEYS.includes(key)) return;
+    if (fieldMap[key]) {
+      try {
+        fieldMap[key](data[key]);
+        filled.push(key);
+      } catch(e) {
+        skipped.push(key);
+      }
+    } else {
+      skipped.push(key);
+    }
+  });
+
+  return { filled: filled, skipped: skipped };
+}
+
+/* أزرار تبويب لصق FM */
+$('parseFmBtn').addEventListener('click', function() {
+  var raw = $('fmPasteArea').value.trim();
+  var resultEl = $('fmParseResult');
+
+  if (!raw) {
+    resultEl.className = 'fm-parse-result error';
+    resultEl.textContent = 'الحقل فارغ — الصق كتلة Front Matter أولاً.';
+    resultEl.removeAttribute('hidden');
+    return;
+  }
+
+  var data = {};
+  try {
+    data = parseFrontMatterText(raw);
+  } catch(e) {
+    resultEl.className = 'fm-parse-result error';
+    resultEl.textContent = 'خطأ في التحليل: ' + e.message;
+    resultEl.removeAttribute('hidden');
+    return;
+  }
+
+  if (!Object.keys(data).length) {
+    resultEl.className = 'fm-parse-result error';
+    resultEl.textContent = 'لم يُعثر على أي بيانات صالحة. تأكد من صيغة الـ Front Matter.';
+    resultEl.removeAttribute('hidden');
+    return;
+  }
+
+  var r = fillFormFromParsed(data);
+
+  var html = '<strong>✓ تم ملء الحقول بنجاح</strong><ul class="fm-parsed-list">';
+  r.filled.forEach(function(k) {
+    var val = data[k];
+    var display = Array.isArray(val) ? val.join(', ') : String(val);
+    if (display.length > 60) display = display.slice(0, 60) + '...';
+    html += '<li><span class="fm-parsed-key">'+k+'</span><span class="fm-parsed-val">'+display+'</span></li>';
+  });
+  html += '</ul>';
+  if (r.skipped.length) {
+    html += '<div style="margin-top:.5rem;color:var(--muted);font-size:.75rem">تُجاهَل: ' + r.skipped.join(', ') + '</div>';
+  }
+  html += '<div style="margin-top:.75rem"><button class="btn btn-gold btn-sm" onclick="activateTab(\'details\')"><i class="fa-solid fa-sliders"></i> انتقل للحقول</button></div>';
+
+  resultEl.className = 'fm-parse-result success';
+  resultEl.innerHTML = html;
+  resultEl.removeAttribute('hidden');
+});
+
+$('clearFmBtn').addEventListener('click', function() {
+  $('fmPasteArea').value = '';
+  $('fmParseResult').setAttribute('hidden', '');
+});
+
 // Tabs
 document.querySelectorAll('.etab').forEach(btn => {
   btn.addEventListener('click', () => activateTab(btn.dataset.tab));
