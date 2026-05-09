@@ -195,10 +195,9 @@ app.post('/api/images/import', (req, res) => {
   if (!sourcePath || !langs) return res.status(400).json({ error: 'sourcePath and langs required' });
   if (!fs.existsSync(sourcePath)) return res.status(404).json({ error: 'Source file not found: ' + sourcePath });
 
-  const ext  = path.extname(sourcePath).toLowerCase();
+  const ext      = path.extname(sourcePath).toLowerCase();
   if (!IMG_EXTS.test(sourcePath)) return res.status(400).json({ error: 'Not a supported image format' });
 
-  const ext      = path.extname(sourcePath).toLowerCase();
   const basename = path.basename(sourcePath, ext);
   const filename = basename
     .replace(/[^a-zA-Z0-9._-]/g, '-')
