@@ -10,7 +10,7 @@ excerpt: >-
   GT-IPNET v2.0 is an open-source desktop application that brings the most
   popular networking tools into an elegant graphical interface, featuring an
   advanced network controller, tray icon, and app lock.
-image: screenshot_.png
+image: screenshot_dashboard.png
 tags:
   - GNUTUX
   - Networking
