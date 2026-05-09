@@ -25,7 +25,22 @@ app.use('/site-images', express.static(path.join(ROOT, 'assets', 'images')));
 app.use('/site-icons',  express.static(path.join(ROOT, 'assets', 'icons')));
 
 // ── Multer — memory storage (نحوّل الصورة بعد الرفع) ──────────
-const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 20 * 1024 * 1024 },   // 20MB
+  fileFilter(_req, file, cb) {
+    if (IMG_EXTS.test(file.originalname)) return cb(null, true);
+    cb(new Error('صيغة غير مدعومة: ' + file.originalname));
+  }
+});
+
+// معالج أخطاء Multer
+function handleUpload(req, res, next) {
+  upload.array('files', 20)(req, res, err => {
+    if (err) return res.status(400).json({ error: err.message });
+    next();
+  });
+}
 
 // ── Image helpers ──────────────────────────────────────────────
 const JPEG_EXTS = /\.(jpg|jpeg)$/i;
@@ -43,22 +58,25 @@ function sanitizeBasename(original) {
 
 /**
  * يحوّل buffer أي صورة إلى JPEG ويحفظها
- * القيمة المُعادة: اسم الملف المحفوظ
  */
 async function saveAsJpeg(buffer, mimeType, baseName, destDir) {
   fs.mkdirSync(destDir, { recursive: true });
   const filename = baseName + '.jpg';
   const dest     = path.join(destDir, filename);
 
-  /* SVG: sharp يحتاج density لتحديد الدقة */
-  const isSvg = mimeType === 'image/svg+xml';
-  const pipe   = isSvg
-    ? sharp(buffer, { density: 150 })
-    : sharp(buffer);
+  const isSvg  = mimeType === 'image/svg+xml';
+  const opts   = isSvg ? { density: 150 } : {};
 
-  await pipe
-    .jpeg({ quality: 88, mozjpeg: true })
-    .toFile(dest);
+  try {
+    await sharp(buffer, opts)
+      .jpeg({ quality: 88, mozjpeg: true })
+      .toFile(dest);
+  } catch (e) {
+    /* fallback: بدون mozjpeg */
+    await sharp(buffer, opts)
+      .jpeg({ quality: 88 })
+      .toFile(dest);
+  }
 
   return filename;
 }
@@ -72,14 +90,15 @@ async function fileToJpeg(sourcePath, baseName, destDir) {
   const dest     = path.join(destDir, filename);
 
   if (JPEG_EXTS.test(sourcePath)) {
-    /* JPEG بالفعل → نسخ مباشر */
     fs.copyFileSync(sourcePath, dest);
   } else {
     const isSvg = sourcePath.toLowerCase().endsWith('.svg');
-    const pipe   = isSvg
-      ? sharp(sourcePath, { density: 150 })
-      : sharp(sourcePath);
-    await pipe.jpeg({ quality: 88, mozjpeg: true }).toFile(dest);
+    const opts  = isSvg ? { density: 150 } : {};
+    try {
+      await sharp(sourcePath, opts).jpeg({ quality: 88, mozjpeg: true }).toFile(dest);
+    } catch (e) {
+      await sharp(sourcePath, opts).jpeg({ quality: 88 }).toFile(dest);
+    }
   }
 
   return filename;
@@ -212,7 +231,7 @@ app.get('/api/images', (req, res) => {
 });
 
 /* Upload image — تحويل تلقائي إلى JPEG */
-app.post('/api/images/:lang', upload.array('files', 20), async (req, res) => {
+app.post('/api/images/:lang', handleUpload, async (req, res) => {
   const lang     = req.params.lang;
   const uploaded = [];
 
@@ -230,7 +249,10 @@ app.post('/api/images/:lang', upload.array('files', 20), async (req, res) => {
         converted: !wasJpeg
       });
     } catch (err) {
-      return res.status(500).json({ error: 'فشل التحويل: ' + err.message });
+      console.error('[Upload Error]', file.originalname, err.message);
+      return res.status(500).json({
+        error: `فشل معالجة "${file.originalname}": ${err.message}`
+      });
     }
   }
   res.json({ ok: true, uploaded });
