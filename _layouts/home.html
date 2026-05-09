@@ -15,22 +15,16 @@ layout: default
     {% if lang == 'ar' %}
     <p class="hero-desc">أخبار ومقالات تقنية متخصصة — باللغة العربية</p>
     <div class="hero-cats">
-      <a href="{{ site.baseurl }}/ar/category/gnutux-projects/" class="hero-cat-link">مشاريع GNUTUX</a>
-      <a href="{{ site.baseurl }}/ar/category/foss/" class="hero-cat-link">برمجيات حرة</a>
-      <a href="{{ site.baseurl }}/ar/category/gnulinux/" class="hero-cat-link">غنو/لينكس</a>
-      <a href="{{ site.baseurl }}/ar/category/tech-news/" class="hero-cat-link">التقنية</a>
-      <a href="{{ site.baseurl }}/ar/category/ai/" class="hero-cat-link">الذكاء الاصطناعي</a>
-      <a href="{{ site.baseurl }}/ar/category/gaming/" class="hero-cat-link">ألعاب لينكس</a>
+      {% for cat in site.data.categories %}
+      <a href="{{ site.baseurl }}/ar/category/{{ cat.id }}/" class="hero-cat-link">{{ cat.name_ar }}</a>
+      {% endfor %}
     </div>
     {% else %}
     <p class="hero-desc">Specialized tech news &amp; articles — In English</p>
     <div class="hero-cats">
-      <a href="{{ site.baseurl }}/en/category/gnutux-projects/" class="hero-cat-link">GNUTUX Projects</a>
-      <a href="{{ site.baseurl }}/en/category/foss/" class="hero-cat-link">FOSS</a>
-      <a href="{{ site.baseurl }}/en/category/gnulinux/" class="hero-cat-link">GNU/Linux</a>
-      <a href="{{ site.baseurl }}/en/category/tech-news/" class="hero-cat-link">Tech News</a>
-      <a href="{{ site.baseurl }}/en/category/ai/" class="hero-cat-link">AI News</a>
-      <a href="{{ site.baseurl }}/en/category/gaming/" class="hero-cat-link">Linux Gaming</a>
+      {% for cat in site.data.categories %}
+      <a href="{{ site.baseurl }}/en/category/{{ cat.id }}/" class="hero-cat-link">{{ cat.name_en }}</a>
+      {% endfor %}
     </div>
     {% endif %}
   </div>
@@ -57,34 +51,17 @@ layout: default
 {% endif %}
 
 <!-- Category sections — current language only -->
-{% assign categories = "gnutux-projects,foss,gnulinux,tech-news,ai,gaming" | split: "," %}
-
-{% for cat in categories %}
+{% for cat_info in site.data.categories %}
+  {% assign cat = cat_info.id %}
   {% assign cat_primary = lang_posts | where: "category", cat %}
   {% assign cat_cross   = lang_posts | where_exp: "item", "item.also_in contains cat" %}
   {% assign cat_posts   = cat_primary | concat: cat_cross | uniq | sort: "date" | reverse | slice: 0, 4 %}
   {% if cat_posts.size > 0 %}
   <section class="section category-section" data-category="{{ cat }}">
     <div class="section-header">
-      <div class="cat-dot cat-{{ cat }}"></div>
+      <div class="cat-dot" style="background:{{ cat_info.color | default: '#888' }}"></div>
       <h2 class="section-title">
-        {% if lang == 'ar' %}
-          {% if cat == 'gnutux-projects' %}مشاريع GNUTUX
-          {% elsif cat == 'foss' %}البرمجيات الحرة
-          {% elsif cat == 'gnulinux' %}غنو / لينكس
-          {% elsif cat == 'tech-news' %}أخبار التقنية
-          {% elsif cat == 'ai' %}الذكاء الاصطناعي
-          {% elsif cat == 'gaming' %}ألعاب لينكس
-          {% endif %}
-        {% else %}
-          {% if cat == 'gnutux-projects' %}GNUTUX Projects
-          {% elsif cat == 'foss' %}Free &amp; Open Source
-          {% elsif cat == 'gnulinux' %}GNU/Linux
-          {% elsif cat == 'tech-news' %}Tech News
-          {% elsif cat == 'ai' %}AI News
-          {% elsif cat == 'gaming' %}Linux Gaming
-          {% endif %}
-        {% endif %}
+        {% if lang == 'ar' %}{{ cat_info.name_ar }}{% else %}{{ cat_info.name_en }}{% endif %}
       </h2>
       <div class="section-line"></div>
       <a href="{{ site.baseurl }}/{{ lang }}/category/{{ cat }}/" class="see-all">

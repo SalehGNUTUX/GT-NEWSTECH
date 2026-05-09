@@ -6,15 +6,41 @@ const path     = require('path');
 const matter   = require('gray-matter');
 const multer   = require('multer');
 const sharp    = require('sharp');
+const yaml     = require('js-yaml');
 
 const app  = express();
 const PORT = 4001;
 
 // ── Paths ──────────────────────────────────────────────────────
 const ROOT       = path.join(__dirname, '..');
-const CATS       = ['gnutux-projects', 'foss', 'gnulinux', 'tech-news', 'ai'];
 const LANGS      = ['ar', 'en'];
-const IMG_EXTS   = /\.(jpg|jpeg|png|gif|webp|svg|avif|webp)$/i;
+const CATS_FILE  = path.join(ROOT, '_data', 'categories.yml');
+const IMG_EXTS   = /\.(jpg|jpeg|png|gif|webp|svg|avif)$/i;
+
+// ── Categories helpers ─────────────────────────────────────────
+function readCatsData() {
+  if (!fs.existsSync(CATS_FILE)) return [];
+  try { return yaml.load(fs.readFileSync(CATS_FILE, 'utf8')) || []; }
+  catch (_) { return []; }
+}
+
+function writeCatsData(cats) {
+  fs.mkdirSync(path.dirname(CATS_FILE), { recursive: true });
+  fs.writeFileSync(CATS_FILE, yaml.dump(cats, { allowUnicode: true, lineWidth: -1 }));
+}
+
+function getCatIds() {
+  const fromData = readCatsData().map(c => c.id);
+  // scan _ar/ for any folder not yet in data
+  const arDir = path.join(ROOT, '_ar');
+  if (fs.existsSync(arDir)) {
+    fs.readdirSync(arDir).forEach(d => {
+      if (fs.statSync(path.join(arDir, d)).isDirectory() && !fromData.includes(d))
+        fromData.push(d);
+    });
+  }
+  return fromData;
+}
 
 // ── Middleware ─────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
@@ -114,7 +140,7 @@ function readArticle(lang, cat, file) {
 function getAllArticles() {
   const list = [];
   for (const lang of LANGS) {
-    for (const cat of CATS) {
+    for (const cat of getCatIds()) {
       const dir = path.join(ROOT, `_${lang}`, cat);
       if (!fs.existsSync(dir)) continue;
       for (const file of fs.readdirSync(dir).filter(f => f.endsWith('.md'))) {
@@ -155,15 +181,69 @@ function buildFilename(date, slug) {
 
 /* Stats */
 app.get('/api/stats', (_req, res) => {
-  const all  = getAllArticles();
+  const all    = getAllArticles();
   const byLang = { ar: 0, en: 0 };
   const byCat  = {};
-  CATS.forEach(c => { byCat[c] = 0; });
   all.forEach(a => {
     byLang[a._lang] = (byLang[a._lang] || 0) + 1;
     byCat[a._cat]   = (byCat[a._cat]   || 0) + 1;
   });
   res.json({ total: all.length, byLang, byCat, recent: all.slice(0, 6) });
+});
+
+/* Categories — list */
+app.get('/api/categories', (_req, res) => {
+  const cats    = readCatsData();
+  const catIds  = getCatIds();
+  const all     = getAllArticles();
+
+  // أضف أقساماً موجودة على الدسك لكن غير مسجلة في data
+  catIds.forEach(id => {
+    if (!cats.find(c => c.id === id))
+      cats.push({ id, name_ar: id, name_en: id, icon: 'fa-solid fa-folder', color: '#888888' });
+  });
+
+  // إحصاءات لكل قسم
+  const result = cats.map(c => ({
+    ...c,
+    count_ar: all.filter(a => a._lang === 'ar' && a._cat === c.id).length,
+    count_en: all.filter(a => a._lang === 'en' && a._cat === c.id).length,
+  }));
+
+  res.json({ categories: result });
+});
+
+/* Categories — create */
+app.post('/api/categories', (req, res) => {
+  const { id, name_ar, name_en, icon, color } = req.body;
+
+  if (!id || !name_ar || !name_en)
+    return res.status(400).json({ error: 'id, name_ar, name_en مطلوبة' });
+  if (!/^[a-z0-9-]+$/.test(id))
+    return res.status(400).json({ error: 'id: أحرف لاتينية صغيرة وأرقام وشرطات فقط' });
+
+  const cats = readCatsData();
+  if (cats.find(c => c.id === id))
+    return res.status(409).json({ error: `القسم "${id}" موجود مسبقاً` });
+
+  // إنشاء مجلدات المقالات
+  fs.mkdirSync(path.join(ROOT, '_ar', id), { recursive: true });
+  fs.mkdirSync(path.join(ROOT, '_en', id), { recursive: true });
+
+  // إنشاء صفحات القسم
+  const arPage = `---\nlayout: category\nlang: ar\ncategory: ${id}\npermalink: /ar/category/${id}/\n---\n`;
+  const enPage = `---\nlayout: category\nlang: en\ncategory: ${id}\npermalink: /en/category/${id}/\n---\n`;
+  fs.mkdirSync(path.join(ROOT, 'ar', 'category'), { recursive: true });
+  fs.mkdirSync(path.join(ROOT, 'en', 'category'), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, 'ar', 'category', `${id}.html`), arPage);
+  fs.writeFileSync(path.join(ROOT, 'en', 'category', `${id}.html`), enPage);
+
+  // الإضافة إلى _data/categories.yml
+  const newCat = { id, name_ar, name_en, icon: icon || 'fa-solid fa-folder', color: color || '#888888' };
+  cats.push(newCat);
+  writeCatsData(cats);
+
+  res.json({ ok: true, category: newCat });
 });
 
 /* List articles */

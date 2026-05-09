@@ -4,43 +4,21 @@ layout: default
 
 <div class="category-page" lang="{{ page.lang }}" dir="{% if page.lang == 'en' %}ltr{% else %}rtl{% endif %}">
 
-  <!-- Category Header -->
-  <div class="cat-page-header cat-bg-{{ page.category }}">
+  <!-- Category Header — dynamic from _data/categories.yml -->
+  {% assign cat_data = site.data.categories | where: "id", page.category | first %}
+  {% assign cat_color = cat_data.color | default: "#888888" %}
+  <div class="cat-page-header" style="background: linear-gradient(135deg, {{ cat_color }}22, #0a0a0a); border: 1px solid {{ cat_color }}33;">
     <div class="cat-page-header-inner">
-      <div class="cat-icon-lg cat-{{ page.category }}">
-        {% if page.category == 'gnutux-projects' %}
-          <i class="fa-solid fa-terminal"></i>
-        {% elsif page.category == 'foss' %}
-          <i class="fa-solid fa-code"></i>
-        {% elsif page.category == 'gnulinux' %}
-          <i class="fa-brands fa-linux"></i>
-        {% elsif page.category == 'tech-news' %}
-          <i class="fa-solid fa-microchip"></i>
-        {% elsif page.category == 'ai' %}
-          <i class="fa-solid fa-robot"></i>
-        {% elsif page.category == 'gaming' %}
-          <i class="fa-solid fa-gamepad"></i>
-        {% endif %}
+      <div class="cat-icon-lg" style="background: {{ cat_color }}22; border: 1px solid {{ cat_color }}44;">
+        <i class="{{ cat_data.icon | default: 'fa-solid fa-folder' }}" style="color: {{ cat_color }}"></i>
       </div>
       <div>
         <p class="cat-page-super">{% if page.lang == 'en' %}Category{% else %}القسم{% endif %}</p>
         <h1 class="cat-page-title">
-          {% if page.lang == 'en' %}
-            {% if page.category == 'gnutux-projects' %}GNUTUX Projects
-            {% elsif page.category == 'foss' %}Free &amp; Open Source Software
-            {% elsif page.category == 'gnulinux' %}GNU/Linux News
-            {% elsif page.category == 'tech-news' %}Technology News
-            {% elsif page.category == 'ai' %}Artificial Intelligence
-            {% elsif page.category == 'gaming' %}Linux Gaming
-            {% endif %}
+          {% if cat_data %}
+            {% if page.lang == 'en' %}{{ cat_data.name_en }}{% else %}{{ cat_data.name_ar }}{% endif %}
           {% else %}
-            {% if page.category == 'gnutux-projects' %}مشاريع GNUTUX
-            {% elsif page.category == 'foss' %}البرمجيات الحرة والمفتوحة المصدر
-            {% elsif page.category == 'gnulinux' %}أخبار غنو/لينكس
-            {% elsif page.category == 'tech-news' %}أخبار التقنية
-            {% elsif page.category == 'ai' %}الذكاء الاصطناعي
-            {% elsif page.category == 'gaming' %}ألعاب غنو/لينكس
-            {% endif %}
+            {{ page.category }}
           {% endif %}
         </h1>
         <!-- Language switch for category -->

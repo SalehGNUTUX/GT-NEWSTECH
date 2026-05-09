@@ -2,7 +2,9 @@
 {% assign size = include.size | default: "normal" %}
 
 {% comment %} مساعد لترجمة اسم القسم {% endcomment %}
-{% capture cat_label %}{% if post.lang == 'en' %}{% if post.category == 'gnutux-projects' %}GNUTUX{% elsif post.category == 'foss' %}FOSS{% elsif post.category == 'gnulinux' %}GNU/Linux{% elsif post.category == 'tech-news' %}Tech{% elsif post.category == 'ai' %}AI{% elsif post.category == 'gaming' %}Gaming{% endif %}{% else %}{% if post.category == 'gnutux-projects' %}GNUTUX{% elsif post.category == 'foss' %}حرة{% elsif post.category == 'gnulinux' %}لينكس{% elsif post.category == 'tech-news' %}تقنية{% elsif post.category == 'ai' %}ذكاء{% elsif post.category == 'gaming' %}ألعاب{% endif %}{% endif %}{% endcapture %}
+{% assign _cd = site.data.categories | where: "id", post.category | first %}
+{% if post.lang == 'en' %}{% assign cat_label = _cd.name_en | default: post.category %}{% else %}{% assign cat_label = _cd.name_ar | default: post.category %}{% endif %}
+{% assign _cc = _cd.color | default: "#888888" %}
 
 <article class="article-card article-card--{{ size }}" data-category="{{ post.category }}">
   <a href="{{ post.url | relative_url }}" class="card-link">
@@ -21,8 +23,8 @@
       </div>
       {% endif %}
 
-      <!-- شارة القسم الرئيسي -->
-      <span class="card-cat-badge cat-{{ post.category }}">{{ cat_label }}</span>
+      <!-- شارة القسم الرئيسي — لون ديناميكي -->
+      <span class="card-cat-badge" style="background:{{ _cc }};color:#000">{{ cat_label }}</span>
 
       <!-- شارات الأقسام الإضافية (also_in) -->
       {% if post.also_in %}

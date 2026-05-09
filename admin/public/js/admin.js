@@ -11,13 +11,18 @@ const S = {
   articles: [],
 };
 
-const CATS = {
-  'gnutux-projects': { ar:'مشاريع GNUTUX', en:'GNUTUX Projects', icon:'fa-terminal',   cc:'gnutux-projects' },
-  'foss':            { ar:'البرمجيات الحرة', en:'FOSS',          icon:'fa-code',       cc:'foss' },
-  'gnulinux':        { ar:'غنو/لينكس',      en:'GNU/Linux',      icon:'fa-linux',      cc:'gnulinux',  brand:true },
-  'tech-news':       { ar:'أخبار التقنية',  en:'Tech News',      icon:'fa-microchip',  cc:'tech-news' },
-  'ai':              { ar:'الذكاء الاصطناعي',en:'AI News',       icon:'fa-robot',      cc:'ai' },
-};
+/* CATS يُحمَّل ديناميكياً من /api/categories عند بدء التشغيل */
+let CATS = {};
+
+async function loadCats() {
+  try {
+    const d = await api('/api/categories');
+    CATS = {};
+    (d.categories || []).forEach(c => {
+      CATS[c.id] = { ar: c.name_ar, en: c.name_en, icon: c.icon, color: c.color };
+    });
+  } catch (_) {}
+}
 
 // ── Utils ──────────────────────────────────────────────────────
 const $  = id => document.getElementById(id);
@@ -35,8 +40,9 @@ async function api(url, opts={}) {
 }
 
 function catBadge(cat, small=false) {
-  const info = CATS[cat] || {};
-  return `<span class="r-cat cc-${cat}" style="${small?'font-size:.6rem':''}">${info.ar||cat}</span>`;
+  const info  = CATS[cat] || {};
+  const color = info.color || '#888';
+  return `<span class="r-cat" style="background:${color};color:#000;${small?'font-size:.6rem':''}">${info.ar||cat}</span>`;
 }
 
 function fmt(kb) {
@@ -49,7 +55,7 @@ function fmt(kb) {
 function navigate(page) {
   S.page = page;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page));
-  const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', git:'Git / نشر', config:'الإعدادات' };
+  const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', git:'Git / نشر', config:'الإعدادات' };
   $('topbarTitle').textContent = titles[page] || page;
   renderPage(page);
 }
@@ -64,6 +70,7 @@ async function renderPage(page) {
   if (page === 'articles')     return renderArticles(c);
   if (page === 'new-article')  { openEditor(null); return renderArticles(c); }
   if (page === 'images')       return renderImages(c);
+  if (page === 'categories')   return renderCategories(c);
   if (page === 'git')          return renderGit(c);
   if (page === 'config')       return renderConfig(c);
 }
@@ -246,6 +253,136 @@ window.deleteImage = async (lang, name) => {
   await api(`/api/images/${lang}/${name}`, {method:'DELETE'});
   toast('تم حذف الصورة', 'success');
   await loadImages();
+};
+
+// Categories ────────────────────────────────────────────────────
+const CAT_ICONS = [
+  'fa-solid fa-folder','fa-solid fa-terminal','fa-solid fa-code',
+  'fa-brands fa-linux','fa-solid fa-microchip','fa-solid fa-robot',
+  'fa-solid fa-gamepad','fa-solid fa-newspaper','fa-solid fa-book',
+  'fa-solid fa-camera','fa-solid fa-music','fa-solid fa-globe',
+  'fa-solid fa-shield-halved','fa-solid fa-bolt','fa-solid fa-star',
+  'fa-solid fa-flask','fa-solid fa-laptop','fa-solid fa-mobile-screen',
+  'fa-solid fa-cloud','fa-solid fa-database','fa-solid fa-network-wired',
+  'fa-solid fa-lock','fa-solid fa-palette','fa-solid fa-chart-line',
+];
+
+async function renderCategories(c) {
+  await loadCats();
+  const d = await api('/api/categories');
+  const cats = d.categories || [];
+
+  c.innerHTML = `
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header">
+      <i class="fa-solid fa-layer-group" style="color:var(--gold)"></i>
+      <h3>الأقسام الحالية</h3>
+      <span style="margin-right:auto;font-size:.78rem;color:var(--muted)">${cats.length} قسم</span>
+    </div>
+    <div class="card-body" style="padding:0">
+      <div class="cats-grid">
+        ${cats.map(cat => `
+        <div class="cat-card" style="border-color:${cat.color}33">
+          <div class="cat-card-icon" style="background:${cat.color}22;color:${cat.color}">
+            <i class="${cat.icon || 'fa-solid fa-folder'}"></i>
+          </div>
+          <div class="cat-card-info">
+            <div class="cat-card-id" dir="ltr">${cat.id}</div>
+            <div class="cat-card-names">${cat.name_ar} / ${cat.name_en}</div>
+            <div class="cat-card-stats">
+              <span><i class="fa-solid fa-language" style="color:#888"></i> AR: ${cat.count_ar} · EN: ${cat.count_en}</span>
+            </div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- New category form -->
+  <div class="card">
+    <div class="card-header">
+      <i class="fa-solid fa-plus-circle" style="color:var(--gold)"></i>
+      <h3>إنشاء قسم جديد</h3>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>معرّف القسم (ID) <span class="req">*</span> <small>latin-lowercase-hyphens</small></label>
+          <input type="text" id="ncId" placeholder="my-new-category" dir="ltr" pattern="[a-z0-9-]+">
+        </div>
+        <div class="form-group">
+          <label>الاسم بالعربية <span class="req">*</span></label>
+          <input type="text" id="ncNameAr" placeholder="قسم جديد">
+        </div>
+        <div class="form-group">
+          <label>الاسم بالإنجليزية <span class="req">*</span></label>
+          <input type="text" id="ncNameEn" placeholder="New Category" dir="ltr">
+        </div>
+        <div class="form-group">
+          <label>اللون</label>
+          <div style="display:flex;gap:.5rem;align-items:center">
+            <input type="color" id="ncColor" value="#0ea5e9" style="width:48px;height:36px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:none;padding:2px">
+            <div class="color-palette" id="colorPalette">
+              ${['#d4a017','#2ea043','#e95420','#0969da','#8957e5','#7c3aed','#0ea5e9','#ec4899','#f97316','#14b8a6'].map(c=>`
+              <button class="color-dot" style="background:${c}" onclick="$('ncColor').value='${c}'" title="${c}"></button>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="form-group fg-full">
+          <label>الأيقونة (Font Awesome)</label>
+          <div class="icon-picker" id="iconPicker">
+            ${CAT_ICONS.map(ic => `<button class="icon-opt" data-icon="${ic}" onclick="selectCatIcon('${ic}')" title="${ic}"><i class="${ic}"></i></button>`).join('')}
+          </div>
+          <input type="hidden" id="ncIcon" value="fa-solid fa-folder">
+          <div style="margin-top:.4rem;font-size:.78rem;color:var(--muted)">الأيقونة المختارة: <span id="ncIconPreview"><i class="fa-solid fa-folder"></i> fa-solid fa-folder</span></div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:.75rem">
+        <button class="btn btn-gold" onclick="createCategory()">
+          <i class="fa-solid fa-plus"></i> إنشاء القسم
+        </button>
+        <div id="ncResult" style="font-size:.85rem;padding:.5rem 0;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+window.selectCatIcon = function(icon) {
+  $('ncIcon').value = icon;
+  $('ncIconPreview').innerHTML = `<i class="${icon}"></i> ${icon}`;
+  document.querySelectorAll('.icon-opt').forEach(b => b.classList.toggle('active', b.dataset.icon === icon));
+};
+
+window.createCategory = async function() {
+  const id      = $('ncId')?.value.trim();
+  const name_ar = $('ncNameAr')?.value.trim();
+  const name_en = $('ncNameEn')?.value.trim();
+  const color   = $('ncColor')?.value || '#888888';
+  const icon    = $('ncIcon')?.value  || 'fa-solid fa-folder';
+  const result  = $('ncResult');
+
+  if (!id || !name_ar || !name_en) {
+    result.innerHTML = '<span style="color:var(--danger)">يرجى ملء الحقول الإلزامية.</span>';
+    return;
+  }
+  if (!/^[a-z0-9-]+$/.test(id)) {
+    result.innerHTML = '<span style="color:var(--danger)">ID: أحرف لاتينية صغيرة وأرقام وشرطات فقط.</span>';
+    return;
+  }
+
+  result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإنشاء...';
+  const d = await api('/api/categories', {
+    method: 'POST',
+    body: JSON.stringify({ id, name_ar, name_en, icon, color })
+  });
+
+  if (d.ok) {
+    toast(`✓ تم إنشاء قسم "${name_ar}"`, 'success');
+    await loadCats();
+    renderCategories($('content'));
+  } else {
+    result.innerHTML = `<span style="color:var(--danger)">خطأ: ${d.error}</span>`;
+  }
 };
 
 // Git ───────────────────────────────────────────────────────────
@@ -742,4 +879,13 @@ $('sidebarToggle').addEventListener('click', () => {
 });
 
 // ── Init ───────────────────────────────────────────────────────
-navigate(location.hash.slice(1) || 'dashboard');
+/* تحميل الأقسام ديناميكياً ثم تهيئة الصفحة */
+loadCats().then(() => {
+  /* تحديث قائمة الأقسام في محرر المقال */
+  const sel = $('fCategory');
+  if (sel && Object.keys(CATS).length) {
+    sel.innerHTML = Object.entries(CATS)
+      .map(([id, c]) => `<option value="${id}">${c.ar}</option>`).join('');
+  }
+  navigate(location.hash.slice(1) || 'dashboard');
+});
