@@ -5,6 +5,7 @@ const fs       = require('fs');
 const path     = require('path');
 const matter   = require('gray-matter');
 const multer   = require('multer');
+const sharp    = require('sharp');
 
 const app  = express();
 const PORT = 4001;
@@ -23,27 +24,66 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/site-images', express.static(path.join(ROOT, 'assets', 'images')));
 app.use('/site-icons',  express.static(path.join(ROOT, 'assets', 'icons')));
 
-// ── Multer (image uploads) ─────────────────────────────────────
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    const lang = req.params.lang;
-    const dir  = path.join(ROOT, 'assets', 'images', lang);
-    fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename(req, file, cb) {
-    const ext  = path.extname(file.originalname).toLowerCase();
-    const base = path.basename(file.originalname, path.extname(file.originalname));
-    /* يحتفظ فقط بالأحرف اللاتينية والأرقام والنقطة والشرطة */
-    const safe = base.replace(/[^a-zA-Z0-9._-]/g, '-')
-                     .replace(/-{2,}/g, '-')   /* شرطات متتالية → شرطة واحدة */
-                     .replace(/^-+|-+$/g, '')   /* إزالة الشرطة من البداية والنهاية */
-                     .toLowerCase()
-                     + ext;
-    cb(null, safe || 'image' + ext);
+// ── Multer — memory storage (نحوّل الصورة بعد الرفع) ──────────
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
+
+// ── Image helpers ──────────────────────────────────────────────
+const JPEG_EXTS = /\.(jpg|jpeg)$/i;
+
+/** تعقيم اسم الملف وإزالة الامتداد */
+function sanitizeBasename(original) {
+  const ext  = path.extname(original).toLowerCase();
+  const base = path.basename(original, ext);
+  return base
+    .replace(/[^a-zA-Z0-9._-]/g, '-')
+    .replace(/-{2,}/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase() || 'image';
+}
+
+/**
+ * يحوّل buffer أي صورة إلى JPEG ويحفظها
+ * القيمة المُعادة: اسم الملف المحفوظ
+ */
+async function saveAsJpeg(buffer, mimeType, baseName, destDir) {
+  fs.mkdirSync(destDir, { recursive: true });
+  const filename = baseName + '.jpg';
+  const dest     = path.join(destDir, filename);
+
+  /* SVG: sharp يحتاج density لتحديد الدقة */
+  const isSvg = mimeType === 'image/svg+xml';
+  const pipe   = isSvg
+    ? sharp(buffer, { density: 150 })
+    : sharp(buffer);
+
+  await pipe
+    .jpeg({ quality: 88, mozjpeg: true })
+    .toFile(dest);
+
+  return filename;
+}
+
+/**
+ * يحوّل ملف مسار إلى JPEG ويحفظه
+ */
+async function fileToJpeg(sourcePath, baseName, destDir) {
+  fs.mkdirSync(destDir, { recursive: true });
+  const filename = baseName + '.jpg';
+  const dest     = path.join(destDir, filename);
+
+  if (JPEG_EXTS.test(sourcePath)) {
+    /* JPEG بالفعل → نسخ مباشر */
+    fs.copyFileSync(sourcePath, dest);
+  } else {
+    const isSvg = sourcePath.toLowerCase().endsWith('.svg');
+    const pipe   = isSvg
+      ? sharp(sourcePath, { density: 150 })
+      : sharp(sourcePath);
+    await pipe.jpeg({ quality: 88, mozjpeg: true }).toFile(dest);
   }
-});
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
+
+  return filename;
+}
 
 // ── Helpers ────────────────────────────────────────────────────
 function readArticle(lang, cat, file) {
@@ -171,12 +211,28 @@ app.get('/api/images', (req, res) => {
   res.json([...getImages('ar'), ...getImages('en')]);
 });
 
-/* Upload image */
-app.post('/api/images/:lang', upload.array('files', 20), (req, res) => {
-  const uploaded = (req.files || []).map(f => ({
-    name: f.filename, lang: req.params.lang,
-    url: `/site-images/${req.params.lang}/${f.filename}`, size: f.size
-  }));
+/* Upload image — تحويل تلقائي إلى JPEG */
+app.post('/api/images/:lang', upload.array('files', 20), async (req, res) => {
+  const lang     = req.params.lang;
+  const uploaded = [];
+
+  for (const file of req.files || []) {
+    try {
+      const baseName  = sanitizeBasename(file.originalname);
+      const destDir   = path.join(ROOT, 'assets', 'images', lang);
+      const wasJpeg   = JPEG_EXTS.test(file.originalname);
+      const filename  = await saveAsJpeg(file.buffer, file.mimetype, baseName, destDir);
+      const size      = fs.statSync(path.join(destDir, filename)).size;
+      uploaded.push({
+        name: filename, lang,
+        url: `/site-images/${lang}/${filename}`,
+        size,
+        converted: !wasJpeg
+      });
+    } catch (err) {
+      return res.status(500).json({ error: 'فشل التحويل: ' + err.message });
+    }
+  }
   res.json({ ok: true, uploaded });
 });
 
@@ -188,35 +244,30 @@ app.delete('/api/images/:lang/:name', (req, res) => {
   res.json({ ok: true });
 });
 
-/* Import image from filesystem path → copy to assets/images/lang */
-app.post('/api/images/import', (req, res) => {
+/* Import image from filesystem path — تحويل تلقائي إلى JPEG */
+app.post('/api/images/import', async (req, res) => {
   const { sourcePath, langs } = req.body;
-  // langs: 'ar' | 'en' | 'both'
   if (!sourcePath || !langs) return res.status(400).json({ error: 'sourcePath and langs required' });
   if (!fs.existsSync(sourcePath)) return res.status(404).json({ error: 'Source file not found: ' + sourcePath });
+  if (!IMG_EXTS.test(sourcePath)) return res.status(400).json({ error: 'صيغة غير مدعومة' });
 
-  const ext      = path.extname(sourcePath).toLowerCase();
-  if (!IMG_EXTS.test(sourcePath)) return res.status(400).json({ error: 'Not a supported image format' });
+  const baseName = sanitizeBasename(path.basename(sourcePath));
+  const wasJpeg  = JPEG_EXTS.test(sourcePath);
+  const targets  = langs === 'both' ? ['ar', 'en'] : [langs];
+  const copied   = [];
 
-  const basename = path.basename(sourcePath, ext);
-  const filename = basename
-    .replace(/[^a-zA-Z0-9._-]/g, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .toLowerCase() + ext || 'image' + ext;
-
-  const targets = langs === 'both' ? ['ar', 'en'] : [langs];
-  const copied  = [];
-
-  for (const lang of targets) {
-    const dir  = path.join(ROOT, 'assets', 'images', lang);
-    fs.mkdirSync(dir, { recursive: true });
-    const dest = path.join(dir, filename);
-    fs.copyFileSync(sourcePath, dest);
-    copied.push({ lang, filename, url: `/site-images/${lang}/${filename}` });
+  try {
+    for (const lang of targets) {
+      const destDir  = path.join(ROOT, 'assets', 'images', lang);
+      const filename = await fileToJpeg(sourcePath, baseName, destDir);
+      copied.push({ lang, filename, url: `/site-images/${lang}/${filename}` });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: 'فشل التحويل: ' + err.message });
   }
 
-  res.json({ ok: true, filename, copied });
+  const filename  = copied[0]?.filename;
+  res.json({ ok: true, filename, copied, converted: !wasJpeg });
 });
 
 /* Config */

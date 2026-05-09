@@ -225,11 +225,17 @@ async function loadImages() {
 
 async function uploadImages(files) {
   if(!files?.length) return;
+  toast('جاري الرفع والمعالجة...', 'info');
   const fd = new FormData();
   Array.from(files).forEach(f => fd.append('files', f));
   const r = await fetch(`/api/images/${S.langFilter}`, { method:'POST', body:fd });
   const d = await r.json();
-  toast(`تم رفع ${d.uploaded?.length||0} صورة`, 'success');
+  if(!d.ok) { toast('خطأ: '+(d.error||'فشل الرفع'), 'error'); return; }
+  const converted = (d.uploaded||[]).filter(u => u.converted).length;
+  const msg = converted
+    ? `✓ تم رفع ${d.uploaded.length} صورة (${converted} تم تحويلها إلى JPEG)`
+    : `✓ تم رفع ${d.uploaded?.length||0} صورة`;
+  toast(msg, 'success');
   await loadImages();
 }
 
@@ -677,10 +683,12 @@ $('importImageBtn').addEventListener('click', async function() {
       if (d.uploaded) allUploaded = allUploaded.concat(d.uploaded);
     }
     if (allUploaded.length) {
-      const name = allUploaded[0].name;
+      const name      = allUploaded[0].name;
+      const converted = allUploaded.some(u => u.converted);
+      const note      = converted ? ' <span style="color:#f0c040;font-size:.75rem">(تم التحويل إلى JPEG)</span>' : '';
       resultEl.className = 'import-result success';
-      resultEl.innerHTML = `✓ تم نسخ <strong>${name}</strong> إلى: ${langs.join(', ')}
-        <button class="btn btn-sm" style="margin-right:.5rem" onclick="selectImage('${name}')">
+      resultEl.innerHTML = `✓ تم الرفع: <strong>${name}</strong> → ${langs.join(', ')} ${note}
+        <br><button class="btn btn-sm" style="margin-top:.4rem" onclick="selectImage('${name}')">
           <i class="fa-solid fa-check"></i> اختر هذه الصورة
         </button>`;
       resultEl.removeAttribute('hidden');
@@ -691,16 +699,17 @@ $('importImageBtn').addEventListener('click', async function() {
     return;
   }
 
-  /* إذا كتب مساراً نصياً → إرسال للخادم ليقوم بالنسخ */
+  /* إذا كتب مساراً نصياً → الخادم يقوم بالتحويل والنسخ */
   const d = await api('/api/images/import', {
     method: 'POST',
     body: JSON.stringify({ sourcePath: pathVal, langs: dest })
   });
 
   if (d.ok) {
+    const note = d.converted ? ' <span style="color:#f0c040;font-size:.75rem">(تم التحويل إلى JPEG)</span>' : '';
     resultEl.className = 'import-result success';
-    resultEl.innerHTML = `✓ تم نسخ <strong>${d.filename}</strong> إلى: ${d.copied.map(c=>c.lang).join(', ')}
-      <button class="btn btn-sm" style="margin-right:.5rem" onclick="selectImage('${d.filename}')">
+    resultEl.innerHTML = `✓ تم الاستيراد: <strong>${d.filename}</strong> → ${d.copied.map(c=>c.lang).join(', ')} ${note}
+      <br><button class="btn btn-sm" style="margin-top:.4rem" onclick="selectImage('${d.filename}')">
         <i class="fa-solid fa-check"></i> اختر هذه الصورة
       </button>`;
     resultEl.removeAttribute('hidden');
