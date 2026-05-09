@@ -81,6 +81,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  /* منع التمرير الأفقي على مستوى الصفحة كاملة */
+  overflow-x: hidden;
 }
 
 body {
@@ -92,6 +94,10 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* كسر الكلمات الطويلة التي تتجاوز عرض الشاشة */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  overflow-x: hidden;
 }
 
 body.lang-en {
@@ -954,13 +960,22 @@ ul { list-style: none; }
   margin: 1.5rem 0 0.6rem;
 }
 
-.post-body p { margin-bottom: 1.25rem; }
+.post-body p {
+  margin-bottom: 1.25rem;
+  /* كسر الكلمات الطويلة والروابط تلقائياً */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
 
 .post-body a {
   color: var(--gold);
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 3px;
+  /* الروابط الطويلة لا تكسر التخطيط */
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .post-body a:hover { text-decoration-style: solid; }
@@ -973,6 +988,7 @@ ul { list-style: none; }
   margin: 1.5rem 0;
   color: var(--text-muted);
   font-style: italic;
+  overflow-wrap: break-word;
 }
 
 .post-body code {
@@ -983,15 +999,23 @@ ul { list-style: none; }
   padding: 0.1em 0.4em;
   border-radius: 3px;
   color: var(--gold);
+  /* كود مضمّن: يكسر عند الضرورة */
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
+/* كتلة الكود: قابلة للتمرير أفقياً (لا تكسر الكود) */
 .post-body pre {
   background: #0d0d0d;
   border: 1px solid #222;
   border-radius: var(--radius);
   padding: 1.25rem;
   overflow-x: auto;
+  overflow-y: hidden;
   margin: 1.5rem 0;
+  /* منع تمدد الكود خارج الحاوية */
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .post-body pre code {
@@ -1000,6 +1024,10 @@ ul { list-style: none; }
   padding: 0;
   color: #e8e0d0;
   font-size: 0.9rem;
+  /* لا نكسر سطور الكود — نتركها تُمرَّر */
+  word-break: normal;
+  overflow-wrap: normal;
+  white-space: pre;
 }
 
 .post-body ul, .post-body ol {
@@ -1010,19 +1038,33 @@ ul { list-style: none; }
 .post-body ul { list-style: disc; }
 .post-body ol { list-style: decimal; }
 
-.post-body li { margin-bottom: 0.5rem; }
+.post-body li {
+  margin-bottom: 0.5rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 
 .post-body img {
   border-radius: var(--radius);
   margin: 1.5rem auto;
   box-shadow: var(--shadow-md);
+  /* الصور لا تتجاوز عرض المقال أبداً */
+  max-width: 100%;
+  height: auto;
 }
 
+/* الجداول: تُمرَّر أفقياً على الموبايل */
 .post-body table {
+  /* لف الجدول في div قابل للتمرير عبر JS أو ندعمه هنا */
+  display: block;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   margin: 1.5rem 0;
   font-size: 0.9rem;
+  /* حد أدنى لعرض الجدول حتى يكون قابلاً للقراءة */
+  min-width: 400px;
 }
 
 .post-body th {
@@ -1031,14 +1073,34 @@ ul { list-style: none; }
   padding: 0.6rem 0.9rem;
   text-align: start;
   border-bottom: 2px solid var(--gold-dim);
+  white-space: nowrap;
 }
 
 .post-body td {
   padding: 0.55rem 0.9rem;
   border-bottom: 1px solid var(--border);
+  /* النصوص في الخلايا تكسر عند الحاجة */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 80px;
 }
 
 .post-body tr:hover td { background: var(--gold-subtle); }
+
+/* غلاف الجدول — يُظهر شريط تمرير أنيق */
+.post-body .table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.5rem 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.post-body .table-wrap table {
+  margin: 0;
+  min-width: auto;
+  border: none;
+}
 
 /* Tags */
 .post-tags {
@@ -1508,13 +1570,28 @@ ul { list-style: none; }
 
 .static-page-body ul { list-style: disc; }
 .static-page-body ol { list-style: decimal; }
-.static-page-body li { margin-bottom: 0.4rem; }
+.static-page-body li {
+  margin-bottom: 0.4rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.static-page-body p,
+.static-page-body h2,
+.static-page-body h3 {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 
 .static-page-body table {
+  display: block;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   margin: 1rem 0;
   font-size: 0.9rem;
+  min-width: 360px;
 }
 
 .static-page-body th {
@@ -1523,11 +1600,14 @@ ul { list-style: none; }
   padding: 0.6rem 0.9rem;
   text-align: start;
   border-bottom: 2px solid var(--gold-dim);
+  white-space: nowrap;
 }
 
 .static-page-body td {
   padding: 0.5rem 0.9rem;
   border-bottom: 1px solid var(--border);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .static-page-body code {
@@ -1899,6 +1979,47 @@ ul { list-style: none; }
   .article-card--normal .card-image { width: 90px; }
   .cat-page-title       { font-size: 1.1rem; }
   .post-title           { font-size: 1.2rem; }
+}
+
+/* ── منع التمرير الأفقي العام على الموبايل ───────────────────── */
+@media (max-width: 768px) {
+  /* كل العناصر لا تتجاوز عرض الشاشة */
+  img, video, iframe, embed, object { max-width: 100%; height: auto; }
+
+  /* الحاوية الرئيسية */
+  .site-main, .container,
+  .post-content-wrap, .post-body,
+  .static-page-body, .card-body { max-width: 100%; }
+
+  /* النصوص في المقالات */
+  .post-body, .static-page-body {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+
+  /* الكود يُمرَّر أفقياً داخل حاويته فقط */
+  .post-body pre, .static-page-body pre {
+    max-width: calc(100vw - 2rem);
+    margin-inline: 0;
+  }
+
+  /* الجداول قابلة للتمرير أفقياً */
+  .post-body table, .static-page-body table {
+    max-width: calc(100vw - 2rem);
+  }
+
+  /* منع أي عنصر من إحداث overflow */
+  * { max-width: 100%; }
+
+  /* استثناء: الصور ذات العرض المحدد في HTML تحترم max-width */
+  img[width] { width: 100% !important; height: auto !important; }
+
+  /* العناوين الطويلة */
+  h1, h2, h3, h4, h5 {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 }
 
 /* ── Print ───────────────────────────────────────────────────── */
