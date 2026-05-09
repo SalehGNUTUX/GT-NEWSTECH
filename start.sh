@@ -19,6 +19,12 @@ trap cleanup INT TERM
 export GEM_HOME="${GEM_HOME:-$HOME/.local/gems}"
 export PATH="$GEM_HOME/bin:$PATH"
 
+# ── إنشاء _config.local.yml إذا لم يكن موجوداً ───────────────
+if [ ! -f "$DIR/_config.local.yml" ]; then
+  printf 'baseurl: ""\nurl: "http://localhost:4000"\n' > "$DIR/_config.local.yml"
+  echo -e "${GOLD}تم إنشاء _config.local.yml${NC}"
+fi
+
 # ── التحقق من Ruby ────────────────────────────────────────────
 if ! command -v ruby &>/dev/null; then
   echo -e "${GOLD}تثبيت Ruby...${NC}"

@@ -34,6 +34,11 @@ fi
 export GEM_HOME="${GEM_HOME:-$HOME/.local/gems}"
 export PATH="$GEM_HOME/bin:$PATH"
 
+# إنشاء _config.local.yml إذا لم يكن موجوداً
+if [ ! -f "$SCRIPT_DIR/_config.local.yml" ]; then
+  printf 'baseurl: ""\nurl: "http://localhost:4000"\n' > "$SCRIPT_DIR/_config.local.yml"
+fi
+
 # ── تحقق من Bundler ───────────────────────────────────────────
 if ! command -v bundle &>/dev/null; then
   echo -e "${GOLD}جاري تثبيت Bundler...${NC}"
