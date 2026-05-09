@@ -1,14 +1,19 @@
 ---
 layout: post
-title: "ARM Chips Now Hold 35% of the Global Laptop Market in 2026"
-date: 2026-05-05
-category: tech-news
-lang: en
+title: ARM Chips Now Hold 35% of the Global Laptop Market in 2026
 slug: arm-chips-laptop-market-2026
+lang: en
+category: tech-news
+date: '2026-05-05'
 author: GNUTUX
-tags: [ARM, chips, hardware, tech market]
-also_in: [gnulinux]
-excerpt: "IDC figures show ARM chips now command 35% of the global laptop market, driven by Apple Silicon success and Qualcomm Snapdragon X Elite."
+excerpt: >-
+  IDC figures show ARM chips now command 35% of the global laptop market, driven
+  by Apple Silicon success and Qualcomm Snapdragon X Elite.
+tags:
+  - ARM
+  - chips
+  - hardware
+  - tech market
 ---
 
 ## ARM Reshaping the PC Landscape

@@ -1,43 +1,53 @@
 ---
 layout: post
-title: "LibreOffice 24.8: What's New in the Leading Open-Source Office Suite?"
-date: 2026-05-07
-category: foss
+title: >-
+  LibreOffice 26.2.3: What's New in the Popular Open-Source Alternative to
+  Microsoft Office?
+slug: libreoffice-2623-release
 lang: en
-slug: libreoffice-248-release
+category: foss
+date: '2026-05-09'
 author: GNUTUX
-tags: [LibreOffice, FOSS, productivity, open-source]
-excerpt: "The Document Foundation released LibreOffice 24.8 with significant performance improvements and better Microsoft Office format compatibility."
+excerpt: >-
+  The Document Foundation released LibreOffice 26.2.3 with significant
+  performance improvements and better compatibility with Microsoft Office
+  formats.
+image: libreoffice-2623-release.jpg
+tags:
+  - LibreOffice
+  - FOSS
+  - Productivity
+  - Open Source
 ---
 
-## LibreOffice 24.8 — Highlights
+## LibreOffice 26.2.3 — Key Highlights
 
-**The Document Foundation** has released the latest version of the LibreOffice open-source office suite, bringing notable performance and compatibility improvements.
+**The Document Foundation** has released a new version of the open-source LibreOffice suite, bringing notable improvements in performance and compatibility.
 
 ## Key Improvements
 
-### Writer Enhancements
-- Large document loading up to 40% faster
-- Improved `.docx` round-trip fidelity
-- New voice dictation tool
+### Writer Improvements
+- 40% faster loading of large files
+- Enhanced `.docx` support with better formatting preservation
+- New speech-to-text tool
 
-### Calc Enhancements
-- Faster processing for large spreadsheets
+### Calc Improvements
+- Faster processing of large spreadsheets
 - New statistical functions compatible with Excel
 - Improved chart rendering
 
-### Impress Enhancements
-- Modern new templates
+### Impress Improvements
+- New modern templates
 - Advanced slide transition support
 
-## Platform Support
+## System Compatibility
 
 LibreOffice is available on:
-- **Linux**: via distro repos or Flatpak
+- **Linux**: via distribution repositories or Flatpak
 - **Windows**: MSI or winget
 - **macOS**: DMG
 
-## Installation
+## Download
 
 ```bash
 # Ubuntu/Debian
@@ -46,3 +56,6 @@ sudo apt install libreoffice
 # Flatpak
 flatpak install flathub org.libreoffice.LibreOffice
 ```
+
+Download LibreOffice 26.2.3:  
+[https://www.libreoffice.org/download/](https://www.libreoffice.org/download/)

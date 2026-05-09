@@ -1,42 +1,59 @@
 ---
 layout: post
-title: "Ubuntu 25.04 Plucky Puffin: What's New and Improved"
-date: 2026-05-06
-category: gnulinux
+title: 'Ubuntu 26.04 Noble Numbat: What''s New and Improvements'
+slug: ubuntu-2604-noble-numbat
 lang: en
-slug: ubuntu-2504-plucky-puffin
+category: gnulinux
+date: '2026-05-09'
 author: GNUTUX
-tags: [Ubuntu, linux, distros, GNOME]
-excerpt: "Canonical released Ubuntu 25.04 codenamed Plucky Puffin, featuring GNOME 48, Linux 6.14, and improved hardware support."
+excerpt: >-
+  Canonical released Ubuntu 26.04 LTS codenamed Noble Numbat with improvements
+  in GNOME 50 and modern hardware support.
+image: ubuntu-2604-noble-numbat.avif
+tags:
+  - Ubuntu
+  - Linux
+  - Distributions
+  - GNOME
+  - LTS
 ---
 
-## Ubuntu 25.04 Plucky Puffin
+## Ubuntu 26.04 Noble Numbat
 
-**Canonical** has released the new Ubuntu version codenamed **Plucky Puffin**, upgrading to GNOME 48 and including substantial performance improvements.
+**Canonical** has released the new version of the Ubuntu distribution, codenamed **Noble Numbat**, which is a **Long Term Support (LTS)** release featuring GNOME 50 and significant performance and cloud integration improvements.
 
-## Highlights
+## Key Highlights
 
 ### Desktop Environment
-- **GNOME 48** with notable performance gains
-- New smarter notification center
-- Improved HiDPI display support
+- **GNOME 50** with noticeable performance improvements and faster UI acceleration
+- Smarter notification panel with messaging integration
+- Enhanced HiDPI support and fully default Wayland
+- Improved remote session and multi-touch support
 
-### Kernel & Hardware
-- **Linux Kernel 6.14** with broad modern hardware support
-- Improved AMD RDNA 4 GPU support
-- Better Snapdragon device compatibility
+### Kernel and Hardware
+- **Linux Kernel 6.20** with broad support for modern devices
+- Enhanced support for AMD RDNA 5 and next-gen Intel graphics
+- Better Snapdragon and full ARM64 support
+- Improved power management on modern laptops
 
-### Developer Toolchain
-- Python 3.13 by default
-- GCC 14.2
-- Updated comprehensive toolchain
+### Developers
+- Python 3.15 by default
+- GCC 14.3 and updated Rust
+- Comprehensive toolchain updates with better container support
 
 ## Support Cycle
 
-Ubuntu 25.04 is a **non-LTS** release with 9 months of support until January 2026.
+Ubuntu 26.04 is an **LTS** release with 5 years of support until April 2031, with optional commercial extension to 10 years via Ubuntu Pro.
+
+## Links
+
+- Official Download: [https://ubuntu.com/download](https://ubuntu.com/download)
+- Release Announcement: [https://discourse.ubuntu.com/t/ubuntu-26-04-release-notes](https://discourse.ubuntu.com/t/ubuntu-26-04-release-notes)
 
 ## Upgrade
 
 ```bash
-sudo do-release-upgrade -d
+sudo do-release-upgrade
 ```
+
+Note: Upgrade is available directly from Ubuntu 24.04 LTS and 25.10.
