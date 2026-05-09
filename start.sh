@@ -1,26 +1,51 @@
 #!/usr/bin/env bash
 # GT-NEWSTECH — تشغيل الموقع ولوحة التحكم معاً
-# الاستخدام: bash start.sh
 
-set -e
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-GOLD='\033[0;33m'; GREEN='\033[0;32m'; CYAN='\033[0;36m'
-BOLD='\033[1m'; NC='\033[0m'
+GOLD='\033[0;33m'; GREEN='\033[0;32m'; CYAN='\033[0;36m'; NC='\033[0m'
 
-# ── تنظيف عند الخروج ──────────────────────────────────────────
 cleanup() {
-  echo -e "\n${GOLD}إيقاف جميع الخدمات...${NC}"
-  kill "$JEKYLL_PID" "$ADMIN_PID" 2>/dev/null || true
-  wait "$JEKYLL_PID" "$ADMIN_PID" 2>/dev/null || true
-  echo -e "${GREEN}تم الإيقاف بنجاح.${NC}"
+  echo -e "\n${GOLD}إيقاف الخدمات...${NC}"
+  [ -n "$JEKYLL_PID" ] && kill "$JEKYLL_PID" 2>/dev/null
+  [ -n "$ADMIN_PID"  ] && kill "$ADMIN_PID"  2>/dev/null
+  wait 2>/dev/null
+  echo -e "${GREEN}تم.${NC}"
   exit 0
 }
-trap cleanup SIGINT SIGTERM
+trap cleanup INT TERM
 
-# ── عنوان ────────────────────────────────────────────────────
+# ── إعداد البيئة ───────────────────────────────────────────────
+export GEM_HOME="${GEM_HOME:-$HOME/.local/gems}"
+export PATH="$GEM_HOME/bin:$PATH"
+
+# ── التحقق من Ruby ────────────────────────────────────────────
+if ! command -v ruby &>/dev/null; then
+  echo -e "${GOLD}تثبيت Ruby...${NC}"
+  sudo apt-get update -qq
+  sudo apt-get install -y ruby-full build-essential zlib1g-dev
+  echo "export GEM_HOME=\"\$HOME/.local/gems\"" >> ~/.bashrc
+  echo "export PATH=\"\$GEM_HOME/bin:\$PATH\""  >> ~/.bashrc
+fi
+
+if ! command -v bundle &>/dev/null; then
+  echo -e "${GOLD}تثبيت Bundler...${NC}"
+  gem install bundler --no-document
+fi
+
+if [ ! -f "$DIR/Gemfile.lock" ]; then
+  echo -e "${GOLD}تثبيت حزم Jekyll...${NC}"
+  (cd "$DIR" && bundle install --quiet)
+fi
+
+if [ ! -d "$DIR/admin/node_modules" ]; then
+  echo -e "${GOLD}تثبيت حزم Admin...${NC}"
+  (cd "$DIR/admin" && npm install --silent)
+fi
+
+# ── العنوان ───────────────────────────────────────────────────
 clear
-echo -e "${GOLD}${BOLD}"
+echo -e "${GOLD}"
 echo "  ╔══════════════════════════════════════════════╗"
 echo "  ║         GT-NEWSTECH — Local Dev              ║"
 echo "  ╠══════════════════════════════════════════════╣"
@@ -31,76 +56,39 @@ echo "  ║  Ctrl+C لإيقاف كل شيء                       ║"
 echo -e "  ╚══════════════════════════════════════════════╝${NC}"
 echo ""
 
-# ── التحقق من Ruby ────────────────────────────────────────────
-if ! command -v ruby &>/dev/null; then
-  echo -e "${GOLD}تثبيت Ruby...${NC}"
-  sudo apt-get update -qq && sudo apt-get install -y ruby-full build-essential zlib1g-dev
-  export GEM_HOME="$HOME/.local/gems"
-  export PATH="$GEM_HOME/bin:$PATH"
-  echo 'export GEM_HOME="$HOME/.local/gems"' >> ~/.bashrc
-  echo 'export PATH="$GEM_HOME/bin:$PATH"'   >> ~/.bashrc
-fi
+# ── تشغيل Admin ───────────────────────────────────────────────
+(cd "$DIR/admin" && node server.js 2>&1) &
+ADMIN_PID=$!
 
-export GEM_HOME="${GEM_HOME:-$HOME/.local/gems}"
-export PATH="$GEM_HOME/bin:$PATH"
-
-if ! command -v bundle &>/dev/null; then
-  echo -e "${GOLD}تثبيت Bundler...${NC}"
-  gem install bundler --no-document
-fi
-
-if [ ! -f "$DIR/Gemfile.lock" ]; then
-  echo -e "${GOLD}تثبيت حزم Jekyll...${NC}"
-  (cd "$DIR" && bundle install)
-fi
-
-# ── تثبيت حزم Node إذا لزم ───────────────────────────────────
-if [ ! -d "$DIR/admin/node_modules" ]; then
-  echo -e "${GOLD}تثبيت حزم Admin...${NC}"
-  (cd "$DIR/admin" && npm install --silent)
-fi
-
-echo -e "${GREEN}▶ تشغيل الخدمتين...${NC}"
-echo -e "${CYAN}─────────────────────────────────────────────${NC}"
-
-# ── تشغيل Jekyll ─────────────────────────────────────────────
+# ── تشغيل Jekyll (بدون livereload) ────────────────────────────
 (
   cd "$DIR"
   bundle exec jekyll serve \
     --config _config.yml,_config.local.yml \
-    --livereload \
+    --watch \
     --force_polling \
-    2>&1 | while IFS= read -r line; do
-      # تجاهل الأخطاء غير المهمة
-      echo "$line" | grep -qE "\.well-known|\.tmp\.|settings\.local\.json" && continue
-      echo "  [Jekyll] $line"
-    done
+    --host 127.0.0.1 \
+    2>&1 | grep -v "\.well-known\|\.tmp\.\|settings\.local\.json\|Errno::ECONNRESET"
 ) &
 JEKYLL_PID=$!
 
-sleep 1
+# ── انتظار جاهزية Jekyll ──────────────────────────────────────
+echo -e "${GOLD}جاري البناء الأولي...${NC}"
+for i in $(seq 1 30); do
+  sleep 1
+  if curl -sf http://127.0.0.1:4000/ >/dev/null 2>&1; then
+    break
+  fi
+done
 
-# ── تشغيل Admin ───────────────────────────────────────────────
-(
-  cd "$DIR/admin"
-  node server.js 2>&1 | while IFS= read -r line; do
-    echo "  [Admin]  $line"
-  done
-) &
-ADMIN_PID=$!
-
-# ── انتظار اكتمال البناء الأول ────────────────────────────────
-echo -e "  ${GOLD}[Jekyll]${NC} جاري البناء..."
-sleep 6
 echo ""
-echo -e "${GREEN}✓ الخدمتان جاهزتان:${NC}"
+echo -e "${GREEN}✓ جاهز!${NC}"
 echo ""
-echo -e "  ${GOLD}الموقع     ${NC}→  ${BOLD}http://localhost:4000${NC}"
-echo -e "  ${CYAN}لوحة التحكم${NC}→  ${BOLD}http://localhost:4001${NC}"
+echo -e "  ${GOLD}الموقع     ${NC}→  http://localhost:4000/"
+echo -e "  ${CYAN}لوحة التحكم${NC}→  http://localhost:4001/"
 echo ""
-echo -e "${GOLD}افتح الروابط يدوياً في المتصفح — Ctrl+C للإيقاف${NC}"
-echo -e "${CYAN}─────────────────────────────────────────────${NC}"
+echo -e "${GOLD}Jekyll يُعيد البناء تلقائياً عند حفظ أي مقال."
+echo -e "حدّث المتصفح يدوياً بعد كل تعديل (F5).${NC}"
 echo ""
 
-# ── انتظار حتى Ctrl+C ────────────────────────────────────────
-wait "$JEKYLL_PID" "$ADMIN_PID"
+wait

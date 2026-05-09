@@ -57,5 +57,6 @@ echo ""
 
 bundle exec jekyll serve \
   --config _config.yml,_config.local.yml \
-  --livereload \
-  --force_polling
+  --watch \
+  --force_polling \
+  --host 127.0.0.1
