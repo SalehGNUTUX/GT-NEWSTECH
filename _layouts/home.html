@@ -20,6 +20,7 @@ layout: default
       <a href="{{ site.baseurl }}/ar/category/gnulinux/" class="hero-cat-link">غنو/لينكس</a>
       <a href="{{ site.baseurl }}/ar/category/tech-news/" class="hero-cat-link">التقنية</a>
       <a href="{{ site.baseurl }}/ar/category/ai/" class="hero-cat-link">الذكاء الاصطناعي</a>
+      <a href="{{ site.baseurl }}/ar/category/gaming/" class="hero-cat-link">ألعاب لينكس</a>
     </div>
     {% else %}
     <p class="hero-desc">Specialized tech news &amp; articles — In English</p>
@@ -29,6 +30,7 @@ layout: default
       <a href="{{ site.baseurl }}/en/category/gnulinux/" class="hero-cat-link">GNU/Linux</a>
       <a href="{{ site.baseurl }}/en/category/tech-news/" class="hero-cat-link">Tech News</a>
       <a href="{{ site.baseurl }}/en/category/ai/" class="hero-cat-link">AI News</a>
+      <a href="{{ site.baseurl }}/en/category/gaming/" class="hero-cat-link">Linux Gaming</a>
     </div>
     {% endif %}
   </div>
@@ -55,7 +57,7 @@ layout: default
 {% endif %}
 
 <!-- Category sections — current language only -->
-{% assign categories = "gnutux-projects,foss,gnulinux,tech-news,ai" | split: "," %}
+{% assign categories = "gnutux-projects,foss,gnulinux,tech-news,ai,gaming" | split: "," %}
 
 {% for cat in categories %}
   {% assign cat_primary = lang_posts | where: "category", cat %}
@@ -72,6 +74,7 @@ layout: default
           {% elsif cat == 'gnulinux' %}غنو / لينكس
           {% elsif cat == 'tech-news' %}أخبار التقنية
           {% elsif cat == 'ai' %}الذكاء الاصطناعي
+          {% elsif cat == 'gaming' %}ألعاب لينكس
           {% endif %}
         {% else %}
           {% if cat == 'gnutux-projects' %}GNUTUX Projects
@@ -79,6 +82,7 @@ layout: default
           {% elsif cat == 'gnulinux' %}GNU/Linux
           {% elsif cat == 'tech-news' %}Tech News
           {% elsif cat == 'ai' %}AI News
+          {% elsif cat == 'gaming' %}Linux Gaming
           {% endif %}
         {% endif %}
       </h2>

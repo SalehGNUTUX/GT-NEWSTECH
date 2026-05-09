@@ -18,6 +18,8 @@ layout: default
           <i class="fa-solid fa-microchip"></i>
         {% elsif page.category == 'ai' %}
           <i class="fa-solid fa-robot"></i>
+        {% elsif page.category == 'gaming' %}
+          <i class="fa-solid fa-gamepad"></i>
         {% endif %}
       </div>
       <div>
@@ -29,6 +31,7 @@ layout: default
             {% elsif page.category == 'gnulinux' %}GNU/Linux News
             {% elsif page.category == 'tech-news' %}Technology News
             {% elsif page.category == 'ai' %}Artificial Intelligence
+            {% elsif page.category == 'gaming' %}Linux Gaming
             {% endif %}
           {% else %}
             {% if page.category == 'gnutux-projects' %}مشاريع GNUTUX
@@ -36,6 +39,7 @@ layout: default
             {% elsif page.category == 'gnulinux' %}أخبار غنو/لينكس
             {% elsif page.category == 'tech-news' %}أخبار التقنية
             {% elsif page.category == 'ai' %}الذكاء الاصطناعي
+            {% elsif page.category == 'gaming' %}ألعاب غنو/لينكس
             {% endif %}
           {% endif %}
         </h1>

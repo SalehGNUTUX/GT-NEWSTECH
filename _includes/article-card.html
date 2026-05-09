@@ -2,7 +2,7 @@
 {% assign size = include.size | default: "normal" %}
 
 {% comment %} مساعد لترجمة اسم القسم {% endcomment %}
-{% capture cat_label %}{% if post.lang == 'en' %}{% if post.category == 'gnutux-projects' %}GNUTUX{% elsif post.category == 'foss' %}FOSS{% elsif post.category == 'gnulinux' %}GNU/Linux{% elsif post.category == 'tech-news' %}Tech{% elsif post.category == 'ai' %}AI{% endif %}{% else %}{% if post.category == 'gnutux-projects' %}GNUTUX{% elsif post.category == 'foss' %}حرة{% elsif post.category == 'gnulinux' %}لينكس{% elsif post.category == 'tech-news' %}تقنية{% elsif post.category == 'ai' %}ذكاء{% endif %}{% endif %}{% endcapture %}
+{% capture cat_label %}{% if post.lang == 'en' %}{% if post.category == 'gnutux-projects' %}GNUTUX{% elsif post.category == 'foss' %}FOSS{% elsif post.category == 'gnulinux' %}GNU/Linux{% elsif post.category == 'tech-news' %}Tech{% elsif post.category == 'ai' %}AI{% elsif post.category == 'gaming' %}Gaming{% endif %}{% else %}{% if post.category == 'gnutux-projects' %}GNUTUX{% elsif post.category == 'foss' %}حرة{% elsif post.category == 'gnulinux' %}لينكس{% elsif post.category == 'tech-news' %}تقنية{% elsif post.category == 'ai' %}ذكاء{% elsif post.category == 'gaming' %}ألعاب{% endif %}{% endif %}{% endcapture %}
 
 <article class="article-card article-card--{{ size }}" data-category="{{ post.category }}">
   <a href="{{ post.url | relative_url }}" class="card-link">

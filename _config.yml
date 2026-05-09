@@ -41,6 +41,7 @@ categories_ar:
   gnulinux: "غنو/لينكس"
   tech-news: "أخبار التقنية"
   ai: "الذكاء الاصطناعي"
+  gaming: "ألعاب لينكس"
 
 categories_en:
   gnutux-projects: "GNUTUX Projects"
@@ -48,6 +49,7 @@ categories_en:
   gnulinux: "GNU/Linux"
   tech-news: "Tech News"
   ai: "Artificial Intelligence"
+  gaming: "Linux Gaming"
 
 # Pagination (optional)
 paginate: 12

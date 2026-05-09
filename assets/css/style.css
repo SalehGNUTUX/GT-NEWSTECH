@@ -52,6 +52,7 @@
   --cat-gnulinux:  #e95420;
   --cat-tech:      #0969da;
   --cat-ai:        #8957e5;
+  --cat-gaming:    #7c3aed;
 }
 
 /* Dark Mode */
@@ -514,6 +515,7 @@ ul { list-style: none; }
 .cat-dot.cat-gnulinux         { background: var(--cat-gnulinux); }
 .cat-dot.cat-tech-news        { background: var(--cat-tech); }
 .cat-dot.cat-ai               { background: var(--cat-ai); }
+.cat-dot.cat-gaming           { background: var(--cat-gaming); }
 
 /* ── Buttons ────────────────────────────────────────────────── */
 .btn {
@@ -780,12 +782,14 @@ ul { list-style: none; }
 .cat-gnulinux        { background: var(--cat-gnulinux); }
 .cat-tech-news       { background: var(--cat-tech); }
 .cat-ai              { background: var(--cat-ai); }
+.cat-gaming          { background: var(--cat-gaming); }
 
 .cat-bg-gnutux-projects { background: linear-gradient(135deg, #2a1a00, #1a1000); }
 .cat-bg-foss            { background: linear-gradient(135deg, #002a0a, #001a06); }
 .cat-bg-gnulinux        { background: linear-gradient(135deg, #2a0a00, #1a0600); }
 .cat-bg-tech-news       { background: linear-gradient(135deg, #001a2a, #000e1a); }
 .cat-bg-ai              { background: linear-gradient(135deg, #1a0a2a, #0e061a); }
+.cat-bg-gaming          { background: linear-gradient(135deg, #0a001a, #150030); }
 
 /* ── Single Post ────────────────────────────────────────────── */
 .breadcrumb {
