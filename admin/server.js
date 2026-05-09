@@ -32,8 +32,15 @@ const storage = multer.diskStorage({
     cb(null, dir);
   },
   filename(req, file, cb) {
-    const safe = file.originalname.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase();
-    cb(null, safe);
+    const ext  = path.extname(file.originalname).toLowerCase();
+    const base = path.basename(file.originalname, path.extname(file.originalname));
+    /* يحتفظ فقط بالأحرف اللاتينية والأرقام والنقطة والشرطة */
+    const safe = base.replace(/[^a-zA-Z0-9._-]/g, '-')
+                     .replace(/-{2,}/g, '-')   /* شرطات متتالية → شرطة واحدة */
+                     .replace(/^-+|-+$/g, '')   /* إزالة الشرطة من البداية والنهاية */
+                     .toLowerCase()
+                     + ext;
+    cb(null, safe || 'image' + ext);
   }
 });
 const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
@@ -191,9 +198,13 @@ app.post('/api/images/import', (req, res) => {
   const ext  = path.extname(sourcePath).toLowerCase();
   if (!IMG_EXTS.test(sourcePath)) return res.status(400).json({ error: 'Not a supported image format' });
 
-  const filename = path.basename(sourcePath)
+  const ext      = path.extname(sourcePath).toLowerCase();
+  const basename = path.basename(sourcePath, ext);
+  const filename = basename
     .replace(/[^a-zA-Z0-9._-]/g, '-')
-    .toLowerCase();
+    .replace(/-{2,}/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase() + ext || 'image' + ext;
 
   const targets = langs === 'both' ? ['ar', 'en'] : [langs];
   const copied  = [];

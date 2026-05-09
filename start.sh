@@ -5,7 +5,7 @@ set -e
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 GOLD='\033[0;33m'; GREEN='\033[0;32m'; CYAN='\033[0;36m'
-RED='\033[0;31m'; BOLD='\033[1m'; NC='\033[0m'
+BOLD='\033[1m'; NC='\033[0m'
 
 # ── تنظيف عند الخروج ──────────────────────────────────────────
 cleanup() {
@@ -23,8 +23,8 @@ echo -e "${GOLD}${BOLD}"
 echo "  ╔══════════════════════════════════════════════╗"
 echo "  ║         GT-NEWSTECH — Local Dev              ║"
 echo "  ╠══════════════════════════════════════════════╣"
-echo -e "  ║  ${CYAN}🌐 الموقع     ${GOLD}→  http://localhost:4000       ${GOLD}║"
-echo -e "  ║  ${CYAN}⚙️  لوحة التحكم${GOLD}→  http://localhost:4001       ${GOLD}║"
+echo -e "  ║  ${CYAN}الموقع      ${GOLD}→  http://localhost:4000       ${GOLD}║"
+echo -e "  ║  ${CYAN}لوحة التحكم ${GOLD}→  http://localhost:4001       ${GOLD}║"
 echo "  ╠══════════════════════════════════════════════╣"
 echo "  ║  Ctrl+C لإيقاف كل شيء                       ║"
 echo -e "  ╚══════════════════════════════════════════════╝${NC}"
@@ -64,22 +64,28 @@ echo -e "${GREEN}▶ تشغيل الخدمتين...${NC}"
 echo -e "${CYAN}─────────────────────────────────────────────${NC}"
 
 # ── تشغيل Jekyll ─────────────────────────────────────────────
+# --incremental: يعيد بناء الصفحات المتغيرة فقط (أسرع وأقل إعطالاً)
+# --force_polling: أكثر موثوقية لاكتشاف التغييرات على Linux
 (
   cd "$DIR"
   bundle exec jekyll serve \
     --config _config.yml,_config.local.yml \
     --livereload \
-    2>&1 | sed "s/^/  ${GOLD}[Jekyll]${NC} /"
+    --incremental \
+    --force_polling \
+    2>&1 | grep -v "\.well-known" \
+           | grep -v "\.tmp\." \
+           | grep -v "settings.local.json" \
+           | sed "s/^/  [Jekyll] /"
 ) &
 JEKYLL_PID=$!
 
-# انتظر قليلاً لتجنب تشابك الطباعة
 sleep 1
 
 # ── تشغيل Admin ───────────────────────────────────────────────
 (
   cd "$DIR/admin"
-  node server.js 2>&1 | sed "s/^/  ${CYAN}[Admin] ${NC} /"
+  node server.js 2>&1 | sed "s/^/  [Admin]  /"
 ) &
 ADMIN_PID=$!
 
@@ -89,8 +95,8 @@ echo -e "  ${CYAN}[Admin] ${NC} → http://localhost:4001"
 echo -e "${CYAN}─────────────────────────────────────────────${NC}"
 echo ""
 
-# ── فتح المتصفح بعد ثانيتين ─────────────────────────────────
-sleep 3
+# ── فتح المتصفح ─────────────────────────────────────────────
+sleep 4
 if command -v xdg-open &>/dev/null; then
   xdg-open "http://localhost:4000/" &>/dev/null &
   xdg-open "http://localhost:4001/" &>/dev/null &

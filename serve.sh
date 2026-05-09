@@ -55,4 +55,6 @@ echo ""
 bundle exec jekyll serve \
   --config _config.yml,_config.local.yml \
   --livereload \
+  --incremental \
+  --force_polling \
   --open-url

@@ -14,3 +14,5 @@ _config.local.yml
 assets/icons/gt-newstech-icon.svg
 admin/node_modules/
 admin/package-lock.json
+*.tmp*
+.jekyll-cache/

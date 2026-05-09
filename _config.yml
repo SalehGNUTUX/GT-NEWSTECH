@@ -78,3 +78,8 @@ exclude:
   - start.sh
   - "دليل-العمل.md"
   - "دليل-تغيير-النطاق.md"
+  - "دليل-الربط-بـGitHub.md"
+  - CLAUDE.md
+  - README.md
+  - .claude/
+  - ".claude"
