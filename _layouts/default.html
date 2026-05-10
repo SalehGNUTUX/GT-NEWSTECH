@@ -67,8 +67,9 @@
   <!-- Header -->
   <header class="site-header" role="banner">
     <div class="container header-inner">
-      <!-- Logo -->
-      <a href="{{ site.baseurl }}/" class="site-logo" aria-label="{{ site.title }}">
+      <!-- Logo — onclick: إعادة تحميل الصفحة (F5) -->
+      <a href="{{ site.baseurl }}/" class="site-logo" aria-label="{{ site.title }}"
+         onclick="location.reload(); return false;">
         <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png" alt="GT-NEWSTECH" width="44" height="44" class="logo-img">
         <div class="logo-text">
           <span class="logo-title">GT-NEWSTECH</span>
@@ -103,6 +104,17 @@
 
       <!-- Controls -->
       <div class="header-controls">
+        <!-- تبديل اللغة — مرئي على الموبايل فقط -->
+        <div class="mobile-lang-switch">
+          <a href="{{ site.baseurl }}/ar/"
+             class="mlang {% if page.lang == 'ar' %}active{% endif %}"
+             data-lang="ar" data-lang-link
+             onclick="localStorage.setItem('gnt-lang','ar')">ع</a>
+          <a href="{{ site.baseurl }}/en/"
+             class="mlang {% if page.lang == 'en' %}active{% endif %}"
+             data-lang="en" data-lang-link
+             onclick="localStorage.setItem('gnt-lang','en')">EN</a>
+        </div>
         <!-- Search toggle -->
         <button class="icon-btn" id="searchToggle" aria-label="بحث">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
