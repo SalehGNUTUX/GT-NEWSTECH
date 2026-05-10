@@ -67,9 +67,8 @@
   <!-- Header -->
   <header class="site-header" role="banner">
     <div class="container header-inner">
-      <!-- Logo — onclick: إعادة تحميل الصفحة (F5) -->
-      <a href="{{ site.baseurl }}/" class="site-logo" aria-label="{{ site.title }}"
-         onclick="location.reload(); return false;">
+      <!-- Logo — الصفحة الرئيسية للغة الحالية -->
+      <a href="{{ site.baseurl }}/{{ page.lang | default: 'ar' }}/" class="site-logo" aria-label="{{ site.title }}">
         <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png" alt="GT-NEWSTECH" width="44" height="44" class="logo-img">
         <div class="logo-text">
           <span class="logo-title">GT-NEWSTECH</span>
