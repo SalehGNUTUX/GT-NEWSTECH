@@ -84,6 +84,13 @@ git add . && git commit -m "message" && git push origin main
 - Images are language-separated: `assets/images/ar/<name>` and `assets/images/en/<name>`, referenced as `{{ site.baseurl }}/assets/images/{{ page.lang }}/{{ page.image }}`
 - If `image` is absent or broken, `article-card.html` and `post.html` fall back to `assets/icons/gt-newstech-icon.png`
 
+**Date/datetime handling — critical:**
+- Article `date` front matter must be stored as a **YAML datetime object** (unquoted), not a quoted string
+- Quoted strings like `date: '2026-05-10'` cause Jekyll's `sort: "date"` to break when mixed with Date objects, making articles disappear from "latest" sections
+- `saveArticle()` in `admin/server.js` converts any string date to `new Date(Date.UTC(...))` before calling `matter.stringify()` — this ensures js-yaml writes an unquoted YAML timestamp
+- When a date-only article needs ordering within a day, the admin UI has a time field that combines to `YYYY-MM-DD HH:MM:00` before saving
+- Time badge shows only when `minutes != "00"` (avoids showing UTC-artifact midnight times)
+
 **Multi-category (`also_in`):**
 - A post has one primary `category` (determines its folder and permalink color)
 - `also_in: [cat1, cat2]` makes it appear in additional category pages
@@ -144,7 +151,7 @@ GET  /api/config                            → raw _config.yml content
 
 **SPA routing:** hash-based (`#dashboard`, `#articles`, `#new-article`, `#images`, `#categories`, `#git`, `#config`). The articles page renders the toolbar once (`if (!$('articlesTable'))`) then only updates `<tbody>` on search/filter to preserve input focus.
 
-**FM paste feature:** Tab "لصق FM" in article editor — pastes raw front matter YAML, `parseFrontMatterText()` parses it and `fillFormFromParsed()` fills all form fields.
+**FM paste feature:** Tab "لصق FM" in article editor — pastes raw front matter YAML, `parseFrontMatterText()` parses it and `fillFormFromParsed()` fills all form fields. The `date` field triggers `parseDatetime()` which populates both `fDate` and `fTime` inputs.
 
 ### CSS architecture
 
@@ -154,6 +161,8 @@ Single file `assets/css/style.css`. Theming via CSS custom properties:
 - `theme.js` runs before CSS loads (inline `<script>` in `<head>`) to set `data-theme` from `localStorage['gnt-theme']`, preventing flash
 
 Category badge colors use **inline styles** from `_data/categories.yml` — no per-category CSS class needed for new categories. Existing `.cat-*` CSS classes are kept for backward compatibility but templates now use `style="background:{{ cat_data.color }}"`.
+
+Mobile responsive breakpoints: 1024px (tablet landscape), 768px (tablet portrait / mobile), 480px (small mobile), 360px (very small). The mobile header uses `flex-wrap: nowrap` so controls never wrap to a second line. `.mobile-lang-switch` is hidden on desktop and visible on mobile — always shows AR/EN buttons in the header.
 
 ---
 
@@ -165,3 +174,5 @@ Category badge colors use **inline styles** from `_data/categories.yml` — no p
 - Font Awesome 6 Free is loaded from jsDelivr CDN (no integrity hash — avoid adding one, it caused silent load failures previously)
 - `_config.local.yml` is gitignored; recreate it if missing with `baseurl: ""` and `url: "http://localhost:4000"`. `start.sh` creates it automatically.
 - **POST /api/article**: body must include `cat`, `lang`, `slug` as top-level keys (not just inside `fm`) for the server to find them.
+- **Logo click** navigates to the current language's home page (`/ar/` or `/en/`), not the root `/`. This is intentional — the root is a JS redirect page.
+- **Date storage**: always use `Date.UTC()` when converting date strings to Date objects in Node.js. Using local `new Date(y, m, d)` causes timezone-shifted dates that display incorrectly in Jekyll (UTC-based date filter).
