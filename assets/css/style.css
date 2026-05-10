@@ -776,6 +776,19 @@ ul { list-style: none; }
   transition: gap var(--transition);
 }
 
+/* وقت النشر في البطاقة وصفحة المقال */
+.card-time, .post-time {
+  font-size: 0.7em;
+  color: var(--text-muted);
+  font-family: var(--font-en);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0 4px;
+  margin-inline-start: 4px;
+  vertical-align: middle;
+}
+
 /* ── Category Colors ────────────────────────────────────────── */
 .cat-gnutux-projects { background: var(--cat-gnutux); }
 .cat-foss            { background: var(--cat-foss); }

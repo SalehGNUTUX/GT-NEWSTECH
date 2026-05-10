@@ -429,6 +429,45 @@ async function renderConfig(c) {
 function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ── Article Editor ─────────────────────────────────────────────
+
+/* استخراج التاريخ والوقت من حقل date (قد يكون Date object أو string) */
+function parseDatetime(raw) {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const defaultTime = pad(now.getHours()) + ':' + pad(now.getMinutes());
+
+  if (!raw) {
+    return {
+      dateStr: now.toISOString().slice(0, 10),
+      timeStr: defaultTime
+    };
+  }
+
+  const s = raw.toString().trim();
+
+  /* صيغة string مثل "2026-05-09 14:30:00" أو "2026-05-09" */
+  const strMatch = s.match(/^(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}:\d{2}))?/);
+  if (strMatch) {
+    return {
+      dateStr: strMatch[1],
+      timeStr: strMatch[2] || '12:00'
+    };
+  }
+
+  /* Date object */
+  try {
+    const d = new Date(s);
+    if (!isNaN(d.getTime())) {
+      return {
+        dateStr: d.toISOString().slice(0, 10),
+        timeStr: pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes())
+      };
+    }
+  } catch (_) {}
+
+  return { dateStr: now.toISOString().slice(0, 10), timeStr: defaultTime };
+}
+
 window.editFrom = async (lang, cat, file) => openEditor({ lang, cat, file });
 
 async function openEditor(ref) {
@@ -439,9 +478,14 @@ async function openEditor(ref) {
   }
 
   $('editorTitle').textContent = ref ? 'تحرير المقال' : 'مقال جديد';
-  $('fTitle').value   = a.title || '';
-  $('fDate').value    = (a.date||new Date().toISOString().slice(0,10)).toString().slice(0,10);
-  $('fSlug').value    = a.slug  || '';
+  $('fTitle').value = a.title || '';
+
+  /* تحليل التاريخ والوقت من حقل date */
+  const { dateStr, timeStr } = parseDatetime(a.date);
+  $('fDate').value = dateStr;
+  $('fTime').value = timeStr;
+
+  $('fSlug').value = a.slug || '';
   $('fAuthor').value  = a.author|| 'GNUTUX';
   $('fExcerpt').value = a.excerpt || '';
   $('fTags').value    = Array.isArray(a.tags) ? a.tags.join(', ') : (a.tags||'');
@@ -518,7 +562,11 @@ function fillFormFromParsed(data) {
     author:   function(v) { $('fAuthor').value = v; },
     excerpt:  function(v) { $('fExcerpt').value = v; },
     image:    function(v) { $('fImage').value = v; updateImgPreview(); },
-    date:     function(v) { $('fDate').value  = v; },
+    date: function(v) {
+      var dt = parseDatetime(v);
+      $('fDate').value = dt.dateStr;
+      if ($('fTime')) $('fTime').value = dt.timeStr;
+    },
     category: function(v) {
       var opt = $('fCategory').querySelector('option[value="'+v+'"]');
       if (opt) { $('fCategory').value = v; syncAlsoInWithCat(); }
@@ -700,10 +748,15 @@ $('saveArticle').addEventListener('click', async () => {
   const tagsRaw = $('fTags').value.trim();
   const tags = tagsRaw ? tagsRaw.split(',').map(t=>t.trim()).filter(Boolean) : [];
 
+  /* دمج التاريخ + الوقت → يُحدد الترتيب بدقة عند تعدد مقالات بنفس اليوم */
+  const dateVal = $('fDate').value;
+  const timeVal = $('fTime')?.value || '12:00';
+  const fullDatetime = `${dateVal} ${timeVal}:00`;
+
   const fm = {
     layout: 'post',
     title, slug, lang, category: cat,
-    date: $('fDate').value,
+    date: fullDatetime,
     author: $('fAuthor').value.trim() || 'GNUTUX',
     excerpt: $('fExcerpt').value.trim() || undefined,
     image: $('fImage').value.trim() || undefined,

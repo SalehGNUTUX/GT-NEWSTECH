@@ -56,8 +56,13 @@
       <p class="card-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
       {% endif %}
       <div class="card-footer">
-        <time class="card-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">
+        <time class="card-date" datetime="{{ post.date | date: '%Y-%m-%dT%H:%M' }}">
           {{ post.date | date: "%Y-%m-%d" }}
+          {% assign _h = post.date | date: "%H" %}
+          {% assign _m = post.date | date: "%M" %}
+          {% unless _h == "00" and _m == "00" %}
+          <span class="card-time">{{ _h }}:{{ _m }}</span>
+          {% endunless %}
         </time>
         <span class="card-read-more">
           {% if post.lang == 'en' %}Read more{% else %}اقرأ المزيد{% endif %} →
