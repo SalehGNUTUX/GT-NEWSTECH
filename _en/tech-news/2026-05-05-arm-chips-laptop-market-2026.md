@@ -7,7 +7,7 @@ category: tech-news
 date: '2026-05-10'
 author: GNUTUX
 excerpt: '>-'
-image: chatgpt-deepseek-gnutux.webp
+image: arm-chips-dominate-laptop-market-with-35-share-in-2026.webp
 ---
 
 ## ARM Redraws the Laptop Market Map

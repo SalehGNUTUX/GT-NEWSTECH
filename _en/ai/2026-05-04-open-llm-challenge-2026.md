@@ -10,7 +10,7 @@ excerpt: >-
   With the development of Llama 4, Mistral Large 2, and Qwen 3.5, the debate is
   serious about whether open-weight models can compete with major commercial AI
   models.
-image: arm-chips-dominate-laptop-market-with-35-share-in-2026.webp
+image: chatgpt-deepseek-gnutux.webp
 tags:
   - AI
   - LLM
