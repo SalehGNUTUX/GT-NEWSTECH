@@ -3,7 +3,10 @@ layout: post
 title: >-
   Kdenlive 26.04.1: Open-Source Video Editor from KDE Gets Critical Security
   Update
+slug: kdenlive-26041-release
+lang: en
 category: foss
+date: '2026-05-10 12:00:00'
 author: GNUTUX
 excerpt: >-
   The Kdenlive project has released version 26.04.1 of its open-source video
@@ -17,9 +20,6 @@ tags:
   - Open Source
   - Security
   - FFmpeg
-date: 2026-05-10T12:00:00.000Z
-lang: en
-slug: kdenlive-26041-release
 ---
 
 ## Kdenlive: Professional Video Editing for Everyone

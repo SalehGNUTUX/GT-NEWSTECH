@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'Kdenlive 26.04.1: محرر الفيديو مفتوح المصدر من KDE يحصل على تحديث أمني مهم'
+slug: kdenlive-26041-release
+lang: ar
 category: foss
+date: '2026-05-10 22:06:00'
 author: GNUTUX
 excerpt: >-
   أصدر مشروع Kdenlive الإصدار 26.04.1 من محرر الفيديو مفتوح المصدر، ويتضمن
@@ -14,9 +17,6 @@ tags:
   - مفتوح المصدر
   - أمان
   - FFmpeg
-date: 2026-05-10T22:06:00.000Z
-lang: ar
-slug: kdenlive-26041-release
 ---
 
 ## Kdenlive: محرر فيديو احترافي للجميع
