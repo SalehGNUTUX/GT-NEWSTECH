@@ -58,10 +58,9 @@
       <div class="card-footer">
         <time class="card-date" datetime="{{ post.date | date: '%Y-%m-%dT%H:%M' }}">
           {{ post.date | date: "%Y-%m-%d" }}
-          {% assign _h = post.date | date: "%H" %}
           {% assign _m = post.date | date: "%M" %}
-          {% unless _h == "00" and _m == "00" %}
-          <span class="card-time">{{ _h }}:{{ _m }}</span>
+          {% unless _m == "00" %}
+          <span class="card-time">{{ post.date | date: "%H:%M" }}</span>
           {% endunless %}
         </time>
         <span class="card-read-more">
