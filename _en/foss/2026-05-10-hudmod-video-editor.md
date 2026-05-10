@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'HudMod: A Fast, Lightweight Open-Source Video Editor from an Arab Developer'
+slug: hudmod-video-editor
+lang: en
 category: foss
+date: '2026-05-10 21:06:00'
 author: GNUTUX
 excerpt: >-
   HudMod is an open-source video editor under GPLv3, built on the Godot engine,
@@ -15,9 +18,6 @@ tags:
   - Open Source
   - Arab Dev
   - GPLv3
-date: '2026-05-10'
-lang: en
-slug: hudmod-video-editor
 ---
 
 ## A Gap in the Open-Source Video Editor Landscape

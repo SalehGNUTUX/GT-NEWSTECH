@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'HudMod: محرر فيديو مفتوح المصدر سريع وخفيف من مطور عربي'
+slug: hudmod-video-editor
+lang: ar
 category: foss
+date: '2026-05-10 21:06:00'
 author: GNUTUX
 excerpt: >-
   HudMod هو محرر فيديو مفتوح المصدر تحت رخصة GPLv3، مبني على محرك Godot، يركز
@@ -14,9 +17,6 @@ tags:
   - مفتوح المصدر
   - تطوير عربي
   - GPLv3
-date: '2026-05-10'
-lang: ar
-slug: hudmod-video-editor
 ---
 
 ## فجوة في عالم محررات الفيديو مفتوحة المصدر
