@@ -6,7 +6,7 @@ title: >-
 slug: libreoffice-2623-release
 lang: en
 category: foss
-date: '2026-05-09'
+date: 2026-05-09T01:00:00.000Z
 author: GNUTUX
 excerpt: >-
   The Document Foundation released LibreOffice 26.2.3 with significant

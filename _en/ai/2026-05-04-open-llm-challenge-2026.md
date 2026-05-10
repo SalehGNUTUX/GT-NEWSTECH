@@ -4,7 +4,7 @@ title: 'Open Language Models: Are They Threatening GPT-4 and Claude''s Dominance
 slug: open-llm-challenge-2026
 lang: en
 category: ai
-date: '2026-05-10'
+date: 2026-05-10T01:00:00.000Z
 author: GNUTUX
 excerpt: >-
   With the development of Llama 4, Mistral Large 2, and Qwen 3.5, the debate is

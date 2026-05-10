@@ -4,7 +4,7 @@ title: ARM Chips Dominate Laptop Market with 35% Share in 2026
 slug: arm-chips-laptop-market-2026
 lang: en
 category: tech-news
-date: '2026-05-10'
+date: 2026-05-10T01:00:00.000Z
 author: GNUTUX
 excerpt: '>-'
 image: arm-chips-dominate-laptop-market-with-35-share-in-2026.webp

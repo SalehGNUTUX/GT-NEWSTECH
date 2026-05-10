@@ -16,7 +16,7 @@ tags:
   - Electron
   - React
   - FOSS
-date: '2026-05-10'
+date: 2026-05-10T01:00:00.000Z
 lang: ar
 slug: gt-markdawin-arabic-markdown-editor
 ---

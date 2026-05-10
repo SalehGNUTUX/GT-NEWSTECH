@@ -4,7 +4,7 @@ title: 'GT-IPNET Project: Integrated Graphical Interface for Linux Networking To
 slug: gt-ipnet-v2
 lang: en
 category: gnutux-projects
-date: '2026-05-09'
+date: 2026-05-09T01:00:00.000Z
 author: GNUTUX
 excerpt: >-
   GT-IPNET v2.0 is an open-source desktop application that brings the most

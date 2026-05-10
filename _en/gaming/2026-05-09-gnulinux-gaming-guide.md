@@ -4,7 +4,7 @@ title: 'GNU/Linux Gaming: Your Complete Guide to Gaming on Linux in 2026'
 slug: gnulinux-gaming-guide-2026
 lang: en
 category: gaming
-date: '2026-05-10'
+date: 2026-05-10T01:00:00.000Z
 author: GNUTUX
 excerpt: '>-'
 image: 50550bd1-822b-42b6-8426-2926636ae1ec.png

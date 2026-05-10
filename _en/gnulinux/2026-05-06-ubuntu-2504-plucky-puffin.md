@@ -4,7 +4,7 @@ title: 'Ubuntu 26.04 Noble Numbat: What''s New and Improvements'
 slug: ubuntu-2604-noble-numbat
 lang: en
 category: gnulinux
-date: '2026-05-09'
+date: 2026-05-09T01:00:00.000Z
 author: GNUTUX
 excerpt: >-
   Canonical released Ubuntu 26.04 LTS codenamed Noble Numbat with improvements

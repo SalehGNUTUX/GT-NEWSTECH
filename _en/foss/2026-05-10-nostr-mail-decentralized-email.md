@@ -4,7 +4,7 @@ title: 'Nostr Mail: An Open Source Decentralized Email That Redefines Privacy'
 slug: nostr-mail-decentralized-email
 lang: en
 category: foss
-date: '2026-05-10'
+date: 2026-05-10T01:00:00.000Z
 author: GNUTUX
 excerpt: >-
   Nostr Mail is a decentralized email protocol built on the Nostr network,

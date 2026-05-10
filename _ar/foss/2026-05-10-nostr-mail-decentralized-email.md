@@ -4,7 +4,7 @@ title: 'Nostr Mail: بريد إلكتروني لامركزي مفتوح المص
 slug: nostr-mail-decentralized-email
 lang: ar
 category: foss
-date: '2026-05-10'
+date: 2026-05-10T01:00:00.000Z
 author: GNUTUX
 excerpt: >-
   Nostr Mail هو بروتوكول بريد إلكتروني لامركزي مبني على شبكة Nostr، يمنحك ملكية
