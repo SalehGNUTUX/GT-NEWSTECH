@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'GT-MARKDAWIN: A Complete Offline Arabic Markdown Editor'
+slug: gt-markdawin-arabic-markdown-editor
+lang: en
 category: gnutux-projects
+date: '2026-05-10 01:00:00'
 author: GNUTUX
 excerpt: >-
   GT-MARKDAWIN is a complete standalone Arabic Markdown editor built with
@@ -16,9 +19,6 @@ tags:
   - Electron
   - React
   - FOSS
-date: 2026-05-10T01:00:00.000Z
-lang: en
-slug: gt-markdawin-arabic-markdown-editor
 ---
 
 ## Arabic Writing Deserves Specialized Tools
