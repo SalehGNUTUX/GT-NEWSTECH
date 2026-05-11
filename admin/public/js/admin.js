@@ -434,38 +434,46 @@ function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replac
 function parseDatetime(raw) {
   const now = new Date();
   const pad = n => String(n).padStart(2, '0');
-  const defaultTime = pad(now.getHours()) + ':' + pad(now.getMinutes());
+  /* التاريخ والوقت المحليَّان (local) لتجنب تحول UTC */
+  const localDate = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  const localTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
   if (!raw) {
-    return {
-      dateStr: now.toISOString().slice(0, 10),
-      timeStr: defaultTime
-    };
+    /* مقال جديد: التاريخ والوقت الحاليَّان من النظام */
+    return { dateStr: localDate, timeStr: localTime };
   }
 
   const s = raw.toString().trim();
 
+  /* صيغة ISO مثل "2026-05-10T01:00:00.000Z" */
+  const isoMatch = s.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
+  if (isoMatch) {
+    /* نحوّل من UTC للمحلي لعرض الوقت الصحيح */
+    const d = new Date(s);
+    if (!isNaN(d.getTime())) {
+      const ld = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+      const lt = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      return { dateStr: ld, timeStr: lt };
+    }
+  }
+
   /* صيغة string مثل "2026-05-09 14:30:00" أو "2026-05-09" */
   const strMatch = s.match(/^(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}:\d{2}))?/);
   if (strMatch) {
-    return {
-      dateStr: strMatch[1],
-      timeStr: strMatch[2] || '12:00'
-    };
+    return { dateStr: strMatch[1], timeStr: strMatch[2] || localTime };
   }
 
-  /* Date object */
+  /* Date object من gray-matter */
   try {
     const d = new Date(s);
     if (!isNaN(d.getTime())) {
-      return {
-        dateStr: d.toISOString().slice(0, 10),
-        timeStr: pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes())
-      };
+      const ld = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+      const lt = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      return { dateStr: ld, timeStr: lt };
     }
   } catch (_) {}
 
-  return { dateStr: now.toISOString().slice(0, 10), timeStr: defaultTime };
+  return { dateStr: localDate, timeStr: localTime };
 }
 
 window.editFrom = async (lang, cat, file) => openEditor({ lang, cat, file });
@@ -701,6 +709,14 @@ function updateImgPreview() {
 }
 $('fImage').addEventListener('input', updateImgPreview);
 document.querySelectorAll('[name=fLang]').forEach(r => r.addEventListener('change', updateImgPreview));
+
+// زر "الآن" — يضع التاريخ والوقت الحاليَّين
+document.getElementById('setNowBtn')?.addEventListener('click', function() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  $('fDate').value = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  $('fTime').value = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+});
 
 // Toolbar actions
 document.querySelectorAll('.tb-btn').forEach(btn => {
