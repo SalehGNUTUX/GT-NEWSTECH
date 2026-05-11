@@ -7,12 +7,14 @@ const matter   = require('gray-matter');
 const multer   = require('multer');
 const sharp    = require('sharp');
 const yaml     = require('js-yaml');
+const crypto   = require('crypto');
 
 const app  = express();
 const PORT = 4001;
 
 // ── Paths ──────────────────────────────────────────────────────
-const ROOT       = path.join(__dirname, '..');
+const ROOT          = path.join(__dirname, '..');
+const PASSWORD_FILE = path.join(__dirname, '.admin-password');  // gitignored
 const LANGS      = ['ar', 'en'];
 const CATS_FILE  = path.join(ROOT, '_data', 'categories.yml');
 const IMG_EXTS   = /\.(jpg|jpeg|png|gif|webp|svg|avif)$/i;
@@ -42,8 +44,25 @@ function getCatIds() {
   return fromData;
 }
 
+// ── Password helpers ───────────────────────────────────────────
+function getPassHash()  { return fs.existsSync(PASSWORD_FILE) ? fs.readFileSync(PASSWORD_FILE,'utf8').trim() : null; }
+function hashPwd(p)     { return crypto.createHash('sha256').update(p).digest('hex'); }
+function makeToken(h)   { return crypto.createHmac('sha256', h).update('gnt-admin-v1').digest('hex'); }
+
 // ── Middleware ─────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
+
+// ── Auth middleware — بعد JSON parser ──────────────────────────
+app.use((req, res, next) => {
+  if (!req.path.startsWith('/api/')) return next();
+  const skip = ['/api/auth/login', '/api/auth/status'];
+  if (skip.some(s => req.path === s)) return next();
+  const hash = getPassHash();
+  if (!hash) return next();                               // no password → open
+  const tok = req.headers['x-admin-token'] || req.query._t;
+  if (tok === makeToken(hash)) return next();
+  res.status(401).json({ error: 'Unauthorized' });
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve Jekyll project images/icons for preview
@@ -394,22 +413,113 @@ app.get('/api/git/status', (_req, res) => {
   } catch (e) { res.json({ status: 'Git error', log: '' }); }
 });
 
-/* Git push */
+/* Git push — single remote */
 app.post('/api/git/push', (req, res) => {
   const { execSync } = require('child_process');
-  const msg = (req.body.message || 'update: via admin panel').replace(/"/g, "'");
+  const msg    = (req.body.message || 'update: via admin panel').replace(/"/g, "'");
+  const remote = req.body.remote || 'origin';
+  const branch = req.body.branch || 'main';
   try {
     execSync('git add .', { cwd: ROOT });
-    execSync(`git commit -m "${msg}"`, { cwd: ROOT });
-    execSync('git push origin main', { cwd: ROOT });
-    res.json({ ok: true, message: 'Pushed successfully' });
+    try { execSync(`git commit -m "${msg}"`, { cwd: ROOT }); } catch (_) {}
+    execSync(`git push ${remote} ${branch}`, { cwd: ROOT });
+    res.json({ ok: true, remote, branch });
   } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* Git push — all selected remotes */
+app.post('/api/git/push-all', (req, res) => {
+  const { execSync } = require('child_process');
+  const msg     = (req.body.message || 'update: via admin panel').replace(/"/g, "'");
+  const remotes = req.body.remotes || ['origin'];
+  const branch  = req.body.branch  || 'main';
+  try {
+    execSync('git add .', { cwd: ROOT });
+    try { execSync(`git commit -m "${msg}"`, { cwd: ROOT }); } catch (_) {}
+  } catch (_) {}
+  const results = remotes.map(r => {
+    try { execSync(`git push ${r} ${branch}`, { cwd: ROOT }); return { remote:r, ok:true }; }
+    catch (e) { return { remote:r, ok:false, error:e.message.split('\n')[0] }; }
+  });
+  res.json({ results });
+});
+
+/* Remotes list */
+app.get('/api/remotes', (_req, res) => {
+  const { execSync } = require('child_process');
+  const remotes = [];
+  try {
+    const out = execSync('git remote -v', { cwd: ROOT, encoding: 'utf8' });
+    const seen = new Set();
+    out.trim().split('\n').forEach(line => {
+      const m = line.match(/^(\S+)\s+(\S+)\s+\(push\)/);
+      if (m && !seen.has(m[1])) { remotes.push({ name: m[1], url: m[2] }); seen.add(m[1]); }
+    });
+  } catch (_) {}
+  res.json({ remotes });
+});
+
+/* Add / update remote */
+app.post('/api/remotes', (req, res) => {
+  const { name, url } = req.body;
+  if (!name || !url) return res.status(400).json({ error: 'name and url required' });
+  if (!/^[a-zA-Z0-9_-]+$/.test(name)) return res.status(400).json({ error: 'Invalid remote name' });
+  const { execSync } = require('child_process');
+  try {
+    const existing = execSync('git remote', { cwd: ROOT, encoding: 'utf8' }).trim().split('\n');
+    if (existing.includes(name)) execSync(`git remote set-url ${name} "${url}"`, { cwd: ROOT });
+    else                         execSync(`git remote add ${name} "${url}"`,     { cwd: ROOT });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* Remove remote */
+app.delete('/api/remotes/:name', (req, res) => {
+  const { execSync } = require('child_process');
+  try { execSync(`git remote remove ${req.params.name}`, { cwd: ROOT }); res.json({ ok: true }); }
+  catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* Auth — status */
+app.get('/api/auth/status', (_req, res) => {
+  res.json({ hasPassword: !!getPassHash() });
+});
+
+/* Auth — login */
+app.post('/api/auth/login', (req, res) => {
+  const hash = getPassHash();
+  if (!hash) return res.json({ ok: true, token: null });   // no password
+  if (hashPwd(req.body.password || '') !== hash)
+    return res.status(401).json({ error: 'كلمة مرور خاطئة' });
+  res.json({ ok: true, token: makeToken(hash) });
+});
+
+/* Auth — set / change password */
+app.post('/api/auth/set-password', (req, res) => {
+  const { password, current } = req.body;
+  if (!password || password.length < 6) return res.status(400).json({ error: 'كلمة المرور يجب أن تكون 6 أحرف على الأقل' });
+  const hash = getPassHash();
+  if (hash && hashPwd(current || '') !== hash)
+    return res.status(401).json({ error: 'كلمة المرور الحالية خاطئة' });
+  fs.writeFileSync(PASSWORD_FILE, hashPwd(password), 'utf8');
+  res.json({ ok: true, token: makeToken(hashPwd(password)) });
+});
+
+/* Auth — remove password */
+app.delete('/api/auth/password', (req, res) => {
+  const hash = getPassHash();
+  if (hash && hashPwd(req.body.current || '') !== hash)
+    return res.status(401).json({ error: 'كلمة المرور الحالية خاطئة' });
+  if (fs.existsSync(PASSWORD_FILE)) fs.unlinkSync(PASSWORD_FILE);
+  res.json({ ok: true });
 });
 
 // ── Start ──────────────────────────────────────────────────────
 app.listen(PORT, () => {
+  const locked = !!getPassHash();
   console.log(`\n  ╔══════════════════════════════════════╗`);
   console.log(`  ║   GT-NEWSTECH Admin Panel            ║`);
   console.log(`  ║   http://localhost:${PORT}              ║`);
+  console.log(`  ║   ${locked ? '🔒 محمية بكلمة مرور' : '🔓 بدون كلمة مرور    '}           ║`);
   console.log(`  ╚══════════════════════════════════════╝\n`);
 });

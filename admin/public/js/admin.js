@@ -34,10 +34,47 @@ function toast(msg, type='info', dur=3000) {
   setTimeout(() => t.remove(), dur);
 }
 
+// ── Auth ───────────────────────────────────────────────────────
+const TOKEN_KEY = 'gnt-admin-token';
+
+function getToken()      { return localStorage.getItem(TOKEN_KEY) || ''; }
+function setToken(t)     { if(t) localStorage.setItem(TOKEN_KEY, t); else localStorage.removeItem(TOKEN_KEY); }
+
 async function api(url, opts={}) {
-  const r = await fetch(url, { headers:{'Content-Type':'application/json'}, ...opts });
+  const headers = { 'Content-Type': 'application/json', 'x-admin-token': getToken() };
+  const r = await fetch(url, { headers, ...opts });
+  if (r.status === 401) { showLogin(); return {}; }
   return r.json();
 }
+
+async function checkAuth() {
+  const st = await fetch('/api/auth/status', { headers: { 'x-admin-token': getToken() } });
+  if (st.status === 401) { showLogin(); return false; }
+  return true;
+}
+
+function showLogin() {
+  $('loginOverlay').removeAttribute('hidden');
+  setTimeout(() => $('loginPass')?.focus(), 50);
+}
+
+window.doLogin = async function() {
+  const pass = $('loginPass')?.value || '';
+  const d = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: pass })
+  }).then(r => r.json());
+  if (d.ok) {
+    setToken(d.token);
+    $('loginOverlay').setAttribute('hidden', '');
+    $('loginError').textContent = '';
+    navigate(location.hash.slice(1) || 'dashboard');
+  } else {
+    $('loginError').textContent = d.error || 'خطأ في الدخول';
+    $('loginPass').select();
+  }
+};
 
 function catBadge(cat, small=false) {
   const info  = CATS[cat] || {};
@@ -55,7 +92,7 @@ function fmt(kb) {
 function navigate(page) {
   S.page = page;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page));
-  const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', git:'Git / نشر', config:'الإعدادات' };
+  const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', git:'Git / نشر', remotes:'المستودعات', security:'الأمان', config:'الإعدادات' };
   $('topbarTitle').textContent = titles[page] || page;
   renderPage(page);
 }
@@ -72,6 +109,8 @@ async function renderPage(page) {
   if (page === 'images')       return renderImages(c);
   if (page === 'categories')   return renderCategories(c);
   if (page === 'git')          return renderGit(c);
+  if (page === 'remotes')      return renderRemotes(c);
+  if (page === 'security')     return renderSecurity(c);
   if (page === 'config')       return renderConfig(c);
 }
 
@@ -947,9 +986,215 @@ $('sidebarToggle').addEventListener('click', () => {
   document.querySelector('.sidebar').classList.toggle('open');
 });
 
+// ── Remotes page ───────────────────────────────────────────────
+async function renderRemotes(c) {
+  const d = await api('/api/remotes');
+  const remotes = d.remotes || [];
+  c.innerHTML = `
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><i class="fa-solid fa-code-branch" style="color:var(--gold)"></i>
+      <h3>المستودعات المتصلة</h3>
+      <button class="btn btn-sm btn-ghost" style="margin-right:auto" onclick="renderRemotes($('content'))"><i class="fa-solid fa-rotate"></i></button>
+    </div>
+    <div class="card-body" style="padding:0">
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr style="background:var(--bg3)">
+          <th style="padding:9px 14px;text-align:right;font-size:.75rem;color:var(--muted)">الاسم</th>
+          <th style="padding:9px 14px;text-align:right;font-size:.75rem;color:var(--muted)">الرابط</th>
+          <th style="padding:9px 14px;width:80px"></th>
+        </tr></thead>
+        <tbody>
+          ${remotes.length ? remotes.map(r=>`
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px 14px;font-weight:700;color:var(--gold);font-family:monospace">${r.name}</td>
+            <td style="padding:10px 14px;font-size:.78rem;color:var(--muted);font-family:monospace;word-break:break-all">${r.url}</td>
+            <td style="padding:10px 14px">
+              ${r.name!=='origin'?`<button class="btn-icon danger" onclick="removeRemote('${r.name}')"><i class="fa-solid fa-trash"></i></button>`:''}
+            </td>
+          </tr>`).join('') : `<tr><td colspan="3" style="text-align:center;padding:30px;color:var(--muted)">لا توجد مستودعات</td></tr>`}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><i class="fa-solid fa-plus-circle" style="color:var(--gold)"></i><h3>إضافة مستودع</h3></div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>الاسم <small>(مثل: gitlab, codeberg)</small></label>
+          <div style="display:flex;gap:.5rem">
+            <input type="text" id="rName" placeholder="gitlab" dir="ltr" style="flex:1">
+            ${pasteBtn('rName')}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>الرابط (URL)</label>
+          <div style="display:flex;gap:.5rem">
+            <input type="text" id="rUrl" placeholder="https://gitlab.com/user/repo.git" dir="ltr" style="flex:1">
+            ${pasteBtn('rUrl')}
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:.75rem;display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="addRemote()"><i class="fa-solid fa-plus"></i> إضافة</button>
+        <span style="color:var(--muted);font-size:.75rem;margin:auto 0">
+          أمثلة: GitLab · Codeberg · Bitbucket · Cloudflare Pages (عبر Workers)
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><i class="fa-solid fa-upload" style="color:var(--gold)"></i><h3>دفع لمستودعات متعددة</h3></div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem">
+        <label style="font-size:.78rem;color:var(--muted);font-weight:600;display:block;margin-bottom:.5rem">اختر المستودعات:</label>
+        <div id="remotesCheckboxes" style="display:flex;flex-wrap:wrap;gap:.6rem">
+          ${remotes.map(r=>`
+          <label class="check-label">
+            <input type="checkbox" name="pushRemote" value="${r.name}" ${r.name==='origin'?'checked':''}>
+            <span style="font-family:monospace;font-size:.85rem">${r.name}</span>
+          </label>`).join('')}
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:.75rem">
+        <label>رسالة الـ Commit</label>
+        <div style="display:flex;gap:.5rem">
+          <input type="text" id="multiCommitMsg" value="update: via admin panel" style="flex:1">
+          ${pasteBtn('multiCommitMsg')}
+        </div>
+      </div>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="pushSelected()">
+          <i class="fa-solid fa-upload"></i> دفع للمستودعات المختارة
+        </button>
+        <button class="btn btn-outline" onclick="pushAll()">
+          <i class="fa-solid fa-upload"></i> دفع للكل
+        </button>
+      </div>
+      <div id="pushResults" style="margin-top:.75rem"></div>
+    </div>
+  </div>`;
+}
+
+window.addRemote = async function() {
+  const name = $('rName')?.value.trim();
+  const url  = $('rUrl')?.value.trim();
+  if (!name || !url) { toast('أدخل الاسم والرابط', 'error'); return; }
+  const d = await api('/api/remotes', { method:'POST', body: JSON.stringify({ name, url }) });
+  if (d.ok) { toast(`✓ تمت إضافة مستودع "${name}"`, 'success'); renderRemotes($('content')); }
+  else toast('خطأ: ' + (d.error || ''), 'error');
+};
+
+window.removeRemote = async function(name) {
+  if (!confirm(`حذف المستودع "${name}"؟`)) return;
+  const d = await api(`/api/remotes/${name}`, { method:'DELETE' });
+  if (d.ok) { toast('تم الحذف', 'success'); renderRemotes($('content')); }
+  else toast('خطأ: ' + (d.error || ''), 'error');
+};
+
+window.pushSelected = async function() {
+  const remotes = Array.from(document.querySelectorAll('[name=pushRemote]:checked')).map(c=>c.value);
+  if (!remotes.length) { toast('اختر مستودعاً واحداً على الأقل', 'error'); return; }
+  await doPushMulti(remotes);
+};
+
+window.pushAll = async function() {
+  const remotes = Array.from(document.querySelectorAll('[name=pushRemote]')).map(c=>c.value);
+  await doPushMulti(remotes);
+};
+
+async function doPushMulti(remotes) {
+  const msg = $('multiCommitMsg')?.value || 'update: via admin panel';
+  $('pushResults').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الدفع...';
+  const d = await api('/api/git/push-all', { method:'POST', body: JSON.stringify({ remotes, message: msg, branch: 'main' }) });
+  const results = d.results || [];
+  $('pushResults').innerHTML = results.map(r=>`
+    <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem 0;border-bottom:1px solid var(--border)">
+      <i class="fa-solid fa-${r.ok ? 'check-circle' : 'times-circle'}" style="color:${r.ok ? 'var(--success)' : 'var(--danger)'}"></i>
+      <span style="font-family:monospace;font-weight:600">${r.remote}</span>
+      <span style="font-size:.78rem;color:var(--muted)">${r.ok ? '✓ نجح' : r.error || 'فشل'}</span>
+    </div>`).join('');
+}
+
+// ── Security page ───────────────────────────────────────────────
+async function renderSecurity(c) {
+  const st = await fetch('/api/auth/status', { headers: { 'x-admin-token': getToken() } }).then(r=>r.json());
+  const has = st.hasPassword;
+  c.innerHTML = `
+  <div class="card">
+    <div class="card-header">
+      <i class="fa-solid fa-shield-halved" style="color:var(--gold)"></i>
+      <h3>حماية لوحة التحكم</h3>
+      <span class="r-cat" style="background:${has?'var(--cat-foss)':'#555'};color:#fff;margin-right:auto">
+        ${has ? '🔒 محمية' : '🔓 مفتوحة'}
+      </span>
+    </div>
+    <div class="card-body">
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">
+        كلمة المرور تُحفظ محلياً (hash SHA-256) ولا تُرفع للمستودع.
+      </p>
+      <div class="form-grid">
+        ${has ? `
+        <div class="form-group">
+          <label>كلمة المرور الحالية</label>
+          <div style="display:flex;gap:.5rem"><input type="password" id="sCurrent" style="flex:1">${pasteBtn('sCurrent')}</div>
+        </div>` : ''}
+        <div class="form-group">
+          <label>${has ? 'كلمة المرور الجديدة' : 'كلمة المرور'}</label>
+          <div style="display:flex;gap:.5rem"><input type="password" id="sNew" style="flex:1">${pasteBtn('sNew')}</div>
+        </div>
+        <div class="form-group">
+          <label>تأكيد كلمة المرور</label>
+          <div style="display:flex;gap:.5rem"><input type="password" id="sConfirm" style="flex:1">${pasteBtn('sConfirm')}</div>
+        </div>
+      </div>
+      <div style="margin-top:.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="setPassword()">
+          <i class="fa-solid fa-lock"></i> ${has ? 'تغيير كلمة المرور' : 'تفعيل الحماية'}
+        </button>
+        ${has ? `<button class="btn btn-danger" onclick="removePassword()">
+          <i class="fa-solid fa-lock-open"></i> إزالة الحماية
+        </button>` : ''}
+      </div>
+      <div id="secResult" style="margin-top:.75rem;font-size:.82rem;min-height:1.5em"></div>
+    </div>
+  </div>`;
+}
+
+window.setPassword = async function() {
+  const cur  = $('sCurrent')?.value || '';
+  const npwd = $('sNew')?.value || '';
+  const conf = $('sConfirm')?.value || '';
+  if (npwd !== conf) { $('secResult').innerHTML = '<span style="color:var(--danger)">كلمتا المرور لا تتطابقان</span>'; return; }
+  const d = await api('/api/auth/set-password', { method:'POST', body: JSON.stringify({ password: npwd, current: cur }) });
+  if (d.ok) { setToken(d.token); $('secResult').innerHTML = '<span style="color:var(--success)">✓ تم حفظ كلمة المرور</span>'; renderSecurity($('content')); }
+  else $('secResult').innerHTML = `<span style="color:var(--danger)">${d.error}</span>`;
+};
+
+window.removePassword = async function() {
+  if (!confirm('إزالة الحماية بكلمة المرور؟')) return;
+  const cur = $('sCurrent')?.value || '';
+  const d = await api('/api/auth/password', { method:'DELETE', body: JSON.stringify({ current: cur }) });
+  if (d.ok) { setToken(null); toast('✓ تمت إزالة كلمة المرور', 'success'); renderSecurity($('content')); }
+  else toast('خطأ: ' + (d.error || ''), 'error');
+};
+
+// ── Paste button helper ─────────────────────────────────────────
+function pasteBtn(targetId) {
+  return `<button type="button" class="btn btn-sm btn-ghost paste-btn" title="لصق"
+    onclick="navigator.clipboard.readText().then(t=>{$('${targetId}').value=t;$('${targetId}').dispatchEvent(new Event('input'))})">
+    <i class="fa-regular fa-clipboard"></i></button>`;
+}
+
 // ── Init ───────────────────────────────────────────────────────
 /* تحميل الأقسام ديناميكياً ثم تهيئة الصفحة */
-loadCats().then(() => {
+loadCats().then(async () => {
+  /* فحص المصادقة */
+  const st = await fetch('/api/auth/status', { headers: { 'x-admin-token': getToken() } });
+  if (st.status === 401) { showLogin(); return; }
+
   /* تحديث قائمة الأقسام في محرر المقال */
   const sel = $('fCategory');
   if (sel && Object.keys(CATS).length) {

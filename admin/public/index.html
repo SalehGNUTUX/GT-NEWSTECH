@@ -41,6 +41,12 @@
     <a href="#git" class="nav-item" data-page="git">
       <i class="fa-brands fa-git-alt"></i><span>Git / نشر</span>
     </a>
+    <a href="#remotes" class="nav-item" data-page="remotes">
+      <i class="fa-solid fa-code-branch"></i><span>المستودعات</span>
+    </a>
+    <a href="#security" class="nav-item" data-page="security">
+      <i class="fa-solid fa-shield-halved"></i><span>الأمان</span>
+    </a>
     <a href="#config" class="nav-item" data-page="config">
       <i class="fa-solid fa-gear"></i><span>الإعدادات</span>
     </a>
@@ -275,6 +281,21 @@
       </div>
       <div class="image-picker-grid" id="imagePickerGrid"></div>
     </div>
+  </div>
+</div>
+
+<!-- Login Screen -->
+<div class="login-overlay" id="loginOverlay" hidden>
+  <div class="login-box">
+    <img src="/site-icons/gt-newstech-icon.png" alt="GT-NEWSTECH" class="login-logo">
+    <div class="login-title">GT-NEWSTECH Admin</div>
+    <div class="login-sub">أدخل كلمة المرور للمتابعة</div>
+    <input type="password" id="loginPass" class="login-input" placeholder="كلمة المرور..."
+           onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="btn btn-gold" style="width:100%" onclick="doLogin()">
+      <i class="fa-solid fa-unlock-keyhole"></i> دخول
+    </button>
+    <div id="loginError" style="color:#e05252;font-size:.82rem;margin-top:.5rem;min-height:1.2em"></div>
   </div>
 </div>
 

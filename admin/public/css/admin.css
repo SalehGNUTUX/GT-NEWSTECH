@@ -532,3 +532,34 @@ small { color:var(--muted); font-size:.7rem; }
   cursor:pointer; transition:transform .15s;
 }
 .color-dot:hover { transform:scale(1.2); border-color:#fff5; }
+
+/* ── Login Screen ────────────────────────────────────────── */
+.login-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.85);
+  z-index:9000; display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(6px);
+}
+.login-box {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:16px; padding:2.5rem; width:100%; max-width:340px;
+  display:flex; flex-direction:column; gap:.75rem;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);
+}
+.login-logo { width:64px; height:64px; border-radius:12px; margin:0 auto; }
+.login-title { text-align:center; font-size:1.1rem; font-weight:900; color:var(--gold); }
+.login-sub   { text-align:center; font-size:.78rem; color:var(--muted); }
+.login-input {
+  background:var(--bg3); border:1px solid var(--border); color:var(--text);
+  border-radius:8px; padding:10px 14px; font-size:.9rem; outline:none; width:100%;
+  transition:border-color .2s;
+}
+.login-input:focus { border-color:var(--gold); }
+
+/* ── Paste button ────────────────────────────────────────── */
+.paste-btn {
+  flex-shrink:0; padding:5px 8px; font-size:.8rem;
+  border:1px solid var(--border); border-radius:6px;
+  background:var(--bg3); color:var(--muted);
+  cursor:pointer; transition:all .2s;
+}
+.paste-btn:hover { color:var(--gold); border-color:var(--gold-dim); background:var(--bg4); }
