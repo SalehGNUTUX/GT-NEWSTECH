@@ -15,6 +15,7 @@ const PORT = 4001;
 // ── Paths ──────────────────────────────────────────────────────
 const ROOT          = path.join(__dirname, '..');
 const PASSWORD_FILE = path.join(__dirname, '.admin-password');  // gitignored
+const TRASH_DIR     = path.join(__dirname, '.trash');           // gitignored
 const LANGS      = ['ar', 'en'];
 const CATS_FILE  = path.join(ROOT, '_data', 'categories.yml');
 const IMG_EXTS   = /\.(jpg|jpeg|png|gif|webp|svg|avif)$/i;
@@ -324,13 +325,81 @@ app.put('/api/article', (req, res) => {
   res.json({ ok: true });
 });
 
-/* Delete article */
+/* Delete article → ينقل إلى المهملات */
 app.delete('/api/article', (req, res) => {
   const { lang, cat, file } = req.query;
   if (!lang || !cat || !file) return res.status(400).json({ error: 'Missing params' });
   const fp = path.join(ROOT, `_${lang}`, cat, file);
   if (!fs.existsSync(fp)) return res.status(404).json({ error: 'Not found' });
+
+  fs.mkdirSync(TRASH_DIR, { recursive: true });
+  const id        = `${Date.now()}_${lang}_${cat}_${file}`;
+  const trashPath = path.join(TRASH_DIR, `${id}.json`);
+  const content   = fs.readFileSync(fp, 'utf8');
+  const parsed    = matter(content);
+
+  fs.writeFileSync(trashPath, JSON.stringify({
+    id, lang, cat, file,
+    title:      parsed.data.title || file,
+    deleted_at: new Date().toISOString(),
+    content
+  }, null, 2));
+
   fs.unlinkSync(fp);
+  res.json({ ok: true, trashId: id });
+});
+
+/* ── Trash API ────────────────────────────────────────────────── */
+
+/* قائمة المهملات */
+app.get('/api/trash', (_req, res) => {
+  if (!fs.existsSync(TRASH_DIR)) return res.json({ items: [] });
+  const items = fs.readdirSync(TRASH_DIR)
+    .filter(f => f.endsWith('.json'))
+    .map(f => {
+      try { return JSON.parse(fs.readFileSync(path.join(TRASH_DIR, f), 'utf8')); }
+      catch (_) { return null; }
+    })
+    .filter(Boolean)
+    .sort((a, b) => new Date(b.deleted_at) - new Date(a.deleted_at));
+  res.json({ items });
+});
+
+/* استرجاع من المهملات */
+app.post('/api/trash/:id/restore', (req, res) => {
+  const trashPath = path.join(TRASH_DIR, `${req.params.id}.json`);
+  if (!fs.existsSync(trashPath)) return res.status(404).json({ error: 'Not found' });
+
+  const data    = JSON.parse(fs.readFileSync(trashPath, 'utf8'));
+  const destDir = path.join(ROOT, `_${data.lang}`, data.cat);
+  const destFp  = path.join(destDir, data.file);
+
+  /* إذا الملف موجود أضف timestamp للاسم */
+  const finalFp = fs.existsSync(destFp)
+    ? path.join(destDir, `restored_${Date.now()}_${data.file}`)
+    : destFp;
+
+  fs.mkdirSync(destDir, { recursive: true });
+  fs.writeFileSync(finalFp, data.content);
+  fs.unlinkSync(trashPath);
+  res.json({ ok: true, file: path.basename(finalFp) });
+});
+
+/* حذف نهائي من المهملات */
+app.delete('/api/trash/:id', (req, res) => {
+  const trashPath = path.join(TRASH_DIR, `${req.params.id}.json`);
+  if (!fs.existsSync(trashPath)) return res.status(404).json({ error: 'Not found' });
+  fs.unlinkSync(trashPath);
+  res.json({ ok: true });
+});
+
+/* تفريغ المهملات */
+app.delete('/api/trash', (_req, res) => {
+  if (fs.existsSync(TRASH_DIR)) {
+    fs.readdirSync(TRASH_DIR)
+      .filter(f => f.endsWith('.json'))
+      .forEach(f => fs.unlinkSync(path.join(TRASH_DIR, f)));
+  }
   res.json({ ok: true });
 });
 

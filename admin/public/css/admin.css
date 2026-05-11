@@ -563,3 +563,19 @@ small { color:var(--muted); font-size:.7rem; }
   cursor:pointer; transition:all .2s;
 }
 .paste-btn:hover { color:var(--gold); border-color:var(--gold-dim); background:var(--bg4); }
+
+/* ── Trash Badge ─────────────────────────────────────────── */
+.trash-badge {
+  background: var(--danger);
+  color: #fff;
+  font-size: .6rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: auto;
+}

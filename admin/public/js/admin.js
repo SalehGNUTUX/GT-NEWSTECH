@@ -93,7 +93,7 @@ function fmt(kb) {
 function navigate(page) {
   S.page = page;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page));
-  const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', git:'Git / نشر', remotes:'المستودعات', security:'الأمان', config:'الإعدادات' };
+  const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', trash:'المهملات', git:'Git / نشر', remotes:'المستودعات', security:'الأمان', config:'الإعدادات' };
   $('topbarTitle').textContent = titles[page] || page;
   renderPage(page);
 }
@@ -109,6 +109,7 @@ async function renderPage(page) {
   if (page === 'new-article')  { openEditor(null); return renderArticles(c); }
   if (page === 'images')       return renderImages(c);
   if (page === 'categories')   return renderCategories(c);
+  if (page === 'trash')        return renderTrash(c);
   if (page === 'git')          return renderGit(c);
   if (page === 'remotes')      return renderRemotes(c);
   if (page === 'security')     return renderSecurity(c);
@@ -294,6 +295,94 @@ window.deleteImage = async (lang, name) => {
   await api(`/api/images/${lang}/${name}`, {method:'DELETE'});
   toast('تم حذف الصورة', 'success');
   await loadImages();
+};
+
+// ── Trash ───────────────────────────────────────────────────────
+async function updateTrashBadge() {
+  try {
+    const d = await api('/api/trash');
+    const n = (d.items || []).length;
+    const badge = $('trashBadge');
+    const nav   = $('trashNavItem');
+    if (!badge) return;
+    if (n > 0) {
+      badge.textContent = n;
+      badge.removeAttribute('hidden');
+      nav?.classList.add('has-badge');
+    } else {
+      badge.setAttribute('hidden', '');
+      nav?.classList.remove('has-badge');
+    }
+  } catch (_) {}
+}
+
+async function renderTrash(c) {
+  const d = await api('/api/trash');
+  const items = d.items || [];
+  c.innerHTML = `
+  <div class="card">
+    <div class="card-header">
+      <i class="fa-solid fa-trash-can" style="color:var(--danger)"></i>
+      <h3>المهملات <span style="color:var(--muted);font-size:.8rem">(${items.length} مقال)</span></h3>
+      ${items.length ? `<button class="btn btn-danger btn-sm" style="margin-right:auto" onclick="emptyTrash()">
+        <i class="fa-solid fa-fire"></i> تفريغ المهملات
+      </button>` : ''}
+    </div>
+    <div class="card-body" style="padding:0">
+      ${!items.length
+        ? `<div class="empty-state" style="padding:3rem"><i class="fa-solid fa-check-circle" style="font-size:2rem;color:var(--success)"></i><p style="margin-top:.75rem">المهملات فارغة</p></div>`
+        : `<table style="width:100%;border-collapse:collapse">
+            <thead><tr style="background:var(--bg3)">
+              <th style="padding:9px 14px;text-align:right;font-size:.75rem;color:var(--muted)">العنوان</th>
+              <th style="padding:9px 14px;text-align:right;font-size:.75rem;color:var(--muted)">القسم</th>
+              <th style="padding:9px 14px;text-align:right;font-size:.75rem;color:var(--muted)">تاريخ الحذف</th>
+              <th style="padding:9px 14px;width:130px"></th>
+            </tr></thead>
+            <tbody>
+              ${items.map(item => `
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:10px 14px">
+                  <div style="font-weight:600;font-size:.875rem">${item.title||item.file}</div>
+                  <div style="font-size:.7rem;color:var(--muted);font-family:monospace">${item.lang.toUpperCase()} · ${item.file}</div>
+                </td>
+                <td style="padding:10px 14px">${catBadge(item.cat, true)}</td>
+                <td style="padding:10px 14px;font-size:.75rem;color:var(--muted);font-family:'Inter',monospace">
+                  ${new Date(item.deleted_at).toLocaleString('ar-SA', {dateStyle:'short', timeStyle:'short'})}
+                </td>
+                <td style="padding:10px 14px">
+                  <div style="display:flex;gap:.4rem">
+                    <button class="btn btn-sm" style="background:var(--cat-foss);color:#fff" onclick="restoreArticle('${item.id}')" title="استرجاع">
+                      <i class="fa-solid fa-rotate-left"></i> استرجاع
+                    </button>
+                    <button class="btn-icon danger" onclick="deleteForever('${item.id}')" title="حذف نهائي">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`}
+    </div>
+  </div>`;
+}
+
+window.restoreArticle = async function(id) {
+  const d = await api(`/api/trash/${id}/restore`, { method: 'POST' });
+  if (d.ok) { toast('✓ تم استرجاع المقال', 'success'); updateTrashBadge(); renderTrash($('content')); }
+  else toast('خطأ: ' + (d.error || ''), 'error');
+};
+
+window.deleteForever = async function(id) {
+  if (!confirm('حذف نهائي لا يمكن التراجع عنه؟')) return;
+  const d = await api(`/api/trash/${id}`, { method: 'DELETE' });
+  if (d.ok) { toast('تم الحذف النهائي', 'info'); updateTrashBadge(); renderTrash($('content')); }
+  else toast('خطأ: ' + (d.error || ''), 'error');
+};
+
+window.emptyTrash = async function() {
+  if (!confirm('تفريغ المهملات نهائياً؟ لا يمكن التراجع.')) return;
+  const d = await api('/api/trash', { method: 'DELETE' });
+  if (d.ok) { toast('✓ تم تفريغ المهملات', 'info'); updateTrashBadge(); renderTrash($('content')); }
 };
 
 // Categories ────────────────────────────────────────────────────
@@ -890,10 +979,13 @@ $('cancelEditor').addEventListener('click', () => $('editorModal').setAttribute(
 
 // Delete article
 window.deleteArticle = async (lang, cat, file, title) => {
-  if(!confirm(`حذف المقال:\n"${title}"?\n\nهذا الإجراء لا يمكن التراجع عنه.`)) return;
+  if(!confirm(`نقل المقال إلى المهملات:\n"${title}"?\n\nيمكن استرجاعه لاحقاً من قسم المهملات.`)) return;
   const d = await api(`/api/article?lang=${lang}&cat=${cat}&file=${encodeURIComponent(file)}`, { method:'DELETE' });
-  if(d.ok) { toast('تم حذف المقال', 'success'); renderArticles($('content')); }
-  else toast('خطأ في الحذف', 'error');
+  if(d.ok) {
+    toast('تم نقل المقال إلى المهملات 🗑', 'info');
+    updateTrashBadge();
+    renderArticles($('content'));
+  } else toast('خطأ في الحذف', 'error');
 };
 
 // ── Image Picker ───────────────────────────────────────────────
@@ -1312,5 +1404,6 @@ loadCats().then(async () => {
     sel.innerHTML = Object.entries(CATS)
       .map(([id, c]) => `<option value="${id}">${c.ar}</option>`).join('');
   }
+  updateTrashBadge();
   navigate(location.hash.slice(1) || 'dashboard');
 });
