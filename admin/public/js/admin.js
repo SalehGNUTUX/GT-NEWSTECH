@@ -76,10 +76,11 @@ window.doLogin = async function() {
   }
 };
 
-function catBadge(cat, small=false) {
+function catBadge(cat, small=false, en=false) {
   const info  = CATS[cat] || {};
   const color = info.color || '#888';
-  return `<span class="r-cat" style="background:${color};color:#000;${small?'font-size:.6rem':''}">${info.ar||cat}</span>`;
+  const label = en ? (info.en || cat) : (info.ar || cat);
+  return `<span class="r-cat" style="background:${color};color:#000;${small?'font-size:.6rem':''}">${label}</span>`;
 }
 
 function fmt(kb) {
@@ -163,13 +164,14 @@ async function renderDashboard(c) {
 // Articles ──────────────────────────────────────────────────────
 function articlesTableRows(list) {
   if (!list.length) return `<tr class="empty-row"><td colspan="6"><i class="fa-solid fa-inbox"></i> لا توجد مقالات</td></tr>`;
+  const isEn = S.langFilter === 'en';
   return list.map(a => `
   <tr>
     <td class="td-title" title="${a.title||''}">${a.title||a._file}</td>
-    <td>${catBadge(a._cat)}</td>
+    <td>${catBadge(a._cat, false, isEn)}</td>
     <td style="font-family:'Inter',monospace;font-size:.78rem">${(a.date||'').toString().slice(0,10)}</td>
     <td style="font-size:.72rem;color:var(--muted);font-family:monospace">${a.slug||'-'}</td>
-    <td style="font-size:.72rem">${(a.also_in||[]).map(c=>`<span class="r-cat cc-${c}" style="font-size:.6rem">${CATS[c]?.ar||c}</span>`).join(' ')||'-'}</td>
+    <td style="font-size:.72rem">${(a.also_in||[]).map(c=>{const n=CATS[c];return`<span class="r-cat" style="background:${n?.color||'#888'};color:#000;font-size:.6rem">${isEn?(n?.en||c):(n?.ar||c)}</span>`;}).join(' ')||'-'}</td>
     <td><div class="td-actions">
       <button class="btn-icon edit" title="تحرير" onclick="editFrom('${a._lang}','${a._cat}','${a._file}')"><i class="fa-solid fa-pen-to-square"></i></button>
       <button class="btn-icon danger" title="حذف" onclick="deleteArticle('${a._lang}','${a._cat}','${a._file}','${(a.title||a._file).replace(/'/g,"\\'")}')"><i class="fa-solid fa-trash"></i></button>
