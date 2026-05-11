@@ -130,9 +130,13 @@ DELETE /api/images/:lang/:name
 GET  /api/categories                 ← dynamic from _data/categories.yml + disk scan
 POST /api/categories                 ← create category (dirs + pages + YAML)
 GET  /api/git/status                 ← includes ahead/behind count via git fetch
-POST /api/git/pull                   ← git pull --ff-only origin main
+POST /api/git/pull                   ← ff-only → rebase --autostash; 409 + needsResolution on conflict
 POST /api/git/push                   ← git add . && commit && push (single remote)
 POST /api/git/push-all               ← push to multiple remotes
+GET  /api/git/conflicts              ← list conflicted files + preview ours/theirs (600 chars)
+POST /api/git/resolve                ← body { file, strategy: 'ours'|'theirs' } → checkout + add
+POST /api/git/continue               ← rebase --continue; returns hasMore if next commit has conflicts
+POST /api/git/abort                  ← rebase --abort | merge --abort
 GET  /api/remotes                    ← list git remotes
 POST /api/remotes                    ← add/update remote
 DELETE /api/remotes/:name            ← remove remote
@@ -186,9 +190,20 @@ Hosted static SPA at `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`.
 - Authentication via GitHub OAuth + Sveltia CMS Auth on Cloudflare Workers
 
 **Conflict prevention between the two admin panels:**
-- `start.sh` runs `git pull --ff-only` automatically on startup
+- `start.sh` runs `git pull --ff-only` then `--rebase --autostash` as fallback on startup
 - Git page shows sync status (ahead/behind) with Pull button
-- Never edit the same article in both panels simultaneously
+- `/api/git/pull` is two-tier: ff-only first, rebase --autostash on diverged histories
+- Same fallback in `start.sh` (uses if/elif chain)
+
+**Semi-automatic conflict resolver:**
+- When `/api/git/pull` rebase fails with real conflicts → returns `409 { needsResolution: true, conflicts: [...] }`
+- Client side: `openConflictResolver()` shows modal with each conflicted file
+- For each file: previews of `ours` (`:2:<file>`) and `theirs` (`:3:<file>`) (600 chars each)
+- User picks: `git checkout --ours|--theirs && git add` per file
+- When all resolved: `git -c core.editor=true rebase --continue` (GIT_EDITOR=true skips commit msg editor)
+- Multi-commit rebases: if `continue` reveals new conflicts, modal reopens automatically
+- `/api/git/abort` calls `rebase --abort` or `merge --abort` depending on `.git/rebase-merge` or `.git/MERGE_HEAD`
+- Never edit the same article in both panels simultaneously (best practice still applies)
 
 ### CSS architecture
 
