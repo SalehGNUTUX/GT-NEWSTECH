@@ -9,7 +9,7 @@ backend:
   branch: main
   # ─── OAuth Proxy (Sveltia CMS Auth على Cloudflare Workers) ───
   # عدّل هذا الرابط بعد نشر Worker الخاص بك
-  base_url: https://YOUR-WORKER.workers.dev
+  base_url: https://sveltia-cms-auth.gnutux-arabic.workers.dev
 
 # واجهة المستخدم
 locale: ar
