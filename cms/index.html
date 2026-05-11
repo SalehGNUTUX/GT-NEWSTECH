@@ -240,47 +240,39 @@ robots: noindex
     }
 
     /* ── إصلاح: Collections العائمة تغطي البطاقات ────────── */
+    /*
+     * المشكلة: نافذة Collections تطفو فوق بطاقات المقالات
+     * الحل: نضبط z-index فقط بدون تغيير position أو إزالة الوظائف
+     * النافذة تبقى كاملة الميزات (بحث، تبديل بين المجموعات)
+     */
 
-    /* نافذة Collections المنبثقة — نجعلها ثابتة لا عائمة */
+    /* البطاقات تكون فوق النافذة العائمة */
+    #nc-root [class*="CollectionCard"],
+    #nc-root [class*="ListCard"],
+    #nc-root [class*="EntryCard"],
+    #nc-root article {
+      position: relative;
+      z-index: 5 !important;
+    }
+
+    /* نافذة Collections: z-index مناسب دون كسر وظائفها */
     #nc-root [class*="CollectionSelector"],
     #nc-root [class*="CollectionMenu"],
-    #nc-root [class*="NavList"],
-    #nc-root aside[class*="open"],
-    #nc-root [class*="SidebarMenu"] {
-      position: relative !important;
-      z-index: 10 !important;
-      box-shadow: none !important;
+    #nc-root [class*="CollectionList"] {
+      z-index: 200 !important;     /* تظهر فوق كل شيء عند فتحها */
     }
 
-    /* المنطقة الرئيسية فوق الشريط الجانبي */
-    #nc-root main,
-    #nc-root [role="main"] {
-      position: relative !important;
-      z-index: 20 !important;
+    /* خلفية شفافة لإغلاق النافذة بالنقر خارجها */
+    #nc-root [class*="Overlay"],
+    #nc-root [class*="overlay"] {
+      z-index: 199 !important;
     }
 
-    /* إذا كانت العائمة overlay على المحتوى */
-    #nc-root [class*="overlay"],
-    #nc-root [class*="Overlay"] {
-      z-index: 15 !important;
-    }
-
-    /* في العرض الضيق — الـ sidebar لا يغطي المحتوى */
-    @media (max-width: 800px) {
-      #nc-root aside,
-      #nc-root [class*="Sidebar"] {
-        position: fixed !important;
-        top: 0; bottom: 0; inset-inline-start: 0;
-        width: 260px !important;
-        z-index: 100 !important;
-        transform: translateX(-100%);
-        transition: transform .25s ease !important;
-      }
-
-      #nc-root aside.open,
-      #nc-root [class*="Sidebar"][class*="open"],
-      #nc-root [class*="sidebarVisible"] aside {
-        transform: translateX(0) !important;
+    /* في الشاشات الكبيرة: الشريط الجانبي لا يغطي المحتوى */
+    @media (min-width: 801px) {
+      #nc-root aside {
+        /* نتأكد أنه لا يطغى على المحتوى في الوضع الثابت */
+        overflow: visible !important;
       }
     }
 

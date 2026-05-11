@@ -35,6 +35,9 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
     media_folder: /assets/images/ar
     public_folder: /GT-NEWSTECH/assets/images/ar
+    # عرض الصورة في بطاقة المقال
+    thumbnail_field: image
+    summary_fields: [image, title, date, category]
     fields:
       - { name: layout,  widget: hidden, default: post }
       - { name: lang,    widget: hidden, default: ar }
@@ -124,6 +127,9 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
     media_folder: /assets/images/en
     public_folder: /GT-NEWSTECH/assets/images/en
+    # Show image in article card
+    thumbnail_field: image
+    summary_fields: [image, title, date, category]
     fields:
       - { name: layout, widget: hidden, default: post }
       - { name: lang,   widget: hidden, default: en }
