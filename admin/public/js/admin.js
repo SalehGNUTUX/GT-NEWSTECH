@@ -194,8 +194,8 @@ async function renderArticles(c) {
       <input class="search-box" id="searchBox" placeholder="ابحث في عنوان المقال..."
              value="${S.searchQ}" autocomplete="off">
       <select class="filter-select" id="catFilter">
-        <option value="">كل الأقسام</option>
-        ${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${S.catFilter===k?'selected':''}>${v.ar}</option>`).join('')}
+        <option value="">${S.langFilter==='en'?'All Categories':'كل الأقسام'}</option>
+        ${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${S.catFilter===k?'selected':''}>${S.langFilter==='en'?v.en:v.ar}</option>`).join('')}
       </select>
       <button class="btn btn-gold" onclick="openEditor(null)">
         <i class="fa-solid fa-plus"></i> مقال جديد
@@ -546,11 +546,13 @@ async function openEditor(ref) {
   $('fAlsoIn').querySelectorAll('input').forEach(cb => { cb.checked = alsoIn.includes(cb.value); });
 
   $('fContent').value = a.content || '';
+  chReset(a.content || '');   // إعادة تهيئة سجل الـ undo
   updateWordCount();
   updateImgPreview();
-
-  // hide current category in also_in
   syncAlsoInWithCat();
+
+  /* إضافة أزرار اللصق لحقول المحرر (مرة واحدة فقط) */
+  addEditorPasteButtons();
 
   $('editorModal').removeAttribute('hidden');
   activateTab('details');
@@ -733,7 +735,7 @@ function updateWordCount() {
   const words = ($('fContent').value.trim().match(/\S+/g)||[]).length;
   $('wordCount').textContent = `${words} كلمة`;
 }
-$('fContent').addEventListener('input', updateWordCount);
+/* updateWordCount + chSave مدمجان في المستمع أدناه */
 
 // Image preview
 function updateImgPreview() {
@@ -765,29 +767,67 @@ document.querySelectorAll('.tb-btn').forEach(btn => {
     const sel = ta.value.slice(s, e);
     let ins = '';
 
-    if(btn.dataset.insert) {
+    /* ── أوامر التراجع/التقدم/المسح ── */
+    if (btn.dataset.action === 'undo') {
+      chUndo(); ta.focus(); return;
+    } else if (btn.dataset.action === 'redo') {
+      chRedo(); ta.focus(); return;
+    } else if (btn.dataset.action === 'clear') {
+      if (!ta.value || confirm('مسح كامل محتوى المقال؟')) {
+        chSave(); ta.value = ''; updateWordCount(); chSave();
+      }
+      ta.focus(); return;
+
+    /* ── إدراج جدول ── */
+    } else if (btn.dataset.action === 'table') {
+      const cols = parseInt(prompt('عدد الأعمدة:', '3') || '3', 10) || 3;
+      const rows = parseInt(prompt('عدد الصفوف (بدون الرأس):', '2') || '2', 10) || 2;
+      const header = Array.from({length:cols}, (_,i) => `العمود ${i+1}`).join(' | ');
+      const sep    = Array.from({length:cols}, () => '---').join(' | ');
+      const row    = Array.from({length:cols}, () => 'بيانات').join(' | ');
+      const table  = '\n| ' + header + ' |\n| ' + sep + ' |\n' +
+                     Array.from({length:rows}, () => '| ' + row + ' |').join('\n') + '\n';
+      chSave();
+      ta.setRangeText(table, s, e, 'end');
+
+    /* ── التنسيق النصي ── */
+    } else if(btn.dataset.insert) {
       const w = btn.dataset.insert;
       ins = sel ? `${w}${sel}${w}` : `${w}متن${w}`;
+      chSave();
       ta.setRangeText(ins, s, e, 'end');
     } else if(btn.dataset.insertH) {
       const line = ta.value.lastIndexOf('\n', s-1)+1;
+      chSave();
       ta.setRangeText(btn.dataset.insertH, line, line, 'start');
     } else if(btn.dataset.insertLine) {
+      chSave();
       ta.setRangeText('\n'+btn.dataset.insertLine, s, e, 'end');
     } else if(btn.dataset.insertBlock) {
+      chSave();
       ta.setRangeText('\n'+btn.dataset.insertBlock+(sel||'نص')+'', s, e, 'end');
     } else if(btn.dataset.insertCode) {
+      chSave();
       ta.setRangeText('\n```\n'+(sel||'الكود هنا')+'\n```\n', s, e, 'end');
     } else if(btn.dataset.action === 'link') {
       const url = prompt('رابط URL:', 'https://');
-      if(url) ta.setRangeText(`[${sel||'نص الرابط'}](${url})`, s, e, 'end');
+      if(url) { chSave(); ta.setRangeText(`[${sel||'نص الرابط'}](${url})`, s, e, 'end'); }
     } else if(btn.dataset.action === 'aff-link') {
       const url = prompt('رابط الأفيلييت:', 'https://');
-      if(url) ta.setRangeText(`[${sel||'اسم المنتج'}](${url}){: .aff-link rel="nofollow sponsored" target="_blank"}`, s, e, 'end');
+      if(url) { chSave(); ta.setRangeText(`[${sel||'اسم المنتج'}](${url}){: .aff-link rel="nofollow sponsored" target="_blank"}`, s, e, 'end'); }
     }
     ta.focus();
     updateWordCount();
+    chSave();
   });
+});
+
+/* حفظ السجل عند الكتابة في المحتوى */
+let chTimer;
+document.getElementById('fContent')?.addEventListener('input', () => {
+  updateWordCount();
+  clearTimeout(chTimer);
+  chTimer = setTimeout(chSave, 600);
 });
 
 // Save article
@@ -1174,26 +1214,95 @@ window.setPassword = async function() {
 };
 
 window.removePassword = async function() {
-  if (!confirm('إزالة الحماية بكلمة المرور؟')) return;
-  const cur = $('sCurrent')?.value || '';
-  const d = await api('/api/auth/password', { method:'DELETE', body: JSON.stringify({ current: cur }) });
-  if (d.ok) { setToken(null); toast('✓ تمت إزالة كلمة المرور', 'success'); renderSecurity($('content')); }
-  else toast('خطأ: ' + (d.error || ''), 'error');
+  /* أظهر تأكيد داخلي بدل browser dialog */
+  const res = $('secResult');
+  res.innerHTML = `
+    <div style="background:rgba(224,82,82,.12);border:1px solid rgba(224,82,82,.3);border-radius:8px;padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+      <i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i>
+      <span style="flex:1;font-size:.85rem">هل أنت متأكد من إزالة الحماية؟</span>
+      <button class="btn btn-danger btn-sm" id="confirmRemoveBtn"><i class="fa-solid fa-lock-open"></i> تأكيد الإزالة</button>
+      <button class="btn btn-ghost btn-sm" onclick="$('secResult').innerHTML=''"><i class="fa-solid fa-xmark"></i> إلغاء</button>
+    </div>`;
+  $('confirmRemoveBtn').onclick = async () => {
+    const cur = $('sCurrent')?.value || '';
+    const d = await api('/api/auth/password', { method:'DELETE', body: JSON.stringify({ current: cur }) });
+    if (d.ok) { setToken(null); toast('✓ تمت إزالة كلمة المرور', 'success'); renderSecurity($('content')); }
+    else { res.innerHTML = `<span style="color:var(--danger)">${d.error}</span>`; }
+  };
 };
 
 // ── Paste button helper ─────────────────────────────────────────
 function pasteBtn(targetId) {
-  return `<button type="button" class="btn btn-sm btn-ghost paste-btn" title="لصق"
+  return `<button type="button" class="paste-btn" title="لصق"
     onclick="navigator.clipboard.readText().then(t=>{$('${targetId}').value=t;$('${targetId}').dispatchEvent(new Event('input'))})">
     <i class="fa-regular fa-clipboard"></i></button>`;
 }
 
+/* إضافة أزرار لصق ديناميكياً لحقول محرر المقال */
+function addEditorPasteButtons() {
+  const fields = ['fTitle', 'fSlug', 'fAuthor', 'fExcerpt', 'fTags'];
+  fields.forEach(id => {
+    const inp = $(id);
+    if (!inp || inp.dataset.pasteAdded) return;
+    inp.dataset.pasteAdded = '1';
+    inp.style.flex = '1';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;gap:.4rem;align-items:flex-start';
+    inp.parentNode.insertBefore(wrap, inp);
+    wrap.appendChild(inp);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'paste-btn';
+    btn.title = 'لصق';
+    btn.innerHTML = '<i class="fa-regular fa-clipboard"></i>';
+    btn.onclick = () => navigator.clipboard.readText().then(t => {
+      inp.value = t; inp.dispatchEvent(new Event('input'));
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+// ── Content editor history (undo/redo) ─────────────────────────
+const CH = { stack: [''], idx: 0, lock: false };
+
+function chSave() {
+  if (CH.lock) return;
+  const v = $('fContent')?.value || '';
+  if (v === CH.stack[CH.idx]) return;
+  CH.stack.splice(CH.idx + 1);
+  CH.stack.push(v);
+  if (CH.stack.length > 200) CH.stack.shift();
+  CH.idx = CH.stack.length - 1;
+}
+
+function chReset(val) {
+  CH.stack = [val || '']; CH.idx = 0;
+}
+
+function chUndo() {
+  if (CH.idx <= 0) return;
+  CH.lock = true; CH.idx--;
+  const ta = $('fContent');
+  if (ta) { ta.value = CH.stack[CH.idx]; updateWordCount(); }
+  CH.lock = false;
+}
+
+function chRedo() {
+  if (CH.idx >= CH.stack.length - 1) return;
+  CH.lock = true; CH.idx++;
+  const ta = $('fContent');
+  if (ta) { ta.value = CH.stack[CH.idx]; updateWordCount(); }
+  CH.lock = false;
+}
+
 // ── Init ───────────────────────────────────────────────────────
-/* تحميل الأقسام ديناميكياً ثم تهيئة الصفحة */
 loadCats().then(async () => {
-  /* فحص المصادقة */
-  const st = await fetch('/api/auth/status', { headers: { 'x-admin-token': getToken() } });
-  if (st.status === 401) { showLogin(); return; }
+  /* فحص المصادقة الصحيح: تحقق من hasPassword ثم تحقق من صحة الـ token */
+  const st = await fetch('/api/auth/status').then(r => r.json()).catch(() => ({ hasPassword: false }));
+  if (st.hasPassword) {
+    const chk = await fetch('/api/stats', { headers: { 'x-admin-token': getToken() } });
+    if (chk.status === 401) { showLogin(); return; }
+  }
 
   /* تحديث قائمة الأقسام في محرر المقال */
   const sel = $('fCategory');

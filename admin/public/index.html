@@ -201,19 +201,29 @@
       <!-- Tab: Content -->
       <div class="etab-pane" id="tab-content">
         <div class="editor-toolbar">
+          <!-- تراجع/تقدم -->
+          <button class="tb-btn" data-action="undo" title="تراجع (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button>
+          <button class="tb-btn" data-action="redo" title="تقدم (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
+          <button class="tb-btn" data-action="clear" title="مسح المحتوى" style="color:#e05252"><i class="fa-solid fa-trash-can"></i></button>
+          <span class="tb-sep"></span>
+          <!-- تنسيق -->
           <button class="tb-btn" data-insert="**" title="غامق"><i class="fa-solid fa-bold"></i></button>
           <button class="tb-btn" data-insert="*" title="مائل"><i class="fa-solid fa-italic"></i></button>
-          <button class="tb-btn" data-insert-h="## " title="عنوان"><i class="fa-solid fa-heading"></i></button>
-          <button class="tb-btn" data-insert-h="### " title="عنوان فرعي">H3</button>
+          <button class="tb-btn" data-insert-h="## " title="عنوان H2"><i class="fa-solid fa-heading"></i></button>
+          <button class="tb-btn" data-insert-h="### " title="عنوان H3">H3</button>
           <span class="tb-sep"></span>
-          <button class="tb-btn" data-insert-line="- " title="قائمة"><i class="fa-solid fa-list-ul"></i></button>
+          <!-- قوائم -->
+          <button class="tb-btn" data-insert-line="- " title="قائمة نقطية"><i class="fa-solid fa-list-ul"></i></button>
           <button class="tb-btn" data-insert-line="1. " title="قائمة مرقمة"><i class="fa-solid fa-list-ol"></i></button>
           <button class="tb-btn" data-insert-block="> " title="اقتباس"><i class="fa-solid fa-quote-right"></i></button>
           <span class="tb-sep"></span>
-          <button class="tb-btn" data-insert-code="```\n" title="كود"><i class="fa-solid fa-code"></i></button>
+          <!-- كود -->
+          <button class="tb-btn" data-insert-code="```\n" title="كتلة كود"><i class="fa-solid fa-code"></i></button>
           <button class="tb-btn" data-insert="`" title="كود مضمن"><i class="fa-solid fa-terminal"></i></button>
           <span class="tb-sep"></span>
+          <!-- روابط وجداول -->
           <button class="tb-btn" data-action="link" title="رابط"><i class="fa-solid fa-link"></i></button>
+          <button class="tb-btn" data-action="table" title="جدول"><i class="fa-solid fa-table"></i></button>
           <button class="tb-btn" data-action="aff-link" title="رابط أفيلييت" style="color:var(--gold)">AFF</button>
         </div>
         <textarea id="fContent" class="content-editor" placeholder="اكتب محتوى المقال هنا بصيغة Markdown...
