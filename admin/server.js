@@ -485,13 +485,26 @@ app.get('/api/git/status', (_req, res) => {
   } catch (e) { res.json({ status: '', log: '', ahead: 0, behind: 0 }); }
 });
 
-/* Git pull — مزامنة مع الـ remote */
+/* Git pull — مزامنة مع الـ remote (rebase تلقائي عند التباعد) */
 app.post('/api/git/pull', (_req, res) => {
   const { execSync } = require('child_process');
   try {
+    /* جرّب ff-only أولاً (الحالة الأنظف) */
     const out = execSync('git pull --ff-only origin main', { cwd: ROOT, encoding: 'utf8' });
-    res.json({ ok: true, message: out.trim() || 'Already up to date.' });
-  } catch (e) { res.status(500).json({ error: e.message.split('\n')[0] }); }
+    res.json({ ok: true, message: out.trim() || 'Already up to date.', mode: 'fast-forward' });
+  } catch (e) {
+    /* فشل ff-only → commits محلية متباعدة → استخدم rebase */
+    try {
+      const out = execSync('git pull --rebase --autostash origin main', { cwd: ROOT, encoding: 'utf8' });
+      res.json({ ok: true, message: 'تمت إعادة ترتيب الـ commits المحلية فوق التغييرات البعيدة\n' + out.trim(), mode: 'rebase' });
+    } catch (e2) {
+      /* فشل rebase أيضاً → تعارض حقيقي */
+      try { execSync('git rebase --abort', { cwd: ROOT }); } catch (_) {}
+      res.status(500).json({
+        error: 'تعارض يحتاج حلاً يدوياً: ' + e2.message.split('\n').slice(0, 3).join(' | ')
+      });
+    }
+  }
 });
 
 /* Git push — single remote */

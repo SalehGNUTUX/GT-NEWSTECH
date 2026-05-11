@@ -64,12 +64,14 @@ echo ""
 
 # ── مزامنة مع GitHub (لتجنب التعارض مع Decap CMS) ────────────
 echo -e "${GOLD}🔄 مزامنة مع GitHub...${NC}"
-PULL_OUT=$(git -C "$DIR" pull --ff-only origin main 2>&1)
-PULL_STATUS=$?
-if [ $PULL_STATUS -eq 0 ]; then
+# جرّب ff-only أولاً، ثم rebase عند تباعد التواريخ
+if PULL_OUT=$(git -C "$DIR" pull --ff-only origin main 2>&1); then
   echo -e "${GREEN}✓ $PULL_OUT${NC}"
+elif PULL_OUT=$(git -C "$DIR" pull --rebase --autostash origin main 2>&1); then
+  echo -e "${GREEN}✓ تمت إعادة الترتيب (rebase) — التغييرات المحلية فوق البعيدة${NC}"
 else
-  echo -e "${GOLD}⚠️  تعذرت المزامنة التلقائية — استخدم زر 'مزامنة' في لوحة التحكم عند الحاجة${NC}"
+  git -C "$DIR" rebase --abort 2>/dev/null
+  echo -e "${GOLD}⚠️  تعارض يحتاج حلاً يدوياً — استخدم 'مزامنة' من لوحة التحكم لرؤية التفاصيل${NC}"
 fi
 echo ""
 
