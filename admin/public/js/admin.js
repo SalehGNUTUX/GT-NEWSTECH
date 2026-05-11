@@ -518,13 +518,26 @@ window.createCategory = async function() {
 // Git ───────────────────────────────────────────────────────────
 async function renderGit(c) {
   const d = await api('/api/git/status');
+  const behind = d.behind || 0;
+  const ahead  = d.ahead  || 0;
+  const syncAlert = behind > 0
+    ? `<div class="sync-alert">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        المستودع البعيد متقدم بـ <strong>${behind} commit</strong> — قد تكون هناك تعديلات من Decap CMS
+        <button class="btn btn-gold btn-sm" onclick="pullChanges()"><i class="fa-solid fa-download"></i> مزامنة (Pull)</button>
+      </div>`
+    : (ahead > 0
+        ? `<div class="sync-ok"><i class="fa-solid fa-circle-check"></i> أنت متقدم بـ ${ahead} commit على المستودع البعيد</div>`
+        : `<div class="sync-ok"><i class="fa-solid fa-circle-check"></i> محدّث — لا توجد تغييرات بعيدة</div>`);
+
   c.innerHTML = `
+  ${syncAlert}
   <div class="card" style="margin-bottom:16px">
     <div class="card-header"><i class="fa-brands fa-git-alt" style="color:#f05032"></i><h3>حالة Git</h3>
       <button class="btn btn-sm btn-ghost" style="margin-right:auto" onclick="renderGit($('content'))"><i class="fa-solid fa-rotate"></i> تحديث</button>
     </div>
     <div class="card-body">
-      <div class="git-status-box">${d.status||'لا توجد تغييرات'}</div>
+      <div class="git-status-box">${d.status||'✓ لا توجد تغييرات محلية'}</div>
       <div class="commit-row">
         <input class="commit-input" id="commitMsg" placeholder="رسالة الـ commit..." value="update: via admin panel">
         <button class="btn btn-gold" onclick="pushChanges()"><i class="fa-solid fa-upload"></i> Commit &amp; Push</button>
@@ -536,6 +549,13 @@ async function renderGit(c) {
     <div class="card-body"><div class="log-box">${d.log||'—'}</div></div>
   </div>`;
 }
+
+window.pullChanges = async () => {
+  toast('جاري المزامنة...', 'info');
+  const d = await api('/api/git/pull', { method:'POST' });
+  if (d.ok) { toast('✓ ' + (d.message || 'تمت المزامنة'), 'success'); renderGit($('content')); }
+  else toast('خطأ في المزامنة: ' + d.error, 'error', 5000);
+};
 
 window.pushChanges = async () => {
   const msg = $('commitMsg')?.value || 'update: via admin panel';

@@ -1,0 +1,40 @@
+---
+layout: none
+sitemap: false
+robots: noindex
+---
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>GT-NEWSTECH CMS</title>
+  <style>
+    body { margin:0; background:#0a0a0a; font-family:'Cairo',sans-serif; }
+    .loading {
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center; height:100vh; color:#d4a017; gap:1rem;
+    }
+    .loading img { width:72px; border-radius:12px; }
+    .loading p { color:#888; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <div class="loading" id="loadingScreen">
+    <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png" alt="GT-NEWSTECH">
+    <div style="font-size:1.1rem;font-weight:700;color:#d4a017">GT-NEWSTECH CMS</div>
+    <p>جاري التحميل...</p>
+  </div>
+  <script>
+    /* إخفاء شاشة التحميل بعد تهيئة Decap */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const s = document.getElementById('loadingScreen');
+        if (s) s.style.display = 'none';
+      }, 2000);
+    });
+  </script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</body>
+</html>

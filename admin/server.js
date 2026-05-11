@@ -472,14 +472,26 @@ app.get('/api/config', (_req, res) => {
   res.json({ content: fs.existsSync(fp) ? fs.readFileSync(fp, 'utf8') : '' });
 });
 
-/* Git status */
+/* Git status — يشمل الفارق مع الـ remote */
 app.get('/api/git/status', (_req, res) => {
   const { execSync } = require('child_process');
   try {
-    const status = execSync('git status --short', { cwd: ROOT, encoding: 'utf8' });
-    const log    = execSync('git log --oneline -5', { cwd: ROOT, encoding: 'utf8' });
-    res.json({ status, log });
-  } catch (e) { res.json({ status: 'Git error', log: '' }); }
+    execSync('git fetch origin main --quiet', { cwd: ROOT });
+    const status  = execSync('git status --short', { cwd: ROOT, encoding: 'utf8' });
+    const log     = execSync('git log --oneline -5', { cwd: ROOT, encoding: 'utf8' });
+    const ahead   = parseInt(execSync('git rev-list --count HEAD ^origin/main', { cwd: ROOT, encoding: 'utf8' }).trim(), 10) || 0;
+    const behind  = parseInt(execSync('git rev-list --count origin/main ^HEAD', { cwd: ROOT, encoding: 'utf8' }).trim(), 10) || 0;
+    res.json({ status, log, ahead, behind });
+  } catch (e) { res.json({ status: '', log: '', ahead: 0, behind: 0 }); }
+});
+
+/* Git pull — مزامنة مع الـ remote */
+app.post('/api/git/pull', (_req, res) => {
+  const { execSync } = require('child_process');
+  try {
+    const out = execSync('git pull --ff-only origin main', { cwd: ROOT, encoding: 'utf8' });
+    res.json({ ok: true, message: out.trim() || 'Already up to date.' });
+  } catch (e) { res.status(500).json({ error: e.message.split('\n')[0] }); }
 });
 
 /* Git push — single remote */

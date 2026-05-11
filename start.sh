@@ -62,6 +62,17 @@ echo "  ║  Ctrl+C لإيقاف كل شيء                       ║"
 echo -e "  ╚══════════════════════════════════════════════╝${NC}"
 echo ""
 
+# ── مزامنة مع GitHub (لتجنب التعارض مع Decap CMS) ────────────
+echo -e "${GOLD}🔄 مزامنة مع GitHub...${NC}"
+PULL_OUT=$(git -C "$DIR" pull --ff-only origin main 2>&1)
+PULL_STATUS=$?
+if [ $PULL_STATUS -eq 0 ]; then
+  echo -e "${GREEN}✓ $PULL_OUT${NC}"
+else
+  echo -e "${GOLD}⚠️  تعذرت المزامنة التلقائية — استخدم زر 'مزامنة' في لوحة التحكم عند الحاجة${NC}"
+fi
+echo ""
+
 # ── تشغيل Admin ───────────────────────────────────────────────
 (cd "$DIR/admin" && node server.js 2>&1) &
 ADMIN_PID=$!

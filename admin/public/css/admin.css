@@ -579,3 +579,19 @@ small { color:var(--muted); font-size:.7rem; }
   justify-content: center;
   margin-inline-start: auto;
 }
+
+/* ── Sync Alerts ─────────────────────────────────────────── */
+.sync-alert {
+  display:flex; align-items:center; gap:.75rem; flex-wrap:wrap;
+  background:rgba(212,160,23,.1); border:1px solid rgba(212,160,23,.3);
+  border-radius:var(--radius); padding:.85rem 1rem; margin-bottom:1rem;
+  font-size:.85rem; color:var(--text);
+}
+.sync-alert i { color:var(--gold); font-size:1rem; }
+.sync-ok {
+  display:flex; align-items:center; gap:.5rem;
+  background:rgba(61,186,111,.08); border:1px solid rgba(61,186,111,.25);
+  border-radius:var(--radius); padding:.65rem 1rem; margin-bottom:1rem;
+  font-size:.82rem; color:var(--muted);
+}
+.sync-ok i { color:var(--success); }

@@ -1,0 +1,199 @@
+# ═══════════════════════════════════════════════════════════════
+# Decap CMS — GT-NEWSTECH Configuration
+# الوصول: https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/
+# ═══════════════════════════════════════════════════════════════
+
+backend:
+  name: github
+  repo: SalehGNUTUX/GT-NEWSTECH
+  branch: main
+  # ─── OAuth Proxy (Sveltia CMS Auth على Cloudflare Workers) ───
+  # عدّل هذا الرابط بعد نشر Worker الخاص بك
+  base_url: https://YOUR-WORKER.workers.dev
+
+# واجهة المستخدم
+locale: ar
+
+# مجلد الوسائط العام (الصور المشتركة)
+media_folder: assets/images/ar
+public_folder: /GT-NEWSTECH/assets/images/ar
+
+# ═══════════════════════════════════════════════════════════════
+# المجموعات (Collections)
+# ═══════════════════════════════════════════════════════════════
+collections:
+
+  # ─── المقالات العربية ────────────────────────────────────────
+  - name: ar_articles
+    label: "📝 مقالات عربية"
+    label_singular: "مقال عربي"
+    description: "إنشاء وتعديل المقالات باللغة العربية"
+    folder: _ar
+    path: "{{fields.category}}/{{slug}}"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    media_folder: /assets/images/ar
+    public_folder: /GT-NEWSTECH/assets/images/ar
+    fields:
+      - { name: layout,  widget: hidden, default: post }
+      - { name: lang,    widget: hidden, default: ar }
+
+      - name: title
+        label: "العنوان"
+        widget: string
+        hint: "عنوان المقال كاملاً"
+
+      - name: slug
+        label: "Slug (رابط الترجمة)"
+        widget: string
+        hint: "أحرف لاتينية صغيرة وشرطات فقط — يجب أن يكون متطابقاً مع النسخة الإنجليزية"
+        pattern: ['^[a-z0-9][a-z0-9-]*[a-z0-9]$', "أحرف لاتينية صغيرة وشرطات، يبدأ وينتهي بحرف أو رقم"]
+
+      - name: date
+        label: "تاريخ النشر"
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        format: "YYYY-MM-DD"
+        default: ""
+
+      - name: category
+        label: "القسم الرئيسي"
+        widget: select
+        options:
+          - { label: "مشاريع GNUTUX",       value: gnutux-projects }
+          - { label: "البرمجيات الحرة",      value: foss }
+          - { label: "غنو/لينكس",           value: gnulinux }
+          - { label: "أخبار التقنية",        value: tech-news }
+          - { label: "الذكاء الاصطناعي",    value: ai }
+          - { label: "ألعاب لينكس",          value: gaming }
+
+      - name: also_in
+        label: "أقسام إضافية (also_in)"
+        widget: list
+        required: false
+        allow_add: true
+        hint: "اختياري — يظهر المقال في هذه الأقسام أيضاً"
+        field:
+          name: cat
+          widget: select
+          options:
+            - { label: "مشاريع GNUTUX",    value: gnutux-projects }
+            - { label: "البرمجيات الحرة",  value: foss }
+            - { label: "غنو/لينكس",       value: gnulinux }
+            - { label: "أخبار التقنية",    value: tech-news }
+            - { label: "الذكاء الاصطناعي",value: ai }
+            - { label: "ألعاب لينكس",      value: gaming }
+
+      - name: author
+        label: "الكاتب"
+        widget: string
+        default: GNUTUX
+
+      - name: image
+        label: "اسم ملف الصورة"
+        widget: string
+        required: false
+        hint: "مثال: my-image.jpg — ارفع الصورة من 'الوسائط' أولاً ثم اكتب اسمها هنا"
+
+      - name: excerpt
+        label: "ملخص المقال"
+        widget: text
+        required: false
+        hint: "يظهر في قوائم المقالات وفي نتائج البحث (120-160 حرف)"
+
+      - name: tags
+        label: "الوسوم"
+        widget: list
+        required: false
+        allow_add: true
+
+      - name: body
+        label: "محتوى المقال"
+        widget: markdown
+
+  # ─── English Articles ─────────────────────────────────────────
+  - name: en_articles
+    label: "📝 English Articles"
+    label_singular: "English Article"
+    description: "Create and edit articles in English"
+    folder: _en
+    path: "{{fields.category}}/{{slug}}"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    media_folder: /assets/images/en
+    public_folder: /GT-NEWSTECH/assets/images/en
+    fields:
+      - { name: layout, widget: hidden, default: post }
+      - { name: lang,   widget: hidden, default: en }
+
+      - name: title
+        label: "Title"
+        widget: string
+
+      - name: slug
+        label: "Slug (Translation Link)"
+        widget: string
+        hint: "Lowercase letters and hyphens only — must match the Arabic version exactly"
+        pattern: ['^[a-z0-9][a-z0-9-]*[a-z0-9]$', "Lowercase letters and hyphens, starts and ends with letter/number"]
+
+      - name: date
+        label: "Publication Date"
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        format: "YYYY-MM-DD"
+        default: ""
+
+      - name: category
+        label: "Main Category"
+        widget: select
+        options:
+          - { label: "GNUTUX Projects",    value: gnutux-projects }
+          - { label: "Free & Open Source", value: foss }
+          - { label: "GNU/Linux",          value: gnulinux }
+          - { label: "Tech News",          value: tech-news }
+          - { label: "AI News",            value: ai }
+          - { label: "Linux Gaming",       value: gaming }
+
+      - name: also_in
+        label: "Additional Categories"
+        widget: list
+        required: false
+        allow_add: true
+        field:
+          name: cat
+          widget: select
+          options:
+            - { label: "GNUTUX Projects",    value: gnutux-projects }
+            - { label: "Free & Open Source", value: foss }
+            - { label: "GNU/Linux",          value: gnulinux }
+            - { label: "Tech News",          value: tech-news }
+            - { label: "AI News",            value: ai }
+            - { label: "Linux Gaming",       value: gaming }
+
+      - name: author
+        label: "Author"
+        widget: string
+        default: GNUTUX
+
+      - name: image
+        label: "Image filename"
+        widget: string
+        required: false
+        hint: "e.g. my-image.jpg — Upload via Media first, then type the filename here"
+
+      - name: excerpt
+        label: "Excerpt"
+        widget: text
+        required: false
+
+      - name: tags
+        label: "Tags"
+        widget: list
+        required: false
+        allow_add: true
+
+      - name: body
+        label: "Article Content"
+        widget: markdown
