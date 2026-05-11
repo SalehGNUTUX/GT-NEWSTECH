@@ -11,13 +11,13 @@ backend:
   # عدّل هذا الرابط بعد نشر Worker الخاص بك
   base_url: https://sveltia-cms-auth.gnutux-arabic.workers.dev
 
-# واجهة المستخدم
-locale: ar
+# واجهة المستخدم — en يعطي تخطيط LTR (Collections على اليسار)
+locale: en
 logo_url: /GT-NEWSTECH/assets/icons/gt-newstech-icon.png
 
-# مجلد الوسائط العام — يعرض AR و EN معاً في متصفح الصور
-media_folder: assets/images
-public_folder: /GT-NEWSTECH/assets/images
+# مجلد الوسائط العام للمتصفح
+media_folder: assets/images/ar
+public_folder: /GT-NEWSTECH/assets/images/ar
 
 # ═══════════════════════════════════════════════════════════════
 # المجموعات (Collections)
