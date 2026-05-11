@@ -13,6 +13,7 @@ backend:
 
 # واجهة المستخدم
 locale: ar
+logo_url: /GT-NEWSTECH/assets/icons/gt-newstech-icon.png
 
 # مجلد الوسائط العام (الصور المشتركة)
 media_folder: assets/images/ar

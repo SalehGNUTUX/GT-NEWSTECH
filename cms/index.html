@@ -10,31 +10,381 @@ robots: noindex
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>GT-NEWSTECH CMS</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body { margin:0; background:#0a0a0a; font-family:'Cairo',sans-serif; }
-    .loading {
-      display:flex; flex-direction:column; align-items:center;
-      justify-content:center; height:100vh; color:#d4a017; gap:1rem;
+    /* ── شاشة التحميل ─────────────────────────────────────── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body, html {
+      font-family: 'Cairo', 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #e0d8c8;
     }
-    .loading img { width:72px; border-radius:12px; }
-    .loading p { color:#888; font-size:.9rem; }
+
+    #loadingScreen {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1rem;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1200 50%, #0a0a0a 100%);
+      transition: opacity .5s ease;
+    }
+
+    #loadingScreen.hide { opacity: 0; pointer-events: none; }
+
+    .loading-logo {
+      width: 80px; height: 80px; border-radius: 16px;
+      box-shadow: 0 0 30px rgba(212,160,23,.35);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 20px rgba(212,160,23,.3); }
+      50%      { box-shadow: 0 0 40px rgba(212,160,23,.6); }
+    }
+
+    .loading-title {
+      font-size: 1.3rem; font-weight: 900; color: #d4a017;
+      font-family: 'Inter', sans-serif; letter-spacing: 1px;
+    }
+
+    .loading-sub {
+      font-size: .7rem; color: #6a5a20;
+      letter-spacing: 3px; text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .loading-dots { display: flex; gap: .4rem; margin-top: .5rem; }
+    .loading-dots span {
+      width: 6px; height: 6px; border-radius: 50%; background: #d4a017;
+      animation: dots .9s ease-in-out infinite;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: .15s; }
+    .loading-dots span:nth-child(3) { animation-delay: .3s; }
+
+    @keyframes dots {
+      0%,80%,100% { opacity: .2; transform: scale(.8); }
+      40%          { opacity: 1;  transform: scale(1.2); }
+    }
+
+    /* ── ثيم GT-NEWSTECH لـ Decap CMS ───────────────────── */
+
+    /* الخط العربي */
+    #nc-root, #nc-root * {
+      font-family: 'Cairo', 'Inter', sans-serif !important;
+    }
+
+    /* خلفية التطبيق */
+    #nc-root {
+      background: #111 !important;
+      min-height: 100vh;
+    }
+
+    /* الهيدر الرئيسي */
+    #nc-root header,
+    #nc-root [class*="AppHeader"],
+    #nc-root [class*="Topbar"],
+    #nc-root nav > div:first-child,
+    #nc-root > div > header {
+      background: #0a0a0a !important;
+      border-bottom: 2px solid #d4a017 !important;
+      box-shadow: 0 2px 20px rgba(0,0,0,.5) !important;
+    }
+
+    /* الشريط الجانبي للأقسام */
+    #nc-root aside,
+    #nc-root [class*="Sidebar"],
+    #nc-root [class*="CollectionPane"],
+    #nc-root nav[class] {
+      background: #0d0d0d !important;
+      border-inline-end: 1px solid #1e1e1e !important;
+    }
+
+    /* عناصر الشريط الجانبي */
+    #nc-root aside a,
+    #nc-root aside button,
+    #nc-root [class*="Sidebar"] a,
+    #nc-root [class*="Sidebar"] button {
+      color: #888 !important;
+      border-radius: 8px !important;
+      transition: all .2s !important;
+    }
+
+    #nc-root aside a:hover,
+    #nc-root aside a[class*="active"],
+    #nc-root aside a[aria-current],
+    #nc-root [class*="Sidebar"] a:hover,
+    #nc-root [class*="active"] {
+      color: #d4a017 !important;
+      background: rgba(212,160,23,.1) !important;
+    }
+
+    /* المنطقة الرئيسية */
+    #nc-root main,
+    #nc-root [role="main"],
+    #nc-root [class*="MainView"],
+    #nc-root [class*="Collection"]:not(aside) {
+      background: #111 !important;
+    }
+
+    /* بطاقات المقالات */
+    #nc-root [class*="Card"],
+    #nc-root [class*="ListCard"],
+    #nc-root article,
+    #nc-root li[class] {
+      background: #1a1a1a !important;
+      border: 1px solid #2a2a2a !important;
+      border-radius: 10px !important;
+      transition: border-color .2s, box-shadow .2s !important;
+    }
+
+    #nc-root [class*="Card"]:hover,
+    #nc-root [class*="ListCard"]:hover,
+    #nc-root li[class]:hover {
+      border-color: #d4a017 !important;
+      box-shadow: 0 4px 16px rgba(212,160,23,.15) !important;
+    }
+
+    /* الأزرار الرئيسية */
+    #nc-root button[class*="primary"],
+    #nc-root button[data-testid*="publish"],
+    #nc-root [class*="PublishButton"],
+    #nc-root [class*="Button--primary"],
+    #nc-root button[class*="success"] {
+      background: linear-gradient(135deg, #d4a017, #f0c040) !important;
+      color: #000 !important;
+      border: none !important;
+      font-weight: 700 !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 14px rgba(212,160,23,.35) !important;
+    }
+
+    #nc-root button[class*="primary"]:hover,
+    #nc-root [class*="PublishButton"]:hover {
+      box-shadow: 0 6px 20px rgba(212,160,23,.5) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    /* حقول الإدخال */
+    #nc-root input[type="text"],
+    #nc-root input[type="search"],
+    #nc-root textarea,
+    #nc-root select,
+    #nc-root [class*="TextInput"],
+    #nc-root [class*="StringControl"] input,
+    #nc-root [class*="TextControl"] textarea {
+      background: #1a1a1a !important;
+      border: 1px solid #333 !important;
+      color: #e0d8c8 !important;
+      border-radius: 8px !important;
+      font-family: 'Cairo', 'Inter', sans-serif !important;
+    }
+
+    #nc-root input:focus,
+    #nc-root textarea:focus,
+    #nc-root select:focus {
+      border-color: #d4a017 !important;
+      box-shadow: 0 0 0 3px rgba(212,160,23,.2) !important;
+      outline: none !important;
+    }
+
+    /* محرر Markdown */
+    #nc-root [class*="Editor"],
+    #nc-root [class*="MarkdownControl"],
+    #nc-root [class*="editorWrapper"] {
+      background: #161616 !important;
+      border: 1px solid #2a2a2a !important;
+      border-radius: 10px !important;
+    }
+
+    /* شريط أدوات المحرر */
+    #nc-root [class*="Toolbar"],
+    #nc-root [class*="EditorToolbar"] {
+      background: #0d0d0d !important;
+      border-bottom: 1px solid #2a2a2a !important;
+    }
+
+    #nc-root [class*="Toolbar"] button,
+    #nc-root [class*="EditorToolbar"] button {
+      color: #888 !important;
+      border-radius: 5px !important;
+    }
+
+    #nc-root [class*="Toolbar"] button:hover,
+    #nc-root [class*="Toolbar"] button[class*="active"] {
+      color: #d4a017 !important;
+      background: rgba(212,160,23,.1) !important;
+    }
+
+    /* العناوين في نموذج التحرير */
+    #nc-root label,
+    #nc-root [class*="ControlHint"],
+    #nc-root [class*="WidgetLabel"] {
+      color: #888 !important;
+      font-size: .78rem !important;
+      font-weight: 600 !important;
+    }
+
+    /* شريط القوائم العلوي */
+    #nc-root [class*="Dropdown"],
+    #nc-root [class*="DropdownList"] {
+      background: #1a1a1a !important;
+      border: 1px solid #333 !important;
+      border-radius: 10px !important;
+      box-shadow: 0 8px 30px rgba(0,0,0,.6) !important;
+    }
+
+    /* ── إصلاح: Collections العائمة تغطي البطاقات ────────── */
+
+    /* نافذة Collections المنبثقة — نجعلها ثابتة لا عائمة */
+    #nc-root [class*="CollectionSelector"],
+    #nc-root [class*="CollectionMenu"],
+    #nc-root [class*="NavList"],
+    #nc-root aside[class*="open"],
+    #nc-root [class*="SidebarMenu"] {
+      position: relative !important;
+      z-index: 10 !important;
+      box-shadow: none !important;
+    }
+
+    /* المنطقة الرئيسية فوق الشريط الجانبي */
+    #nc-root main,
+    #nc-root [role="main"] {
+      position: relative !important;
+      z-index: 20 !important;
+    }
+
+    /* إذا كانت العائمة overlay على المحتوى */
+    #nc-root [class*="overlay"],
+    #nc-root [class*="Overlay"] {
+      z-index: 15 !important;
+    }
+
+    /* في العرض الضيق — الـ sidebar لا يغطي المحتوى */
+    @media (max-width: 800px) {
+      #nc-root aside,
+      #nc-root [class*="Sidebar"] {
+        position: fixed !important;
+        top: 0; bottom: 0; inset-inline-start: 0;
+        width: 260px !important;
+        z-index: 100 !important;
+        transform: translateX(-100%);
+        transition: transform .25s ease !important;
+      }
+
+      #nc-root aside.open,
+      #nc-root [class*="Sidebar"][class*="open"],
+      #nc-root [class*="sidebarVisible"] aside {
+        transform: translateX(0) !important;
+      }
+    }
+
+    /* ── تحسينات عامة ──────────────────────────────────────── */
+
+    /* شريط التمرير */
+    #nc-root ::-webkit-scrollbar { width: 6px; height: 6px; }
+    #nc-root ::-webkit-scrollbar-track { background: #111; }
+    #nc-root ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    #nc-root ::-webkit-scrollbar-thumb:hover { background: #d4a017; }
+
+    /* نص عام */
+    #nc-root p, #nc-root span, #nc-root div, #nc-root h1, #nc-root h2,
+    #nc-root h3, #nc-root h4 {
+      color: inherit;
+    }
+
+    /* روابط */
+    #nc-root a { color: #d4a017 !important; }
+    #nc-root a:hover { color: #f0c040 !important; }
   </style>
 </head>
 <body>
-  <div class="loading" id="loadingScreen">
-    <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png" alt="GT-NEWSTECH">
-    <div style="font-size:1.1rem;font-weight:700;color:#d4a017">GT-NEWSTECH CMS</div>
-    <p>جاري التحميل...</p>
+
+  <!-- شاشة التحميل -->
+  <div id="loadingScreen">
+    <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png"
+         alt="GT-NEWSTECH" class="loading-logo">
+    <div class="loading-title">GT-NEWSTECH</div>
+    <div class="loading-sub">GNUTUX NEWS TECH</div>
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
+    </div>
   </div>
+
+  <!-- معاينة المقال بنفس تصميم الموقع -->
   <script>
-    /* إخفاء شاشة التحميل بعد تهيئة Decap */
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const s = document.getElementById('loadingScreen');
-        if (s) s.style.display = 'none';
-      }, 2000);
+    window.addEventListener('DOMContentLoaded', function() {
+      /* تسجيل CSS الموقع للمعاينة */
+      if (window.CMS && CMS.registerPreviewStyle) {
+        CMS.registerPreviewStyle('{{ site.baseurl }}/assets/css/style.css');
+        CMS.registerPreviewStyle(
+          `body {
+            background: #f8f6f0;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+            padding: 2rem;
+            max-width: 860px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: #1a1a1a;
+            direction: rtl;
+          }
+          h1, h2, h3 { color: #d4a017; }
+          h2 { border-bottom: 2px solid rgba(212,160,23,.2); padding-bottom: .4rem; }
+          a { color: #d4a017; }
+          blockquote {
+            border-right: 4px solid #d4a017;
+            padding: .75rem 1.25rem;
+            background: rgba(212,160,23,.06);
+            border-radius: 0 8px 8px 0;
+            color: #555;
+          }
+          pre { background: #0d0d0d; color: #e0d8c8; padding: 1rem; border-radius: 8px; }
+          code { background: #f0ece0; padding: .1em .4em; border-radius: 3px; color: #c0600a; }
+          table { width: 100%; border-collapse: collapse; }
+          th { background: #0a0a0a; color: #d4a017; padding: .6rem .9rem; text-align: right; }
+          td { padding: .55rem .9rem; border-bottom: 1px solid #e2d9c8; }
+          img { max-width: 100%; border-radius: 10px; }`,
+          { raw: true }
+        );
+      }
     });
   </script>
+
+  <!-- إخفاء شاشة التحميل بعد جهوزية CMS -->
+  <script>
+    (function() {
+      var maxWait = setTimeout(hideLoading, 4000);
+      function hideLoading() {
+        clearTimeout(maxWait);
+        var s = document.getElementById('loadingScreen');
+        if (s) { s.classList.add('hide'); setTimeout(function(){ s.remove(); }, 500); }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        var obs = new MutationObserver(function(_, o) {
+          if (document.querySelector('#nc-root [class]')) { o.disconnect(); hideLoading(); }
+        });
+        obs.observe(document.body, { childList: true, subtree: true });
+      });
+    })();
+  </script>
+
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <!-- تسجيل Preview Styles بعد تحميل CMS -->
+  <script>
+    (function waitForCMS() {
+      if (window.CMS && CMS.registerPreviewStyle) {
+        CMS.registerPreviewStyle('{{ site.baseurl }}/assets/css/style.css');
+      } else {
+        setTimeout(waitForCMS, 200);
+      }
+    })();
+  </script>
+
 </body>
 </html>
