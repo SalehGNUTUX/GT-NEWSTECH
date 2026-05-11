@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'Claude-Mem: ذاكرة مثالية لذكائك الاصطناعي – لا تشرح السياق بعد اليوم'
+slug: claude-mem-ai-memory
+lang: ar
 category: ai
+date: 2026-05-11T19:44:00.000Z
 author: GNUTUX
 excerpt: >-
   Claude-Mem هو نظام ذاكرة متخصص للوكلاء الاصطناعيين، يلتقط كل ما يحدث خلال
@@ -17,9 +20,6 @@ tags:
   - Claude-Mem
 also_in:
   - foss
-date: 2026-05-11T19:42:00.000Z
-lang: ar
-slug: claude-mem-ai-memory
 ---
 
 ## مشكلة الذاكرة في نماذج الذكاء الاصطناعي

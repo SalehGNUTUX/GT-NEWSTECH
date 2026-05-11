@@ -3,7 +3,10 @@ layout: post
 title: >-
   Claude-Mem: Perfect Memory for Your AI – Stop Explaining Context, Start
   Building Faster
+slug: claude-mem-ai-memory
+lang: en
 category: ai
+date: 2026-05-11T19:44:00.000Z
 author: GNUTUX
 excerpt: >-
   Claude-Mem is a specialized memory system for AI agents that captures
@@ -20,9 +23,6 @@ tags:
   - Claude-Mem
 also_in:
   - foss
-date: 2026-05-11T19:42:00.000Z
-lang: en
-slug: claude-mem-ai-memory
 ---
 
 ## The Memory Problem in AI Models
