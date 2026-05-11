@@ -15,6 +15,13 @@ backend:
 locale: en
 logo_url: /GT-NEWSTECH/assets/icons/gt-newstech-icon.png
 
+# روابط الموقع المنشور — تُمكِّن زر "View Site" داخل CMS
+site_url: https://salehgnutux.github.io/GT-NEWSTECH
+display_url: https://salehgnutux.github.io/GT-NEWSTECH
+
+# سلوك المحرر (publish_mode: simple = نشر مباشر، editorial_workflow = مسودات)
+publish_mode: simple
+
 # مجلد الوسائط العام للمتصفح
 media_folder: assets/images/ar
 public_folder: /GT-NEWSTECH/assets/images/ar
