@@ -9,10 +9,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-GT-NEWSTECH is a bilingual (Arabic/English) Jekyll static site hosted on GitHub Pages. It has two independent parts:
+GT-NEWSTECH is a bilingual (Arabic/English) Jekyll static site hosted on GitHub Pages. It has **three** access points:
 
 - **Jekyll site** — the public website, built and deployed via GitHub Actions
-- **Admin panel** (`admin/`) — a local-only Node.js/Express SPA for content management, never deployed
+- **Admin panel** (`admin/`) — a local-only Node.js/Express SPA, never deployed
+- **Decap CMS** (`cms/`) — a hosted static SPA at `/cms/`, uses GitHub API for editing
 
 ---
 
@@ -21,15 +22,14 @@ GT-NEWSTECH is a bilingual (Arabic/English) Jekyll static site hosted on GitHub 
 ### Run everything locally (recommended)
 ```bash
 bash start.sh
-# Jekyll → http://localhost:4000/
-# Admin  → http://localhost:4001/
+# Syncs with GitHub (git pull) → Jekyll → http://localhost:4000/
+# Admin panel                  → http://localhost:4001/
 # Ctrl+C stops both
 ```
 
 ### Jekyll only
 ```bash
 bash serve.sh
-# Uses both _config.yml + _config.local.yml (baseurl: "")
 ```
 
 ### Admin panel only
@@ -44,15 +44,9 @@ export PATH="$GEM_HOME/bin:$PATH"
 bundle exec jekyll build --config _config.yml,_config.local.yml
 ```
 
-### Admin panel (manual)
-```bash
-cd admin && npm install && node server.js
-```
-
 ### Deploy (push to GitHub Pages)
 ```bash
 git add . && git commit -m "message" && git push origin main
-# GitHub Actions builds and deploys automatically
 ```
 
 ---
@@ -62,117 +56,158 @@ git add . && git commit -m "message" && git push origin main
 ### Jekyll site
 
 **Two-config system:**
-- `_config.yml` — production config (`baseurl: "/GT-NEWSTECH"`, `url: "https://SalehGNUTUX.github.io"`)
-- `_config.local.yml` — local override (`baseurl: ""`, `url: "http://localhost:4000"`) — gitignored, used only with `--config _config.yml,_config.local.yml`
+- `_config.yml` — production (`baseurl: "/GT-NEWSTECH"`, `url: "https://SalehGNUTUX.github.io"`)
+- `_config.local.yml` — local override (`baseurl: ""`, `url: "http://localhost:4000"`) — gitignored, created by `start.sh`
 
 **Dynamic categories — single source of truth:**
-- `_data/categories.yml` stores all category definitions: `id`, `name_ar`, `name_en`, `icon` (FA class), `color` (hex)
+- `_data/categories.yml` stores: `id`, `name_ar`, `name_en`, `icon` (FA class), `color` (hex)
 - All templates loop over `site.data.categories` — no hardcoded category lists anywhere
-- `category.html` uses `site.data.categories | where: "id", page.category | first` for icon, title, and header color
-- `article-card.html` uses inline styles from `cat_data.color` — no CSS class per category needed
-- Adding a new category only requires updating `_data/categories.yml` + creating folders and category pages
+- `category.html` uses `site.data.categories | where: "id", page.category | first` for icon/title/color
+- `article-card.html` uses inline styles from `cat_data.color`
+- Adding a category: update YAML + create dirs + create category pages
 
 **Language isolation:**
-- `index.html` (root) — JS router that reads `localStorage['gnt-lang']` or browser language, then redirects to `/ar/` or `/en/`
-- `ar/index.html` and `en/index.html` use `layout: home` with `page.lang` set, so `home.html` renders `site[page.lang]` exclusively
-- All templates branch on `page.lang` — never mix Arabic and English content
-- Language choice is saved to `localStorage['gnt-lang']`; nav links carry `data-lang-link` + `data-lang` attributes that `main.js` reads
+- `index.html` (root) — JS router reads `localStorage['gnt-lang']` or browser language → `/ar/` or `/en/`
+- `ar/index.html` and `en/index.html` use `layout: home` with `page.lang` → `home.html` renders `site[page.lang]` exclusively
+- Language choice saved to `localStorage['gnt-lang']`; nav links carry `data-lang-link` + `data-lang`
 
 **Article collections:**
-- Articles live in `_ar/<category>/YYYY-MM-DD-slug.md` and `_en/<category>/YYYY-MM-DD-slug.md`
-- The `slug` front matter field (Latin only, kebab-case) is the **only link** between an Arabic article and its English counterpart — `post.html` uses `site.en | where: "slug", page.slug | first` to find the translation
-- Images are language-separated: `assets/images/ar/<name>` and `assets/images/en/<name>`, referenced as `{{ site.baseurl }}/assets/images/{{ page.lang }}/{{ page.image }}`
-- If `image` is absent or broken, `article-card.html` and `post.html` fall back to `assets/icons/gt-newstech-icon.png`
+- Articles in `_ar/<category>/YYYY-MM-DD-slug.md` and `_en/<category>/YYYY-MM-DD-slug.md`
+- The `slug` front matter field is the **only link** between AR and EN articles
+- `post.html` uses `site.en | where: "slug", page.slug | first` for translation link
+- Images: `assets/images/ar/<name>` and `assets/images/en/<name>`
+- Image field supports two formats: just filename (`img.jpg`) OR full path (`/GT-NEWSTECH/assets/images/ar/img.jpg`)
+- Templates handle both: `{% if post.image contains '/assets/images/' %}...{% else %}...{% endif %}`
+- Fallback: `assets/icons/gt-newstech-icon.png`
 
 **Date/datetime handling — critical:**
-- Article `date` front matter must be stored as a **YAML datetime object** (unquoted), not a quoted string
-- Quoted strings like `date: '2026-05-10'` cause Jekyll's `sort: "date"` to break when mixed with Date objects, making articles disappear from "latest" sections
-- `saveArticle()` in `admin/server.js` converts any string date to `new Date(Date.UTC(...))` before calling `matter.stringify()` — this ensures js-yaml writes an unquoted YAML timestamp
-- When a date-only article needs ordering within a day, the admin UI has a time field that combines to `YYYY-MM-DD HH:MM:00` before saving
-- Time badge shows only when `minutes != "00"` (avoids showing UTC-artifact midnight times)
+- Article `date` must be a **YAML datetime object** (unquoted), not a quoted string
+- Quoted strings like `date: '2026-05-10'` break Jekyll's `sort: "date"` when mixed with Date objects
+- `saveArticle()` in `admin/server.js` converts string dates to `new Date(Date.UTC(...))` before `matter.stringify()` — ensures unquoted YAML timestamp
+- Time badge in templates shows only when `minutes != "00"`
 
 **Multi-category (`also_in`):**
-- A post has one primary `category` (determines its folder and permalink color)
+- Primary `category` determines folder and permalink
 - `also_in: [cat1, cat2]` makes it appear in additional category pages
-- `category.html` merges: `primary_posts = where("category", page.category)` + `cross_posts = where_exp("item", "item.also_in contains page.category")` → `uniq`
+- `category.html`: `primary_posts` + `cross_posts = where_exp("item", "item.also_in contains page.category")` → `uniq`
 
 **Affiliate disclosure:**
-- `affiliate: true` is set as a default for all posts in `_config.yml` defaults
-- `_includes/affiliate-disclosure.html` only renders when `page.content contains 'aff-link'` — automatic detection, no manual flag needed
-- Affiliate links in Markdown: `[text](url){: .aff-link rel="nofollow sponsored" target="_blank"}`
+- `affiliate: true` default for all posts in `_config.yml`
+- `_includes/affiliate-disclosure.html` renders only when `page.content contains 'aff-link'`
+- Affiliate links: `[text](url){: .aff-link rel="nofollow sponsored" target="_blank"}`
 
 **SEO:**
-- `_includes/seo-jsonld.html` injects `NewsArticle` schema for posts and `WebSite` schema for other pages
-- Included via `{% include seo-jsonld.html %}` inside `<head>` in `_layouts/default.html`
-- `search.json` (Jekyll template) generates a client-side search index filtered by `page.lang` in `main.js`
+- `_includes/seo-jsonld.html` injects NewsArticle/WebSite schema
+- `search.json` generates client-side search index filtered by `page.lang`
 
 **Critical `exclude` rule:**
-The `admin/` directory and all shell scripts **must stay** in `_config.yml`'s `exclude` list. Jekyll will crash if it tries to process `admin/node_modules/` (Liquid syntax errors from npm README files).
+`admin/` directory must stay in `_config.yml`'s `exclude` list. Jekyll crashes on `admin/node_modules/` (Liquid syntax errors).
 
-**Do NOT use `--livereload`** with Jekyll serve — it causes Chrome to display `chrome-error://chromewebdata/` errors by triggering browser reloads during incomplete builds. Use `--watch` and manual F5 refresh instead.
+**Do NOT use `--livereload`** — causes `chrome-error://chromewebdata/` errors. Use `--watch --force_polling` and manual F5.
+
+**Logo click** navigates to the current language's home page (`/ar/` or `/en/`), not root `/`.
 
 ### Admin panel (`admin/`)
 
-Express REST API + vanilla JS SPA. The server uses `path.join(__dirname, '..')` as `ROOT` to read/write Jekyll project files directly.
+Express REST API + vanilla JS SPA. Uses `path.join(__dirname, '..')` as `ROOT`.
 
 **API surface:**
 ```
-GET  /api/stats                              → counts by lang/category + recent 6
-GET  /api/articles?lang=&cat=&q=            → list (filtered)
-GET  /api/article?lang=&cat=&file=          → single article (parsed front matter + content)
-POST /api/article                           → create (body must include cat, lang, slug explicitly)
-PUT  /api/article?lang=&cat=&file=          → update
-DELETE /api/article?lang=&cat=&file=        → delete
-GET  /api/images?lang=                      → list images
-POST /api/images/:lang                      → upload (multer memoryStorage, sharp for conversion, max 20MB)
-POST /api/images/import                     → import from filesystem path, copy to lang folders
-DELETE /api/images/:lang/:name              → delete image
-GET  /api/categories                        → list all categories with AR/EN article counts
-POST /api/categories                        → create new category (dirs + pages + _data/categories.yml)
-GET  /api/git/status                        → git status + git log -5
-POST /api/git/push                          → git add . && git commit -m msg && git push origin main
-GET  /api/config                            → raw _config.yml content
+GET  /api/stats
+GET  /api/articles?lang=&cat=&q=
+GET  /api/article?lang=&cat=&file=
+POST /api/article                    ← body must include cat, lang, slug explicitly
+PUT  /api/article?lang=&cat=&file=
+DELETE /api/article?lang=&cat=&file= ← moves to admin/.trash/ (gitignored)
+GET  /api/trash                      ← list trash items
+POST /api/trash/:id/restore          ← restore from trash
+DELETE /api/trash/:id                ← permanent delete
+DELETE /api/trash                    ← empty trash
+GET  /api/images?lang=
+POST /api/images/:lang               ← multer memoryStorage, sharp, max 20MB
+POST /api/images/import              ← copy from filesystem path
+DELETE /api/images/:lang/:name
+GET  /api/categories                 ← dynamic from _data/categories.yml + disk scan
+POST /api/categories                 ← create category (dirs + pages + YAML)
+GET  /api/git/status                 ← includes ahead/behind count via git fetch
+POST /api/git/pull                   ← git pull --ff-only origin main
+POST /api/git/push                   ← git add . && commit && push (single remote)
+POST /api/git/push-all               ← push to multiple remotes
+GET  /api/remotes                    ← list git remotes
+POST /api/remotes                    ← add/update remote
+DELETE /api/remotes/:name            ← remove remote
+GET  /api/auth/status                ← hasPassword: bool (no auth required)
+POST /api/auth/login                 ← returns session token
+POST /api/auth/set-password          ← set/change password (SHA-256)
+DELETE /api/auth/password            ← remove password
+GET  /api/config
 ```
 
 **Image handling (sharp):**
 - Web formats (jpg, png, webp, avif, gif, svg) → saved as-is
-- Non-web formats (heic, heif, tiff, bmp) → converted to JPEG via sharp
-- Filenames sanitized: only `[a-zA-Z0-9._-]`, lowercase
+- Non-web formats (heic, heif, tiff, bmp) → converted to JPEG
+- `saveImage()` / `saveImageFromPath()` handle both cases
 
 **Categories are dynamic:**
-- `getCatIds()` reads from `_data/categories.yml` + scans `_ar/` subfolders for unlisted ones
-- `getAllArticles()` uses `getCatIds()` — no hardcoded category list in server
-- `readCatsData()` / `writeCatsData()` use `js-yaml` to parse/write `_data/categories.yml`
-- Creating a category: creates `_ar/<id>/`, `_en/<id>/`, `ar/category/<id>.html`, `en/category/<id>.html`, appends to `_data/categories.yml`
+- `getCatIds()` reads `_data/categories.yml` + scans `_ar/` subfolders
+- `readCatsData()` / `writeCatsData()` use js-yaml
 
-**CATS in admin.js:**
-- `CATS` is populated from `GET /api/categories` at startup via `loadCats()`
-- Not hardcoded — adding a category in admin instantly reflects in editor dropdowns after reload
+**Trash system:**
+- `admin/.trash/` stores deleted articles as JSON (gitignored)
+- Each item: `{ id, lang, cat, file, title, deleted_at, content }`
+- Restore: writes content back to original path
 
-**SPA routing:** hash-based (`#dashboard`, `#articles`, `#new-article`, `#images`, `#categories`, `#git`, `#config`). The articles page renders the toolbar once (`if (!$('articlesTable'))`) then only updates `<tbody>` on search/filter to preserve input focus.
+**Auth middleware:**
+- Password hash stored in `admin/.admin-password` (gitignored)
+- Session token via HMAC-SHA256; passed as `x-admin-token` header
+- Skip list: `/api/auth/login`, `/api/auth/status`
 
-**FM paste feature:** Tab "لصق FM" in article editor — pastes raw front matter YAML, `parseFrontMatterText()` parses it and `fillFormFromParsed()` fills all form fields. The `date` field triggers `parseDatetime()` which populates both `fDate` and `fTime` inputs.
+**SPA routing:** `#dashboard`, `#articles`, `#new-article`, `#images`, `#categories`, `#trash`, `#git`, `#remotes`, `#security`, `#config`
+
+**Articles page:** toolbar rendered once (`if (!$('articlesTable'))`), only `<tbody>` updated on search/filter to preserve input focus.
+
+**FM paste feature:** Tab "لصق FM" → `parseFrontMatterText()` → `fillFormFromParsed()`. `date` field triggers `parseDatetime()` → populates `fDate` + `fTime`.
+
+**Date/time in admin:**
+- `parseDatetime(raw)` extracts local date+time from any format
+- Save: `${dateVal} ${timeVal}:00` (string) → `saveArticle()` converts to `Date.UTC()`
+- Time badge shows only when minutes ≠ "00"
+
+### Decap CMS (`cms/`)
+
+Hosted static SPA at `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`.
+
+- `cms/index.html` — loads Decap CMS JS, applies GT-NEWSTECH gold/black theme, dark/light toggle
+- `cms/config.yml` — backend: github, repo, branch, base_url (OAuth proxy)
+- `locale: en` — gives LTR layout (Collections panel on LEFT). Do NOT change to `ar` — it breaks the layout
+- `media_folder: assets/images/ar` — global media browser shows AR images
+- Each collection has its own `media_folder` for uploads
+- Image field uses `image` widget (not `string`) — enables thumbnails in cards
+- Authentication via GitHub OAuth + Sveltia CMS Auth on Cloudflare Workers
+
+**Conflict prevention between the two admin panels:**
+- `start.sh` runs `git pull --ff-only` automatically on startup
+- Git page shows sync status (ahead/behind) with Pull button
+- Never edit the same article in both panels simultaneously
 
 ### CSS architecture
 
 Single file `assets/css/style.css`. Theming via CSS custom properties:
-- Light mode: defined on `:root`
-- Dark mode: overrides on `[data-theme="dark"]`
-- `theme.js` runs before CSS loads (inline `<script>` in `<head>`) to set `data-theme` from `localStorage['gnt-theme']`, preventing flash
-
-Category badge colors use **inline styles** from `_data/categories.yml` — no per-category CSS class needed for new categories. Existing `.cat-*` CSS classes are kept for backward compatibility but templates now use `style="background:{{ cat_data.color }}"`.
-
-Mobile responsive breakpoints: 1024px (tablet landscape), 768px (tablet portrait / mobile), 480px (small mobile), 360px (very small). The mobile header uses `flex-wrap: nowrap` so controls never wrap to a second line. `.mobile-lang-switch` is hidden on desktop and visible on mobile — always shows AR/EN buttons in the header.
+- Light mode on `:root`, dark mode on `[data-theme="dark"]`
+- `theme.js` runs inline before CSS to set `data-theme` from `localStorage['gnt-theme']`
+- Category colors use inline styles from `_data/categories.yml` — no per-category CSS class needed
+- Mobile: `flex-wrap: nowrap` on header; `.mobile-lang-switch` visible on mobile only
 
 ---
 
 ## Key Conventions
 
-- **Slug**: Latin characters, lowercase, hyphens only. Must be identical in both `_ar/.../` and `_en/.../` files for translation linking to work.
-- **Category system**: defined in `_data/categories.yml`, not hardcoded in templates or server. To add a category: update YAML + create dirs + create category HTML pages.
-- **`page.lang`** drives all bilingual branching in Liquid templates and in `main.js` (`currentLang = document.body.getAttribute('data-lang')`)
-- Font Awesome 6 Free is loaded from jsDelivr CDN (no integrity hash — avoid adding one, it caused silent load failures previously)
-- `_config.local.yml` is gitignored; recreate it if missing with `baseurl: ""` and `url: "http://localhost:4000"`. `start.sh` creates it automatically.
-- **POST /api/article**: body must include `cat`, `lang`, `slug` as top-level keys (not just inside `fm`) for the server to find them.
-- **Logo click** navigates to the current language's home page (`/ar/` or `/en/`), not the root `/`. This is intentional — the root is a JS redirect page.
-- **Date storage**: always use `Date.UTC()` when converting date strings to Date objects in Node.js. Using local `new Date(y, m, d)` causes timezone-shifted dates that display incorrectly in Jekyll (UTC-based date filter).
+- **Slug**: Latin, lowercase, hyphens only. Identical in both `_ar/` and `_en/` for translation linking.
+- **Category system**: defined in `_data/categories.yml`. Add category: update YAML + create dirs + create pages.
+- **`page.lang`** drives all bilingual branching in templates and `main.js`
+- Font Awesome 6 Free from jsDelivr CDN (no integrity hash — caused silent failures previously)
+- `_config.local.yml` is gitignored; `start.sh` creates it automatically
+- **POST /api/article**: body must include `cat`, `lang`, `slug` as top-level keys
+- **Date storage**: always use `Date.UTC()` in Node.js. Local `new Date(y, m, d)` causes timezone-shifted dates
+- **Decap CMS locale**: keep `locale: en` — changing to `ar` breaks Collections panel rendering
+- **Do not add integrity hash** to Font Awesome CDN link

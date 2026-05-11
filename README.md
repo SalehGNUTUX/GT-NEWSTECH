@@ -9,7 +9,7 @@
 
 ## الأقسام / Sections
 
-الأقسام تُدار من ملف واحد: `_data/categories.yml` — أي قسم جديد يُضاف فيه يظهر تلقائياً في كل مكان.
+الأقسام تُدار من ملف واحد: `_data/categories.yml`
 
 | القسم | Section | الأيقونة |
 |---|---|---|
@@ -22,57 +22,54 @@
 
 ---
 
+## نظام لوحتَي التحكم
+
+### اللوحة المحلية — `http://localhost:4001`
+```bash
+bash start.sh
+```
+كاملة الصلاحيات: تحرير، صور، أقسام، مهملات، دفع متعدد المستودعات.
+
+### Decap CMS — `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`
+للعمل من الهاتف أو أي جهاز: تحرير المقالات، رفع الصور، commit تلقائي.  
+راجع `دليل-نظام-لوحتي-التحكم.md` لإعداد OAuth.
+
+---
+
 ## هيكل المشروع
 
 ```
 GT-NEWSTECH/
 ├── _config.yml                  # إعدادات Jekyll الرئيسية
-├── _config.local.yml            # إعدادات محلية (baseurl فارغ) — gitignored
+├── _config.local.yml            # إعدادات محلية (gitignored)
 │
 ├── _data/
-│   └── categories.yml           # ← المصدر الوحيد لتعريف الأقسام
+│   └── categories.yml           # المصدر الوحيد لتعريف الأقسام
 │
-├── _layouts/
-│   ├── default.html             # القالب الأساسي — ديناميكي الأقسام
-│   ├── home.html                # الصفحة الرئيسية — ديناميكية
-│   ├── post.html                # صفحة المقال (TOC, مشاركة, أفيلييت)
-│   ├── category.html            # صفحة القسم — أيقونة ولون ديناميكيان
-│   ├── archive.html             # أرشيف اللغة
-│   └── page.html                # الصفحات الثابتة
-│
-├── _includes/
-│   ├── article-card.html        # بطاقة المقال — ديناميكية الألوان
-│   ├── affiliate-disclosure.html # إفصاح أفيلييت تلقائي
-│   └── seo-jsonld.html          # بيانات JSON-LD
+├── _layouts/                    # قوالب الصفحات (ديناميكية)
+├── _includes/                   # مكونات مشتركة
 │
 ├── assets/
 │   ├── css/style.css            # ذهبي × أسود + وضع داكن + responsive
-│   ├── js/theme.js              # تبديل الوضع الداكن/الفاتح
-│   ├── js/main.js               # TOC, بحث, تقدم القراءة, مشاركة
+│   ├── js/theme.js + main.js
 │   ├── images/ar/ + images/en/  # صور المقالات
 │   └── icons/gt-newstech-icon.png
 │
 ├── _ar/ + _en/                  # مقالات (مجلد لكل قسم)
-│   ├── gnutux-projects/
-│   ├── foss/ / gnulinux/ / tech-news/ / ai/ / gaming/
+├── ar/ + en/                    # صفحات رئيسية وأقسام
 │
-├── ar/ + en/
-│   ├── index.html               # صفحة رئيسية لكل لغة
-│   ├── category/<id>.html       # صفحة لكل قسم
-│   └── terms.md, privacy.md, rss-terms.md
+├── cms/                         # Decap CMS (لوحة تحكم مستضافة)
+│   ├── index.html
+│   └── config.yml
 │
-├── admin/                       # لوحة التحكم المحلية — لا تُنشر
-│   ├── server.js                # Express API (articles, images, categories, git)
-│   ├── package.json             # express, gray-matter, multer, sharp, js-yaml
-│   └── public/                  # واجهة SPA (HTML/CSS/JS)
+├── admin/                       # لوحة التحكم المحلية Node.js
+│   ├── server.js                # Express API
+│   ├── package.json
+│   └── public/
 │
-├── .github/workflows/pages.yml  # نشر GitHub Actions
-├── search.json                  # فهرس البحث
-├── robots.txt
-├── Gemfile
-├── start.sh                     # تشغيل الموقع + لوحة التحكم معاً
-├── serve.sh                     # تشغيل الموقع فقط
-└── admin-start.sh               # تشغيل لوحة التحكم فقط
+├── .github/workflows/pages.yml  # نشر تلقائي
+├── start.sh                     # تشغيل الموقع + اللوحة المحلية
+└── serve.sh                     # تشغيل الموقع فقط
 ```
 
 ---
@@ -83,73 +80,62 @@ GT-NEWSTECH/
 bash start.sh
 # الموقع      → http://localhost:4000/
 # لوحة التحكم → http://localhost:4001/
-# Ctrl+C للإيقاف
 ```
 
-السكريبت يُنشئ `_config.local.yml` تلقائياً إن غاب، ويثبت Ruby وNode والحزم عند أول تشغيل.
-
-> بعد حفظ أي مقال من لوحة التحكم، اضغط **F5** في المتصفح لرؤية التغييرات.
+يسحب التغييرات من GitHub تلقائياً عند التشغيل (لمنع التعارض مع Decap CMS).
 
 ---
 
-## لوحة التحكم
+## لوحة التحكم المحلية — المزايا
 
-| الصفحة | ما تفعله |
+| القسم | الصلاحيات |
 |---|---|
 | **Dashboard** | إحصائيات + مخطط الأقسام + آخر المقالات |
-| **المقالات** | بحث حي، فلتر، تحرير، حذف |
-| **محرر المقال** | بيانات (form كامل) + لصق FM + محتوى Markdown + معاينة |
+| **المقالات** | بحث حي، فلتر AR/EN، تحرير، حذف (→ مهملات) |
+| **محرر المقال** | بيانات + لصق FM + محتوى Markdown + معاينة |
+| **شريط الأدوات** | غامق، مائل، عناوين، كود، جدول، رابط أفيلييت، **تراجع/تقدم** |
 | **لصق FM** | الصق front matter → يُوزَّع على الحقول تلقائياً |
-| **مدير الصور** | رفع drag & drop، استيراد من الجهاز (AR/EN/كليهما) |
+| **مدير الصور** | رفع drag & drop، استيراد من الجهاز (AR/EN/كليهما)، تحويل HEIC/TIFF→JPEG |
+| **المهملات** | حذف مؤقت مع إمكانية الاسترجاع أو الحذف النهائي |
 | **الأقسام** | عرض الأقسام + إنشاء قسم جديد (ID, اسمان, أيقونة, لون) |
-| **Git / نشر** | حالة الملفات + commit + push |
+| **Git / نشر** | مزامنة (Pull) + commit + push |
+| **المستودعات** | إضافة GitHub/GitLab/Codeberg + دفع لمستودعات متعددة |
+| **الأمان** | كلمة مرور للوحة المحلية (SHA-256) |
 | **الإعدادات** | عرض `_config.yml` |
 
 ---
 
 ## إضافة مقال
 
-### Front Matter الكامل
-
 ```yaml
 ---
 layout: post
 title: "عنوان المقال"
-date: 2026-05-10
-category: gaming          # id القسم من _data/categories.yml
-lang: ar                  # ar أو en
-slug: my-unique-slug      # ← متطابق في المقالين (يربطهما)
-image: my-image.jpg       # في assets/images/ar/ أو en/
+date: 2026-05-15 14:00:00
+category: gaming        # من _data/categories.yml
+lang: ar
+slug: my-unique-slug    # ← نفسه في المقال الإنجليزي
+image: my-image.jpg
 author: GNUTUX
 tags: [وسم1, وسم2]
 excerpt: "ملخص قصير..."
-also_in: [gnulinux]       # اختياري: أقسام إضافية
+also_in: [gnulinux]     # اختياري
 ---
 ```
-
-**الصور:** 1200×630 px — صيغ مدعومة: `jpg, png, webp, avif, gif, svg`  
-الصيغ الأخرى (HEIC, TIFF...) تُحوَّل تلقائياً عبر لوحة التحكم.
 
 ---
 
 ## إدارة الأقسام
 
-الأقسام مُعرَّفة في `_data/categories.yml`:
-
+من لوحة التحكم → **الأقسام** → إنشاء قسم جديد.  
+أو يدوياً في `_data/categories.yml`:
 ```yaml
-- id: gaming
-  name_ar: "ألعاب لينكس"
-  name_en: "Linux Gaming"
-  icon: "fa-solid fa-gamepad"
-  color: "#7c3aed"
+- id: hardware
+  name_ar: "الأجهزة"
+  name_en: "Hardware"
+  icon: "fa-solid fa-memory"
+  color: "#06b6d4"
 ```
-
-إضافة قسم جديد من لوحة التحكم (صفحة الأقسام) يُنشئ تلقائياً:
-- `_ar/<id>/` و`_en/<id>/`
-- `ar/category/<id>.html` و`en/category/<id>.html`
-- إدخال في `_data/categories.yml`
-
-القسم يظهر في الهيدر، الشريط، الصفحة الرئيسية، والـ footer **بدون أي تعديل يدوي**.
 
 ---
 
@@ -158,15 +144,24 @@ also_in: [gnulinux]       # اختياري: أقسام إضافية
 ```markdown
 [منتج](https://رابط.com){: .aff-link rel="nofollow sponsored" target="_blank"}
 ```
+شريط الإفصاح يظهر تلقائياً.
 
-شريط الإفصاح يظهر تلقائياً عند وجود أي رابط `.aff-link` في المقال.
+---
+
+## منع التعارض بين اللوحتين
+
+| الموقف | الإجراء |
+|---|---|
+| تعديل من Decap CMS | أنهِ وانشر قبل فتح اللوحة المحلية |
+| اللوحة المحلية تُظهر تنبيه أصفر | اضغط **مزامنة (Pull)** قبل فتح أي مقال |
+| تحرير نفس المقال من كلا اللوحتين | ❌ تجنب |
 
 ---
 
 ## النشر
 
 ```bash
-git add . && git commit -m "وصف التغيير" && git push origin main
+git add . && git commit -m "وصف" && git push origin main
 ```
 
 الموقع يتحدث خلال ~دقيقة عبر GitHub Actions.
@@ -179,24 +174,25 @@ git add . && git commit -m "وصف التغيير" && git push origin main
 |---|---|
 | Jekyll + GitHub Pages | محرك الموقع والاستضافة |
 | Node.js + Express | لوحة التحكم المحلية |
-| sharp | معالجة الصور وتحويلها |
+| Decap CMS | لوحة التحكم المستضافة (GitHub API) |
+| sharp | معالجة الصور |
 | js-yaml | قراءة/كتابة `_data/categories.yml` |
-| gray-matter | تحليل front matter |
 | Font Awesome 6 | أيقونات الأقسام |
 | CSS Custom Properties | الوضع الداكن/الفاتح |
-| JSON-LD | SEO منظّم لـ Google |
+| JSON-LD | SEO منظّم |
 
 ---
 
-## الأدلة المتاحة
+## الأدلة
 
 | الملف | المحتوى |
 |---|---|
-| `دليل-العمل.md` | مقالات، صور، أفيلييت، أقسام متعددة، الألعاب |
-| `دليل-تغيير-النطاق.md` | نطاق مخصص (DNS + CNAME + config) |
-| `دليل-الربط-بـGitHub.md` | Token، credentials، رفع التغييرات |
+| `دليل-العمل.md` | مقالات، صور، أفيلييت، أقسام، الألعاب |
+| `دليل-نظام-لوحتي-التحكم.md` | إعداد Decap CMS + OAuth + سير العمل |
+| `دليل-تغيير-النطاق.md` | نطاق مخصص (DNS + CNAME) |
+| `دليل-الربط-بـGitHub.md` | Token، credentials، حل مشاكل الدفع |
 | `CLAUDE.md` | توجيهات لـ Claude Code |
 
 ---
 
-&copy; 2026 GNUTUX — [github.com/SalehGNUTUX](https://github.com/SalehGNUTUX) — GNU AGPL v3
+&copy; 2026 GNUTUX — GNU AGPL v3
