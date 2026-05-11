@@ -4,7 +4,8 @@ sitemap: false
 robots: noindex
 ---
 <!doctype html>
-<html lang="ar" dir="rtl">
+<!-- dir="ltr" هنا يضع القائمة الجانبية على اليسار كما هو معتاد في أدوات التحرير -->
+<html lang="ar" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,363 +18,343 @@ robots: noindex
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ── شاشة التحميل ─────────────────────────────────────── */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ═══════════════════════════════════════════════════════════
+       GT-NEWSTECH Theme for Decap CMS
+       ═══════════════════════════════════════════════════════════ */
 
-    body, html {
-      font-family: 'Cairo', 'Inter', sans-serif;
-      background: #0a0a0a;
-      color: #e0d8c8;
+    /* ── متغيرات الوضع الداكن (افتراضي) ──────────────────────── */
+    :root {
+      --cms-bg:       #0a0a0a;
+      --cms-bg2:      #111111;
+      --cms-bg3:      #1a1a1a;
+      --cms-bg4:      #222222;
+      --cms-border:   #2a2a2a;
+      --cms-text:     #e0d8c8;
+      --cms-muted:    #666;
+      --cms-gold:     #d4a017;
+      --cms-gold-l:   #f0c040;
+      --cms-gold-bg:  rgba(212,160,23,.1);
+      --cms-radius:   8px;
     }
+
+    /* ── الوضع الفاتح ─────────────────────────────────────────── */
+    .cms-light {
+      --cms-bg:     #f0ece4;
+      --cms-bg2:    #ffffff;
+      --cms-bg3:    #f5f0e8;
+      --cms-bg4:    #ebe5da;
+      --cms-border: #d8d0c0;
+      --cms-text:   #1a1a1a;
+      --cms-muted:  #666;
+    }
+
+    /* ── شاشة التحميل ─────────────────────────────────────────── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { font-family: 'Cairo','Inter',sans-serif; background: var(--cms-bg); }
 
     #loadingScreen {
       position: fixed; inset: 0; z-index: 9999;
       display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 1rem;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1200 50%, #0a0a0a 100%);
+      align-items: center; justify-content: center; gap: 1rem;
+      background: linear-gradient(135deg,#0a0a0a 0%,#1a1200 50%,#0a0a0a 100%);
       transition: opacity .5s ease;
     }
-
     #loadingScreen.hide { opacity: 0; pointer-events: none; }
-
-    .loading-logo {
-      width: 80px; height: 80px; border-radius: 16px;
-      box-shadow: 0 0 30px rgba(212,160,23,.35);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
+    .loading-logo { width:80px; height:80px; border-radius:16px; animation: glow 2s ease-in-out infinite; }
+    @keyframes glow {
       0%,100% { box-shadow: 0 0 20px rgba(212,160,23,.3); }
       50%      { box-shadow: 0 0 40px rgba(212,160,23,.6); }
     }
-
-    .loading-title {
-      font-size: 1.3rem; font-weight: 900; color: #d4a017;
-      font-family: 'Inter', sans-serif; letter-spacing: 1px;
-    }
-
-    .loading-sub {
-      font-size: .7rem; color: #6a5a20;
-      letter-spacing: 3px; text-transform: uppercase;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .loading-dots { display: flex; gap: .4rem; margin-top: .5rem; }
+    .loading-title { font-size:1.3rem; font-weight:900; color:#d4a017; letter-spacing:1px; }
+    .loading-sub   { font-size:.65rem; color:#6a5a20; letter-spacing:3px; text-transform:uppercase; }
+    .loading-dots  { display:flex; gap:.4rem; margin-top:.5rem; }
     .loading-dots span {
-      width: 6px; height: 6px; border-radius: 50%; background: #d4a017;
+      width:6px; height:6px; border-radius:50%; background:#d4a017;
       animation: dots .9s ease-in-out infinite;
     }
-    .loading-dots span:nth-child(2) { animation-delay: .15s; }
-    .loading-dots span:nth-child(3) { animation-delay: .3s; }
-
+    .loading-dots span:nth-child(2) { animation-delay:.15s; }
+    .loading-dots span:nth-child(3) { animation-delay:.3s; }
     @keyframes dots {
-      0%,80%,100% { opacity: .2; transform: scale(.8); }
-      40%          { opacity: 1;  transform: scale(1.2); }
+      0%,80%,100% { opacity:.2; transform:scale(.8); }
+      40%          { opacity:1;  transform:scale(1.2); }
     }
 
-    /* ── ثيم GT-NEWSTECH لـ Decap CMS ───────────────────── */
-
-    /* الخط العربي */
-    #nc-root, #nc-root * {
-      font-family: 'Cairo', 'Inter', sans-serif !important;
+    /* ── زر تبديل الوضع الداكن/الفاتح ───────────────────────── */
+    #cmsThemeToggle {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 9998;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--cms-gold);
+      color: #000;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 16px rgba(212,160,23,.4);
+      transition: all .25s;
+    }
+    #cmsThemeToggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(212,160,23,.6);
     }
 
-    /* خلفية التطبيق */
-    #nc-root {
-      background: #111 !important;
-      min-height: 100vh;
-    }
+    /* ══════════════════════════════════════════════════════════
+       ثيم GT-NEWSTECH للواجهة
+       ══════════════════════════════════════════════════════════ */
+    #nc-root, #nc-root * { font-family: 'Cairo','Inter',sans-serif !important; }
 
-    /* الهيدر الرئيسي */
+    /* خلفية عامة */
+    #nc-root { background: var(--cms-bg) !important; min-height: 100vh; }
+
+    /* ── الهيدر ───────────────────────────────────────────────── */
     #nc-root header,
     #nc-root [class*="AppHeader"],
     #nc-root [class*="Topbar"],
-    #nc-root nav > div:first-child,
     #nc-root > div > header {
-      background: #0a0a0a !important;
-      border-bottom: 2px solid #d4a017 !important;
-      box-shadow: 0 2px 20px rgba(0,0,0,.5) !important;
+      background: var(--cms-bg) !important;
+      border-bottom: 2px solid var(--cms-gold) !important;
+      box-shadow: 0 2px 20px rgba(0,0,0,.4) !important;
     }
 
-    /* الشريط الجانبي للأقسام */
+    /* ── الشريط الجانبي (Collections) على اليسار ─────────────── */
     #nc-root aside,
     #nc-root [class*="Sidebar"],
-    #nc-root [class*="CollectionPane"],
     #nc-root nav[class] {
-      background: #0d0d0d !important;
-      border-inline-end: 1px solid #1e1e1e !important;
+      background: var(--cms-bg) !important;
+      border-right: 1px solid var(--cms-border) !important;
+      border-left: none !important;
     }
-
-    /* عناصر الشريط الجانبي */
-    #nc-root aside a,
-    #nc-root aside button,
-    #nc-root [class*="Sidebar"] a,
-    #nc-root [class*="Sidebar"] button {
-      color: #888 !important;
-      border-radius: 8px !important;
+    #nc-root aside a, #nc-root aside button,
+    #nc-root [class*="Sidebar"] a, #nc-root [class*="Sidebar"] button {
+      color: var(--cms-muted) !important;
+      border-radius: 7px !important;
       transition: all .2s !important;
     }
-
-    #nc-root aside a:hover,
-    #nc-root aside a[class*="active"],
-    #nc-root aside a[aria-current],
-    #nc-root [class*="Sidebar"] a:hover,
-    #nc-root [class*="active"] {
-      color: #d4a017 !important;
-      background: rgba(212,160,23,.1) !important;
+    #nc-root aside a:hover, #nc-root [class*="active"],
+    #nc-root aside a[aria-current] {
+      color: var(--cms-gold) !important;
+      background: var(--cms-gold-bg) !important;
     }
 
-    /* المنطقة الرئيسية */
-    #nc-root main,
-    #nc-root [role="main"],
-    #nc-root [class*="MainView"],
-    #nc-root [class*="Collection"]:not(aside) {
-      background: #111 !important;
+    /* ── المنطقة الرئيسية ─────────────────────────────────────── */
+    #nc-root main, #nc-root [role="main"],
+    #nc-root [class*="MainView"] {
+      background: var(--cms-bg2) !important;
+      color: var(--cms-text) !important;
     }
 
-    /* بطاقات المقالات */
-    #nc-root [class*="Card"],
-    #nc-root [class*="ListCard"],
-    #nc-root article,
-    #nc-root li[class] {
-      background: #1a1a1a !important;
-      border: 1px solid #2a2a2a !important;
+    /* ── بطاقات المقالات ─────────────────────────────────────── */
+    #nc-root [class*="Card"], #nc-root [class*="ListCard"],
+    #nc-root article, #nc-root li[class] {
+      background: var(--cms-bg3) !important;
+      border: 1px solid var(--cms-border) !important;
       border-radius: 10px !important;
       transition: border-color .2s, box-shadow .2s !important;
+      overflow: hidden !important;
     }
-
-    #nc-root [class*="Card"]:hover,
-    #nc-root [class*="ListCard"]:hover,
-    #nc-root li[class]:hover {
-      border-color: #d4a017 !important;
+    #nc-root [class*="Card"]:hover, #nc-root [class*="ListCard"]:hover {
+      border-color: var(--cms-gold) !important;
       box-shadow: 0 4px 16px rgba(212,160,23,.15) !important;
     }
 
-    /* الأزرار الرئيسية */
-    #nc-root button[class*="primary"],
-    #nc-root button[data-testid*="publish"],
-    #nc-root [class*="PublishButton"],
-    #nc-root [class*="Button--primary"],
-    #nc-root button[class*="success"] {
-      background: linear-gradient(135deg, #d4a017, #f0c040) !important;
-      color: #000 !important;
-      border: none !important;
-      font-weight: 700 !important;
-      border-radius: 8px !important;
-      box-shadow: 0 4px 14px rgba(212,160,23,.35) !important;
+    /* ── صور مصغرة في البطاقات ───────────────────────────────── */
+    #nc-root [class*="Card"] img,
+    #nc-root [class*="ListCard"] img {
+      width: 100% !important;
+      height: 160px !important;
+      object-fit: cover !important;
+      border-radius: 0 !important;
+      border-bottom: 1px solid var(--cms-border) !important;
+      display: block !important;
     }
 
-    #nc-root button[class*="primary"]:hover,
-    #nc-root [class*="PublishButton"]:hover {
+    /* ── الأزرار الرئيسية ─────────────────────────────────────── */
+    #nc-root button[class*="primary"], #nc-root [class*="PublishButton"],
+    #nc-root button[class*="success"] {
+      background: linear-gradient(135deg, var(--cms-gold), var(--cms-gold-l)) !important;
+      color: #000 !important; border: none !important; font-weight: 700 !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 14px rgba(212,160,23,.3) !important;
+    }
+    #nc-root button[class*="primary"]:hover, #nc-root [class*="PublishButton"]:hover {
       box-shadow: 0 6px 20px rgba(212,160,23,.5) !important;
       transform: translateY(-1px) !important;
     }
 
-    /* حقول الإدخال */
-    #nc-root input[type="text"],
-    #nc-root input[type="search"],
-    #nc-root textarea,
-    #nc-root select,
-    #nc-root [class*="TextInput"],
-    #nc-root [class*="StringControl"] input,
-    #nc-root [class*="TextControl"] textarea {
-      background: #1a1a1a !important;
-      border: 1px solid #333 !important;
-      color: #e0d8c8 !important;
+    /* ── حقول الإدخال ─────────────────────────────────────────── */
+    #nc-root input[type="text"], #nc-root input[type="search"],
+    #nc-root textarea, #nc-root select {
+      background: var(--cms-bg3) !important;
+      border: 1px solid var(--cms-border) !important;
+      color: var(--cms-text) !important;
       border-radius: 8px !important;
-      font-family: 'Cairo', 'Inter', sans-serif !important;
+      font-family: 'Cairo','Inter',sans-serif !important;
     }
-
-    #nc-root input:focus,
-    #nc-root textarea:focus,
-    #nc-root select:focus {
-      border-color: #d4a017 !important;
+    /* حقول المحتوى العربي تكون RTL */
+    #nc-root [class*="MarkdownControl"] textarea,
+    #nc-root [class*="Editor"] [contenteditable] {
+      direction: rtl !important;
+      text-align: right !important;
+    }
+    #nc-root input:focus, #nc-root textarea:focus {
+      border-color: var(--cms-gold) !important;
       box-shadow: 0 0 0 3px rgba(212,160,23,.2) !important;
       outline: none !important;
     }
 
-    /* محرر Markdown */
-    #nc-root [class*="Editor"],
-    #nc-root [class*="MarkdownControl"],
+    /* ── محرر Markdown ────────────────────────────────────────── */
+    #nc-root [class*="Editor"], #nc-root [class*="MarkdownControl"],
     #nc-root [class*="editorWrapper"] {
-      background: #161616 !important;
-      border: 1px solid #2a2a2a !important;
+      background: var(--cms-bg3) !important;
+      border: 1px solid var(--cms-border) !important;
       border-radius: 10px !important;
     }
-
-    /* شريط أدوات المحرر */
-    #nc-root [class*="Toolbar"],
-    #nc-root [class*="EditorToolbar"] {
-      background: #0d0d0d !important;
-      border-bottom: 1px solid #2a2a2a !important;
+    #nc-root [class*="Toolbar"], #nc-root [class*="EditorToolbar"] {
+      background: var(--cms-bg) !important;
+      border-bottom: 1px solid var(--cms-border) !important;
+    }
+    #nc-root [class*="Toolbar"] button { color: var(--cms-muted) !important; }
+    #nc-root [class*="Toolbar"] button:hover, #nc-root [class*="Toolbar"] button[class*="active"] {
+      color: var(--cms-gold) !important; background: var(--cms-gold-bg) !important;
     }
 
-    #nc-root [class*="Toolbar"] button,
-    #nc-root [class*="EditorToolbar"] button {
-      color: #888 !important;
-      border-radius: 5px !important;
-    }
-
-    #nc-root [class*="Toolbar"] button:hover,
-    #nc-root [class*="Toolbar"] button[class*="active"] {
-      color: #d4a017 !important;
-      background: rgba(212,160,23,.1) !important;
-    }
-
-    /* العناوين في نموذج التحرير */
-    #nc-root label,
-    #nc-root [class*="ControlHint"],
-    #nc-root [class*="WidgetLabel"] {
-      color: #888 !important;
-      font-size: .78rem !important;
-      font-weight: 600 !important;
-    }
-
-    /* شريط القوائم العلوي */
-    #nc-root [class*="Dropdown"],
-    #nc-root [class*="DropdownList"] {
-      background: #1a1a1a !important;
-      border: 1px solid #333 !important;
+    /* ── Dropdowns ────────────────────────────────────────────── */
+    #nc-root [class*="Dropdown"], #nc-root [class*="DropdownList"] {
+      background: var(--cms-bg3) !important;
+      border: 1px solid var(--cms-border) !important;
       border-radius: 10px !important;
       box-shadow: 0 8px 30px rgba(0,0,0,.6) !important;
     }
 
-    /* ── إصلاح: Collections العائمة تغطي البطاقات ────────── */
-    /*
-     * المشكلة: نافذة Collections تطفو فوق بطاقات المقالات
-     * الحل: نضبط z-index فقط بدون تغيير position أو إزالة الوظائف
-     * النافذة تبقى كاملة الميزات (بحث، تبديل بين المجموعات)
-     */
-
-    /* البطاقات تكون فوق النافذة العائمة */
-    #nc-root [class*="CollectionCard"],
-    #nc-root [class*="ListCard"],
-    #nc-root [class*="EntryCard"],
-    #nc-root article {
-      position: relative;
-      z-index: 5 !important;
+    /* ── Labels ───────────────────────────────────────────────── */
+    #nc-root label, #nc-root [class*="ControlHint"],
+    #nc-root [class*="WidgetLabel"] {
+      color: var(--cms-muted) !important;
+      font-size: .78rem !important; font-weight: 600 !important;
     }
 
-    /* نافذة Collections: z-index مناسب دون كسر وظائفها */
+    /* ── إصلاح z-index: Collections لا تغطي البطاقات ─────────── */
+    /* النافذة تبقى وظيفتها كاملة، فقط نضبط z-index */
     #nc-root [class*="CollectionSelector"],
-    #nc-root [class*="CollectionMenu"],
-    #nc-root [class*="CollectionList"] {
-      z-index: 200 !important;     /* تظهر فوق كل شيء عند فتحها */
+    #nc-root [class*="CollectionMenu"] {
+      z-index: 500 !important;
+    }
+    #nc-root [class*="Overlay"], #nc-root [class*="overlay"] {
+      z-index: 499 !important;
+    }
+    #nc-root main, #nc-root [role="main"] {
+      position: relative; z-index: 1 !important;
     }
 
-    /* خلفية شفافة لإغلاق النافذة بالنقر خارجها */
-    #nc-root [class*="Overlay"],
-    #nc-root [class*="overlay"] {
-      z-index: 199 !important;
-    }
+    /* ── شريط التمرير ─────────────────────────────────────────── */
+    #nc-root ::-webkit-scrollbar { width: 5px; height: 5px; }
+    #nc-root ::-webkit-scrollbar-track { background: var(--cms-bg); }
+    #nc-root ::-webkit-scrollbar-thumb { background: var(--cms-border); border-radius: 3px; }
+    #nc-root ::-webkit-scrollbar-thumb:hover { background: var(--cms-gold); }
 
-    /* في الشاشات الكبيرة: الشريط الجانبي لا يغطي المحتوى */
-    @media (min-width: 801px) {
-      #nc-root aside {
-        /* نتأكد أنه لا يطغى على المحتوى في الوضع الثابت */
-        overflow: visible !important;
-      }
-    }
+    /* ── روابط ────────────────────────────────────────────────── */
+    #nc-root a { color: var(--cms-gold) !important; }
+    #nc-root a:hover { color: var(--cms-gold-l) !important; }
 
-    /* ── تحسينات عامة ──────────────────────────────────────── */
-
-    /* شريط التمرير */
-    #nc-root ::-webkit-scrollbar { width: 6px; height: 6px; }
-    #nc-root ::-webkit-scrollbar-track { background: #111; }
-    #nc-root ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-    #nc-root ::-webkit-scrollbar-thumb:hover { background: #d4a017; }
-
-    /* نص عام */
-    #nc-root p, #nc-root span, #nc-root div, #nc-root h1, #nc-root h2,
-    #nc-root h3, #nc-root h4 {
-      color: inherit;
-    }
-
-    /* روابط */
-    #nc-root a { color: #d4a017 !important; }
-    #nc-root a:hover { color: #f0c040 !important; }
+    /* ══ الوضع الفاتح — تطبيق الثيم ══════════════════════════ */
+    .cms-light #nc-root, .cms-light body { background: var(--cms-bg) !important; }
+    .cms-light #nc-root main,
+    .cms-light #nc-root [role="main"] { background: var(--cms-bg2) !important; }
+    .cms-light #nc-root [class*="Card"],
+    .cms-light #nc-root [class*="ListCard"] { background: var(--cms-bg3) !important; }
+    .cms-light #nc-root input[type="text"],
+    .cms-light #nc-root textarea { background: #fff !important; color: #1a1a1a !important; }
+    .cms-light #nc-root aside { background: var(--cms-bg3) !important; }
+    .cms-light #nc-root header { background: #fff !important; }
+    .cms-light #nc-root [class*="Toolbar"] { background: #f0ece4 !important; }
+    .cms-light #nc-root [class*="Dropdown"] { background: #fff !important; box-shadow: 0 8px 30px rgba(0,0,0,.15) !important; }
   </style>
 </head>
 <body>
 
   <!-- شاشة التحميل -->
   <div id="loadingScreen">
-    <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png"
-         alt="GT-NEWSTECH" class="loading-logo">
+    <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png" alt="GT-NEWSTECH" class="loading-logo">
     <div class="loading-title">GT-NEWSTECH</div>
     <div class="loading-sub">GNUTUX NEWS TECH</div>
-    <div class="loading-dots">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="loading-dots"><span></span><span></span><span></span></div>
   </div>
 
-  <!-- معاينة المقال بنفس تصميم الموقع -->
-  <script>
-    window.addEventListener('DOMContentLoaded', function() {
-      /* تسجيل CSS الموقع للمعاينة */
-      if (window.CMS && CMS.registerPreviewStyle) {
-        CMS.registerPreviewStyle('{{ site.baseurl }}/assets/css/style.css');
-        CMS.registerPreviewStyle(
-          `body {
-            background: #f8f6f0;
-            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
-            padding: 2rem;
-            max-width: 860px;
-            margin: 0 auto;
-            line-height: 1.8;
-            color: #1a1a1a;
-            direction: rtl;
-          }
-          h1, h2, h3 { color: #d4a017; }
-          h2 { border-bottom: 2px solid rgba(212,160,23,.2); padding-bottom: .4rem; }
-          a { color: #d4a017; }
-          blockquote {
-            border-right: 4px solid #d4a017;
-            padding: .75rem 1.25rem;
-            background: rgba(212,160,23,.06);
-            border-radius: 0 8px 8px 0;
-            color: #555;
-          }
-          pre { background: #0d0d0d; color: #e0d8c8; padding: 1rem; border-radius: 8px; }
-          code { background: #f0ece0; padding: .1em .4em; border-radius: 3px; color: #c0600a; }
-          table { width: 100%; border-collapse: collapse; }
-          th { background: #0a0a0a; color: #d4a017; padding: .6rem .9rem; text-align: right; }
-          td { padding: .55rem .9rem; border-bottom: 1px solid #e2d9c8; }
-          img { max-width: 100%; border-radius: 10px; }`,
-          { raw: true }
-        );
-      }
-    });
-  </script>
+  <!-- زر تبديل الوضع الداكن/الفاتح -->
+  <button id="cmsThemeToggle" title="تبديل الوضع الداكن/الفاتح">🌙</button>
 
-  <!-- إخفاء شاشة التحميل بعد جهوزية CMS -->
   <script>
+    /* ── تبديل الوضع الداكن/الفاتح ─────────────────────────── */
     (function() {
-      var maxWait = setTimeout(hideLoading, 4000);
-      function hideLoading() {
+      var key  = 'gnt-cms-theme';
+      var btn  = document.getElementById('cmsThemeToggle');
+      var html = document.documentElement;
+
+      function apply(theme) {
+        if (theme === 'light') {
+          html.classList.add('cms-light');
+          btn.textContent = '☀️';
+        } else {
+          html.classList.remove('cms-light');
+          btn.textContent = '🌙';
+        }
+        localStorage.setItem(key, theme);
+      }
+
+      /* تطبيق التفضيل المحفوظ */
+      apply(localStorage.getItem(key) || 'dark');
+
+      /* النقر للتبديل */
+      btn.addEventListener('click', function() {
+        apply(html.classList.contains('cms-light') ? 'dark' : 'light');
+      });
+    })();
+
+    /* ── إخفاء شاشة التحميل ──────────────────────────────────── */
+    (function() {
+      var maxWait = setTimeout(hide, 5000);
+      function hide() {
         clearTimeout(maxWait);
         var s = document.getElementById('loadingScreen');
         if (s) { s.classList.add('hide'); setTimeout(function(){ s.remove(); }, 500); }
       }
       document.addEventListener('DOMContentLoaded', function() {
-        var obs = new MutationObserver(function(_, o) {
-          if (document.querySelector('#nc-root [class]')) { o.disconnect(); hideLoading(); }
-        });
-        obs.observe(document.body, { childList: true, subtree: true });
+        new MutationObserver(function(_, o) {
+          if (document.querySelector('#nc-root [class]')) { o.disconnect(); hide(); }
+        }).observe(document.body, { childList: true, subtree: true });
       });
     })();
   </script>
 
+  <!-- Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
   <!-- تسجيل Preview Styles بعد تحميل CMS -->
   <script>
-    (function waitForCMS() {
+    (function waitCMS() {
       if (window.CMS && CMS.registerPreviewStyle) {
+        /* CSS الموقع الكامل في نافذة المعاينة */
         CMS.registerPreviewStyle('{{ site.baseurl }}/assets/css/style.css');
+        /* تنسيق إضافي للمعاينة */
+        CMS.registerPreviewStyle([
+          'body{background:#f8f6f0;font-family:"Cairo","Segoe UI",Tahoma,sans-serif;',
+          'padding:2rem;max-width:860px;margin:0 auto;line-height:1.8;color:#1a1a1a;direction:rtl;}',
+          'h2{color:#d4a017;border-bottom:2px solid rgba(212,160,23,.2);padding-bottom:.4rem;margin:1.5rem 0 .75rem;}',
+          'h3{color:#333;margin:1.25rem 0 .5rem;}',
+          'a{color:#d4a017;}',
+          'blockquote{border-right:4px solid #d4a017;padding:.75rem 1.25rem;',
+          'background:rgba(212,160,23,.06);border-radius:0 8px 8px 0;color:#555;}',
+          'pre{background:#0d0d0d;color:#e0d8c8;padding:1rem;border-radius:8px;overflow-x:auto;}',
+          'code{background:#f0ece0;padding:.1em .4em;border-radius:3px;color:#c0600a;}',
+          'table{width:100%;border-collapse:collapse;margin:1rem 0;}',
+          'th{background:#0a0a0a;color:#d4a017;padding:.6rem .9rem;text-align:right;}',
+          'td{padding:.55rem .9rem;border-bottom:1px solid #e2d9c8;}',
+          'img{max-width:100%;border-radius:10px;margin:1rem 0;}'
+        ].join(''), { raw: true });
       } else {
-        setTimeout(waitForCMS, 200);
+        setTimeout(waitCMS, 300);
       }
     })();
   </script>

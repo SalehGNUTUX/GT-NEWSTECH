@@ -10,7 +10,13 @@
   <a href="{{ post.url | relative_url }}" class="card-link">
     <div class="card-image">
       {% if post.image %}
-      <img src="{{ site.baseurl }}/assets/images/{{ post.lang }}/{{ post.image }}"
+      {% comment %}يدعم صيغتَين: مسار كامل (Decap CMS) أو اسم ملف فقط (لوحة محلية){% endcomment %}
+      {% if post.image contains '/assets/images/' %}
+        {% assign _img_src = post.image %}
+      {% else %}
+        {% assign _img_src = site.baseurl | append: '/assets/images/' | append: post.lang | append: '/' | append: post.image %}
+      {% endif %}
+      <img src="{{ _img_src }}"
            alt="{{ post.title }}"
            loading="lazy"
            onerror="this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('card-fallback-logo')">

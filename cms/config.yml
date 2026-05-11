@@ -15,9 +15,9 @@ backend:
 locale: ar
 logo_url: /GT-NEWSTECH/assets/icons/gt-newstech-icon.png
 
-# مجلد الوسائط العام (الصور المشتركة)
-media_folder: assets/images/ar
-public_folder: /GT-NEWSTECH/assets/images/ar
+# مجلد الوسائط العام — يعرض AR و EN معاً في متصفح الصور
+media_folder: assets/images
+public_folder: /GT-NEWSTECH/assets/images
 
 # ═══════════════════════════════════════════════════════════════
 # المجموعات (Collections)
@@ -95,10 +95,13 @@ collections:
         default: GNUTUX
 
       - name: image
-        label: "اسم ملف الصورة"
-        widget: string
+        label: "صورة الترويسة"
+        widget: image
         required: false
-        hint: "مثال: my-image.jpg — ارفع الصورة من 'الوسائط' أولاً ثم اكتب اسمها هنا"
+        hint: "اضغط لاختيار صورة أو رفع صورة جديدة من مجلد assets/images/ar/"
+        media_library:
+          config:
+            multiple: false
 
       - name: excerpt
         label: "ملخص المقال"
@@ -185,10 +188,13 @@ collections:
         default: GNUTUX
 
       - name: image
-        label: "Image filename"
-        widget: string
+        label: "Featured Image"
+        widget: image
         required: false
-        hint: "e.g. my-image.jpg — Upload via Media first, then type the filename here"
+        hint: "Click to select or upload an image from assets/images/en/"
+        media_library:
+          config:
+            multiple: false
 
       - name: excerpt
         label: "Excerpt"

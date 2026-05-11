@@ -99,7 +99,12 @@ layout: default
   <!-- Featured Image -->
   <div class="post-featured-wrap">
     {% if page.image %}
-    <img src="{{ site.baseurl }}/assets/images/{{ page.lang }}/{{ page.image }}"
+    {% if page.image contains '/assets/images/' %}
+      {% assign _post_img = page.image %}
+    {% else %}
+      {% assign _post_img = site.baseurl | append: '/assets/images/' | append: page.lang | append: '/' | append: page.image %}
+    {% endif %}
+    <img src="{{ _post_img }}"
          alt="{{ page.title }}"
          class="post-featured-image"
          loading="eager"
