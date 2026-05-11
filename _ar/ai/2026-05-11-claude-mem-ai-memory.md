@@ -4,7 +4,7 @@ title: 'Claude-Mem: ذاكرة مثالية لذكائك الاصطناعي – 
 slug: claude-mem-ai-memory
 lang: ar
 category: ai
-date: 2026-05-11T19:46:00.000Z
+date: 2026-05-11T20:10:00.000Z
 author: GNUTUX
 excerpt: >-
   Claude-Mem هو نظام ذاكرة متخصص للوكلاء الاصطناعيين، يلتقط كل ما يحدث خلال
