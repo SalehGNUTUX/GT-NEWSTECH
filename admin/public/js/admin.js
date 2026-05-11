@@ -552,9 +552,155 @@ async function renderGit(c) {
 
 window.pullChanges = async () => {
   toast('جاري المزامنة...', 'info');
-  const d = await api('/api/git/pull', { method:'POST' });
-  if (d.ok) { toast('✓ ' + (d.message || 'تمت المزامنة'), 'success'); renderGit($('content')); }
-  else toast('خطأ في المزامنة: ' + d.error, 'error', 5000);
+  /* fetch مباشر لقراءة status code */
+  const r = await fetch('/api/git/pull', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': getToken() }
+  });
+  const d = await r.json();
+
+  if (d.ok) {
+    toast('✓ ' + (d.message || 'تمت المزامنة'), 'success');
+    renderGit($('content'));
+  } else if (r.status === 409 && d.needsResolution) {
+    openConflictResolver();
+  } else {
+    toast('خطأ في المزامنة: ' + (d.error || 'فشل غير معروف'), 'error', 5000);
+  }
+};
+
+/* ════════════════════════════════════════════════════════════
+   حل التعارض شبه الآلي (Conflict Resolver)
+   ════════════════════════════════════════════════════════════ */
+
+const _esc = s => (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+async function openConflictResolver() {
+  const d = await api('/api/git/conflicts');
+  const items = d.conflicts || [];
+  if (!items.length) { toast('لا توجد تعارضات', 'info'); return; }
+
+  const html = `
+  <div class="conflict-overlay" id="conflictOverlay">
+    <div class="conflict-modal">
+      <div class="conflict-header">
+        <h3><i class="fa-solid fa-triangle-exclamation" style="color:var(--gold)"></i>
+            حل تعارض في ${items.length} ملف</h3>
+        <p>هذه الملفات عُدِّلت من جهازك المحلي ومن Decap CMS في نفس الوقت.<br>
+           اختر النسخة التي تريد الاحتفاظ بها لكل ملف.</p>
+      </div>
+      <div class="conflict-list">
+        ${items.map((it, i) => renderConflictItem(it, i)).join('')}
+      </div>
+      <div class="conflict-progress">
+        تم حل <strong id="resolvedCount">0</strong> من <strong>${items.length}</strong>
+      </div>
+      <div class="conflict-footer">
+        <button class="btn btn-gold" id="completeBtn" onclick="completeResolution()" disabled>
+          <i class="fa-solid fa-check"></i> إكمال الدمج والدفع
+        </button>
+        <button class="btn btn-ghost" onclick="abortResolution()">
+          <i class="fa-solid fa-xmark"></i> إلغاء المزامنة
+        </button>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  window.__conflictState = { total: items.length, resolved: new Set() };
+}
+
+function renderConflictItem(item, idx) {
+  const oursMore   = item.oursSize   > 600 ? `<div class="conflict-more">... +${item.oursSize-600} حرف</div>` : '';
+  const theirsMore = item.theirsSize > 600 ? `<div class="conflict-more">... +${item.theirsSize-600} حرف</div>` : '';
+  return `
+  <div class="conflict-item" id="conflict-${idx}" data-file="${_esc(item.file)}">
+    <div class="conflict-file-header">
+      <i class="fa-regular fa-file-lines"></i>
+      <span class="conflict-filename">${_esc(item.file)}</span>
+      <span class="conflict-status pending" id="status-${idx}">⏳ غير محلول</span>
+    </div>
+    <div class="conflict-versions">
+      <div class="conflict-version local">
+        <div class="conflict-version-header">
+          <i class="fa-solid fa-laptop"></i> نسختي المحلية
+          <span class="conflict-size">${item.oursSize} حرف</span>
+        </div>
+        <pre>${_esc(item.oursPreview) || '<em style="color:var(--muted)">(فارغ)</em>'}</pre>
+        ${oursMore}
+      </div>
+      <div class="conflict-version remote">
+        <div class="conflict-version-header">
+          <i class="fa-solid fa-cloud"></i> نسخة Decap CMS
+          <span class="conflict-size">${item.theirsSize} حرف</span>
+        </div>
+        <pre>${_esc(item.theirsPreview) || '<em style="color:var(--muted)">(فارغ)</em>'}</pre>
+        ${theirsMore}
+      </div>
+    </div>
+    <div class="conflict-actions">
+      <button class="btn btn-sm btn-outline" onclick="resolveFile(${idx}, 'ours')">
+        <i class="fa-solid fa-laptop"></i> احتفظ بنسختي
+      </button>
+      <button class="btn btn-sm btn-outline" onclick="resolveFile(${idx}, 'theirs')">
+        <i class="fa-solid fa-cloud"></i> احتفظ بنسخة GitHub
+      </button>
+    </div>
+  </div>`;
+}
+
+window.resolveFile = async function(idx, strategy) {
+  const item = document.getElementById(`conflict-${idx}`);
+  const file = item?.dataset.file;
+  if (!file) return;
+
+  const d = await api('/api/git/resolve', {
+    method: 'POST',
+    body: JSON.stringify({ file, strategy })
+  });
+  if (!d.ok) { toast('خطأ: ' + (d.error||''), 'error'); return; }
+
+  const status = document.getElementById(`status-${idx}`);
+  status.className = 'conflict-status resolved';
+  status.innerHTML = `✓ ${strategy === 'ours' ? 'احتفظت بنسختي' : 'احتفظت بنسخة GitHub'}`;
+  item.classList.add('resolved');
+  item.querySelectorAll('.conflict-actions button').forEach(b => b.disabled = true);
+  item.querySelector('.conflict-version.local').classList.toggle('chosen', strategy === 'ours');
+  item.querySelector('.conflict-version.remote').classList.toggle('chosen', strategy === 'theirs');
+
+  window.__conflictState.resolved.add(idx);
+  document.getElementById('resolvedCount').textContent = window.__conflictState.resolved.size;
+  if (window.__conflictState.resolved.size >= window.__conflictState.total) {
+    document.getElementById('completeBtn').disabled = false;
+  }
+};
+
+window.completeResolution = async function() {
+  toast('جاري إكمال الدمج...', 'info');
+  const cont = await api('/api/git/continue', { method: 'POST' });
+
+  /* قد تظهر تعارضات جديدة من commit آخر في الـ rebase */
+  if (cont.hasMore && cont.conflicts) {
+    document.getElementById('conflictOverlay').remove();
+    toast('ظهرت تعارضات إضافية من commit آخر — حلَّها أيضاً', 'info', 4000);
+    return openConflictResolver();
+  }
+  if (!cont.ok) { toast('خطأ: ' + (cont.error||''), 'error', 5000); return; }
+
+  /* تم الدمج → ادفع */
+  const push = await api('/api/git/push', { method: 'POST', body: JSON.stringify({}) });
+  document.getElementById('conflictOverlay').remove();
+  if (push.ok) toast('✓ تم الدمج والدفع بنجاح', 'success', 4000);
+  else         toast('تم الدمج محلياً — اضغط Push يدوياً: ' + (push.error||''), 'info', 5000);
+  renderGit($('content'));
+};
+
+window.abortResolution = async function() {
+  if (!confirm('إلغاء المزامنة والعودة لحالة ما قبل المحاولة؟')) return;
+  const d = await api('/api/git/abort', { method: 'POST' });
+  document.getElementById('conflictOverlay').remove();
+  if (d.ok) toast('تم إلغاء المزامنة', 'info');
+  else      toast('خطأ: ' + (d.error||''), 'error');
+  renderGit($('content'));
 };
 
 window.pushChanges = async () => {

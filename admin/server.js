@@ -485,26 +485,129 @@ app.get('/api/git/status', (_req, res) => {
   } catch (e) { res.json({ status: '', log: '', ahead: 0, behind: 0 }); }
 });
 
-/* Git pull — مزامنة مع الـ remote (rebase تلقائي عند التباعد) */
+/* ── مساعد: حالة rebase/merge الحالية ────────────────────────── */
+function getMergeStatus() {
+  return {
+    inRebase: fs.existsSync(path.join(ROOT, '.git', 'rebase-merge')) ||
+              fs.existsSync(path.join(ROOT, '.git', 'rebase-apply')),
+    inMerge:  fs.existsSync(path.join(ROOT, '.git', 'MERGE_HEAD'))
+  };
+}
+
+/* ── مساعد: قائمة الملفات المتعارضة ──────────────────────────── */
+function getConflictedFiles() {
+  const { execSync } = require('child_process');
+  try {
+    const out = execSync('git status --porcelain', { cwd: ROOT, encoding: 'utf8' });
+    return out.split('\n')
+      .filter(l => /^(UU|AA|DU|UD|AU|UA) /.test(l))
+      .map(l => l.slice(3).trim())
+      .filter(Boolean);
+  } catch (_) { return []; }
+}
+
+/* Git pull — مزامنة ذكية مع كشف التعارضات */
 app.post('/api/git/pull', (_req, res) => {
   const { execSync } = require('child_process');
   try {
-    /* جرّب ff-only أولاً (الحالة الأنظف) */
+    /* 1) جرّب ff-only (الحالة الأنظف) */
     const out = execSync('git pull --ff-only origin main', { cwd: ROOT, encoding: 'utf8' });
     res.json({ ok: true, message: out.trim() || 'Already up to date.', mode: 'fast-forward' });
   } catch (e) {
-    /* فشل ff-only → commits محلية متباعدة → استخدم rebase */
+    /* 2) فشل ff-only → استخدم rebase */
     try {
       const out = execSync('git pull --rebase --autostash origin main', { cwd: ROOT, encoding: 'utf8' });
-      res.json({ ok: true, message: 'تمت إعادة ترتيب الـ commits المحلية فوق التغييرات البعيدة\n' + out.trim(), mode: 'rebase' });
+      res.json({ ok: true, message: 'تمت إعادة الترتيب', mode: 'rebase', detail: out.trim() });
     } catch (e2) {
-      /* فشل rebase أيضاً → تعارض حقيقي */
+      /* 3) فشل rebase → تحقق من وجود تعارضات للحل */
+      const status   = getMergeStatus();
+      const conflicts = getConflictedFiles();
+      if ((status.inRebase || status.inMerge) && conflicts.length > 0) {
+        return res.status(409).json({
+          needsResolution: true,
+          conflicts,
+          message: `تعارض في ${conflicts.length} ملف`,
+          ...status
+        });
+      }
+      /* لا تعارضات قابلة للحل → ألغِ وأبلغ */
       try { execSync('git rebase --abort', { cwd: ROOT }); } catch (_) {}
-      res.status(500).json({
-        error: 'تعارض يحتاج حلاً يدوياً: ' + e2.message.split('\n').slice(0, 3).join(' | ')
-      });
+      res.status(500).json({ error: e2.message.split('\n').slice(0, 2).join(' | ') });
     }
   }
+});
+
+/* قائمة التعارضات مع معاينة لكل نسخة */
+app.get('/api/git/conflicts', (_req, res) => {
+  const { execSync } = require('child_process');
+  const files = getConflictedFiles();
+  const conflicts = files.map(file => {
+    let ours = '', theirs = '';
+    try { ours   = execSync(`git show :2:"${file}"`,  { cwd: ROOT, encoding: 'utf8' }); } catch (_) {}
+    try { theirs = execSync(`git show :3:"${file}"`,  { cwd: ROOT, encoding: 'utf8' }); } catch (_) {}
+    return {
+      file,
+      oursPreview:   ours.slice(0, 600),
+      theirsPreview: theirs.slice(0, 600),
+      oursSize:      ours.length,
+      theirsSize:    theirs.length
+    };
+  });
+  res.json({ ...getMergeStatus(), conflicts, count: conflicts.length });
+});
+
+/* حل ملف واحد بنسخة محلية أو بعيدة */
+app.post('/api/git/resolve', (req, res) => {
+  const { execSync } = require('child_process');
+  const { file, strategy } = req.body || {};
+  if (!file || !['ours', 'theirs'].includes(strategy))
+    return res.status(400).json({ error: "file و strategy ('ours' أو 'theirs') مطلوبان" });
+  try {
+    /* استخدم نسخة الجانب المختار + أضف للـ stage */
+    execSync(`git checkout --${strategy} -- "${file}"`, { cwd: ROOT });
+    execSync(`git add -- "${file}"`,                     { cwd: ROOT });
+    res.json({ ok: true, file, strategy });
+  } catch (e) { res.status(500).json({ error: e.message.split('\n')[0] }); }
+});
+
+/* إكمال الـ rebase/merge بعد حل كل التعارضات */
+app.post('/api/git/continue', (_req, res) => {
+  const { execSync } = require('child_process');
+  const status = getMergeStatus();
+  try {
+    if (status.inRebase) {
+      execSync('git -c core.editor=true rebase --continue', {
+        cwd: ROOT, env: { ...process.env, GIT_EDITOR: 'true' }
+      });
+    } else if (status.inMerge) {
+      execSync('git -c core.editor=true commit --no-edit', { cwd: ROOT });
+    }
+    /* تحقق من تعارضات جديدة (rebase متعدد commits قد يكشف أخرى) */
+    const newStatus  = getMergeStatus();
+    const conflicts  = getConflictedFiles();
+    if ((newStatus.inRebase || newStatus.inMerge) && conflicts.length > 0) {
+      return res.json({ ok: false, hasMore: true, conflicts, ...newStatus });
+    }
+    res.json({ ok: true, done: true });
+  } catch (e) {
+    /* قد يكون هناك تعارض جديد بعد continue */
+    const conflicts = getConflictedFiles();
+    if (conflicts.length > 0) {
+      return res.json({ ok: false, hasMore: true, conflicts, ...getMergeStatus() });
+    }
+    res.status(500).json({ error: e.message.split('\n').slice(0, 2).join(' | ') });
+  }
+});
+
+/* إلغاء rebase/merge والعودة لحالة ما قبل المحاولة */
+app.post('/api/git/abort', (_req, res) => {
+  const { execSync } = require('child_process');
+  const status = getMergeStatus();
+  try {
+    if (status.inRebase)     execSync('git rebase --abort', { cwd: ROOT });
+    else if (status.inMerge) execSync('git merge --abort',  { cwd: ROOT });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 /* Git push — single remote */
