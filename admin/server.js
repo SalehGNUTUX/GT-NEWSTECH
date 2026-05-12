@@ -482,36 +482,7 @@ app.get('/api/images', (req, res) => {
   res.json([...getImages('ar'), ...getImages('en')]);
 });
 
-/* Upload images — صيغ الويب تُحفظ كما هي، غيرها يُحوَّل */
-app.post('/api/images/:lang', handleUpload, async (req, res) => {
-  const lang     = req.params.lang;
-  const destDir  = path.join(ROOT, 'assets', 'images', lang);
-  const uploaded = [];
-
-  for (const file of req.files || []) {
-    try {
-      const { filename, converted } = await saveImage(file.buffer, file.originalname, destDir);
-      uploaded.push({
-        name: filename, lang,
-        url:  `/site-images/${lang}/${filename}`,
-        size: fs.statSync(path.join(destDir, filename)).size,
-        converted
-      });
-    } catch (err) {
-      console.error('[Upload Error]', file.originalname, err.message);
-      return res.status(500).json({ error: `فشل "${file.originalname}": ${err.message}` });
-    }
-  }
-  res.json({ ok: true, uploaded });
-});
-
-/* Delete image */
-app.delete('/api/images/:lang/:name', (req, res) => {
-  const fp = path.join(ROOT, 'assets', 'images', req.params.lang, req.params.name);
-  if (!fs.existsSync(fp)) return res.status(404).json({ error: 'Not found' });
-  fs.unlinkSync(fp);
-  res.json({ ok: true });
-});
+/* ── ⚠️ ترتيب المسارات مهم: المسارات المخصصة قبل :lang ────── */
 
 /* Import image from filesystem path */
 app.post('/api/images/import', async (req, res) => {
@@ -536,6 +507,76 @@ app.post('/api/images/import', async (req, res) => {
   }
 
   res.json({ ok: true, filename: copied[0]?.filename, copied, converted });
+});
+
+/* Import image from internet URL — يُنزِّل ويحفظ في مجلد لغة محدد */
+app.post('/api/images/from-url', async (req, res) => {
+  const { url, lang, filename: customName } = req.body || {};
+  if (!url || !lang) return res.status(400).json({ error: 'url و lang مطلوبان' });
+  if (!['ar', 'en'].includes(lang)) return res.status(400).json({ error: 'lang يجب أن يكون ar أو en' });
+
+  try {
+    const r = await fetch(url, { redirect: 'follow' });
+    if (!r.ok) return res.status(400).json({ error: `الخادم البعيد رفض الطلب: ${r.status}` });
+
+    const contentType = r.headers.get('content-type') || '';
+    if (!contentType.startsWith('image/')) {
+      return res.status(400).json({ error: 'الرابط لا يشير إلى صورة (' + contentType + ')' });
+    }
+
+    let name = customName;
+    if (!name) {
+      const u = new URL(url);
+      const last = path.basename(u.pathname).split('?')[0];
+      name = last && /\.\w+$/.test(last) ? last : `from-url-${Date.now()}.jpg`;
+    }
+    name = name.replace(/[^\w.-]/g, '_');
+
+    const buffer  = Buffer.from(await r.arrayBuffer());
+    const destDir = path.join(ROOT, 'assets', 'images', lang);
+    fs.mkdirSync(destDir, { recursive: true });
+
+    const result = await saveImage(buffer, name, destDir);
+    res.json({
+      ok: true,
+      filename: result.filename,
+      converted: result.converted,
+      url: `/site-images/${lang}/${result.filename}`
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'فشل التنزيل: ' + err.message });
+  }
+});
+
+/* Delete image */
+app.delete('/api/images/:lang/:name', (req, res) => {
+  const fp = path.join(ROOT, 'assets', 'images', req.params.lang, req.params.name);
+  if (!fs.existsSync(fp)) return res.status(404).json({ error: 'Not found' });
+  fs.unlinkSync(fp);
+  res.json({ ok: true });
+});
+
+/* Upload images — يجب أن يكون آخر POST لـ /api/images/* لأن :lang يلتقط أي قيمة */
+app.post('/api/images/:lang', handleUpload, async (req, res) => {
+  const lang     = req.params.lang;
+  const destDir  = path.join(ROOT, 'assets', 'images', lang);
+  const uploaded = [];
+
+  for (const file of req.files || []) {
+    try {
+      const { filename, converted } = await saveImage(file.buffer, file.originalname, destDir);
+      uploaded.push({
+        name: filename, lang,
+        url:  `/site-images/${lang}/${filename}`,
+        size: fs.statSync(path.join(destDir, filename)).size,
+        converted
+      });
+    } catch (err) {
+      console.error('[Upload Error]', file.originalname, err.message);
+      return res.status(500).json({ error: `فشل "${file.originalname}": ${err.message}` });
+    }
+  }
+  res.json({ ok: true, uploaded });
 });
 
 /* Config */

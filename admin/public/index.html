@@ -180,22 +180,24 @@
           <div class="form-group fg-full">
             <label>أقسام إضافية (also_in)</label>
             <div class="checks-row" id="fAlsoIn">
-              <label class="check-label"><input type="checkbox" value="gnutux-projects"> GNUTUX</label>
-              <label class="check-label"><input type="checkbox" value="foss"> FOSS</label>
-              <label class="check-label"><input type="checkbox" value="gnulinux"> GNU/Linux</label>
-              <label class="check-label"><input type="checkbox" value="tech-news"> Tech</label>
-              <label class="check-label"><input type="checkbox" value="ai"> AI</label>
+              <!-- يُملأ ديناميكياً من _data/categories.yml -->
             </div>
           </div>
           <div class="form-group">
             <label>صورة الترويسة</label>
             <div class="img-input-row">
-              <input type="text" id="fImage" placeholder="image-name.jpg" dir="ltr">
-              <button class="btn btn-sm" id="pickImageBtn">
+              <input type="text" id="fImage" placeholder="image-name.jpg أو https://..." dir="ltr">
+              <button class="btn btn-sm" id="pickImageBtn" title="اختر من الصور الموجودة">
                 <i class="fa-solid fa-folder-open"></i>
+              </button>
+              <button class="btn btn-sm" id="urlImageBtn" title="استيراد صورة من رابط إنترنت">
+                <i class="fa-solid fa-link"></i>
               </button>
             </div>
             <div id="fImagePreview" class="img-thumb-wrap"></div>
+            <small style="color:var(--muted);font-size:.72rem;display:block;margin-top:.4rem">
+              أدخل اسم ملف من مكتبة الصور، أو رابط https:// لتنزيله تلقائياً
+            </small>
           </div>
           <div class="form-group form-check-inline">
             <label class="toggle-label">

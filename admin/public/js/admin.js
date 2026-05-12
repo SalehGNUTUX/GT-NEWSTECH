@@ -589,6 +589,7 @@ window.createCategory = async function() {
   if (d.ok) {
     toast(`✓ تم إنشاء قسم "${name_ar}"`, 'success');
     await loadCats();
+    populateCategoryFields();   /* حدّث محرر المقال بالقسم الجديد */
     renderCategories($('content'));
   } else {
     result.innerHTML = `<span style="color:var(--danger)">خطأ: ${d.error}</span>`;
@@ -1252,6 +1253,31 @@ window.deleteArticle = async (lang, cat, file, title) => {
 // ── Image Picker ───────────────────────────────────────────────
 $('pickImageBtn').addEventListener('click', () => openImagePicker());
 
+// ── Image from URL ─────────────────────────────────────────────
+$('urlImageBtn')?.addEventListener('click', async () => {
+  const url = prompt('الصق رابط الصورة (https://...):');
+  if (!url) return;
+  if (!/^https?:\/\//i.test(url)) { toast('الرابط يجب أن يبدأ بـ http:// أو https://', 'error'); return; }
+
+  const lang = document.querySelector('[name=fLang]:checked')?.value || 'ar';
+  toast('جاري تنزيل الصورة...', 'info');
+
+  const d = await api('/api/images/from-url', {
+    method: 'POST',
+    body: JSON.stringify({ url, lang })
+  });
+
+  if (d.cancelled) return;
+  if (!d.ok) { toast('خطأ: ' + (d.error || 'فشل التنزيل'), 'error', 5000); return; }
+
+  $('fImage').value = d.filename;
+  $('fImage').dispatchEvent(new Event('input'));
+  const msg = d.converted
+    ? `✓ تم تنزيل الصورة وحفظها كـ ${d.filename} (مع تحويل لـ JPEG)`
+    : `✓ تم تنزيل الصورة: ${d.filename}`;
+  toast(msg, 'success', 4000);
+});
+
 async function openImagePicker() {
   $('imagePickerModal').removeAttribute('hidden');
   await loadPickerImages();
@@ -1852,12 +1878,31 @@ loadCats().then(async () => {
     if (chk.status === 401) { showLogin(); return; }
   }
 
-  /* تحديث قائمة الأقسام في محرر المقال */
-  const sel = $('fCategory');
-  if (sel && Object.keys(CATS).length) {
-    sel.innerHTML = Object.entries(CATS)
-      .map(([id, c]) => `<option value="${id}">${c.ar}</option>`).join('');
-  }
+  /* تحديث قائمة الأقسام في محرر المقال — ديناميكياً */
+  populateCategoryFields();
   updateTrashBadge();
   navigate(location.hash.slice(1) || 'dashboard');
 });
+
+/* تعبئة كل حقول الأقسام بناءً على _data/categories.yml */
+function populateCategoryFields() {
+  if (!Object.keys(CATS).length) return;
+
+  /* القسم الرئيسي (select) */
+  const sel = $('fCategory');
+  if (sel) {
+    const cur = sel.value;
+    sel.innerHTML = Object.entries(CATS)
+      .map(([id, c]) => `<option value="${id}">${c.ar}</option>`).join('');
+    if (cur) sel.value = cur;
+  }
+
+  /* أقسام إضافية (checkboxes) — تشمل كل قسم موجود */
+  const wrap = $('fAlsoIn');
+  if (wrap) {
+    wrap.innerHTML = Object.entries(CATS).map(([id, c]) => `
+      <label class="check-label">
+        <input type="checkbox" value="${id}"> ${c.ar}
+      </label>`).join('');
+  }
+}
