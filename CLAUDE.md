@@ -86,8 +86,14 @@ git add . && git commit -m "message" && git push origin main
 - `saveArticle()` in `admin/server.js` converts string dates to `new Date(y, m-1, d, h, min, s)` (local timezone) before `matter.stringify()` — ensures unquoted YAML timestamp
 - **DO NOT use `Date.UTC(...)`** — it interprets user input as UTC literally, producing future-dated articles for users in UTC+N timezones (Jekyll then skips them by default → 404 on article pages while cards still show in lists)
 - The correct flow: user enters local time → `new Date(y,m-1,d,h,min,s)` reads as local → Date object internally UTC → gray-matter writes ISO UTC = the actual moment of publishing regardless of user's timezone
-- `_config.yml` has `future: true` as a safety net (also enables intentional scheduled posts)
+- `_config.yml` has `future: true` to enable intentional scheduled posts (`.github/workflows/pages.yml` also passes `--future` flag)
 - Time badge in templates shows only when `minutes != "00"`
+
+**Scheduled posts (future-dated articles):**
+- Admin editor: `checkFutureDate()` watches `fDate`/`fTime` inputs → shows `#futureDateWarn` (gold banner) with countdown when date > now
+- Card template (`_includes/article-card.html`): compares `post.date | date: '%s'` against `site.time | date: '%s'`. If future, adds `.article-card--scheduled` class + `.card-scheduled-badge` ("Coming soon" / "سينشر قريباً")
+- Article page (`_layouts/post.html`): same comparison. If future, replaces `{{ content }}` block with `.post-scheduled` UI (icon, formatted date, live JS countdown that auto-reloads at publish time)
+- `_now_ts` is `site.time` which equals build time on GitHub Pages — meaning scheduled state persists until next push/build after publish moment. For strict scheduling without manual push, a GitHub Actions cron is needed.
 
 **Multi-category (`also_in`):**
 - Primary `category` determines folder and permalink
