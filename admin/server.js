@@ -87,13 +87,17 @@ function readSecCfg() {
 }
 function writeSecCfg(cfg) { fs.writeFileSync(SECURITY_FILE, JSON.stringify(cfg, null, 2)); }
 
-/* Middleware: يتطلّب تأكيد كلمة المرور لإجراء معيّن */
-function confirmRequired(actionKey) {
+/* Middleware: يتطلّب تأكيد كلمة المرور
+   - actionKey:    اسم الإجراء (للعرض في الـ modal)
+   - alwaysRequire: إذا true → يُطلب التأكيد دائماً (لا يقرأ من الإعدادات) */
+function confirmRequired(actionKey, alwaysRequire = false) {
   return (req, res, next) => {
     const hash = getPassHash();
     if (!hash) return next();                       // لا كلمة مرور → ممرّ مفتوح
-    const cfg = readSecCfg();
-    if (!cfg.confirmFor?.[actionKey]) return next(); // الإجراء غير محمي
+    if (!alwaysRequire) {
+      const cfg = readSecCfg();
+      if (!cfg.confirmFor?.[actionKey]) return next(); // غير محمي حسب الإعدادات
+    }
 
     const ct = req.headers['x-admin-confirm'];
     if (!ct) return res.status(401).json({ needsConfirm: true, action: actionKey });
@@ -771,21 +775,22 @@ app.post('/api/auth/set-password', (req, res) => {
 });
 
 /* Auth — remove password */
-app.delete('/api/auth/password', (req, res) => {
-  const hash = getPassHash();
-  if (hash && hashPwd(req.body.current || '') !== hash)
-    return res.status(401).json({ error: 'كلمة المرور الحالية خاطئة' });
+/* إزالة الحماية — يتطلّب تأكيد كلمة المرور عبر confirmRequired
+   ثم يحذف ملفَّي كلمة المرور والإعدادات (يُنسى كلياً) */
+app.delete('/api/auth/password', confirmRequired('remove_password', true), (_req, res) => {
   if (fs.existsSync(PASSWORD_FILE)) fs.unlinkSync(PASSWORD_FILE);
+  if (fs.existsSync(SECURITY_FILE)) fs.unlinkSync(SECURITY_FILE);  // ننسى إعدادات الأمان أيضاً
   res.json({ ok: true });
 });
 
-/* إعدادات الأمان (الإجراءات التي تتطلب تأكيد + مدة الجلسة) */
+/* إعدادات الأمان */
 app.get('/api/auth/security', (_req, res) => {
   res.json(readSecCfg());
 });
 
-app.put('/api/auth/security', (req, res) => {
-  const cur = readSecCfg();
+/* أي تفعيل/إلغاء لخاصية أمان يتطلّب تأكيد كلمة المرور */
+app.put('/api/auth/security', confirmRequired('manage_security', true), (req, res) => {
+  const cur  = readSecCfg();
   const body = req.body || {};
   const next = {
     sessionMinutes: typeof body.sessionMinutes === 'number' ? body.sessionMinutes : cur.sessionMinutes,

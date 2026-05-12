@@ -72,9 +72,11 @@ async function api(url, opts={}) {
 
 /* قاموس تسميات الإجراءات */
 const ACTION_LABELS = {
-  save_article:   'إنشاء/تعديل مقال',
-  delete_article: 'حذف مقال',
-  push:           'دفع التغييرات إلى GitHub'
+  save_article:    'إنشاء/تعديل مقال',
+  delete_article:  'حذف مقال',
+  push:            'دفع التغييرات إلى GitHub',
+  manage_security: 'تعديل إعدادات الأمان',
+  remove_password: 'إزالة كلمة المرور'
 };
 
 /* Modal تأكيد كلمة المرور */
@@ -1657,20 +1659,26 @@ window.setPassword = async function() {
 };
 
 window.removePassword = async function() {
-  /* أظهر تأكيد داخلي بدل browser dialog */
+  /* تأكيد داخلي خفيف — كلمة المرور تُطلب تلقائياً عبر modal التأكيد */
   const res = $('secResult');
   res.innerHTML = `
     <div style="background:rgba(224,82,82,.12);border:1px solid rgba(224,82,82,.3);border-radius:8px;padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
       <i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i>
-      <span style="flex:1;font-size:.85rem">هل أنت متأكد من إزالة الحماية؟</span>
+      <span style="flex:1;font-size:.85rem">إزالة الحماية ستنسى كلمة المرور الحالية كلياً. سيُطلب تأكيدها مرة واحدة.</span>
       <button class="btn btn-danger btn-sm" id="confirmRemoveBtn"><i class="fa-solid fa-lock-open"></i> تأكيد الإزالة</button>
       <button class="btn btn-ghost btn-sm" onclick="$('secResult').innerHTML=''"><i class="fa-solid fa-xmark"></i> إلغاء</button>
     </div>`;
   $('confirmRemoveBtn').onclick = async () => {
-    const cur = $('sCurrent')?.value || '';
-    const d = await api('/api/auth/password', { method:'DELETE', body: JSON.stringify({ current: cur }) });
-    if (d.ok) { setToken(null); toast('✓ تمت إزالة كلمة المرور', 'success'); renderSecurity($('content')); }
-    else { res.innerHTML = `<span style="color:var(--danger)">${d.error}</span>`; }
+    /* لا قراءة لـ sCurrent — modal التأكيد سيظهر تلقائياً */
+    const d = await api('/api/auth/password', { method:'DELETE', body: JSON.stringify({}) });
+    if (d.cancelled) { res.innerHTML = ''; return; }   // ألغى المستخدم modal التأكيد
+    if (d.ok) {
+      setToken(null);
+      toast('✓ تمت إزالة كلمة المرور — يمكنك الآن وضع كلمة جديدة دون إدخال القديمة', 'success', 4000);
+      renderSecurity($('content'));
+    } else {
+      res.innerHTML = `<span style="color:var(--danger)">${d.error || 'فشل غير معروف'}</span>`;
+    }
   };
 };
 
