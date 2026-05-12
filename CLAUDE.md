@@ -215,8 +215,16 @@ Hosted static SPA at `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`.
 - `locale: en` — gives LTR layout (Collections panel on LEFT). Do NOT change to `ar` — it breaks the layout
 - `media_folder: assets/images/ar` — global media browser shows AR images
 - Each collection has its own `media_folder` for uploads
-- Image field uses `image` widget (not `string`) — enables thumbnails in cards
+- Image field uses `image` widget with `choose_url: true` — enables thumbnails AND "Insert from URL" tab. URL choice stores external URL in front matter (template handles both formats)
 - Authentication via GitHub OAuth + Sveltia CMS Auth on Cloudflare Workers
+
+**Auto-sync of categories from local admin to Decap CMS:**
+- `updateCmsConfig(id, nameAr, nameEn)` in `server.js` (line-based YAML, preserves comments)
+- Called automatically from `POST /api/categories` after writing `_data/categories.yml`
+- Updates 4 locations in `cms/config.yml`: `category` options + `also_in` options × (AR + EN) collections
+- Detects duplicates via `value: ${id} }` substring check — skips if exists
+- Returns `{ ok, cmsSync: { ok | skipped | error } }` in API response
+- Removal/rename of categories still requires manual edit of `cms/config.yml`
 
 **Conflict prevention between the two admin panels:**
 - `start.sh` runs `git pull --ff-only` then `--rebase --autostash` as fallback on startup
