@@ -352,7 +352,12 @@ async function uploadImages(files) {
   toast('جاري الرفع والمعالجة...', 'info');
   const fd = new FormData();
   Array.from(files).forEach(f => fd.append('files', f));
-  const r = await fetch(`/api/images/${S.langFilter}`, { method:'POST', body:fd });
+  const r = await fetch(`/api/images/${S.langFilter}`, {
+    method: 'POST',
+    headers: { 'x-admin-token': getToken() },   /* ← مهم: token مع uploads */
+    body: fd
+  });
+  if (r.status === 401) { showLogin(); return; }
   const d = await r.json();
   if(!d.ok) { toast('خطأ: '+(d.error||'فشل الرفع'), 'error'); return; }
   const converted = (d.uploaded||[]).filter(u => u.converted).length;
@@ -1047,12 +1052,9 @@ $('clearFmBtn').addEventListener('click', function() {
 });
 
 /* لصق من الحافظة إلى منطقة FM */
-$('pasteFmBtn')?.addEventListener('click', function() {
-  navigator.clipboard.readText().then(t => {
-    $('fmPasteArea').value = t;
-    $('fmPasteArea').focus();
-    toast('تم اللصق من الحافظة ✓', 'success');
-  }).catch(() => toast('تعذر الوصول للحافظة — استخدم Ctrl+V', 'error'));
+$('pasteFmBtn')?.addEventListener('click', async function() {
+  const ok = await pasteIntoField($('fmPasteArea'));
+  if (ok) toast('تم اللصق من الحافظة ✓', 'success');
 });
 
 // Tabs
@@ -1116,14 +1118,11 @@ document.querySelectorAll('.tb-btn').forEach(btn => {
     } else if (btn.dataset.action === 'redo') {
       chRedo(); ta.focus(); return;
     } else if (btn.dataset.action === 'paste') {
-      navigator.clipboard.readText().then(t => {
-        chSave();
-        /* الصق عند موقع المؤشر بدل استبدال كل المحتوى */
-        ta.setRangeText(t, s, e, 'end');
+      chSave();
+      pasteIntoField(ta, { atCursor: true }).then(() => {
         updateWordCount();
         chSave();
-        ta.focus();
-      }).catch(() => toast('تعذر الوصول للحافظة — استخدم Ctrl+V', 'error'));
+      });
       return;
     } else if (btn.dataset.action === 'clear') {
       if (!ta.value || confirm('مسح كامل محتوى المقال؟')) {
@@ -1319,7 +1318,12 @@ $('importImageBtn').addEventListener('click', async function() {
     for (const lang of langs) {
       const fd = new FormData();
       fd.append('files', S._importFile);
-      const r = await fetch(`/api/images/${lang}`, { method:'POST', body:fd });
+      const r = await fetch(`/api/images/${lang}`, {
+        method: 'POST',
+        headers: { 'x-admin-token': getToken() },
+        body: fd
+      });
+      if (r.status === 401) { showLogin(); return; }
       const d = await r.json();
       if (d.uploaded) allUploaded = allUploaded.concat(d.uploaded);
     }
@@ -1702,10 +1706,42 @@ window.removePassword = async function() {
   };
 };
 
+/* ── دالة لصق موحَّدة مع fallback ─────────────────────────────────
+   تجرّب navigator.clipboard.readText() أولاً، وإذا رفض المتصفح
+   (Firefox أو إعدادات صارمة) → تركّز الحقل وتوجّه المستخدم لـ Ctrl+V */
+async function readClipboard() {
+  try {
+    if (navigator.clipboard?.readText) {
+      return await navigator.clipboard.readText();
+    }
+  } catch (_) { /* fall through */ }
+  return null;  /* فشل → الـ caller يتعامل */
+}
+
+async function pasteIntoField(input, opts = {}) {
+  if (!input) return false;
+  const text = await readClipboard();
+  if (text != null) {
+    if (opts.atCursor) {
+      const s = input.selectionStart || 0, e = input.selectionEnd || 0;
+      input.setRangeText(text, s, e, 'end');
+    } else {
+      input.value = text;
+    }
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  }
+  /* Fallback: ركّز الحقل وأخبر المستخدم */
+  input.focus();
+  if (!opts.atCursor) input.select();
+  toast('متصفحك يمنع اللصق التلقائي — اضغط Ctrl+V الآن', 'info', 4000);
+  return false;
+}
+
 // ── Paste button helper ─────────────────────────────────────────
 function pasteBtn(targetId) {
   return `<button type="button" class="paste-btn" title="لصق"
-    onclick="navigator.clipboard.readText().then(t=>{$('${targetId}').value=t;$('${targetId}').dispatchEvent(new Event('input'))})">
+    onclick="pasteIntoField(document.getElementById('${targetId}'))">
     <i class="fa-regular fa-clipboard"></i></button>`;
 }
 
@@ -1726,9 +1762,7 @@ function addEditorPasteButtons() {
     btn.className = 'paste-btn';
     btn.title = 'لصق';
     btn.innerHTML = '<i class="fa-regular fa-clipboard"></i>';
-    btn.onclick = () => navigator.clipboard.readText().then(t => {
-      inp.value = t; inp.dispatchEvent(new Event('input'));
-    });
+    btn.onclick = () => pasteIntoField(inp);
     wrap.appendChild(btn);
   });
 }
