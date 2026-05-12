@@ -3,7 +3,10 @@ layout: post
 title: >-
   Bazzite: The Operating System for the Next Generation of Gamers – An Unmatched
   Gaming Experience on Linux
+slug: bazzite-gaming-linux-distro
+lang: en
 category: gnulinux
+date: 2026-05-12T17:15:00.000Z
 author: GNUTUX
 excerpt: >-
   Bazzite is a Linux distribution built on Fedora Atomic Desktop, designed
@@ -22,9 +25,6 @@ tags:
   - Handhelds
 also_in:
   - gaming
-date: 2026-05-12T16:20:00.000Z
-lang: en
-slug: bazzite-gaming-linux-distro
 ---
 
 ## What Makes Bazzite Special?
