@@ -55,6 +55,12 @@ categories_en:
 paginate: 12
 paginate_path: "/page/:num/"
 
+# ── تفعيل المقالات المستقبلية ──────────────────────────────
+# يحل مشكلة: 404 عندما يكون تاريخ النشر متقدماً ولو بدقائق
+# على وقت النظام (يحدث مع UTC/local timezone shifts).
+future: true
+unpublished: false
+
 # Markdown processor
 markdown: kramdown
 kramdown:
