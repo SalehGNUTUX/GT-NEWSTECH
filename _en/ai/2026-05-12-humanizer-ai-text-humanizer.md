@@ -4,7 +4,7 @@ title: 'Humanizer: Open Source Tool That Makes AI Writing Sound Human'
 slug: humanizer-ai-text-humanizer
 lang: en
 category: ai
-date: 2026-05-12T12:37:00.000Z
+date: 2026-05-12T11:45:00.000Z
 author: GNUTUX
 excerpt: >-
   Humanizer is a skill for Claude Code and OpenCode that removes signs of
