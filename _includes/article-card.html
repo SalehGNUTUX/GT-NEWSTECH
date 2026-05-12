@@ -6,7 +6,13 @@
 {% if post.lang == 'en' %}{% assign cat_label = _cd.name_en | default: post.category %}{% else %}{% assign cat_label = _cd.name_ar | default: post.category %}{% endif %}
 {% assign _cc = _cd.color | default: "#888888" %}
 
-<article class="article-card article-card--{{ size }}" data-category="{{ post.category }}">
+{% comment %} كشف المقال المجدول (تاريخ مستقبلي) {% endcomment %}
+{% assign _now_ts = site.time | date: '%s' | plus: 0 %}
+{% assign _post_ts = post.date | date: '%s' | plus: 0 %}
+{% assign _is_scheduled = false %}
+{% if _post_ts > _now_ts %}{% assign _is_scheduled = true %}{% endif %}
+
+<article class="article-card article-card--{{ size }} {% if _is_scheduled %}article-card--scheduled{% endif %}" data-category="{{ post.category }}">
   <a href="{{ post.url | relative_url }}" class="card-link">
     <div class="card-image">
       {% if post.image %}
@@ -31,6 +37,13 @@
 
       <!-- شارة القسم الرئيسي — لون ديناميكي -->
       <span class="card-cat-badge" style="background:{{ _cc }};color:#000">{{ cat_label }}</span>
+
+      {% if _is_scheduled %}
+      <span class="card-scheduled-badge" title="{{ post.date | date: '%Y-%m-%d %H:%M' }}">
+        <i class="fa-solid fa-clock"></i>
+        {% if post.lang == 'en' %}Coming soon{% else %}سينشر قريباً{% endif %}
+      </span>
+      {% endif %}
 
       <!-- شارات الأقسام الإضافية (also_in) -->
       {% if post.also_in %}

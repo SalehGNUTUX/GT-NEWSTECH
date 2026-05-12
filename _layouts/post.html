@@ -134,10 +134,67 @@ layout: default
       <!-- Affiliate disclosure (shown only when affiliate: true in front matter) -->
       {% include affiliate-disclosure.html %}
 
+      {% comment %} كشف المقال المجدول للنشر مستقبلاً {% endcomment %}
+      {% assign _now_ts  = site.time | date: '%s' | plus: 0 %}
+      {% assign _post_ts = page.date | date: '%s' | plus: 0 %}
+
+      {% if _post_ts > _now_ts %}
+      <!-- صفحة المقال المجدول — بدل المحتوى الفعلي -->
+      <div class="post-scheduled" lang="{{ page.lang }}" data-publish-at="{{ page.date | date_to_xmlschema }}">
+        <div class="post-scheduled-icon">
+          <i class="fa-solid fa-calendar-clock"></i>
+        </div>
+        <h2>
+          {% if page.lang == 'en' %}This article will be published soon{% else %}سيُنشر هذا المقال قريباً{% endif %}
+        </h2>
+        <p class="post-scheduled-date">
+          {% if page.lang == 'en' %}Scheduled for:{% else %}موعد النشر:{% endif %}
+          <strong>{{ page.date | date: '%Y-%m-%d %H:%M' }}</strong>
+        </p>
+        <p class="post-scheduled-countdown" id="postCountdown">
+          <i class="fa-solid fa-hourglass-half"></i>
+          <span></span>
+        </p>
+        <p class="post-scheduled-hint">
+          {% if page.lang == 'en' %}Bookmark this page and come back at the scheduled time to read the full article.{% else %}احفظ هذه الصفحة وعُد في الموعد المحدد لقراءة المقال كاملاً.{% endif %}
+        </p>
+        <div class="post-scheduled-actions">
+          <a href="{{ site.baseurl }}/{{ page.lang }}/" class="btn-gold">
+            {% if page.lang == 'en' %}← Back to home{% else %}← العودة للرئيسية{% endif %}
+          </a>
+        </div>
+      </div>
+
+      <script>
+      /* عدّاد تنازلي للنشر */
+      (function() {
+        const target = new Date("{{ page.date | date_to_xmlschema }}").getTime();
+        const out = document.querySelector('#postCountdown span');
+        if (!out) return;
+        const isEn = "{{ page.lang }}" === "en";
+        function tick() {
+          const diff = target - Date.now();
+          if (diff <= 0) { location.reload(); return; }
+          const d = Math.floor(diff / 86400000);
+          const h = Math.floor((diff % 86400000) / 3600000);
+          const m = Math.floor((diff % 3600000) / 60000);
+          const s = Math.floor((diff % 60000) / 1000);
+          if (isEn) {
+            out.textContent = `${d}d ${h}h ${m}m ${s}s remaining`;
+          } else {
+            out.textContent = `يتبقى ${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية`;
+          }
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
+      </script>
+      {% else %}
       <!-- Article body -->
       <div class="post-body" id="postBody">
         {{ content }}
       </div>
+      {% endif %}
 
       <!-- Tags -->
       {% if page.tags and page.tags.size > 0 %}

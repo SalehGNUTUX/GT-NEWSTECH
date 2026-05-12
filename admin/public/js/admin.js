@@ -813,6 +813,8 @@ async function openEditor(ref) {
 
   $('editorModal').removeAttribute('hidden');
   activateTab('details');
+  /* فحص التاريخ المستقبلي عند فتح المحرر */
+  checkFutureDate();
 }
 
 function syncAlsoInWithCat() {
@@ -1500,7 +1502,7 @@ function pasteBtn(targetId) {
 
 /* إضافة أزرار لصق ديناميكياً لحقول محرر المقال */
 function addEditorPasteButtons() {
-  const fields = ['fTitle', 'fSlug', 'fAuthor', 'fExcerpt', 'fTags'];
+  const fields = ['fTitle', 'fSlug', 'fAuthor', 'fExcerpt', 'fTags', 'fImage'];
   fields.forEach(id => {
     const inp = $(id);
     if (!inp || inp.dataset.pasteAdded) return;
@@ -1521,6 +1523,49 @@ function addEditorPasteButtons() {
     wrap.appendChild(btn);
   });
 }
+
+/* ── إنذار التاريخ المستقبلي ─────────────────────────────────── */
+function checkFutureDate() {
+  const dEl = $('fDate'), tEl = $('fTime');
+  if (!dEl?.value) return;
+
+  const [y, m, d]  = dEl.value.split('-').map(Number);
+  const [h, min]   = (tEl?.value || '00:00').split(':').map(Number);
+  const articleDt  = new Date(y, m - 1, d, h, min, 0);
+  const now        = new Date();
+
+  let warn = $('futureDateWarn');
+  if (!warn) {
+    /* أنشئ عنصر الإنذار مرة واحدة */
+    const dateRow = dEl.closest('.form-group') || dEl.parentNode;
+    warn = document.createElement('div');
+    warn.id = 'futureDateWarn';
+    warn.className = 'future-date-warn';
+    dateRow.parentNode.insertBefore(warn, dateRow.nextSibling);
+  }
+
+  const diffMs = articleDt.getTime() - now.getTime();
+  if (diffMs > 60000) {  /* أكثر من دقيقة في المستقبل */
+    const mins = Math.round(diffMs / 60000);
+    const txt  = mins < 60   ? `${mins} دقيقة`
+               : mins < 1440 ? `${Math.round(mins/60)} ساعة`
+               :               `${Math.round(mins/1440)} يوم`;
+    warn.innerHTML = `
+      <i class="fa-solid fa-clock"></i>
+      <span><strong>مقال مجدول</strong> — سيُعرض كـ "سينشر قريباً" حتى ${dEl.value} ${tEl.value} (بعد ${txt})</span>`;
+    warn.style.display = 'flex';
+  } else {
+    warn.style.display = 'none';
+  }
+}
+
+/* ربط الإنذار بتغييرات التاريخ والوقت */
+document.addEventListener('DOMContentLoaded', () => {
+  ['fDate', 'fTime'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', checkFutureDate);
+  });
+});
 
 // ── Content editor history (undo/redo) ─────────────────────────
 const CH = { stack: [''], idx: 0, lock: false };
