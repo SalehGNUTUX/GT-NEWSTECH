@@ -971,6 +971,15 @@ $('clearFmBtn').addEventListener('click', function() {
   $('fmParseResult').setAttribute('hidden', '');
 });
 
+/* لصق من الحافظة إلى منطقة FM */
+$('pasteFmBtn')?.addEventListener('click', function() {
+  navigator.clipboard.readText().then(t => {
+    $('fmPasteArea').value = t;
+    $('fmPasteArea').focus();
+    toast('تم اللصق من الحافظة ✓', 'success');
+  }).catch(() => toast('تعذر الوصول للحافظة — استخدم Ctrl+V', 'error'));
+});
+
 // Tabs
 document.querySelectorAll('.etab').forEach(btn => {
   btn.addEventListener('click', () => activateTab(btn.dataset.tab));
@@ -1026,11 +1035,21 @@ document.querySelectorAll('.tb-btn').forEach(btn => {
     const sel = ta.value.slice(s, e);
     let ins = '';
 
-    /* ── أوامر التراجع/التقدم/المسح ── */
+    /* ── أوامر التراجع/التقدم/اللصق/المسح ── */
     if (btn.dataset.action === 'undo') {
       chUndo(); ta.focus(); return;
     } else if (btn.dataset.action === 'redo') {
       chRedo(); ta.focus(); return;
+    } else if (btn.dataset.action === 'paste') {
+      navigator.clipboard.readText().then(t => {
+        chSave();
+        /* الصق عند موقع المؤشر بدل استبدال كل المحتوى */
+        ta.setRangeText(t, s, e, 'end');
+        updateWordCount();
+        chSave();
+        ta.focus();
+      }).catch(() => toast('تعذر الوصول للحافظة — استخدم Ctrl+V', 'error'));
+      return;
     } else if (btn.dataset.action === 'clear') {
       if (!ta.value || confirm('مسح كامل محتوى المقال؟')) {
         chSave(); ta.value = ''; updateWordCount(); chSave();
