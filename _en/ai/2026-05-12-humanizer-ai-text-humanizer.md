@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'Humanizer: Open Source Tool That Makes AI Writing Sound Human'
+slug: humanizer-ai-text-humanizer
+lang: en
 category: ai
+date: 2026-05-12T12:37:00.000Z
 author: GNUTUX
 excerpt: >-
   Humanizer is a skill for Claude Code and OpenCode that removes signs of
@@ -18,9 +21,6 @@ tags:
   - OpenCode
 also_in:
   - foss
-date: 2026-05-12T11:37:00.000Z
-lang: en
-slug: humanizer-ai-text-humanizer
 ---
 
 ## The Problem with AI Writing: Telltale Signs
