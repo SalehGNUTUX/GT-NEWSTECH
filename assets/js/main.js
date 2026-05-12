@@ -238,6 +238,30 @@
     rtEl.textContent = currentLang === 'en' ? mins + ' min read' : mins + ' دقيقة قراءة';
   }
 
+  /* ── شارات "سينشر قريباً" — تختفي تلقائياً عند بلوغ الموعد ─
+     يحلّ مشكلة بقاء الشارة بعد الموعد (Jekyll لا يعيد البناء تلقائياً) */
+  function checkScheduledBadges() {
+    var now = Date.now();
+    var anyRemaining = false;
+    document.querySelectorAll('.card-scheduled-badge[data-publish-at]').forEach(function (badge) {
+      var target = new Date(badge.dataset.publishAt).getTime();
+      if (!isNaN(target) && now >= target) {
+        var card = badge.closest('.article-card');
+        if (card) card.classList.remove('article-card--scheduled');
+        badge.remove();
+      } else {
+        anyRemaining = true;
+      }
+    });
+    return anyRemaining;
+  }
+  if (checkScheduledBadges()) {
+    /* تابع الفحص كل دقيقة طالما توجد بطاقات مجدولة */
+    var scheduledInterval = setInterval(function () {
+      if (!checkScheduledBadges()) clearInterval(scheduledInterval);
+    }, 60000);
+  }
+
   /* ── Archive Filter ───────────────────────────────────────── */
   var filterBtns  = document.querySelectorAll('.filter-btn');
   var archiveGrps = document.querySelectorAll('.archive-group');

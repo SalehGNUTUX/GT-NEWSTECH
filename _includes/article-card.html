@@ -39,7 +39,9 @@
       <span class="card-cat-badge" style="background:{{ _cc }};color:#000">{{ cat_label }}</span>
 
       {% if _is_scheduled %}
-      <span class="card-scheduled-badge" title="{{ post.date | date: '%Y-%m-%d %H:%M' }}">
+      <span class="card-scheduled-badge"
+            data-publish-at="{{ post.date | date_to_xmlschema }}"
+            title="{{ post.date | date: '%Y-%m-%d %H:%M' }}">
         <i class="fa-solid fa-clock"></i>
         {% if post.lang == 'en' %}Coming soon{% else %}سينشر قريباً{% endif %}
       </span>

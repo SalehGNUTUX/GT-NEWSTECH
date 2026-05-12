@@ -134,13 +134,20 @@ layout: default
       <!-- Affiliate disclosure (shown only when affiliate: true in front matter) -->
       {% include affiliate-disclosure.html %}
 
-      {% comment %} كشف المقال المجدول للنشر مستقبلاً {% endcomment %}
+      {% comment %}
+        كشف المقال المجدول — نرسم البديل والمحتوى معاً.
+        JS العميل يقرر أيهما يُعرض بحسب الوقت الفعلي (لا يعتمد على site.time
+        الذي يعكس وقت البناء فقط). يحلّ مشكلة حلقة الـ reload عند بلوغ الموعد.
+      {% endcomment %}
       {% assign _now_ts  = site.time | date: '%s' | plus: 0 %}
       {% assign _post_ts = page.date | date: '%s' | plus: 0 %}
+      {% assign _is_scheduled = false %}
+      {% if _post_ts > _now_ts %}{% assign _is_scheduled = true %}{% endif %}
 
-      {% if _post_ts > _now_ts %}
-      <!-- صفحة المقال المجدول — بدل المحتوى الفعلي -->
-      <div class="post-scheduled" lang="{{ page.lang }}" data-publish-at="{{ page.date | date_to_xmlschema }}">
+      <!-- بطاقة المقال المجدول -->
+      <div class="post-scheduled" id="postScheduled" lang="{{ page.lang }}"
+           data-publish-at="{{ page.date | date_to_xmlschema }}"
+           {% unless _is_scheduled %}hidden{% endunless %}>
         <div class="post-scheduled-icon">
           <i class="fa-solid fa-calendar-clock"></i>
         </div>
@@ -156,7 +163,7 @@ layout: default
           <span></span>
         </p>
         <p class="post-scheduled-hint">
-          {% if page.lang == 'en' %}Bookmark this page and come back at the scheduled time to read the full article.{% else %}احفظ هذه الصفحة وعُد في الموعد المحدد لقراءة المقال كاملاً.{% endif %}
+          {% if page.lang == 'en' %}The article will appear automatically when the time arrives — no need to refresh.{% else %}سيظهر المقال تلقائياً عند حلول الموعد — لا حاجة لإعادة التحميل.{% endif %}
         </p>
         <div class="post-scheduled-actions">
           <a href="{{ site.baseurl }}/{{ page.lang }}/" class="btn-gold">
@@ -165,36 +172,53 @@ layout: default
         </div>
       </div>
 
+      <!-- المحتوى الفعلي للمقال -->
+      <div class="post-body" id="postBody" {% if _is_scheduled %}hidden{% endif %}>
+        {{ content }}
+      </div>
+
       <script>
-      /* عدّاد تنازلي للنشر */
+      /* العدّاد التنازلي + كشف المحتوى تلقائياً عند الموعد */
       (function() {
-        const target = new Date("{{ page.date | date_to_xmlschema }}").getTime();
-        const out = document.querySelector('#postCountdown span');
-        if (!out) return;
-        const isEn = "{{ page.lang }}" === "en";
+        const scheduledEl = document.getElementById('postScheduled');
+        const bodyEl      = document.getElementById('postBody');
+        if (!scheduledEl?.dataset.publishAt) return;
+
+        const target = new Date(scheduledEl.dataset.publishAt).getTime();
+        const isEn   = "{{ page.lang }}" === "en";
+        const out    = document.querySelector('#postCountdown span');
+        let timer    = null;
+
+        function reveal() {
+          scheduledEl.hidden = true;
+          if (bodyEl) bodyEl.hidden = false;
+          if (timer) { clearInterval(timer); timer = null; }
+        }
+
         function tick() {
           const diff = target - Date.now();
-          if (diff <= 0) { location.reload(); return; }
+          if (diff <= 0) { reveal(); return; }
+          /* إذا كان المقال أصلاً غير مجدول وقت البناء — لا داعي للعد */
+          if (scheduledEl.hidden) { if (timer) clearInterval(timer); return; }
           const d = Math.floor(diff / 86400000);
           const h = Math.floor((diff % 86400000) / 3600000);
           const m = Math.floor((diff % 3600000) / 60000);
           const s = Math.floor((diff % 60000) / 1000);
-          if (isEn) {
-            out.textContent = `${d}d ${h}h ${m}m ${s}s remaining`;
-          } else {
-            out.textContent = `يتبقى ${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية`;
+          if (out) {
+            out.textContent = isEn
+              ? `${d}d ${h}h ${m}m ${s}s remaining`
+              : `يتبقى ${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية`;
           }
         }
+
+        /* إذا الصفحة فُتحت بعد بلوغ الموعد (Jekyll بُني وهو مستقبلي
+           لكن المستخدم وصل لاحقاً) — أظهر المحتوى فوراً */
+        if (Date.now() >= target) { reveal(); return; }
+
         tick();
-        setInterval(tick, 1000);
+        timer = setInterval(tick, 1000);
       })();
       </script>
-      {% else %}
-      <!-- Article body -->
-      <div class="post-body" id="postBody">
-        {{ content }}
-      </div>
-      {% endif %}
 
       <!-- Tags -->
       {% if page.tags and page.tags.size > 0 %}
