@@ -150,9 +150,12 @@ GET  /api/remotes                    ← list git remotes
 POST /api/remotes                    ← add/update remote
 DELETE /api/remotes/:name            ← remove remote
 GET  /api/auth/status                ← hasPassword: bool (no auth required)
-POST /api/auth/login                 ← returns session token
-POST /api/auth/set-password          ← set/change password (SHA-256)
-DELETE /api/auth/password            ← remove password
+POST /api/auth/login                 ← returns session token: `${ts}.${hmac}`
+POST /api/auth/set-password          ← set/change password (SHA-256). Requires `current` if password already set
+DELETE /api/auth/password            ← remove password (requires confirmRequired). Deletes both .admin-password and .admin-security.json
+GET  /api/auth/security              ← read security config (confirmFor, sessionMinutes)
+PUT  /api/auth/security              ← update config (requires confirmRequired manage_security)
+POST /api/auth/confirm               ← validate password → returns confirmToken valid 30s
 GET  /api/config
 ```
 
@@ -171,9 +174,26 @@ GET  /api/config
 - Restore: writes content back to original path
 
 **Auth middleware:**
-- Password hash stored in `admin/.admin-password` (gitignored)
-- Session token via HMAC-SHA256; passed as `x-admin-token` header
+- Password hash stored in `admin/.admin-password` (SHA-256, gitignored, persistent across restarts)
+- Security config stored in `admin/.admin-security.json` (gitignored)
+- Session token format: `${timestamp}.${hmac}` — timestamp embedded, validated via `verifyToken()` against TTL from config (default 1440 min = 24h)
+- `makeToken(hash)` includes current `Date.now()` and HMACs `gnt-v2-${ts}` with the password hash
+- Confirmation token (separate, for sensitive actions): `${expiry}.${hmac}` — expires after 30 seconds, sent via `x-admin-confirm` header
 - Skip list: `/api/auth/login`, `/api/auth/status`
+- 401 with `sessionExpired: true` → client clears token and shows login
+
+**Sensitive action confirmation (`confirmRequired(actionKey, alwaysRequire=false)`):**
+- Per-action toggle stored in `.admin-security.json` → `confirmFor: {save_article, delete_article, push}`
+- `alwaysRequire=true` for `manage_security` (PUT `/api/auth/security`) and `remove_password` (DELETE `/api/auth/password`) — cannot be disabled (anti-tampering)
+- Returns `401 { needsConfirm: true, action }` when token missing/expired
+- Client side: `api()` catches this, calls `promptConfirm(action)`, retries with `x-admin-confirm` header
+- Toggle UX: change-listener on `[data-secaction]` triggers PUT immediately; reverts to `data-was` on cancellation/error (no draft state to tamper with)
+
+**Password lifecycle:**
+- First enable: `setToken(null)` + `location.reload()` to force login screen
+- Change: requires `current` in body (validated via `hashPwd()` against `getPassHash()`)
+- Remove: requires `confirmRequired('remove_password', true)` — deletes both `.admin-password` AND `.admin-security.json` so system forgets everything
+- After removal: new password can be set without `current` (no password is set)
 
 **SPA routing:** `#dashboard`, `#articles`, `#new-article`, `#images`, `#categories`, `#trash`, `#git`, `#remotes`, `#security`, `#config`
 
