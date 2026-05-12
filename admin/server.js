@@ -319,6 +319,66 @@ app.get('/api/categories', (_req, res) => {
 });
 
 /* Categories — create */
+/* ── تحديث cms/config.yml تلقائياً عند إضافة قسم ─────────────────
+   يضيف القسم لجميع كتل options: في AR و EN (category + also_in)
+   مع الحفاظ على التعليقات والبنية (line-based، ليس YAML round-trip) */
+function updateCmsConfig(id, nameAr, nameEn) {
+  const cmsPath = path.join(ROOT, 'cms', 'config.yml');
+  if (!fs.existsSync(cmsPath)) return { skipped: 'cms/config.yml غير موجود' };
+
+  try {
+    const original = fs.readFileSync(cmsPath, 'utf8');
+    /* تجنّب الإضافة المكررة */
+    if (original.includes(`value: ${id} }`)) {
+      return { skipped: 'القسم موجود مسبقاً في cms/config.yml' };
+    }
+
+    const lines = original.split('\n');
+    const out = [];
+    let inCol  = null;           // 'ar' / 'en' / null
+    let inOpts = false;          // داخل options:؟
+    let lastOptIdx = -1;         // فهرس آخر سطر option في out
+    let optIndent = '';
+
+    const flush = () => {
+      if (inOpts && lastOptIdx >= 0 && inCol) {
+        const label = inCol === 'en' ? nameEn : nameAr;
+        out.splice(lastOptIdx + 1, 0,
+          `${optIndent}- { label: "${label}", value: ${id} }`);
+        lastOptIdx = -1;
+      }
+      inOpts = false;
+    };
+
+    for (const line of lines) {
+      const tr = line.trim();
+
+      if (tr.startsWith('- name: ar_articles'))      { flush(); inCol = 'ar'; }
+      else if (tr.startsWith('- name: en_articles')) { flush(); inCol = 'en'; }
+
+      if (tr === 'options:') {
+        flush();                                 /* أنهِ كتلة سابقة إن وُجدت */
+        inOpts = true;
+        lastOptIdx = -1;
+      } else if (inOpts && /^\s+- \{ label:/.test(line)) {
+        out.push(line);
+        lastOptIdx = out.length - 1;
+        optIndent  = line.match(/^(\s*)/)[1];
+        continue;
+      } else if (inOpts && tr !== '' && !/^\s+#/.test(line)) {
+        flush();                                 /* انتهت الكتلة بسطر آخر */
+      }
+      out.push(line);
+    }
+    flush();                                     /* لو الكتلة بنهاية الملف */
+
+    fs.writeFileSync(cmsPath, out.join('\n'));
+    return { ok: true };
+  } catch (err) {
+    return { error: err.message };
+  }
+}
+
 app.post('/api/categories', (req, res) => {
   const { id, name_ar, name_en, icon, color } = req.body;
 
@@ -348,7 +408,10 @@ app.post('/api/categories', (req, res) => {
   cats.push(newCat);
   writeCatsData(cats);
 
-  res.json({ ok: true, category: newCat });
+  // الإضافة إلى cms/config.yml (Decap CMS)
+  const cmsSync = updateCmsConfig(id, name_ar, name_en);
+
+  res.json({ ok: true, category: newCat, cmsSync });
 });
 
 /* List articles */

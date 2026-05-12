@@ -105,7 +105,8 @@ collections:
         label: "صورة الترويسة"
         widget: image
         required: false
-        hint: "اضغط لاختيار صورة أو رفع صورة جديدة من مجلد assets/images/ar/"
+        choose_url: true
+        hint: "ارفع صورة، اخترها من مكتبة الصور، أو الصق رابط https:// لصورة خارجية"
         media_library:
           config:
             multiple: false
@@ -198,7 +199,8 @@ collections:
         label: "Featured Image"
         widget: image
         required: false
-        hint: "Click to select or upload an image from assets/images/en/"
+        choose_url: true
+        hint: "Upload, select from media library, or paste an https:// URL for an external image"
         media_library:
           config:
             multiple: false
