@@ -4,7 +4,7 @@ title: 'Humanizer: أداة مفتوحة المصدر تجعل كتابة الذ
 slug: humanizer-ai-text-humanizer
 lang: ar
 category: ai
-date: 2026-05-12T11:36:00.000Z
+date: 2026-05-12T11:08:00.000Z
 author: GNUTUX
 excerpt: >-
   Humanizer هي مهارة لـ Claude Code وOpenCode تزيل علامات الكتابة المُنشأة

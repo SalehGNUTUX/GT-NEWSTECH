@@ -181,12 +181,19 @@ function saveArticle(lang, cat, file, fm, content) {
   /* تحويل date إلى Date object قبل الحفظ
    * → js-yaml يكتبها كـ YAML timestamp غير مقتبس
    * → Jekyll يقرأها كـ Ruby DateTime قابل للمقارنة مع Date
-   * هذا يمنع الخلط بين Ruby Date و String في sort: "date" */
+   *
+   * مهم: نُفسّر إدخال المستخدم كـ LOCAL time ثم نخزّنها UTC.
+   * إذا فسّرناه UTC مباشرة، المستخدم في UTC+1 يدخل "14:00"
+   * فيُحفظ "14:00 UTC" بينما الواقع "15:00 UTC" (ساعة في المستقبل)
+   * → Jekyll يتخطّاه (مقال مستقبلي) → 404
+   *
+   * new Date(y,m,d,h,min,s) يستخدم timezone النظام المحلي،
+   * ثم gray-matter يكتبه كـ ISO UTC تلقائياً = الزمن الفعلي
+   * بصرف النظر عن منطقة المستخدم (الجزائر، الصين، أي مكان). */
   if (fm.date && typeof fm.date === 'string') {
     const m = fm.date.trim().match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?/);
     if (m) {
-      // UTC لضمان عدم تحوّل التاريخ بسبب timezone المحلي
-      fm.date = new Date(Date.UTC(+m[1], +m[2]-1, +m[3], +(m[4]||0), +(m[5]||0), +(m[6]||0)));
+      fm.date = new Date(+m[1], +m[2]-1, +m[3], +(m[4]||0), +(m[5]||0), +(m[6]||0));
     }
   }
 
