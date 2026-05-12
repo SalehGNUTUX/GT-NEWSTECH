@@ -3,7 +3,10 @@ layout: post
 title: >-
   0 A.D. Release 28: Boiorix – New German Faction and Historical Authenticity
   Revolution for the Most Famous Open-Source RTS
+slug: 0ad-28-boiorix-new-german-faction
+lang: en
 category: gaming
+date: 2026-05-12T17:15:00.000Z
 author: GNUTUX
 excerpt: >-
   After 22 years of development, 0 A.D. drops the 'Alpha' label and releases
@@ -22,9 +25,6 @@ tags:
   - Wildfire Games
 also_in:
   - foss
-date: 2026-05-12T16:15:00.000Z
-lang: en
-slug: 0ad-28-boiorix-new-german-faction
 ---
 
 ## A Strategy Game Without Limits – Free Forever

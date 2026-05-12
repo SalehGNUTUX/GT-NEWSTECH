@@ -6,7 +6,7 @@ title: >-
 slug: bazzite-gaming-linux-distro
 lang: en
 category: gnulinux
-date: 2026-05-12T17:15:00.000Z
+date: 2026-05-12T16:59:00.000Z
 author: GNUTUX
 excerpt: >-
   Bazzite is a Linux distribution built on Fedora Atomic Desktop, designed
