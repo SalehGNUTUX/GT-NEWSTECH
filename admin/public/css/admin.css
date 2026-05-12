@@ -704,3 +704,62 @@ small { color:var(--muted); font-size:.7rem; }
 .future-date-warn i { color: var(--gold); font-size: 1rem; }
 .future-date-warn strong { color: var(--gold); }
 @keyframes slideIn { from { opacity:0; transform: translateY(-4px); } to { opacity:1; transform:none; } }
+
+/* ── Confirm Password Modal ─────────────────────────────── */
+.confirm-overlay {
+  position: fixed; inset: 0; z-index: 9200;
+  background: rgba(0,0,0,.85); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem; animation: fadeIn .2s ease;
+}
+.confirm-modal {
+  background: var(--bg2); border: 1px solid var(--gold);
+  border-radius: 14px; padding: 1.5rem;
+  width: 100%; max-width: 380px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.7);
+}
+.confirm-header {
+  display: flex; align-items: center; gap: .65rem; margin-bottom: .75rem;
+}
+.confirm-header i { color: var(--gold); font-size: 1.5rem; }
+.confirm-header h3 { color: var(--gold); margin: 0; font-size: 1.05rem; }
+.confirm-modal p { color: var(--text); font-size: .85rem; margin: 0 0 .85rem; }
+.confirm-modal strong { color: var(--gold); }
+.confirm-modal input[type="password"] {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); padding: 10px 14px; border-radius: 8px;
+  font-size: .95rem; outline: none; margin-bottom: .5rem;
+}
+.confirm-modal input[type="password"]:focus { border-color: var(--gold); }
+.confirm-err { color: var(--danger); font-size: .8rem; min-height: 1.2em; margin-bottom: .5rem; }
+.confirm-actions { display: flex; gap: .5rem; }
+.confirm-actions .btn { flex: 1; }
+
+/* ── Security Toggle Switches ───────────────────────────── */
+.sec-toggle {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .65rem .85rem; background: var(--bg3);
+  border: 1px solid var(--border); border-radius: 10px;
+  margin-bottom: .5rem; cursor: pointer; transition: all .2s;
+}
+.sec-toggle:hover { border-color: var(--gold-dim, rgba(212,160,23,.4)); }
+.sec-toggle input { display: none; }
+.sec-toggle-slider {
+  width: 38px; height: 22px; background: var(--bg4);
+  border-radius: 11px; position: relative; flex-shrink: 0;
+  transition: background .25s;
+}
+.sec-toggle-slider::before {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #888; transition: all .25s;
+}
+.sec-toggle input:checked + .sec-toggle-slider {
+  background: linear-gradient(135deg, var(--gold), #f0c040);
+}
+.sec-toggle input:checked + .sec-toggle-slider::before {
+  background: #000; transform: translateX(16px);
+}
+.sec-toggle i { color: var(--muted); font-size: .95rem; }
+.sec-toggle input:checked ~ i { color: var(--gold); }
+.sec-toggle-label { flex: 1; font-size: .88rem; color: var(--text); }

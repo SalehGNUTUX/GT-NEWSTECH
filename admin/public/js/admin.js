@@ -41,10 +41,83 @@ function getToken()      { return localStorage.getItem(TOKEN_KEY) || ''; }
 function setToken(t)     { if(t) localStorage.setItem(TOKEN_KEY, t); else localStorage.removeItem(TOKEN_KEY); }
 
 async function api(url, opts={}) {
-  const headers = { 'Content-Type': 'application/json', 'x-admin-token': getToken() };
-  const r = await fetch(url, { headers, ...opts });
-  if (r.status === 401) { showLogin(); return {}; }
+  const headers = {
+    'Content-Type': 'application/json',
+    'x-admin-token': getToken(),
+    ...(opts.headers || {})
+  };
+  let r = await fetch(url, { ...opts, headers });
+
+  if (r.status === 401) {
+    /* تحقّق هل هي needsConfirm أم انتهاء جلسة */
+    let body = {};
+    try { body = await r.clone().json(); } catch (_) {}
+    if (body.needsConfirm) {
+      const ct = await promptConfirm(body.action);
+      if (!ct) return { ok: false, cancelled: true };
+      /* أعد المحاولة مع رمز التأكيد */
+      r = await fetch(url, {
+        ...opts,
+        headers: { ...headers, 'x-admin-confirm': ct }
+      });
+      return r.json();
+    }
+    /* انتهاء جلسة أو unauthorized عام */
+    setToken(null);
+    showLogin();
+    return {};
+  }
   return r.json();
+}
+
+/* قاموس تسميات الإجراءات */
+const ACTION_LABELS = {
+  save_article:   'إنشاء/تعديل مقال',
+  delete_article: 'حذف مقال',
+  push:           'دفع التغييرات إلى GitHub'
+};
+
+/* Modal تأكيد كلمة المرور */
+async function promptConfirm(action) {
+  return new Promise((resolve) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'confirm-overlay';
+    wrap.innerHTML = `
+      <div class="confirm-modal">
+        <div class="confirm-header">
+          <i class="fa-solid fa-shield-halved"></i>
+          <h3>تأكيد كلمة المرور</h3>
+        </div>
+        <p>الإجراء <strong>"${ACTION_LABELS[action] || action}"</strong> يتطلّب تأكيد كلمة المرور.</p>
+        <input type="password" id="_cfPass" placeholder="كلمة المرور" autocomplete="current-password">
+        <div id="_cfErr" class="confirm-err"></div>
+        <div class="confirm-actions">
+          <button class="btn btn-gold" id="_cfOk"><i class="fa-solid fa-check"></i> تأكيد</button>
+          <button class="btn btn-ghost" id="_cfCancel"><i class="fa-solid fa-xmark"></i> إلغاء</button>
+        </div>
+      </div>`;
+    document.body.appendChild(wrap);
+    const pwd = wrap.querySelector('#_cfPass');
+    setTimeout(() => pwd.focus(), 30);
+
+    const close = (val) => { wrap.remove(); resolve(val); };
+
+    wrap.querySelector('#_cfCancel').onclick = () => close(null);
+    wrap.querySelector('#_cfOk').onclick = async () => {
+      const r = await fetch('/api/auth/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-token': getToken() },
+        body: JSON.stringify({ password: pwd.value })
+      });
+      const d = await r.json();
+      if (d.ok && d.confirmToken) close(d.confirmToken);
+      else { wrap.querySelector('#_cfErr').textContent = d.error || 'خطأ'; pwd.select(); }
+    };
+    pwd.addEventListener('keydown', e => {
+      if (e.key === 'Enter')  wrap.querySelector('#_cfOk').click();
+      if (e.key === 'Escape') close(null);
+    });
+  });
 }
 
 async function checkAuth() {
@@ -1441,10 +1514,13 @@ async function doPushMulti(remotes) {
 
 // ── Security page ───────────────────────────────────────────────
 async function renderSecurity(c) {
-  const st = await fetch('/api/auth/status', { headers: { 'x-admin-token': getToken() } }).then(r=>r.json());
+  const st  = await fetch('/api/auth/status', { headers: { 'x-admin-token': getToken() } }).then(r=>r.json());
   const has = st.hasPassword;
+  const sec = has ? await api('/api/auth/security') : null;
+  const cf  = sec?.confirmFor || {};
+
   c.innerHTML = `
-  <div class="card">
+  <div class="card" style="margin-bottom:16px">
     <div class="card-header">
       <i class="fa-solid fa-shield-halved" style="color:var(--gold)"></i>
       <h3>حماية لوحة التحكم</h3>
@@ -1454,7 +1530,8 @@ async function renderSecurity(c) {
     </div>
     <div class="card-body">
       <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">
-        كلمة المرور تُحفظ محلياً (hash SHA-256) ولا تُرفع للمستودع.
+        كلمة المرور تُحفظ محلياً (SHA-256 في <code>admin/.admin-password</code>) — لا تُرفع للمستودع.
+        تبقى صالحة بعد إعادة تشغيل الخادم.
       </p>
       <div class="form-grid">
         ${has ? `
@@ -1481,17 +1558,102 @@ async function renderSecurity(c) {
       </div>
       <div id="secResult" style="margin-top:.75rem;font-size:.82rem;min-height:1.5em"></div>
     </div>
-  </div>`;
+  </div>
+
+  ${has ? `
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header">
+      <i class="fa-solid fa-key" style="color:var(--gold)"></i>
+      <h3>تأكيد كلمة المرور للإجراءات الحساسة</h3>
+    </div>
+    <div class="card-body">
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:.85rem">
+        فعّل تأكيد إضافي بكلمة المرور قبل تنفيذ كل إجراء. التأكيد صالح <strong>30 ثانية</strong> ثم يُطلب مجدداً.
+      </p>
+      ${[
+        ['save_article',   'إنشاء أو تعديل مقال',         'fa-pen-to-square'],
+        ['delete_article', 'حذف مقال (نقل للمهملات)',     'fa-trash-can'],
+        ['push',           'دفع التغييرات إلى GitHub',     'fa-upload']
+      ].map(([k,label,icon]) => `
+        <label class="sec-toggle">
+          <input type="checkbox" data-secaction="${k}" ${cf[k]?'checked':''}>
+          <span class="sec-toggle-slider"></span>
+          <i class="fa-solid ${icon}"></i>
+          <span class="sec-toggle-label">${label}</span>
+        </label>
+      `).join('')}
+      <div style="margin-top:.85rem">
+        <button class="btn btn-gold" onclick="saveSecurityConfig()">
+          <i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <i class="fa-solid fa-hourglass-half" style="color:var(--gold)"></i>
+      <h3>مدة الجلسة</h3>
+    </div>
+    <div class="card-body">
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:.85rem">
+        بعد انقضاء المدة دون نشاط، يُطلب الدخول مجدداً.
+      </p>
+      <select id="sessionMinutes" class="filter-select" style="max-width:280px">
+        <option value="15"   ${sec.sessionMinutes==15?'selected':''}>15 دقيقة (أمان عالٍ)</option>
+        <option value="60"   ${sec.sessionMinutes==60?'selected':''}>ساعة واحدة</option>
+        <option value="480"  ${sec.sessionMinutes==480?'selected':''}>8 ساعات (يوم عمل)</option>
+        <option value="1440" ${!sec.sessionMinutes||sec.sessionMinutes==1440?'selected':''}>24 ساعة (افتراضي)</option>
+        <option value="10080" ${sec.sessionMinutes==10080?'selected':''}>أسبوع</option>
+      </select>
+      <div style="margin-top:.75rem">
+        <button class="btn btn-gold btn-sm" onclick="saveSessionTimeout()">
+          <i class="fa-solid fa-floppy-disk"></i> حفظ
+        </button>
+      </div>
+    </div>
+  </div>` : ''}`;
 }
+
+/* حفظ إعدادات التأكيد */
+window.saveSecurityConfig = async function() {
+  const confirmFor = {};
+  document.querySelectorAll('[data-secaction]').forEach(cb => {
+    confirmFor[cb.dataset.secaction] = cb.checked;
+  });
+  const d = await api('/api/auth/security', { method:'PUT', body: JSON.stringify({ confirmFor }) });
+  if (d.ok) toast('✓ تم حفظ إعدادات الأمان', 'success');
+  else      toast('خطأ: ' + (d.error||''), 'error');
+};
+
+/* حفظ مدة الجلسة */
+window.saveSessionTimeout = async function() {
+  const min = parseInt($('sessionMinutes')?.value || '1440', 10);
+  const d = await api('/api/auth/security', { method:'PUT', body: JSON.stringify({ sessionMinutes: min }) });
+  if (d.ok) toast(`✓ مدة الجلسة الآن ${min} دقيقة`, 'success');
+};
 
 window.setPassword = async function() {
   const cur  = $('sCurrent')?.value || '';
   const npwd = $('sNew')?.value || '';
   const conf = $('sConfirm')?.value || '';
   if (npwd !== conf) { $('secResult').innerHTML = '<span style="color:var(--danger)">كلمتا المرور لا تتطابقان</span>'; return; }
+  const wasNoPassword = !$('sCurrent');  // إذا لا يوجد حقل "كلمة المرور الحالية" → لم تكن مفعّلة
   const d = await api('/api/auth/set-password', { method:'POST', body: JSON.stringify({ password: npwd, current: cur }) });
-  if (d.ok) { setToken(d.token); $('secResult').innerHTML = '<span style="color:var(--success)">✓ تم حفظ كلمة المرور</span>'; renderSecurity($('content')); }
-  else $('secResult').innerHTML = `<span style="color:var(--danger)">${d.error}</span>`;
+  if (d.ok) {
+    if (wasNoPassword) {
+      /* أول تفعيل: امسح الـ token وأظهر شاشة الدخول لإجبار الدخول */
+      setToken(null);
+      toast('✓ تم تفعيل الحماية — سيُطلب الدخول الآن', 'success', 2000);
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      setToken(d.token);
+      $('secResult').innerHTML = '<span style="color:var(--success)">✓ تم تحديث كلمة المرور</span>';
+      renderSecurity($('content'));
+    }
+  } else {
+    $('secResult').innerHTML = `<span style="color:var(--danger)">${d.error}</span>`;
+  }
 };
 
 window.removePassword = async function() {

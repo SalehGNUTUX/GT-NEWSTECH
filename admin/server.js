@@ -15,6 +15,7 @@ const PORT = 4001;
 // ── Paths ──────────────────────────────────────────────────────
 const ROOT          = path.join(__dirname, '..');
 const PASSWORD_FILE = path.join(__dirname, '.admin-password');  // gitignored
+const SECURITY_FILE = path.join(__dirname, '.admin-security.json'); // gitignored
 const TRASH_DIR     = path.join(__dirname, '.trash');           // gitignored
 const LANGS      = ['ar', 'en'];
 const CATS_FILE  = path.join(ROOT, '_data', 'categories.yml');
@@ -48,7 +49,67 @@ function getCatIds() {
 // ── Password helpers ───────────────────────────────────────────
 function getPassHash()  { return fs.existsSync(PASSWORD_FILE) ? fs.readFileSync(PASSWORD_FILE,'utf8').trim() : null; }
 function hashPwd(p)     { return crypto.createHash('sha256').update(p).digest('hex'); }
-function makeToken(h)   { return crypto.createHmac('sha256', h).update('gnt-admin-v1').digest('hex'); }
+
+/* Token مع ختم زمني للجلسة (sliding session) */
+function makeToken(h) {
+  const ts = Date.now();
+  const sig = crypto.createHmac('sha256', h).update(`gnt-v2-${ts}`).digest('hex');
+  return `${ts}.${sig}`;
+}
+
+function verifyToken(token, hash) {
+  if (!token || !hash) return false;
+  const idx = token.indexOf('.');
+  if (idx < 0) return false;
+  const ts  = parseInt(token.slice(0, idx), 10);
+  const sig = token.slice(idx + 1);
+  if (!ts || isNaN(ts)) return false;
+
+  /* تحقّق من انتهاء الجلسة */
+  const cfg = readSecCfg();
+  const ttlMs = (cfg.sessionMinutes || 1440) * 60 * 1000;  // افتراضي 24 ساعة
+  if (Date.now() - ts > ttlMs) return false;
+
+  /* تحقّق من التوقيع */
+  const expected = crypto.createHmac('sha256', hash).update(`gnt-v2-${ts}`).digest('hex');
+  return sig === expected;
+}
+
+/* إعدادات الأمان (تأكيد كلمة المرور للإجراءات + مدة الجلسة) */
+function readSecCfg() {
+  if (fs.existsSync(SECURITY_FILE)) {
+    try { return JSON.parse(fs.readFileSync(SECURITY_FILE, 'utf8')); } catch (_) {}
+  }
+  return {
+    sessionMinutes: 1440,  // 24 ساعة
+    confirmFor: { save_article: false, delete_article: false, push: false }
+  };
+}
+function writeSecCfg(cfg) { fs.writeFileSync(SECURITY_FILE, JSON.stringify(cfg, null, 2)); }
+
+/* Middleware: يتطلّب تأكيد كلمة المرور لإجراء معيّن */
+function confirmRequired(actionKey) {
+  return (req, res, next) => {
+    const hash = getPassHash();
+    if (!hash) return next();                       // لا كلمة مرور → ممرّ مفتوح
+    const cfg = readSecCfg();
+    if (!cfg.confirmFor?.[actionKey]) return next(); // الإجراء غير محمي
+
+    const ct = req.headers['x-admin-confirm'];
+    if (!ct) return res.status(401).json({ needsConfirm: true, action: actionKey });
+
+    const idx = ct.indexOf('.');
+    if (idx < 0) return res.status(401).json({ needsConfirm: true, action: actionKey });
+    const exp = parseInt(ct.slice(0, idx), 10);
+    const sig = ct.slice(idx + 1);
+    if (!exp || Date.now() > exp) {
+      return res.status(401).json({ needsConfirm: true, action: actionKey, expired: true });
+    }
+    const expected = crypto.createHmac('sha256', hash).update(`confirm-${exp}`).digest('hex');
+    if (sig !== expected) return res.status(401).json({ needsConfirm: true, action: actionKey });
+    next();
+  };
+}
 
 // ── Middleware ─────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
@@ -61,8 +122,8 @@ app.use((req, res, next) => {
   const hash = getPassHash();
   if (!hash) return next();                               // no password → open
   const tok = req.headers['x-admin-token'] || req.query._t;
-  if (tok === makeToken(hash)) return next();
-  res.status(401).json({ error: 'Unauthorized' });
+  if (verifyToken(tok, hash)) return next();
+  res.status(401).json({ error: 'Unauthorized', sessionExpired: true });
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -307,7 +368,7 @@ app.get('/api/article', (req, res) => {
 });
 
 /* Create article */
-app.post('/api/article', (req, res) => {
+app.post('/api/article', confirmRequired('save_article'), (req, res) => {
   const { lang, cat, slug, date, content, ...fm } = req.body;
   if (!lang || !cat || !slug) return res.status(400).json({ error: 'lang, cat, slug required' });
   fm.date = date || new Date().toISOString().slice(0, 10);
@@ -322,7 +383,7 @@ app.post('/api/article', (req, res) => {
 });
 
 /* Update article */
-app.put('/api/article', (req, res) => {
+app.put('/api/article', confirmRequired('save_article'), (req, res) => {
   const { lang, cat, file } = req.query;
   if (!lang || !cat || !file) return res.status(400).json({ error: 'Missing params' });
   const fp = path.join(ROOT, `_${lang}`, cat, file);
@@ -333,7 +394,7 @@ app.put('/api/article', (req, res) => {
 });
 
 /* Delete article → ينقل إلى المهملات */
-app.delete('/api/article', (req, res) => {
+app.delete('/api/article', confirmRequired('delete_article'), (req, res) => {
   const { lang, cat, file } = req.query;
   if (!lang || !cat || !file) return res.status(400).json({ error: 'Missing params' });
   const fp = path.join(ROOT, `_${lang}`, cat, file);
@@ -618,7 +679,7 @@ app.post('/api/git/abort', (_req, res) => {
 });
 
 /* Git push — single remote */
-app.post('/api/git/push', (req, res) => {
+app.post('/api/git/push', confirmRequired('push'), (req, res) => {
   const { execSync } = require('child_process');
   const msg    = (req.body.message || 'update: via admin panel').replace(/"/g, "'");
   const remote = req.body.remote || 'origin';
@@ -632,7 +693,7 @@ app.post('/api/git/push', (req, res) => {
 });
 
 /* Git push — all selected remotes */
-app.post('/api/git/push-all', (req, res) => {
+app.post('/api/git/push-all', confirmRequired('push'), (req, res) => {
   const { execSync } = require('child_process');
   const msg     = (req.body.message || 'update: via admin panel').replace(/"/g, "'");
   const remotes = req.body.remotes || ['origin'];
@@ -716,6 +777,33 @@ app.delete('/api/auth/password', (req, res) => {
     return res.status(401).json({ error: 'كلمة المرور الحالية خاطئة' });
   if (fs.existsSync(PASSWORD_FILE)) fs.unlinkSync(PASSWORD_FILE);
   res.json({ ok: true });
+});
+
+/* إعدادات الأمان (الإجراءات التي تتطلب تأكيد + مدة الجلسة) */
+app.get('/api/auth/security', (_req, res) => {
+  res.json(readSecCfg());
+});
+
+app.put('/api/auth/security', (req, res) => {
+  const cur = readSecCfg();
+  const body = req.body || {};
+  const next = {
+    sessionMinutes: typeof body.sessionMinutes === 'number' ? body.sessionMinutes : cur.sessionMinutes,
+    confirmFor: { ...cur.confirmFor, ...(body.confirmFor || {}) }
+  };
+  writeSecCfg(next);
+  res.json({ ok: true, ...next });
+});
+
+/* تأكيد كلمة المرور لإجراء حساس → يُرجع confirmToken صالحاً 30 ثانية */
+app.post('/api/auth/confirm', (req, res) => {
+  const hash = getPassHash();
+  if (!hash) return res.json({ ok: true, confirmToken: 'none' });
+  if (hashPwd(req.body.password || '') !== hash)
+    return res.status(401).json({ error: 'كلمة مرور خاطئة' });
+  const exp = Date.now() + 30000;  // 30 ثانية
+  const sig = crypto.createHmac('sha256', hash).update(`confirm-${exp}`).digest('hex');
+  res.json({ ok: true, confirmToken: `${exp}.${sig}` });
 });
 
 // ── Start ──────────────────────────────────────────────────────

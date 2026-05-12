@@ -15,6 +15,7 @@ assets/icons/gt-newstech-icon.svg
 admin/node_modules/
 admin/package-lock.json
 admin/.admin-password
+admin/.admin-security.json
 admin/.trash/
 *.tmp*
 .jekyll-cache/
