@@ -1571,6 +1571,9 @@ async function renderSecurity(c) {
     <div class="card-body">
       <p style="color:var(--muted);font-size:.85rem;margin-bottom:.85rem">
         فعّل تأكيد إضافي بكلمة المرور قبل تنفيذ كل إجراء. التأكيد صالح <strong>30 ثانية</strong> ثم يُطلب مجدداً.
+        <br>
+        <i class="fa-solid fa-shield-halved" style="color:var(--gold)"></i>
+        كل تغيير لهذه الخيارات يتطلّب تأكيد كلمة المرور — حتى لا تعبث بها أيدٍ متطفلة.
       </p>
       ${[
         ['save_article',   'إنشاء أو تعديل مقال',         'fa-pen-to-square'],
@@ -1578,17 +1581,12 @@ async function renderSecurity(c) {
         ['push',           'دفع التغييرات إلى GitHub',     'fa-upload']
       ].map(([k,label,icon]) => `
         <label class="sec-toggle">
-          <input type="checkbox" data-secaction="${k}" ${cf[k]?'checked':''}>
+          <input type="checkbox" data-secaction="${k}" ${cf[k]?'checked':''} data-was="${cf[k]?'1':'0'}">
           <span class="sec-toggle-slider"></span>
           <i class="fa-solid ${icon}"></i>
           <span class="sec-toggle-label">${label}</span>
         </label>
       `).join('')}
-      <div style="margin-top:.85rem">
-        <button class="btn btn-gold" onclick="saveSecurityConfig()">
-          <i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات
-        </button>
-      </div>
     </div>
   </div>
 
@@ -1599,41 +1597,63 @@ async function renderSecurity(c) {
     </div>
     <div class="card-body">
       <p style="color:var(--muted);font-size:.85rem;margin-bottom:.85rem">
-        بعد انقضاء المدة دون نشاط، يُطلب الدخول مجدداً.
+        بعد انقضاء المدة دون نشاط، يُطلب الدخول مجدداً. تغيير المدة يتطلّب تأكيد كلمة المرور.
       </p>
-      <select id="sessionMinutes" class="filter-select" style="max-width:280px">
+      <select id="sessionMinutes" class="filter-select" style="max-width:280px" data-was="${sec.sessionMinutes||1440}">
         <option value="15"   ${sec.sessionMinutes==15?'selected':''}>15 دقيقة (أمان عالٍ)</option>
         <option value="60"   ${sec.sessionMinutes==60?'selected':''}>ساعة واحدة</option>
         <option value="480"  ${sec.sessionMinutes==480?'selected':''}>8 ساعات (يوم عمل)</option>
         <option value="1440" ${!sec.sessionMinutes||sec.sessionMinutes==1440?'selected':''}>24 ساعة (افتراضي)</option>
         <option value="10080" ${sec.sessionMinutes==10080?'selected':''}>أسبوع</option>
       </select>
-      <div style="margin-top:.75rem">
-        <button class="btn btn-gold btn-sm" onclick="saveSessionTimeout()">
-          <i class="fa-solid fa-floppy-disk"></i> حفظ
-        </button>
-      </div>
     </div>
   </div>` : ''}`;
+
+  /* ربط المستمعين بعد رسم الـ HTML */
+  if (has) bindSecurityToggles();
 }
 
-/* حفظ إعدادات التأكيد */
-window.saveSecurityConfig = async function() {
-  const confirmFor = {};
+/* حفظ فوري عند تبديل أي مفتاح أمان */
+function bindSecurityToggles() {
   document.querySelectorAll('[data-secaction]').forEach(cb => {
-    confirmFor[cb.dataset.secaction] = cb.checked;
+    cb.addEventListener('change', async () => {
+      const action = cb.dataset.secaction;
+      const newVal = cb.checked;
+      const d = await api('/api/auth/security', {
+        method: 'PUT',
+        body: JSON.stringify({ confirmFor: { [action]: newVal } })
+      });
+      if (d.cancelled || !d.ok) {
+        /* إعد المفتاح لحالته السابقة */
+        cb.checked = cb.dataset.was === '1';
+        if (!d.cancelled) toast('خطأ: ' + (d.error || 'فشل الحفظ'), 'error');
+      } else {
+        cb.dataset.was = newVal ? '1' : '0';
+        const label = ACTION_LABELS[action] || action;
+        toast(`✓ ${newVal ? 'فُعِّل' : 'أُلغي'} تأكيد "${label}"`, 'success');
+      }
+    });
   });
-  const d = await api('/api/auth/security', { method:'PUT', body: JSON.stringify({ confirmFor }) });
-  if (d.ok) toast('✓ تم حفظ إعدادات الأمان', 'success');
-  else      toast('خطأ: ' + (d.error||''), 'error');
-};
 
-/* حفظ مدة الجلسة */
-window.saveSessionTimeout = async function() {
-  const min = parseInt($('sessionMinutes')?.value || '1440', 10);
-  const d = await api('/api/auth/security', { method:'PUT', body: JSON.stringify({ sessionMinutes: min }) });
-  if (d.ok) toast(`✓ مدة الجلسة الآن ${min} دقيقة`, 'success');
-};
+  /* حفظ فوري عند تغيير مدة الجلسة */
+  const sel = $('sessionMinutes');
+  if (sel) {
+    sel.addEventListener('change', async () => {
+      const newVal = parseInt(sel.value, 10);
+      const d = await api('/api/auth/security', {
+        method: 'PUT',
+        body: JSON.stringify({ sessionMinutes: newVal })
+      });
+      if (d.cancelled || !d.ok) {
+        sel.value = sel.dataset.was;
+        if (!d.cancelled) toast('خطأ: ' + (d.error || 'فشل الحفظ'), 'error');
+      } else {
+        sel.dataset.was = newVal;
+        toast(`✓ مدة الجلسة الآن ${newVal} دقيقة`, 'success');
+      }
+    });
+  }
+}
 
 window.setPassword = async function() {
   const cur  = $('sCurrent')?.value || '';
