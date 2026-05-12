@@ -83,7 +83,10 @@ git add . && git commit -m "message" && git push origin main
 **Date/datetime handling — critical:**
 - Article `date` must be a **YAML datetime object** (unquoted), not a quoted string
 - Quoted strings like `date: '2026-05-10'` break Jekyll's `sort: "date"` when mixed with Date objects
-- `saveArticle()` in `admin/server.js` converts string dates to `new Date(Date.UTC(...))` before `matter.stringify()` — ensures unquoted YAML timestamp
+- `saveArticle()` in `admin/server.js` converts string dates to `new Date(y, m-1, d, h, min, s)` (local timezone) before `matter.stringify()` — ensures unquoted YAML timestamp
+- **DO NOT use `Date.UTC(...)`** — it interprets user input as UTC literally, producing future-dated articles for users in UTC+N timezones (Jekyll then skips them by default → 404 on article pages while cards still show in lists)
+- The correct flow: user enters local time → `new Date(y,m-1,d,h,min,s)` reads as local → Date object internally UTC → gray-matter writes ISO UTC = the actual moment of publishing regardless of user's timezone
+- `_config.yml` has `future: true` as a safety net (also enables intentional scheduled posts)
 - Time badge in templates shows only when `minutes != "00"`
 
 **Multi-category (`also_in`):**
@@ -174,7 +177,7 @@ GET  /api/config
 
 **Date/time in admin:**
 - `parseDatetime(raw)` extracts local date+time from any format
-- Save: `${dateVal} ${timeVal}:00` (string) → `saveArticle()` converts to `Date.UTC()`
+- Save: `${dateVal} ${timeVal}:00` (local time string) → `saveArticle()` converts to `new Date(y,m-1,d,h,min,s)` (NOT `Date.UTC`) → stored as actual UTC moment
 - Time badge shows only when minutes ≠ "00"
 
 ### Decap CMS (`cms/`)
@@ -223,6 +226,6 @@ Single file `assets/css/style.css`. Theming via CSS custom properties:
 - Font Awesome 6 Free from jsDelivr CDN (no integrity hash — caused silent failures previously)
 - `_config.local.yml` is gitignored; `start.sh` creates it automatically
 - **POST /api/article**: body must include `cat`, `lang`, `slug` as top-level keys
-- **Date storage**: always use `Date.UTC()` in Node.js. Local `new Date(y, m, d)` causes timezone-shifted dates
+- **Date storage**: use `new Date(y, m-1, d, h, min, s)` (local timezone interpretation) — Node converts to UTC internally, gray-matter writes ISO UTC. **Never use `Date.UTC(...)`** for user-entered times — it treats inputs as UTC literally, creating future-dated articles for any user not in UTC (Jekyll skips them, causing 404 with visible cards in lists).
 - **Decap CMS locale**: keep `locale: en` — changing to `ar` breaks Collections panel rendering
 - **Do not add integrity hash** to Font Awesome CDN link
