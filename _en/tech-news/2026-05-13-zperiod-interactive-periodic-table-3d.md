@@ -3,7 +3,10 @@ layout: post
 title: >-
   Zperiod: Interactive 3D Periodic Table with 118 Elements and Integrated
   Chemistry Tools
+slug: zperiod-interactive-periodic-table-3d
+lang: en
 category: tech-news
+date: 2026-05-13T09:52:00.000Z
 author: GNUTUX
 excerpt: >-
   Zperiod is a free educational platform offering an interactive periodic table
@@ -19,9 +22,6 @@ tags:
   - Interactive Tools
   - EdTech
   - Simulation
-date: 2026-05-13T09:40:00.000Z
-lang: en
-slug: zperiod-interactive-periodic-table-3d
 ---
 
 ## Chemistry You Can See and Touch – Right in Your Browser

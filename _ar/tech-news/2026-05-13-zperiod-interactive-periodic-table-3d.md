@@ -6,13 +6,13 @@ title: >-
 slug: zperiod-interactive-periodic-table-3d
 lang: ar
 category: tech-news
-date: 2026-05-13T09:40:00.000Z
+date: 2026-05-13T09:52:00.000Z
 author: GNUTUX
 excerpt: >-
   Zperiod منصة تعليمية مجانية تقدم جدولاً دورياً تفاعلياً بنماذج ذرية ثلاثية
   الأبعاد، إلى جانب أدوات كيميائية مثل موازن المعادلات والكتلة المولية ومختبر
   افتراضي، وهي مثالية للطلاب والمعلمين في المرحلة الثانوية.
-image: zperiod-app-en.png
+image: zperiod-app-ar.png
 tags:
   - Zperiod
   - كيمياء
