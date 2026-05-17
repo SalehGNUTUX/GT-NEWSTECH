@@ -3,14 +3,17 @@ layout: post
 title: >-
   Internet Monitor: Open Source Tool That Tracks Your Connection 24/7 and Logs
   Every Outage
+slug: internet-monitor-tool
+lang: en
 category: foss
+date: 2026-05-17T09:35:00.000Z
 author: GNUTUX
 excerpt: >-
   Internet Monitor is a free and open source application that runs silently in
   the background, monitors your internet connection with three simultaneous
   checks (TCP Ping, HTTP, and DNS), and provides a live dashboard, instant
   notifications, and structured logs you can export to present to your ISP.
-image: internet-monitor-dashboard-ar.png
+image: internet-monitor-dashboard-en.png
 tags:
   - Internet Monitor
   - Network Monitoring
@@ -18,9 +21,6 @@ tags:
   - Open Source
   - Go
   - Tools
-date: 2026-05-17T09:35:00.000Z
-lang: en
-slug: internet-monitor-tool
 ---
 
 ## The Problem of Internet Outages Without Evidence
