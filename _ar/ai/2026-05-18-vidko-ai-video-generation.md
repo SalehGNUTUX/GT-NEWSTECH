@@ -1,13 +1,16 @@
 ---
 layout: post
 title: 'Vidko: منصة ذكاء اصطناعي تحول جملة واحدة إلى فيديو طويل من 5 إلى 30 دقيقة'
+slug: vidko-ai-video-generation
+lang: ar
 category: ai
+date: 2026-05-18T13:29:00.000Z
 author: GNUTUX
 excerpt: >-
   Vidko هي منصة ذكاء اصطناعي تقوم بتحويل فكرة واحدة إلى فيديو كامل المدة بين 5
   و30 دقيقة، مع سيناريو ومشاهد وصوت ومونتاج وتدرج لوني وترجمة، جاهز للنشر على
   يوتيوب.
-image: vidko.ai.png
+image: vidkoai.png
 tags:
   - Vidko
   - ذكاء اصطناعي
@@ -15,9 +18,6 @@ tags:
   - يوتيوب
   - توليد محتوى
   - أدوات إبداعية
-date: 2026-05-18T13:29:00.000Z
-lang: ar
-slug: vidko-ai-video-generation
 ---
 
 ## مشكلة صناعة الفيديو الطويل

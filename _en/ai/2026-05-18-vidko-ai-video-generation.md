@@ -3,13 +3,16 @@ layout: post
 title: >-
   Vidko: AI Platform That Turns One Sentence Into a 5 to 30 Minute Long-Form
   Video
+slug: vidko-ai-video-generation
+lang: en
 category: ai
+date: 2026-05-18T13:29:00.000Z
 author: GNUTUX
 excerpt: >-
   Vidko is an AI platform that transforms a single idea into a complete
   long-form video between 5 and 30 minutes, with script, scenes, voice, editing,
   color grading, and captions, ready for YouTube.
-image: vidko.ai.png
+image: vidkoai.png
 tags:
   - Vidko
   - Artificial Intelligence
@@ -17,9 +20,6 @@ tags:
   - YouTube
   - Content Generation
   - Creative Tools
-date: 2026-05-18T13:29:00.000Z
-lang: en
-slug: vidko-ai-video-generation
 ---
 
 ## The Problem of Long-Form Video Production
