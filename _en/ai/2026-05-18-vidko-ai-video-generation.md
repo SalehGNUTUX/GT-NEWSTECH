@@ -125,7 +125,11 @@ If you are a content creator exhausted by scriptwriting and editing, if you have
 ## Quick Links
 
 Official Website: vidko.ai
+
 Sign Up for New Account: vidko.ai/signup
+
 Live Demo Dashboard: vidko.ai/demo
+
 Privacy Policy: vidko.ai/privacy
+
 Terms of Service: vidko.ai/terms
