@@ -200,6 +200,75 @@
     });
   }
 
+  /* ── محوّلات محتوى المقال (تلقائية) ────────────────────────
+     1) روابط الصور المكشوفة → <img> فعلية
+     2) قسم "روابط سريعة" → grid من الـ chips الأنيقة
+     تعمل على المقالات القديمة والجديدة تلقائياً */
+  var _postBodyForTransform = document.getElementById('postBody');
+  if (_postBodyForTransform) {
+    /* 1) أي رابط <a> ينتهي بصيغة صورة → استبدله بـ <img> */
+    var _imgExtRe = /\.(jpe?g|png|gif|webp|avif|svg)(\?.*)?$/i;
+    _postBodyForTransform.querySelectorAll('a[href]').forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      /* خصوصاً إذا كان نصّ الرابط = الرابط نفسه (auto-link) */
+      var isAutoLink = a.textContent.trim() === href.trim();
+      if (_imgExtRe.test(href) && isAutoLink) {
+        var img = document.createElement('img');
+        img.src = href;
+        img.alt = '';
+        img.loading = 'lazy';
+        img.className = 'post-inline-image';
+        /* استبدل الفقرة المحتوية إن كانت فقرة منفردة */
+        var p = a.closest('p');
+        if (p && p.textContent.trim() === a.textContent.trim()) {
+          p.replaceWith(img);
+        } else {
+          a.replaceWith(img);
+        }
+      }
+    });
+
+    /* 2) قسم "روابط سريعة" / "Quick Links" → chips */
+    var _headingRe = /^(روابط\s*سريعة|روابط\s*مهمة|روابط|quick\s*links|useful\s*links|links)\s*[:：]?$/i;
+    _postBodyForTransform.querySelectorAll('h2, h3').forEach(function (h) {
+      if (!_headingRe.test(h.textContent.trim())) return;
+      var collected = [];
+      var next = h.nextElementSibling;
+      var toRemove = [];
+      while (next && !/^H[1-6]$/.test(next.tagName)) {
+        next.querySelectorAll('a[href^="http"]').forEach(function (a) {
+          if (!collected.some(function(c){ return c.href === a.href; })) collected.push(a);
+        });
+        toRemove.push(next);
+        next = next.nextElementSibling;
+      }
+      if (!collected.length) return;
+      toRemove.forEach(function (el) { el.remove(); });
+      var grid = document.createElement('div');
+      grid.className = 'quick-links-grid';
+      collected.forEach(function (a) {
+        var chip = document.createElement('a');
+        chip.href = a.href;
+        chip.target = '_blank';
+        chip.rel = 'noopener noreferrer';
+        chip.className = 'quick-link-chip';
+        var host = '';
+        try { host = new URL(a.href).hostname.replace(/^www\./, ''); } catch(e) {}
+        var label = a.textContent.trim();
+        /* لو النص يطابق الـ URL، استخدم اسم النطاق فقط */
+        if (label === a.href || /^https?:\/\//.test(label)) label = host || label;
+        chip.innerHTML =
+          '<i class="fa-solid fa-arrow-up-right-from-square"></i>' +
+          '<div class="quick-link-content">' +
+            '<span class="quick-link-label">' + (label.replace(/</g,'&lt;')) + '</span>' +
+            (host ? '<span class="quick-link-host">' + host + '</span>' : '') +
+          '</div>';
+        grid.appendChild(chip);
+      });
+      h.insertAdjacentElement('afterend', grid);
+    });
+  }
+
   /* ── Table of Contents ────────────────────────────────────── */
   var postBody = document.getElementById('postBody');
   var tocNav   = document.getElementById('tocNav');

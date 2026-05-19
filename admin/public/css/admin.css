@@ -763,3 +763,26 @@ small { color:var(--muted); font-size:.7rem; }
 .sec-toggle i { color: var(--muted); font-size: .95rem; }
 .sec-toggle input:checked ~ i { color: var(--gold); }
 .sec-toggle-label { flex: 1; font-size: .88rem; color: var(--text); }
+
+/* ── Clickable stat cards (category drilldown) ───────────── */
+.stat-card.stat-card--link {
+  text-decoration: none; color: inherit;
+  transition: transform .15s, border-color .15s, box-shadow .15s;
+  cursor: pointer;
+}
+.stat-card.stat-card--link:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  box-shadow: 0 6px 18px rgba(212,160,23,.18);
+}
+
+/* ── Dashboard list rows ─────────────────────────────────── */
+.dash-list-row {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .65rem .25rem;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none; color: inherit;
+  transition: background .15s;
+}
+.dash-list-row:last-child { border-bottom: none; }
+.dash-list-row:hover { background: rgba(212,160,23,.06); }

@@ -36,9 +36,13 @@ function toast(msg, type='info', dur=3000) {
 
 // ── Auth ───────────────────────────────────────────────────────
 const TOKEN_KEY = 'gnt-admin-token';
+const PASS_CACHE_KEY = 'gnt-admin-pass-cache';  /* لتعبئة الحقل بعد انتهاء الجلسة */
 
 function getToken()      { return localStorage.getItem(TOKEN_KEY) || ''; }
 function setToken(t)     { if(t) localStorage.setItem(TOKEN_KEY, t); else localStorage.removeItem(TOKEN_KEY); }
+function cachePass(p)    { try { sessionStorage.setItem(PASS_CACHE_KEY, p); } catch(_){} }
+function getCachedPass() { try { return sessionStorage.getItem(PASS_CACHE_KEY) || ''; } catch(_){ return ''; } }
+function clearCachedPass(){ try { sessionStorage.removeItem(PASS_CACHE_KEY); } catch(_){} }
 
 async function api(url, opts={}) {
   const headers = {
@@ -129,8 +133,19 @@ async function checkAuth() {
 }
 
 function showLogin() {
-  $('loginOverlay').removeAttribute('hidden');
-  setTimeout(() => $('loginPass')?.focus(), 50);
+  const overlay = $('loginOverlay');
+  const passInp = $('loginPass');
+  overlay.removeAttribute('hidden');
+  /* استرجع كلمة المرور المحفوظة في الجلسة (sessionStorage فقط، لا localStorage)
+     ليكفي المستخدم Enter بعد انتهاء الجلسة بدون إعادة كتابتها */
+  if (passInp) {
+    const cached = getCachedPass();
+    if (cached) passInp.value = cached;
+  }
+  setTimeout(() => {
+    passInp?.focus();
+    if (passInp?.value) passInp.select();  /* اختر المحتوى ليُستبدل بسهولة */
+  }, 50);
 }
 
 window.doLogin = async function() {
@@ -142,6 +157,7 @@ window.doLogin = async function() {
   }).then(r => r.json());
   if (d.ok) {
     setToken(d.token);
+    cachePass(pass);   /* احفظها في sessionStorage لجلسات المتصفح المتعاقبة */
     $('loginOverlay').setAttribute('hidden', '');
     $('loginError').textContent = '';
     navigate(location.hash.slice(1) || 'dashboard');
@@ -180,6 +196,7 @@ async function renderPage(page) {
   const c = $('content');
   c.innerHTML = '<div class="loading-wrap"><i class="fa-solid fa-spinner fa-spin"></i></div>';
   if (page === 'dashboard')    return renderDashboard(c);
+  if (page.startsWith('cat-stats/')) return renderCategoryStats(c, page.split('/')[1]);
   if (page === 'articles')     return renderArticles(c);
   if (page === 'new-article')  { openEditor(null); return renderArticles(c); }
   if (page === 'images')       return renderImages(c);
@@ -204,8 +221,10 @@ async function renderDashboard(c) {
     <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-earth-americas"></i></div>
       <div><div class="stat-val">${d.byLang.en||0}</div><div class="stat-lbl">English Articles</div></div></div>
     ${Object.entries(CATS).map(([k,v])=>`
-    <div class="stat-card"><div class="stat-icon" style="background:rgba(255,255,255,.06)"><i class="fa-${v.brand?'brands':'solid'} ${v.icon}" style="font-size:1.1rem;color:var(--gold)"></i></div>
-      <div><div class="stat-val">${d.byCat[k]||0}</div><div class="stat-lbl">${v.ar}</div></div></div>`).join('')}
+    <a class="stat-card stat-card--link" href="#cat-stats/${k}" title="إحصائيات تفصيلية">
+      <div class="stat-icon" style="background:rgba(255,255,255,.06)"><i class="fa-${v.brand?'brands':'solid'} ${v.icon}" style="font-size:1.1rem;color:var(--gold)"></i></div>
+      <div><div class="stat-val">${d.byCat[k]||0}</div><div class="stat-lbl">${v.ar}</div></div>
+    </a>`).join('')}
   </div>
   <div class="dash-grid">
     <div class="card">
@@ -235,6 +254,116 @@ async function renderDashboard(c) {
       </div>
     </div>
   </div>`;
+}
+
+// Category Stats ────────────────────────────────────────────────
+async function renderCategoryStats(c, catId) {
+  const info = CATS[catId];
+  if (!info) { c.innerHTML = '<div class="empty-state">قسم غير موجود</div>'; return; }
+
+  const [arList, enList] = await Promise.all([
+    api(`/api/articles?lang=ar&cat=${catId}`),
+    api(`/api/articles?lang=en&cat=${catId}`)
+  ]);
+
+  const total = (arList?.length || 0) + (enList?.length || 0);
+  const allArticles = [...(arList||[]), ...(enList||[])];
+  const sorted = [...allArticles].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const recent = sorted.slice(0, 5);
+  const oldest = sorted[sorted.length - 1];
+  const newest = sorted[0];
+
+  /* مقالات also_in (الفئة كقسم إضافي) */
+  const allBoth = await api(`/api/articles`);
+  const alsoInArr = (allBoth||[]).filter(a => Array.isArray(a.also_in) && a.also_in.includes(catId));
+
+  /* أكثر الوسوم */
+  const tagCount = {};
+  allArticles.forEach(a => (a.tags||[]).forEach(t => { tagCount[t] = (tagCount[t]||0) + 1; }));
+  const topTags = Object.entries(tagCount).sort((a,b) => b[1]-a[1]).slice(0, 8);
+
+  /* مقالات مكتملة الترجمة (slug موجود في الجانبين) */
+  const arSlugs = new Set((arList||[]).map(a => a.slug));
+  const enSlugs = new Set((enList||[]).map(a => a.slug));
+  const matched = [...arSlugs].filter(s => enSlugs.has(s)).length;
+  const arOnly = (arList||[]).filter(a => !enSlugs.has(a.slug)).length;
+  const enOnly = (enList||[]).filter(a => !arSlugs.has(a.slug)).length;
+
+  c.innerHTML = `
+  <div style="margin-bottom:1rem">
+    <a href="#dashboard" class="btn btn-ghost btn-sm">
+      <i class="fa-solid fa-arrow-right"></i> العودة للوحة التحكم
+    </a>
+  </div>
+
+  <div class="card" style="margin-bottom:1rem">
+    <div class="card-header" style="background:${info.color||'#888'};color:#000">
+      <i class="fa-${info.brand?'brands':'solid'} ${info.icon||'fa-folder'}" style="font-size:1.5rem"></i>
+      <h3 style="color:#000;margin:0">${info.ar}</h3>
+      <span style="margin-right:auto;font-family:monospace;font-size:.85rem;color:rgba(0,0,0,.7)">${info.en} · ${catId}</span>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-newspaper"></i></div>
+      <div><div class="stat-val">${total}</div><div class="stat-lbl">إجمالي المقالات</div></div></div>
+    <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-language"></i></div>
+      <div><div class="stat-val">${arList?.length||0}</div><div class="stat-lbl">عربية</div></div></div>
+    <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-earth-americas"></i></div>
+      <div><div class="stat-val">${enList?.length||0}</div><div class="stat-lbl">English</div></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(122,196,87,.15)"><i class="fa-solid fa-link" style="color:#7ac457"></i></div>
+      <div><div class="stat-val">${matched}</div><div class="stat-lbl">مقالات مكتملة الترجمة</div></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(212,160,23,.15)"><i class="fa-solid fa-shuffle" style="color:var(--gold)"></i></div>
+      <div><div class="stat-val">${alsoInArr.length}</div><div class="stat-lbl">يظهر فيها كقسم إضافي</div></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(255,165,80,.15)"><i class="fa-solid fa-triangle-exclamation" style="color:#ffa550"></i></div>
+      <div><div class="stat-val">${arOnly+enOnly}</div><div class="stat-lbl">مقالات بلا ترجمة (${arOnly} AR / ${enOnly} EN)</div></div></div>
+  </div>
+
+  <div class="dash-grid">
+    <div class="card">
+      <div class="card-header"><i class="fa-solid fa-clock" style="color:var(--gold)"></i><h3>أحدث 5 مقالات</h3></div>
+      <div class="card-body">
+        ${recent.length ? recent.map(a => `
+        <a class="dash-list-row" href="#" onclick="editFrom('${a._lang}','${a._cat}','${a._file}');return false">
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:.88rem">${a.title || a._file}</div>
+            <div style="font-size:.7rem;color:var(--muted);font-family:monospace">${a._lang.toUpperCase()} · ${(a.date||'').toString().slice(0,10)}</div>
+          </div>
+          <i class="fa-solid fa-chevron-left" style="color:var(--muted);font-size:.75rem"></i>
+        </a>`).join('') : '<div class="empty-state">لا توجد مقالات</div>'}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="fa-solid fa-tags" style="color:var(--gold)"></i><h3>أكثر الوسوم استخداماً</h3></div>
+      <div class="card-body">
+        ${topTags.length ? `
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+          ${topTags.map(([t, n]) => `
+          <span class="r-cat" style="background:var(--bg3);color:var(--text);border:1px solid var(--border);padding:.35rem .7rem;font-size:.8rem">
+            ${t} <strong style="color:var(--gold);margin-inline-start:.3rem">${n}</strong>
+          </span>`).join('')}
+        </div>` : '<div class="empty-state">لا توجد وسوم</div>'}
+      </div>
+    </div>
+  </div>
+
+  ${newest && oldest ? `
+  <div class="card" style="margin-top:1rem">
+    <div class="card-header"><i class="fa-solid fa-timeline" style="color:var(--gold)"></i><h3>الزمن</h3></div>
+    <div class="card-body" style="display:flex;gap:1rem;flex-wrap:wrap">
+      <div style="flex:1;min-width:240px">
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.25rem">أول مقال نُشر</div>
+        <div style="font-weight:600">${oldest.title}</div>
+        <div style="font-size:.72rem;color:var(--muted);font-family:monospace">${(oldest.date||'').toString().slice(0,10)}</div>
+      </div>
+      <div style="flex:1;min-width:240px">
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.25rem">آخر مقال نُشر</div>
+        <div style="font-weight:600">${newest.title}</div>
+        <div style="font-size:.72rem;color:var(--muted);font-family:monospace">${(newest.date||'').toString().slice(0,10)}</div>
+      </div>
+    </div>
+  </div>` : ''}`;
 }
 
 // Articles ──────────────────────────────────────────────────────
@@ -877,7 +1006,11 @@ async function openEditor(ref) {
   $('fImage').value   = a.image || '';
   $('fAffiliate').checked = !!a.affiliate;
   $('fCategory').value    = a.category || (ref?.cat) || 'tech-news';
-  document.querySelectorAll('[name=fLang]').forEach(r => r.checked = (r.value === (a.lang||ref?.lang||'ar')));
+  /* اللغة الافتراضية:
+     - عند التحرير: تتبع لغة المقال (a.lang أو ref.lang)
+     - عند الإنشاء الجديد: تتبع فلتر اللغة الحالي في صفحة المقالات */
+  const defaultLang = a.lang || ref?.lang || S.langFilter || 'ar';
+  document.querySelectorAll('[name=fLang]').forEach(r => r.checked = (r.value === defaultLang));
 
   // also_in checkboxes
   const alsoIn = Array.isArray(a.also_in) ? a.also_in : [];
