@@ -2284,3 +2284,21 @@ ul { list-style: none; }
   border-radius: 10px;
   box-shadow: 0 6px 18px rgba(0,0,0,.15);
 }
+
+/* صورة fallback (استُبدلت بصورة الترويسة لأن الأصلية مكسورة) */
+.post-inline-image--fallback {
+  opacity: .85;
+  border: 2px dashed rgba(212,160,23,.3);
+  position: relative;
+}
+.post-inline-image--fallback::after {
+  content: '(صورة بديلة)';
+  position: absolute;
+  inset-inline-end: 8px;
+  bottom: 8px;
+  background: rgba(0,0,0,.6);
+  color: #d4a017;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: .7rem;
+}

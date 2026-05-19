@@ -200,17 +200,31 @@
     });
   }
 
-  /* ── محوّلات محتوى المقال (تلقائية) ────────────────────────
-     1) روابط الصور المكشوفة → <img> فعلية
-     2) قسم "روابط سريعة" → grid من الـ chips الأنيقة
-     تعمل على المقالات القديمة والجديدة تلقائياً */
+  /* ── محوّلات محتوى المقال (تلقائية على المقالات القديمة والجديدة) ──
+     1) معالج الصور المكسورة (broken external image URLs)
+     2) روابط الصور المكشوفة → <img> فعلية
+     3) قسم "روابط سريعة / المراجع / Quick Links..." → grid من الـ chips */
   var _postBodyForTransform = document.getElementById('postBody');
   if (_postBodyForTransform) {
-    /* 1) أي رابط <a> ينتهي بصيغة صورة → استبدله بـ <img> */
+    /* 1) معالج الصور المكسورة — يستبدلها بصورة الترويسة أو يخفيها */
+    var _heroImgSrc = (document.querySelector('.post-featured-image') || {}).src || '';
+    _postBodyForTransform.querySelectorAll('img').forEach(function (img) {
+      img.addEventListener('error', function () {
+        if (_heroImgSrc && this.src !== _heroImgSrc && !this.dataset.fallbackTried) {
+          this.dataset.fallbackTried = '1';
+          this.src = _heroImgSrc;
+          this.classList.add('post-inline-image--fallback');
+        } else {
+          /* لا fallback متاح → أخفِ الصورة بسلاسة */
+          this.style.display = 'none';
+        }
+      }, { once: false });
+    });
+
+    /* 2) أي رابط <a> ينتهي بصيغة صورة → استبدله بـ <img> فعلية */
     var _imgExtRe = /\.(jpe?g|png|gif|webp|avif|svg)(\?.*)?$/i;
     _postBodyForTransform.querySelectorAll('a[href]').forEach(function (a) {
       var href = a.getAttribute('href') || '';
-      /* خصوصاً إذا كان نصّ الرابط = الرابط نفسه (auto-link) */
       var isAutoLink = a.textContent.trim() === href.trim();
       if (_imgExtRe.test(href) && isAutoLink) {
         var img = document.createElement('img');
@@ -218,32 +232,51 @@
         img.alt = '';
         img.loading = 'lazy';
         img.className = 'post-inline-image';
-        /* استبدل الفقرة المحتوية إن كانت فقرة منفردة */
         var p = a.closest('p');
-        if (p && p.textContent.trim() === a.textContent.trim()) {
-          p.replaceWith(img);
-        } else {
-          a.replaceWith(img);
-        }
+        if (p && p.textContent.trim() === a.textContent.trim()) p.replaceWith(img);
+        else a.replaceWith(img);
       }
     });
 
-    /* 2) قسم "روابط سريعة" / "Quick Links" → chips */
-    var _headingRe = /^(روابط\s*سريعة|روابط\s*مهمة|روابط|quick\s*links|useful\s*links|links)\s*[:：]?$/i;
-    _postBodyForTransform.querySelectorAll('h2, h3').forEach(function (h) {
-      if (!_headingRe.test(h.textContent.trim())) return;
+    /* 3) أي عنوان أو فقرة بنص "روابط/مراجع/Links..." → grid من chips */
+    var _linkSectionRe = /^(روابط\s*سريعة|روابط\s*مهمة|روابط\s*خارجية|روابط|المراجع|مراجع|للتحميل|التحميل|روابط\s*التحميل|quick\s*links|useful\s*links|external\s*links|references|sources|resources|downloads?|links)\s*[:：]?\s*$/i;
+
+    /* مرشّحون: h2/h3/h4 + <p><strong>...:</strong></p> */
+    var candidates = [];
+    _postBodyForTransform.querySelectorAll('h2, h3, h4').forEach(function (h) {
+      if (_linkSectionRe.test(h.textContent.trim())) candidates.push(h);
+    });
+    _postBodyForTransform.querySelectorAll('p').forEach(function (p) {
+      /* فقرة تحوي فقط <strong>...:</strong> */
+      var strong = p.querySelector('strong');
+      if (strong && p.textContent.trim() === strong.textContent.trim()
+          && _linkSectionRe.test(strong.textContent.trim())) {
+        candidates.push(p);
+      }
+    });
+
+    candidates.forEach(function (marker) {
       var collected = [];
-      var next = h.nextElementSibling;
+      var next = marker.nextElementSibling;
       var toRemove = [];
       while (next && !/^H[1-6]$/.test(next.tagName)) {
-        next.querySelectorAll('a[href^="http"]').forEach(function (a) {
-          if (!collected.some(function(c){ return c.href === a.href; })) collected.push(a);
-        });
-        toRemove.push(next);
+        /* خذ كل الروابط الخارجية من العنصر */
+        var links = next.querySelectorAll('a[href^="http"]');
+        if (links.length) {
+          links.forEach(function (a) {
+            if (!collected.some(function(c){ return c.href === a.href; })) collected.push(a);
+          });
+          toRemove.push(next);
+        } else if (next.tagName === 'P' && !next.textContent.trim()) {
+          toRemove.push(next);  /* فقرات فارغة */
+        } else {
+          break;  /* نص حقيقي — توقف */
+        }
         next = next.nextElementSibling;
       }
-      if (!collected.length) return;
+      if (collected.length < 1) return;
       toRemove.forEach(function (el) { el.remove(); });
+
       var grid = document.createElement('div');
       grid.className = 'quick-links-grid';
       collected.forEach(function (a) {
@@ -255,17 +288,16 @@
         var host = '';
         try { host = new URL(a.href).hostname.replace(/^www\./, ''); } catch(e) {}
         var label = a.textContent.trim();
-        /* لو النص يطابق الـ URL، استخدم اسم النطاق فقط */
         if (label === a.href || /^https?:\/\//.test(label)) label = host || label;
         chip.innerHTML =
           '<i class="fa-solid fa-arrow-up-right-from-square"></i>' +
           '<div class="quick-link-content">' +
-            '<span class="quick-link-label">' + (label.replace(/</g,'&lt;')) + '</span>' +
+            '<span class="quick-link-label">' + label.replace(/</g,'&lt;') + '</span>' +
             (host ? '<span class="quick-link-host">' + host + '</span>' : '') +
           '</div>';
         grid.appendChild(chip);
       });
-      h.insertAdjacentElement('afterend', grid);
+      marker.insertAdjacentElement('afterend', grid);
     });
   }
 

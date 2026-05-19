@@ -37,8 +37,6 @@ If you are still on Ubuntu 24.04 LTS and planning to upgrade to 26.04 LTS, you a
 
 The image below shows the new desktop with the official Resolute Raccoon wallpaper:
 
-![Ubuntu 26.04 LTS Desktop](https://ubuntu.com/wp-content/uploads/2022/05/ubuntu-desktop.png)
-
 ### 1. No More X11/Xorg Desktop Session
 
 Ubuntu 26.04 LTS no longer includes an X11/Xorg desktop session. The reason for this removal is that GNOME removed support for running on the legacy display server. Ubuntu has used Wayland by default since 2021, and it became default for NVIDIA users in 2024 for testing ahead of this LTS. Most software that requires X11 runs on Wayland through XWayland, which is installed by default.
@@ -86,8 +84,6 @@ Security Center is a one-stop hub for security-related settings. It allows enabl
 Sysprof is a developer tool for capturing performance data on software and system processes.
 
 The image below shows the new default applications such as Loupe, Ptyxis, and Resources:
-
-![New default applications in Ubuntu 26.04](https://ubuntu.com/wp-content/uploads/2022/05/ubuntu-apps.jpg)
 
 ### 7. Nautilus File Manager Improvements
 
@@ -178,8 +174,6 @@ Ubuntu has added NVIDIA CUDA and AMD ROCm to the repositories, making it easier 
 Ubuntu 26.04 runs on Linux kernel 7.0. There have been 12 kernel releases since Ubuntu 24.04 launched with kernel 6.8. On the graphics driver side, this release ships with Mesa 26.0.3 and the default NVIDIA proprietary driver at version 590.x.
 
 The image below shows the kernel version and basic system information:
-
-![Linux Kernel 7.0 in Ubuntu 26.04](https://ubuntu.com/wp-content/uploads/2022/05/ubuntu-kernel.png)
 
 ## Applications No Longer Included
 

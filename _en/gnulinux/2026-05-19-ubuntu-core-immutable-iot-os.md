@@ -51,8 +51,6 @@ Fifth, over-the-air updates. The entire device, including kernel, system, and ap
 
 The image below shows the basic architecture of Ubuntu Core:
 
-![Ubuntu Core Architecture](https://ubuntu.com/wp-content/uploads/2022/05/ubuntu-core-architecture.png)
-
 Ubuntu Core consists of three isolated layers:
 
 The kernel snap layer contains the Linux kernel and its modules. It is updated independently. The kernel supports a wide range of hardware, from ARM 32/64 to x86 to RISC-V.
@@ -64,8 +62,6 @@ The application snaps layer is where you place your own applications. You can ha
 ## Who Needs Ubuntu Core?
 
 The image below shows some typical use cases:
-
-![Ubuntu Core Use Cases](https://ubuntu.com/wp-content/uploads/2022/05/ubuntu-core-use-cases.jpg)
 
 Industrial sector. Bosch Rexroth is building an Industry 4.0 platform based on Ubuntu Core. Industrial automation requires devices that run for years without downtime, with secure remote updates.
 
@@ -90,8 +86,6 @@ For deployment, you push the snap to the Snap Store. The Snap Store can be publi
 Finally, you build a custom Ubuntu Core image that contains the kernel, operating system, and your applications. You flash this image onto the device, and it becomes ready to run.
 
 The image below shows the snapcraft tool in action:
-
-![Snapcraft Interface](https://ubuntu.com/wp-content/uploads/2022/05/snapcraft-screenshot.png)
 
 ## Security and Additional Features with Ubuntu Pro
 

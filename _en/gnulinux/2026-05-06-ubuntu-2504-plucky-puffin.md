@@ -57,8 +57,6 @@ Ubuntu 26.04 runs on Linux kernel 7.0, a major version number jump from 6.x to 7
 
 The image below shows the kernel version and hardware information:
 
-![Linux Kernel 7.0](https://ubuntu.com/wp-content/uploads/2022/05/ubuntu-kernel.png)
-
 ### Support for Intel Panther Lake Processors
 
 Kernel 7.0 supports Intel Core Ultra Series 3 "Panther Lake" processors, including integrated Intel Xe3 graphics and the built-in NPU for improved local AI workload performance.
@@ -72,8 +70,6 @@ Full support for the RISC-V RVA23 profile has been added, along with support for
 The biggest change in this release is the final elimination of X11 in favor of Wayland. Ubuntu 26.04 does not include a GNOME session running on X11 at all. Wayland is the only option.
 
 The image below shows the new desktop with the Resolute Raccoon wallpaper:
-
-![GNOME 50 Desktop](https://ubuntu.com/wp-content/uploads/2022/05/ubuntu-desktop.png)
 
 ### Why X11 Is No Longer Present
 
@@ -142,8 +138,6 @@ The basic commands ls, cat, cp, mv, and rm are now from the rust-coreutils packa
 One of the quiet but technically important changes is the switch from initramfs-tools to Dracut. The initramfs is a temporary filesystem loaded into memory during computer startup. Its job is to prepare disks and encrypted storage before handing control to the real system.
 
 The image below shows the boot system layers in Ubuntu 26.04:
-
-![Dracut Boot Architecture](https://ubuntu.com/wp-content/uploads/2022/05/dracut-boot-process.png)
 
 The initramfs-tools tool was a collection of Bash scripts written in the early 2000s. Over time, problems emerged with support for modern hardware such as NVMe over Fabrics and peripheral devices like Bluetooth keyboards when unlocking encryption. Dracut is a modern replacement, written in a more secure and maintainable way, and integrates better with systemd.
 
