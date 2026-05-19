@@ -1,10 +1,10 @@
 ---
 layout: post
 title: 'Ubuntu 26.04 LTS Resolute Raccoon: 26 Key Changes Since 24.04'
-slug: ubuntu-2604-lts-whats-new
+slug: ubuntu-2604-2404
 lang: en
 category: gnulinux
-date: 2026-05-19T14:34:00.000Z
+date: 2026-05-19T15:21:00.000Z
 author: GNUTUX
 excerpt: >-
   From the full switch to Wayland and dropping X11, to replacing sudo and
