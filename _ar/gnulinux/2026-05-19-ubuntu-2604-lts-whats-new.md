@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'Ubuntu 26.04 LTS Resolute Raccoon: 26 تغييرا رئيسيا منذ الإصدار 24.04'
+slug: ubuntu-2604-lts-whats-new
+lang: ar
 category: gnulinux
+date: 2026-05-19T14:33:00.000Z
 author: GNUTUX
 excerpt: >-
   من الانتقال الكامل إلى Wayland وإسقاط X11، إلى دمج أدوات Rustية بديلة لـ sudo
@@ -21,9 +24,6 @@ tags:
 also_in:
   - foss
   - tech-news
-date: 2026-05-19T14:33:00.000Z
-lang: ar
-slug: ubuntu-2604-lts-whats-new
 ---
 
 ## قفزة تستحق سنتين من التطوير

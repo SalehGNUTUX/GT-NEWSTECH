@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'Ubuntu 26.04 LTS Resolute Raccoon: 26 Key Changes Since 24.04'
+slug: ubuntu-2604-lts-whats-new
+lang: en
 category: gnulinux
+date: 2026-05-19T14:34:00.000Z
 author: GNUTUX
 excerpt: >-
   From the full switch to Wayland and dropping X11, to replacing sudo and
@@ -19,9 +22,9 @@ tags:
   - TPM
   - Dracut
   - snaps
-date: 2026-05-19T14:34:00.000Z
-lang: en
-slug: ubuntu-2604-lts-whats-new
+also_in:
+  - foss
+  - tech-news
 ---
 
 ## A Leap Worth Two Years of Development
