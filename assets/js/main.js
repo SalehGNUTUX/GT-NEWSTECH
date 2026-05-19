@@ -37,6 +37,24 @@
     });
   }
 
+  /* ── Compact Header on Scroll (mobile) ─────────────────────
+     عند التمرير لأكثر من 50px → يضيف class 'compact' على الرأس
+     CSS يقلّص الشعار ويخفي النص لإعطاء مساحة أكبر للقارئ.
+     شريط الأقسام (Nav) يبقى مرئياً. */
+  var _siteHeader = document.querySelector('.site-header');
+  if (_siteHeader) {
+    var _lastCompact = false;
+    var _checkCompact = function () {
+      var shouldBe = window.scrollY > 50;
+      if (shouldBe !== _lastCompact) {
+        _siteHeader.classList.toggle('compact', shouldBe);
+        _lastCompact = shouldBe;
+      }
+    };
+    _checkCompact();
+    window.addEventListener('scroll', _checkCompact, { passive: true });
+  }
+
   /* ── Mobile Menu ──────────────────────────────────────────── */
   var menuToggle = document.getElementById('mobileMenuToggle');
   var mainNav    = document.querySelector('.main-nav');

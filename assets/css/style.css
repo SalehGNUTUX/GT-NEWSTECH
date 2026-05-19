@@ -2316,3 +2316,35 @@ body { padding-top: var(--header-height, 64px); }
   border-radius: 6px;
   font-size: .7rem;
 }
+
+/* ── الرأس المنكمش عند التمرير (هاتف فقط) ──────────────── */
+.site-header { transition: all .25s ease; }
+.site-header .logo-img,
+.site-header .logo-text,
+.site-header .header-inner { transition: all .25s ease; }
+
+@media (max-width: 768px) {
+  /* الحالة الافتراضية على الهاتف */
+  .site-header .logo-img { width: 36px; height: 36px; }
+  .site-header .logo-tagline { font-size: .55rem; }
+
+  /* الحالة المنكمشة عند التمرير */
+  .site-header.compact .header-inner {
+    padding-top: .35rem;
+    padding-bottom: .35rem;
+  }
+  .site-header.compact .logo-img {
+    width: 28px;
+    height: 28px;
+  }
+  .site-header.compact .logo-text {
+    display: none;     /* نص "GT-NEWSTECH" والـ tagline يختفيان */
+  }
+  /* قلّص ارتفاع الـ body padding-top ليتماشى */
+  body { padding-top: var(--header-height-mobile, 60px); }
+}
+
+/* على الأجهزة الصغيرة جداً، إخفاء tagline دائماً (حتى قبل compact) */
+@media (max-width: 480px) {
+  .site-header .logo-tagline { display: none; }
+}
