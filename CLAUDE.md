@@ -250,6 +250,14 @@ Single file `assets/css/style.css`. Theming via CSS custom properties:
 - Category colors use inline styles from `_data/categories.yml` — no per-category CSS class needed
 - Mobile: `flex-wrap: nowrap` on header; `.mobile-lang-switch` visible on mobile only
 
+**Fixed site header:**
+- `.site-header` uses `position: fixed` (NOT `sticky`)
+- Reason: `html` and `body` have `overflow-x: hidden` (prevents horizontal scroll) — this breaks `position: sticky` because `sticky` requires no overflow constraint on ancestors
+- Compensation: `body { padding-top: var(--header-height, 64px); }` reserves space (with mobile override at 600px)
+- `inset-inline: 0` (not `left:0; right:0;`) for RTL/LTR support
+- `backdrop-filter: blur(8px)` for glass effect on scroll
+- `html { scroll-padding-top: 80px; }` ensures TOC anchor jumps land below the fixed header
+
 ---
 
 ## Key Conventions
