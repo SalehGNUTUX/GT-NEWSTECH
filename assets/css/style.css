@@ -80,6 +80,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* مسافة فوق anchors عند القفز لها (TOC) — لا يخفيها الرأس الثابت */
+  scroll-padding-top: 80px;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   /* منع التمرير الأفقي على مستوى الصفحة كاملة */
@@ -137,11 +139,23 @@ ul { list-style: none; }
 
 /* ── Header ─────────────────────────────────────────────────── */
 .site-header {
-  position: sticky;
+  /* position: fixed بدل sticky — لأن overflow-x:hidden على html/body
+     يكسر sticky في بعض المتصفحات. fixed يضمن الثبات في كل الحالات. */
+  position: fixed;
   top: 0;
+  inset-inline: 0;     /* left:0; right:0; للـ RTL والـ LTR */
   z-index: 100;
   background: var(--bg-header);
   box-shadow: 0 2px 20px rgba(0,0,0,.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* فجوة فوق المحتوى تساوي ارتفاع الرأس (لمنع إخفاء أول عنصر تحته) */
+body { padding-top: var(--header-height, 64px); }
+
+@media (max-width: 600px) {
+  body { padding-top: var(--header-height-mobile, 60px); }
 }
 
 .header-inner {
