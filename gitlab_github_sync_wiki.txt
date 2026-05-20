@@ -1,0 +1,206 @@
+
+● نعم — يمكن بـ script واحد (GitLab API). أو يدوياً لو) كانت مشاريع قليلة:
+
+  ---
+  أ) يدوياً (إذا كانت ≤5 مشاريع)
+
+  لكل مشروع:
+  1. افتح Settings → General → Advanced
+  2. Delete project → اكتب اسم المشروع للتأكيد
+  3. أعد إنشاءه من https://gitlab.com/projects/new → Repository by URL + ✅ Mirror
+
+  ---
+  ب) آلياً عبر script (للعدد الكبير)
+
+  الخطوة 1 — احصل على GitLab Personal Access Token
+
+  1. افتح: https://gitlab.com/-/user_settings/personal_access_tokens
+  2. Add new token:
+    - Name: bulk-mirror
+    - Expiration: 7 days (يكفي)
+    - Scopes: ✅ api
+  3. انسخ الـ token
+
+  الخطوة 2 — احفظ هذا الـ script
+
+  #!/bin/bash
+  # bulk-mirror.sh — حذف وإعادة إنشاء كل مشاريع GitLab كمرايا من GitHub
+  set -e
+
+  GITLAB_TOKEN="${GITLAB_TOKEN:?ضع GITLAB_TOKEN=... قبل التشغيل}"
+  GITLAB_USER="${GITLAB_USER:-SalehGNUTUX}"
+  GITHUB_USER="${GITHUB_USER:-SalehGNUTUX}"
+  API="https://gitlab.com/api/v4"
+
+  echo "════════════════════════════════════════════"
+  echo "  حذف وإعادة إنشاء كل مشاريع GitLab كمرايا  "
+  echo "════════════════════════════════════════════"
+
+  # ── 1) قائمة المشاريع الحالية على GitLab ──
+  echo ""
+  echo "📋 مشاريعك الحالية على GitLab:"
+  projects=$(curl -s -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+    "$API/users/$GITLAB_USER/projects?per_page=100&owned=true")
+
+  echo "$projects" | python3 -c "
+  import json, sys
+  data = json.load(sys.stdin)
+  for p in data:
+      print(f'  - {p[\"path_with_namespace\"]} (ID: {p[\"id\"]})')
+  print(f'\nالمجموع: {len(data)} مشروع')
+  "
+
+  # ── 2) تأكيد ──
+  echo ""
+  read -p "⚠  هل تريد حذفها كلها وإعادة إنشائها كمرايا؟ اكتب YES للمتابعة: " confirm
+  [ "$confirm" != "YES" ] && { echo "أُلغي";  exit 0; }
+
+  # ── 3) حذف كل مشاريع GitLab ──
+  echo ""
+  echo "🗑  جاري الحذف..."
+  ids=$(echo "$projects" | python3 -c "
+  import json, sys
+  for p in json.load(sys.stdin):
+      print(p['id'])
+  ")
+
+  for id in $ids; do
+    name=$(echo "$projects" | python3 -c "
+  import json, sys
+  for p in json.load(sys.stdin):
+      if p['id'] == $id: print(p['path']); break
+  ")
+    echo "  حذف: $name"
+    curl -sf -X DELETE -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+      "$API/projects/$id" > /dev/null
+    sleep 1
+  done
+
+  echo "✓ تم حذف الكل. الانتظار 10 ثوانٍ لاكتمال العملية..."
+  sleep 10
+
+  # ── 4) جلب مستودعات GitHub العامة ──
+  echo ""
+  echo "📥 جلب مستودعات GitHub لـ @$GITHUB_USER..."
+  gh_repos=$(curl -s "https://api.github.com/users/$GITHUB_USER/repos?per_page=100&type=owner&sort=updated" \
+    | python3 -c "
+  import json, sys
+  for r in json.load(sys.stdin):
+      if not r['fork']:
+          print(f\"{r['name']}|{r['clone_url']}\")
+  ")
+
+  echo "$gh_repos" | while IFS='|' read -r name url; do
+    [ -z "$name" ] && continue
+    echo ""
+    echo "🔄 إنشاء مرآة: $name"
+    resp=$(curl -s -X POST "$API/projects" \
+      -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+      -d "name=$name" \
+      -d "import_url=$url" \
+      -d "mirror=true" \
+      -d "mirror_trigger_builds=false" \
+      -d "visibility=public")
+    err=$(echo "$resp" | python3 -c "
+  import json, sys
+  try: d = json.load(sys.stdin); print(d.get('message', d.get('error', '')))
+  except: pass
+  " 2>/dev/null)
+    if [ -n "$err" ]; then
+      echo "  ⚠ خطأ: $err"
+    else
+      echo "  ✓ تم"
+    fi
+    sleep 2
+  done
+
+  echo ""
+  echo "════════════════════════════════════════════"
+  echo "  ✓ اكتمل! تحقق من:                          "
+  echo "  https://gitlab.com/$GITLAB_USER/?archived=false"
+  echo "════════════════════════════════════════════"
+
+  الخطوة 3 — احفظه وشغّله
+
+  # احفظ الـ script
+  nano ~/bulk-mirror.sh
+  # (الصق المحتوى)
+  chmod +x ~/bulk-mirror.sh
+
+  # شغّله مع الـ token
+  GITLAB_TOKEN="glpat-xxxxxxxxxxxxxxxx" ~/bulk-mirror.sh
+
+  ---
+  ماذا يفعل الـ Script؟
+
+  1. يعرض كل مشاريعك الحالية على GitLab
+  2. يطلب تأكيداً  (YES)
+  3. يحذفها كلها واحداً  واحداًع
+  4. ينتظر 10 ثوانٍ للاكتمال
+  5. يجلب مستودعاتك على GitHub (تتجاهل forks)
+  6. ينشئ لكل واحد مشروع جديد على GitLab مع:
+     - Pull mirror مفعّل
+     - Visibility: Public
+     - يربطه بـ GitHub URL
+  7. يعرض ملخصاً  نهائياًU
+
+  ---
+  ميزات الـ script
+
+  - ✅ آمن: يطلب تأكيداً  قبل الحذف
+  - ✅ شفاف: يعرض كل مشروع قبل التعامل معه
+  - ✅ rate-limit aware: ينتظر ثانية بين كل عملية
+  - ✅ يتجاهل forks: لا يحاول مرآة مستودعات نسخت من غيرك
+  - ✅ يبلّغ بالأخطاء:  لكل مشروع، رسالة نجاح أو فشل
+
+  ---
+  نسخة "إضافة فقط" (بدون حذف)
+
+  لو لا تريد الحذف، فقط إضافة مرايا للمشاريع الموجودة على GitHub لكن غير الموجودة على GitLab:
+
+  #!/bin/bash
+  # only-add-missing.sh — أضف مرآة لكل مشروع GitHub غير موجود على GitLab
+  set -e
+  GITLAB_TOKEN="${GITLAB_TOKEN:?ضع GITLAB_TOKEN}"
+  GITHUB_USER="${GITHUB_USER:-SalehGNUTUX}"
+  GITLAB_USER="${GITLAB_USER:-SalehGNUTUX}"
+  API="https://gitlab.com/api/v4"
+
+  # أسماء المشاريع الموجودة على GitLab
+  existing=$(curl -s -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+    "$API/users/$GITLAB_USER/projects?per_page=100" \
+    | python3 -c "
+  import json, sys
+  for p in json.load(sys.stdin): print(p['path'])
+  ")
+
+  # مستودعات GitHub
+  curl -s "https://api.github.com/users/$GITHUB_USER/repos?per_page=100&type=owner" \
+    | python3 -c "
+  import json, sys
+  for r in json.load(sys.stdin):
+      if not r['fork']: print(f\"{r['name']}|{r['clone_url']}\")
+  " | while IFS='|' read -r name url; do
+    if echo "$existing" | grep -qx "$name"; then
+      echo "✓ موجود: $name"
+    else
+      echo "🔄 إضافة: $name"
+      curl -s -X POST "$API/projects" -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+        -d "name=$name" -d "import_url=$url" -d "mirror=true" -d "visibility=public" > /dev/null
+      sleep 2
+    fi
+  done
+
+  ---
+  التحقق بعد التشغيل
+
+  # عرض كل المشاريع وحالة المرآة
+  curl -s -H "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+    "https://gitlab.com/api/v4/users/$GITLAB_USER/projects?per_page=100" \
+    | python3 -c "
+  import json, sys
+  for p in json.load(sys.stdin):
+      print(f\"{'🟢' if p.get('mirror') else '⚪'} {p['path']:30s} mirror={p.get('mirror', False)}\")
+  ---
+  اختر: يدوياً  (سريع لـ ≤5)، أو script الحذف والإعادة (للعدد الكبير)، أو script الإضافة فقط (لمن يريد الاحتفاظ بالموجود)؟
+
