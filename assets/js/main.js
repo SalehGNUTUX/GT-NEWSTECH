@@ -279,18 +279,21 @@
       return t;
     }
 
-    /* للمنصات التي تحتاج instance (Mastodon/Pleroma) — يطلب مرة ويحفظ */
-    function getInstance(platform) {
+    /* للمنصات التي تحتاج instance (Mastodon/Pleroma) — يطلب مرة ويحفظ.
+       إذا forceAsk = true → يمسح المحفوظ ويسأل من جديد. */
+    function getInstance(platform, forceAsk) {
       var key = 'gnt-' + platform + '-instance';
+      if (forceAsk) localStorage.removeItem(key);
       var saved = localStorage.getItem(key);
-      if (saved) return saved;
+      if (saved && !forceAsk) return saved;
       var label = platform === 'mastodon' ? 'Mastodon' : 'Pleroma';
-      var defaultUrl = platform === 'mastodon' ? 'mastodon.social' : 'pleroma.social';
-      var input = prompt(
-        (isEn ? 'Enter your ' : 'أدخل عنوان خادم ') + label +
-        (isEn ? ' instance domain (e.g., ' : ' الخاص بك (مثلاً: ') + defaultUrl + ')',
-        defaultUrl
-      );
+      var defaultUrl = saved || (platform === 'mastodon' ? 'mastodon.social' : 'pleroma.social');
+      var msg = (isEn ? 'Enter your ' : 'أدخل عنوان خادم ') + label +
+                (isEn ? ' instance domain (e.g., ' : ' الخاص بك (مثلاً: ') + defaultUrl + ')';
+      if (forceAsk && saved) {
+        msg += '\n\n' + (isEn ? '(previous: ' : '(السابق: ') + saved + ')';
+      }
+      var input = prompt(msg, defaultUrl);
       if (!input) return null;
       var clean = input.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
       localStorage.setItem(key, clean);
@@ -354,14 +357,15 @@
                 '&text=' + encodeURIComponent(buildFullText());
         window.open(u, '_blank', 'noopener');
       },
-      mastodon: function () {
-        var inst = getInstance('mastodon');
+      mastodon: function (btn, ev) {
+        /* Shift+Click → يمسح المحفوظ ويطلب instance جديداً */
+        var inst = getInstance('mastodon', ev && ev.shiftKey);
         if (!inst) return;
         var u = 'https://' + inst + '/share?text=' + encodeURIComponent(buildFullText());
         window.open(u, '_blank', 'noopener');
       },
-      pleroma: function () {
-        var inst = getInstance('pleroma');
+      pleroma: function (btn, ev) {
+        var inst = getInstance('pleroma', ev && ev.shiftKey);
         if (!inst) return;
         var u = 'https://' + inst + '/share?message=' + encodeURIComponent(buildFullText());
         window.open(u, '_blank', 'noopener');
@@ -402,7 +406,7 @@
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         var p = btn.dataset.platform;
-        if (handlers[p]) handlers[p](btn);
+        if (handlers[p]) handlers[p](btn, e);
       });
     });
   })();
