@@ -76,7 +76,8 @@ async function api(url, opts={}) {
 
 /* قاموس تسميات الإجراءات */
 const ACTION_LABELS = {
-  save_article:    'إنشاء/تعديل مقال',
+  create_article:  'إنشاء مقال',
+  edit_article:    'تعديل مقال',
   delete_article:  'حذف مقال',
   push:            'دفع التغييرات إلى GitHub',
   manage_security: 'تعديل إعدادات الأمان',
@@ -1739,7 +1740,8 @@ async function renderSecurity(c) {
         كل تغيير لهذه الخيارات يتطلّب تأكيد كلمة المرور — حتى لا تعبث بها أيدٍ متطفلة.
       </p>
       ${[
-        ['save_article',   'إنشاء أو تعديل مقال',         'fa-pen-to-square'],
+        ['create_article', 'إنشاء مقال جديد',             'fa-plus'],
+        ['edit_article',   'تعديل مقال موجود',            'fa-pen-to-square'],
         ['delete_article', 'حذف مقال (نقل للمهملات)',     'fa-trash-can'],
         ['push',           'دفع التغييرات إلى GitHub',     'fa-upload']
       ].map(([k,label,icon]) => `

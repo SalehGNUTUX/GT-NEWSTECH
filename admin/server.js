@@ -77,13 +77,25 @@ function verifyToken(token, hash) {
 
 /* إعدادات الأمان (تأكيد كلمة المرور للإجراءات + مدة الجلسة) */
 function readSecCfg() {
-  if (fs.existsSync(SECURITY_FILE)) {
-    try { return JSON.parse(fs.readFileSync(SECURITY_FILE, 'utf8')); } catch (_) {}
-  }
-  return {
+  let cfg = {
     sessionMinutes: 1440,  // 24 ساعة
-    confirmFor: { save_article: false, delete_article: false, push: false }
+    confirmFor: { create_article: false, edit_article: false, delete_article: false, push: false }
   };
+  if (fs.existsSync(SECURITY_FILE)) {
+    try {
+      const stored = JSON.parse(fs.readFileSync(SECURITY_FILE, 'utf8'));
+      cfg.sessionMinutes = stored.sessionMinutes ?? cfg.sessionMinutes;
+      cfg.confirmFor = { ...cfg.confirmFor, ...(stored.confirmFor || {}) };
+      /* ترحيل المفتاح القديم save_article → كلا create + edit */
+      if (stored.confirmFor && 'save_article' in stored.confirmFor) {
+        const old = stored.confirmFor.save_article;
+        cfg.confirmFor.create_article = cfg.confirmFor.create_article || old;
+        cfg.confirmFor.edit_article   = cfg.confirmFor.edit_article   || old;
+        delete cfg.confirmFor.save_article;
+      }
+    } catch (_) {}
+  }
+  return cfg;
 }
 function writeSecCfg(cfg) { fs.writeFileSync(SECURITY_FILE, JSON.stringify(cfg, null, 2)); }
 
@@ -435,7 +447,7 @@ app.get('/api/article', (req, res) => {
 });
 
 /* Create article */
-app.post('/api/article', confirmRequired('save_article'), (req, res) => {
+app.post('/api/article', confirmRequired('create_article'), (req, res) => {
   const { lang, cat, slug, date, content, ...fm } = req.body;
   if (!lang || !cat || !slug) return res.status(400).json({ error: 'lang, cat, slug required' });
   fm.date = date || new Date().toISOString().slice(0, 10);
@@ -450,7 +462,7 @@ app.post('/api/article', confirmRequired('save_article'), (req, res) => {
 });
 
 /* Update article */
-app.put('/api/article', confirmRequired('save_article'), (req, res) => {
+app.put('/api/article', confirmRequired('edit_article'), (req, res) => {
   const { lang, cat, file } = req.query;
   if (!lang || !cat || !file) return res.status(400).json({ error: 'Missing params' });
   const fp = path.join(ROOT, `_${lang}`, cat, file);
