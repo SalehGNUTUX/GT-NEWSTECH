@@ -2062,6 +2062,55 @@ async function renderSecurity(c) {
     </div>
   </div>
 
+  <!-- بطاقة GitHub Token (لإدارة التعليقات) -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header">
+      <i class="fa-brands fa-github" style="color:var(--gold)"></i>
+      <h3>GitHub Personal Access Token</h3>
+      <span class="r-cat" id="ghTokenStatusBadge" style="background:#555;color:#fff;margin-right:auto">جارٍ التحقق…</span>
+    </div>
+    <div class="card-body">
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:.85rem">
+        مطلوب لإدارة التعليقات والتفاعلات من صفحة <strong>"التعليقات"</strong> عبر GitHub Discussions API.
+        يُحفظ محلياً في <code>admin/.github-token</code> (لا يُرفع للمستودع) — كل عملية إضافة أو حذف
+        <strong>تتطلّب تأكيد كلمة المرور</strong>.
+      </p>
+
+      <details style="margin-bottom:.85rem">
+        <summary style="cursor:pointer;color:var(--gold);font-size:.85rem;font-weight:600">
+          كيف أُنشئ Token جديداً؟
+        </summary>
+        <ol style="padding-inline-start:1.5rem;color:var(--text);font-size:.82rem;line-height:1.9;margin-top:.5rem">
+          <li>افتح: <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener" style="color:var(--gold)">github.com/settings/tokens/new</a></li>
+          <li>الاسم: <code>GT-NEWSTECH Admin</code></li>
+          <li>المدة: <strong>No expiration</strong> أو سنة</li>
+          <li>الصلاحيات: فعّل ☑ <strong>repo</strong></li>
+          <li>اضغط <strong>Generate token</strong></li>
+          <li>انسخ الـ token (يبدأ بـ <code>ghp_</code>)</li>
+          <li>الصقه أدناه</li>
+        </ol>
+      </details>
+
+      <div class="form-group">
+        <label>Token (يبدأ بـ ghp_)</label>
+        <div style="display:flex;gap:.5rem">
+          <input type="password" id="secGhToken" placeholder="ghp_..." dir="ltr" style="flex:1;font-family:monospace">
+          ${pasteBtn('secGhToken')}
+        </div>
+      </div>
+
+      <div style="margin-top:.85rem;display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="secSaveGhToken()">
+          <i class="fa-solid fa-save"></i> حفظ / تحديث Token
+        </button>
+        <button class="btn btn-danger" id="secRemoveGhTokenBtn" onclick="secRemoveGhToken()" hidden>
+          <i class="fa-solid fa-trash"></i> إزالة Token المحفوظ
+        </button>
+      </div>
+      <div id="secGhTokenResult" style="margin-top:.65rem;font-size:.82rem;min-height:1.2em"></div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-header">
       <i class="fa-solid fa-hourglass-half" style="color:var(--gold)"></i>
@@ -2082,8 +2131,73 @@ async function renderSecurity(c) {
   </div>` : ''}`;
 
   /* ربط المستمعين بعد رسم الـ HTML */
-  if (has) bindSecurityToggles();
+  if (has) {
+    bindSecurityToggles();
+    updateGhTokenBadge();
+  }
 }
+
+/* تحديث شارة حالة GitHub Token في بطاقة الأمان */
+async function updateGhTokenBadge() {
+  const badge   = $('ghTokenStatusBadge');
+  const rmBtn   = $('secRemoveGhTokenBtn');
+  if (!badge) return;
+  try {
+    const r = await fetch('/api/github-token/status', {
+      headers: { 'x-admin-token': getToken() }
+    });
+    const d = await r.json();
+    if (d.hasToken) {
+      badge.textContent  = '🟢 محفوظ';
+      badge.style.background = 'var(--cat-foss, #2ea043)';
+      if (rmBtn) rmBtn.hidden = false;
+    } else {
+      badge.textContent  = '⚠️ غير معدّ';
+      badge.style.background = '#555';
+      if (rmBtn) rmBtn.hidden = true;
+    }
+  } catch (_) {
+    badge.textContent = 'خطأ';
+  }
+}
+
+/* حفظ Token من بطاقة الأمان */
+window.secSaveGhToken = async function() {
+  const token = $('secGhToken')?.value.trim();
+  const res = $('secGhTokenResult');
+  if (!token) { res.innerHTML = '<span style="color:var(--danger)">أدخل الـ token أولاً</span>'; return; }
+  const d = await api('/api/github-token', { method:'POST', body: JSON.stringify({ token }) });
+  if (d.cancelled) { res.innerHTML = '<span style="color:var(--muted)">أُلغي</span>'; return; }
+  if (d.ok) {
+    res.innerHTML = '<span style="color:var(--success)">✓ تم حفظ الـ token</span>';
+    $('secGhToken').value = '';
+    updateGhTokenBadge();
+  } else {
+    res.innerHTML = `<span style="color:var(--danger)">${d.error || 'خطأ'}</span>`;
+  }
+};
+
+/* إزالة Token من بطاقة الأمان */
+window.secRemoveGhToken = async function() {
+  const res = $('secGhTokenResult');
+  res.innerHTML = `
+    <div style="background:rgba(224,82,82,.12);border:1px solid rgba(224,82,82,.3);border-radius:8px;padding:.65rem .85rem;display:flex;align-items:center;gap:.65rem;flex-wrap:wrap">
+      <i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i>
+      <span style="flex:1;font-size:.85rem">إزالة Token تُعطّل صفحة التعليقات حتى تضع واحداً جديداً.</span>
+      <button class="btn btn-danger btn-sm" id="secConfirmRemoveGh"><i class="fa-solid fa-trash"></i> تأكيد</button>
+      <button class="btn btn-ghost btn-sm" onclick="$('secGhTokenResult').innerHTML=''">إلغاء</button>
+    </div>`;
+  $('secConfirmRemoveGh').onclick = async () => {
+    const d = await api('/api/github-token', { method:'DELETE' });
+    if (d.cancelled) { res.innerHTML = '<span style="color:var(--muted)">أُلغي</span>'; return; }
+    if (d.ok) {
+      res.innerHTML = '<span style="color:var(--success)">✓ تمت إزالة الـ token</span>';
+      updateGhTokenBadge();
+    } else {
+      res.innerHTML = `<span style="color:var(--danger)">${d.error || 'خطأ'}</span>`;
+    }
+  };
+};
 
 /* حفظ فوري عند تبديل أي مفتاح أمان */
 function bindSecurityToggles() {
