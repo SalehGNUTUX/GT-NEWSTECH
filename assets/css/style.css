@@ -2332,22 +2332,42 @@ body { padding-top: var(--header-height, 64px); }
 .site-header .header-inner { transition: all .25s ease; }
 
 @media (max-width: 768px) {
-  /* الافتراضي على الهاتف: شعار 30px، نص الشعار مخفي،
-     padding مقلّص — يجعل الرأس مدمجاً منذ البداية */
+  /* ── الافتراضي على الهاتف (أعلى الصفحة): الأيقونة ظاهرة ── */
   .site-header .header-inner {
     padding-top: .45rem;
     padding-bottom: .45rem;
   }
-  .site-header .logo-img { width: 30px; height: 30px; }
-  .site-header .logo-text { display: none; }
-  body { padding-top: 52px; }
+  .site-header .logo-img    { display: block; width: 32px; height: 32px; }
+  .site-header .logo-text   { display: none; }
+  body { padding-top: 56px; }
 
-  /* عند التمرير (compact): الشعار يصغر أكثر إلى 22px */
+  /* ── الحالة المنكمشة (عند التمرير): الأيقونة تختفي والنص يظهر ── */
   .site-header.compact .header-inner {
-    padding-top: .25rem;
-    padding-bottom: .25rem;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
   }
-  .site-header.compact .logo-img { width: 22px; height: 22px; }
-  .site-header.compact + main,
-  body:has(.site-header.compact) { padding-top: 40px; }
+  .site-header.compact .logo-img {
+    display: none !important;       /* الأيقونة تختفي نهائياً */
+  }
+  .site-header.compact .logo-text {
+    display: flex !important;        /* النص يظهر مكانها */
+    flex-direction: column;
+    line-height: 1.05;
+    gap: 1px;
+  }
+  .site-header.compact .logo-title {
+    font-size: .88rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: .3px;
+  }
+  .site-header.compact .logo-tagline {
+    display: block !important;       /* اعرضها حتى على الشاشات الصغيرة */
+    font-size: .55rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+  }
+  /* الشعار قابل للنقر — يعود للصفحة الرئيسية (يعمل تلقائياً) */
 }
