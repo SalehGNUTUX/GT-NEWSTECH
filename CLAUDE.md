@@ -109,6 +109,20 @@ git add . && git commit -m "message" && git push origin main
 - `_includes/seo-jsonld.html` injects NewsArticle/WebSite schema
 - `search.json` generates client-side search index filtered by `page.lang`
 
+**Comments & Reactions (Giscus):**
+- `_includes/giscus.html` — embed widget, included at end of `post.html` (skipped if `_is_scheduled`)
+- Data stored in GitHub Discussions of `SalehGNUTUX/GT-NEWSTECH` (same repo)
+- Two placeholders need to be replaced by user (one-time): `REPLACE_ME_REPO_ID` and `REPLACE_ME_CATEGORY_ID` (from giscus.app)
+- Theme syncs dynamically with site theme via `postMessage` (see `main.js`)
+- Lang attribute set per page (`ar` or `en`)
+- Mapping: `pathname` — one discussion thread per article URL
+- 8 reactions enabled (GitHub's set: 👍 👎 ❤️ 🎉 😄 😕 🚀 👀)
+- Hosting-independent: works wherever the site is served, as long as the repo stays on GitHub
+
+**External links open in new tab:**
+- `main.js` adds `target="_blank" rel="noopener noreferrer"` to any `<a href="http..."` whose host differs from current
+- Preserves existing rel attributes (e.g., `nofollow sponsored` on affiliate links)
+
 **Critical `exclude` rule:**
 `admin/` directory must stay in `_config.yml`'s `exclude` list. Jekyll crashes on `admin/node_modules/` (Liquid syntax errors).
 
