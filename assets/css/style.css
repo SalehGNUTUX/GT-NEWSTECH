@@ -935,12 +935,20 @@ body { padding-top: var(--header-height, 64px); }
 /* شعار الموقع كبديل في صفحة المقال */
 .post-featured-fallback {
   width: 100%;
-  max-height: 340px;
+  max-height: 200px;        /* كان 340 */
   object-fit: contain;
   background: linear-gradient(135deg, #0f0e0a, #1a1600);
-  padding: 2.5rem;
-  opacity: 0.8;
-  filter: drop-shadow(0 0 24px rgba(212,160,23,0.25));
+  padding: 1.25rem;          /* كان 2.5 */
+  opacity: 0.7;
+  filter: drop-shadow(0 0 16px rgba(212,160,23,0.2));
+}
+
+/* تصغير fallback أكثر على الهاتف — لا يأخذ المساحة كلها */
+@media (max-width: 768px) {
+  .post-featured-fallback {
+    max-height: 110px !important;
+    padding: 0.65rem !important;
+  }
 }
 
 /* Post Layout: content + sidebar */
@@ -1915,8 +1923,8 @@ body { padding-top: var(--header-height, 64px); }
   /* ── Post page ── */
   .post-title           { font-size: clamp(1.4rem, 5vw, 1.9rem); }
   .post-meta            { font-size: 0.8rem; gap: 0.75rem; }
-  .post-featured-image  { max-height: 240px; }
-  .post-featured-fallback { max-height: 200px; padding: 1.5rem; }
+  .post-featured-image  { max-height: 200px; }
+  /* .post-featured-fallback صار يُتحكَّم به من القاعدة أعلاه */
   .post-body            { font-size: 0.97rem; }
   .post-body h2         { font-size: 1.25rem; }
   .post-body h3         { font-size: 1.05rem; }
