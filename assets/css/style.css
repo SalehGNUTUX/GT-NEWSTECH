@@ -2325,51 +2325,47 @@ body { padding-top: var(--header-height, 64px); }
   font-size: .7rem;
 }
 
-/* ── انكماش رأس الموقع على الهاتف ──────────────────────── */
-.site-header .logo-img,
-.site-header .logo-text,
-.site-header .logo-title,
-.site-header .header-inner { transition: all .25s ease; }
+/* ── رأس الموقع على الهاتف ──────────────────────────────
+   على الهاتف (≤768px): الأيقونة مخفية دائماً، الشعار النصي
+   هو الافتراضي والثابت. عند التمرير: تقليص padding فقط. */
+.site-header .header-inner { transition: padding .25s ease; }
 
 @media (max-width: 768px) {
-  /* ── الافتراضي على الهاتف (أعلى الصفحة): الأيقونة ظاهرة ── */
-  .site-header .header-inner {
-    padding-top: .45rem;
-    padding-bottom: .45rem;
-  }
-  .site-header .logo-img    { display: block; width: 32px; height: 32px; }
-  .site-header .logo-text   { display: none; }
-  body { padding-top: 56px; }
-
-  /* ── الحالة المنكمشة (عند التمرير): الأيقونة تختفي والنص يظهر ── */
-  .site-header.compact .header-inner {
-    padding-top: .3rem;
-    padding-bottom: .3rem;
-  }
-  .site-header.compact .logo-img {
-    display: none !important;       /* الأيقونة تختفي نهائياً */
-  }
-  .site-header.compact .logo-text {
-    display: flex !important;        /* النص يظهر مكانها */
+  /* الشعار النصي ثابت طوال الوقت — لا أيقونة على الهاتف */
+  .site-header .logo-img { display: none !important; }
+  .site-header .logo-text {
+    display: flex !important;
     flex-direction: column;
     line-height: 1.05;
     gap: 1px;
   }
-  .site-header.compact .logo-title {
+  .site-header .logo-title {
     font-size: .88rem;
     font-weight: 900;
     color: var(--gold);
     letter-spacing: .3px;
   }
-  .site-header.compact .logo-tagline {
-    display: block !important;       /* اعرضها حتى على الشاشات الصغيرة */
+  .site-header .logo-tagline {
+    display: block !important;
     font-size: .55rem;
     color: var(--muted);
     letter-spacing: 1px;
     text-transform: uppercase;
     font-family: 'Inter', sans-serif;
   }
-  /* الشعار قابل للنقر — يعود للصفحة الرئيسية (يعمل تلقائياً) */
+
+  /* الافتراضي: padding عادي */
+  .site-header .header-inner {
+    padding-top: .45rem;
+    padding-bottom: .45rem;
+  }
+  body { padding-top: 56px; }
+
+  /* عند التمرير: padding أصغر فقط (الشعار النصي يبقى كما هو) */
+  .site-header.compact .header-inner {
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+  }
 }
 
 /* ── Comments Section (Giscus) ──────────────────────────── */
