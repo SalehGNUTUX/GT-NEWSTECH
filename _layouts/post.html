@@ -260,6 +260,11 @@ layout: default
     </aside>
   </div>
 
+  <!-- التعليقات والتفاعلات عبر Giscus — تحت المقال مباشرة، قبل ذات الصلة -->
+  {% unless _is_scheduled %}
+    {% include giscus.html %}
+  {% endunless %}
+
   <!-- Related Articles -->
   {% assign related = related_pool | where_exp: "p", "p.slug != page.slug" | sort: "date" | reverse | slice: 0, 3 %}
   {% if related.size > 0 %}
@@ -272,10 +277,5 @@ layout: default
     </div>
   </section>
   {% endif %}
-
-  <!-- التعليقات والتفاعلات عبر Giscus -->
-  {% unless _is_scheduled %}
-    {% include giscus.html %}
-  {% endunless %}
 
 </article>
