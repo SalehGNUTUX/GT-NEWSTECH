@@ -38,14 +38,13 @@
   }
 
   /* ── Compact Header on Scroll (mobile) ─────────────────────
-     عند التمرير لأكثر من 50px → يضيف class 'compact' على الرأس
-     CSS يقلّص الشعار ويخفي النص لإعطاء مساحة أكبر للقارئ.
-     شريط الأقسام (Nav) يبقى مرئياً. */
+     عند التمرير لأكثر من 20px → يضيف class 'compact' على الرأس
+     CSS يصغّر الشعار من 30→22px ليُعطي مساحة قراءة أكبر */
   var _siteHeader = document.querySelector('.site-header');
   if (_siteHeader) {
     var _lastCompact = false;
     var _checkCompact = function () {
-      var shouldBe = window.scrollY > 50;
+      var shouldBe = window.scrollY > 20;
       if (shouldBe !== _lastCompact) {
         _siteHeader.classList.toggle('compact', shouldBe);
         _lastCompact = shouldBe;
