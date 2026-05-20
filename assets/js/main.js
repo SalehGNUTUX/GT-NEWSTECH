@@ -306,7 +306,6 @@
       try {
         var raw = localStorage.getItem('gnt-' + platform + '-instance');
         if (!raw) return null;
-        /* الصيغة: "domain|remember" أو "domain" للقديم */
         var parts = raw.split('|');
         return { domain: parts[0], remember: parts[1] !== '0' };
       } catch (e) { return null; }
@@ -315,32 +314,67 @@
       if (remember) {
         localStorage.setItem('gnt-' + platform + '-instance', domain + '|1');
       } else {
-        /* لا تحفظ — حذف لو موجود */
         localStorage.removeItem('gnt-' + platform + '-instance');
       }
     }
 
-    /* Modal مخصص لاختيار instance — يدعم 'تذكُّر' و'لا تسألني مجدداً' */
+    /* قائمة المنصات المخصصة التي أدخلها المستخدم سابقاً */
+    function loadCustomList(platform) {
+      try {
+        var raw = localStorage.getItem('gnt-' + platform + '-customs');
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) { return []; }
+    }
+    function addCustom(platform, domain) {
+      var list = loadCustomList(platform);
+      if (list.indexOf(domain) >= 0) return;     /* موجود مسبقاً */
+      list.unshift(domain);                       /* الأحدث أولاً */
+      if (list.length > 10) list = list.slice(0, 10);   /* حدّ 10 */
+      localStorage.setItem('gnt-' + platform + '-customs', JSON.stringify(list));
+    }
+    function removeCustom(platform, domain) {
+      var list = loadCustomList(platform).filter(function (d) { return d !== domain; });
+      localStorage.setItem('gnt-' + platform + '-customs', JSON.stringify(list));
+    }
+
+    /* Modal مخصص لاختيار instance */
     function pickInstanceDialog(platform) {
       return new Promise(function (resolve) {
         var cfg = PLATFORMS[platform];
         var saved = loadInstance(platform);
+        var customList = loadCustomList(platform);
         var current = saved ? saved.domain : cfg.default;
+
+        function renderOptionRow(domain, deletable) {
+          var checked = domain === current ? 'checked' : '';
+          var delBtn = deletable
+            ? '<button type="button" class="platform-radio-del" data-domain="' + domain +
+              '" title="' + (isEn ? 'Remove' : 'حذف') + '">×</button>'
+            : '';
+          return (
+            '<label class="platform-radio">' +
+              '<input type="radio" name="_inst" value="' + domain + '" ' + checked + '>' +
+              '<span class="platform-radio-dot"></span>' +
+              '<span class="platform-radio-label">' + domain + '</span>' +
+              delBtn +
+            '</label>'
+          );
+        }
+
+        var commonHtml = cfg.common.map(function (d) { return renderOptionRow(d, false); }).join('');
+        var customHtml = customList.length
+          ? '<div class="platform-section-label">' +
+              (isEn ? 'Your saved options' : 'اختياراتك المحفوظة') +
+            '</div>' +
+            customList.map(function (d) { return renderOptionRow(d, true); }).join('')
+          : '';
+
+        /* هل المحفوظ موجود فعلاً في القوائم؟ */
+        var inAnyList = cfg.common.indexOf(current) >= 0 || customList.indexOf(current) >= 0;
+        var initialCustomInput = !inAnyList ? current : '';
 
         var wrap = document.createElement('div');
         wrap.className = 'platform-modal-overlay';
-        var optionsHtml = cfg.common.map(function (d) {
-          var checked = d === current ? 'checked' : '';
-          return (
-            '<label class="platform-radio">' +
-              '<input type="radio" name="_inst" value="' + d + '" ' + checked + '>' +
-              '<span class="platform-radio-dot"></span>' +
-              '<span class="platform-radio-label">' + d + '</span>' +
-            '</label>'
-          );
-        }).join('');
-
-        var isCustom = saved && cfg.common.indexOf(saved.domain) < 0;
         wrap.innerHTML =
           '<div class="platform-modal">' +
             '<div class="platform-modal-header">' +
@@ -348,18 +382,18 @@
               '<h3>' + (isEn ? 'Pick your ' : 'اختر منصة ') + cfg.label + '</h3>' +
             '</div>' +
             '<p class="platform-modal-sub">' +
-              (isEn
-                ? 'Choose a popular server or enter your own:'
-                : 'اختر خادماً شائعاً أو أدخل خاصاً بك:') +
+              (isEn ? 'Choose a server or add your own (saved for next time):'
+                    : 'اختر خادماً أو أضف خاصاً بك (يُحفظ للمرة القادمة):') +
             '</p>' +
-            '<div class="platform-options">' + optionsHtml +
+            '<div class="platform-options">' +
+              commonHtml + customHtml +
               '<label class="platform-radio">' +
                 '<input type="radio" name="_inst" value="__custom__" ' +
-                       (isCustom ? 'checked' : '') + '>' +
+                       (initialCustomInput ? 'checked' : '') + '>' +
                 '<span class="platform-radio-dot"></span>' +
                 '<input type="text" id="_inst_custom" class="platform-custom-input" ' +
                        'placeholder="' + cfg.placeholder + '" ' +
-                       'value="' + (isCustom ? saved.domain : '') + '" ' +
+                       'value="' + initialCustomInput + '" ' +
                        'dir="ltr">' +
               '</label>' +
             '</div>' +
@@ -383,10 +417,22 @@
           '</div>';
 
         document.body.appendChild(wrap);
-        /* فعّل المدخل المخصص عند التركيز عليه */
         var customInp = wrap.querySelector('#_inst_custom');
         customInp.addEventListener('focus', function () {
           wrap.querySelector('input[value="__custom__"]').checked = true;
+        });
+
+        /* أزرار حذف الخيارات المخصصة */
+        wrap.querySelectorAll('.platform-radio-del').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var domain = btn.dataset.domain;
+            removeCustom(platform, domain);
+            /* احذف الـ row من الـ DOM */
+            var row = btn.closest('.platform-radio');
+            if (row) row.remove();
+          });
         });
 
         function close(result) {
@@ -402,13 +448,19 @@
             : picked.value;
           if (!domain) { customInp.focus(); return; }
           var remember = wrap.querySelector('#_inst_remember').checked;
+
+          /* احفظ الإدخال المخصص في القائمة دائماً — حتى لو لم يطلب remember
+             يبقى في القائمة المخصصة لاستخدامات لاحقة */
+          if (cfg.common.indexOf(domain) < 0) {
+            addCustom(platform, domain);
+          }
+
           saveInstance(platform, domain, remember);
           close(domain);
         });
         wrap.querySelector('#_inst_cancel').addEventListener('click', function () {
           close(null);
         });
-        /* Esc لإغلاق */
         wrap.addEventListener('keydown', function (e) {
           if (e.key === 'Escape') close(null);
         });
