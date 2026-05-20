@@ -245,20 +245,167 @@
     });
   }
 
-  /* ── Copy Link ────────────────────────────────────────────── */
-  var copyBtn = document.getElementById('copyLink');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', function () {
-      navigator.clipboard.writeText(window.location.href).then(function () {
-        copyBtn.style.background = '#2ea043';
-        copyBtn.style.color = '#fff';
-        setTimeout(function () {
-          copyBtn.style.background = '';
-          copyBtn.style.color = '';
-        }, 1500);
+  /* ── نظام مشاركة المقالات (8 منصات + نسخ النص الكامل) ──── */
+  (function () {
+    var shareWrap = document.querySelector('.post-share');
+    if (!shareWrap) return;
+
+    /* بيانات المشاركة من data-attributes */
+    var url     = shareWrap.dataset.shareUrl     || window.location.href;
+    var title   = shareWrap.dataset.shareTitle   || document.title;
+    var excerpt = shareWrap.dataset.shareExcerpt || '';
+    var tags    = shareWrap.dataset.shareTags    || '';
+    var isEn    = (document.documentElement.lang || '').startsWith('en');
+
+    /* النص الكامل (للنسخ، Mastodon، Telegram، Instagram، Discord) */
+    function buildFullText() {
+      var parts = [title];
+      if (excerpt) parts.push(excerpt);
+      parts.push('🔗 ' + url);
+      if (tags) parts.push(tags);
+      return parts.join('\n\n');
+    }
+
+    /* نص مختصر (لـ X/Twitter — حد 280 حرف) */
+    function buildShortText() {
+      var maxLen = 240; // نترك مساحة للـ URL
+      var t = title;
+      if (excerpt && (t.length + excerpt.length + 5) < maxLen) {
+        t += '\n\n' + excerpt;
+      }
+      if (tags && (t.length + tags.length + 3) < maxLen + 20) {
+        t += '\n\n' + tags;
+      }
+      return t;
+    }
+
+    /* للمنصات التي تحتاج instance (Mastodon/Pleroma) — يطلب مرة ويحفظ */
+    function getInstance(platform) {
+      var key = 'gnt-' + platform + '-instance';
+      var saved = localStorage.getItem(key);
+      if (saved) return saved;
+      var label = platform === 'mastodon' ? 'Mastodon' : 'Pleroma';
+      var defaultUrl = platform === 'mastodon' ? 'mastodon.social' : 'pleroma.social';
+      var input = prompt(
+        (isEn ? 'Enter your ' : 'أدخل عنوان خادم ') + label +
+        (isEn ? ' instance domain (e.g., ' : ' الخاص بك (مثلاً: ') + defaultUrl + ')',
+        defaultUrl
+      );
+      if (!input) return null;
+      var clean = input.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+      localStorage.setItem(key, clean);
+      return clean;
+    }
+
+    /* نسخ للحافظة مع تغذية بصرية على الزر */
+    function copyToClipboard(text, btn, msg) {
+      var fallbackMsg = msg || (isEn ? '✓ Copied!' : '✓ تم النسخ');
+      navigator.clipboard.writeText(text).then(function () {
+        if (btn) flashSuccess(btn);
+        showToast(fallbackMsg);
+      }).catch(function () {
+        showToast(isEn ? 'Copy failed — press Ctrl+C' : 'فشل النسخ — اضغط Ctrl+C', true);
+      });
+    }
+
+    function flashSuccess(btn) {
+      var origBg = btn.style.background, origCol = btn.style.color;
+      btn.style.background = '#2ea043';
+      btn.style.color = '#fff';
+      setTimeout(function () {
+        btn.style.background = origBg;
+        btn.style.color = origCol;
+      }, 1200);
+    }
+
+    /* Toast بسيط (يستخدم نفس النمط في الموقع) */
+    function showToast(text, isError) {
+      var existing = document.getElementById('shareToast');
+      if (existing) existing.remove();
+      var t = document.createElement('div');
+      t.id = 'shareToast';
+      t.className = 'share-toast' + (isError ? ' is-error' : '');
+      t.textContent = text;
+      document.body.appendChild(t);
+      setTimeout(function () { t.classList.add('show'); }, 10);
+      setTimeout(function () { t.classList.remove('show'); setTimeout(function(){t.remove();}, 300); }, 2500);
+    }
+
+    /* معالج كل منصة */
+    var handlers = {
+      x: function () {
+        var u = 'https://twitter.com/intent/tweet?text=' +
+                encodeURIComponent(buildShortText()) +
+                '&url=' + encodeURIComponent(url);
+        window.open(u, '_blank', 'noopener');
+      },
+      facebook: function () {
+        /* Facebook لا يقبل نصاً — يقرأ OG من URL */
+        var u = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+        window.open(u, '_blank', 'noopener');
+      },
+      linkedin: function () {
+        /* LinkedIn يقرأ OG من URL */
+        var u = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
+        window.open(u, '_blank', 'noopener');
+      },
+      telegram: function () {
+        var u = 'https://t.me/share/url?url=' + encodeURIComponent(url) +
+                '&text=' + encodeURIComponent(buildFullText());
+        window.open(u, '_blank', 'noopener');
+      },
+      mastodon: function () {
+        var inst = getInstance('mastodon');
+        if (!inst) return;
+        var u = 'https://' + inst + '/share?text=' + encodeURIComponent(buildFullText());
+        window.open(u, '_blank', 'noopener');
+      },
+      pleroma: function () {
+        var inst = getInstance('pleroma');
+        if (!inst) return;
+        var u = 'https://' + inst + '/share?message=' + encodeURIComponent(buildFullText());
+        window.open(u, '_blank', 'noopener');
+      },
+      instagram: function (btn) {
+        /* Instagram لا يدعم Web Sharing — انسخ النص للمستخدم */
+        copyToClipboard(
+          buildFullText(),
+          btn,
+          isEn
+            ? '✓ Text copied — paste it in your Instagram post or story'
+            : '✓ تم نسخ النص — الصقه في منشور Instagram أو قصة'
+        );
+      },
+      discord: function (btn) {
+        /* Discord: نص مع markdown للعنوان */
+        var dcText = '**' + title + '**\n\n' + (excerpt ? excerpt + '\n\n' : '') +
+                     url + (tags ? '\n\n' + tags : '');
+        copyToClipboard(
+          dcText,
+          btn,
+          isEn
+            ? '✓ Discord text copied — paste in any channel'
+            : '✓ تم نسخ نص Discord — الصقه في أي قناة'
+        );
+      },
+      copy: function (btn) {
+        copyToClipboard(
+          buildFullText(),
+          btn,
+          isEn ? '✓ Full article text copied' : '✓ تم نسخ نص المقال كاملاً'
+        );
+      }
+    };
+
+    /* ربط كل الأزرار */
+    shareWrap.querySelectorAll('.share-btn[data-platform]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var p = btn.dataset.platform;
+        if (handlers[p]) handlers[p](btn);
       });
     });
-  }
+  })();
 
   /* ── محوّلات محتوى المقال (تلقائية على المقالات القديمة والجديدة) ──
      1) معالج الصور المكسورة (broken external image URLs)

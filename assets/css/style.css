@@ -1195,10 +1195,55 @@ body { padding-top: var(--header-height, 64px); }
 }
 
 .share-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-.share-x:hover   { background: #000; color: #fff; border-color: #333; }
-.share-fb:hover  { background: #1877f2; color: #fff; border-color: #1877f2; }
-.share-tg:hover  { background: #0088cc; color: #fff; border-color: #0088cc; }
+.share-btn { cursor: pointer; }                /* للأزرار <button> */
+.share-x:hover   { background: #000;     color: #fff; border-color: #333;     }
+.share-fb:hover  { background: #1877f2;  color: #fff; border-color: #1877f2;  }
+.share-li:hover  { background: #0a66c2;  color: #fff; border-color: #0a66c2;  }
+.share-tg:hover  { background: #0088cc;  color: #fff; border-color: #0088cc;  }
+.share-md:hover  { background: #6364ff;  color: #fff; border-color: #6364ff;  }   /* Mastodon */
+.share-pl:hover  { background: #fba003;  color: #fff; border-color: #fba003;  }   /* Pleroma */
+.share-ig:hover  {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #fff; border-color: #dc2743;
+}
+.share-dc:hover  { background: #5865f2;  color: #fff; border-color: #5865f2;  }   /* Discord */
 .share-copy:hover{ background: var(--gold); color: #000; border-color: var(--gold); }
+
+/* ── Toast إشعار المشاركة ──────────────────────────────── */
+.share-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  inset-inline-start: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg-elevated, #1a1a1a);
+  color: var(--text, #fff);
+  border: 1px solid var(--gold, #d4a017);
+  border-radius: 10px;
+  padding: .85rem 1.5rem;
+  font-size: .9rem;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(0,0,0,.5);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  max-width: 90vw;
+  text-align: center;
+}
+.share-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.share-toast.is-error {
+  border-color: var(--danger, #e05252);
+  color: var(--danger, #e05252);
+}
+[dir="ltr"] .share-toast {
+  transform: translateX(50%) translateY(20px);
+}
+[dir="ltr"] .share-toast.show {
+  transform: translateX(50%) translateY(0);
+}
 
 /* Sidebar — TOC */
 .post-sidebar {
