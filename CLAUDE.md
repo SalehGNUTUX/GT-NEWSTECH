@@ -123,6 +123,26 @@ git add . && git commit -m "message" && git push origin main
 - `main.js` adds `target="_blank" rel="noopener noreferrer"` to any `<a href="http..."` whose host differs from current
 - Preserves existing rel attributes (e.g., `nofollow sponsored` on affiliate links)
 
+**Article sharing (10 platforms):**
+- `_layouts/post.html` defines `.post-share` with `data-share-*` attributes (url, title, excerpt, tags)
+- `main.js` reads attributes, builds platform-specific URLs/text, attaches handlers
+- Platforms:
+  - **URL-based** (read OG tags): Facebook, LinkedIn
+  - **Text-based intent**: X (short), Telegram (full)
+  - **Federated with instance picker**: Mastodon, Pleroma, Nostr
+  - **Clipboard-only** (no web share API): Instagram, Discord
+  - **Generic copy**: Copy link → full text
+- Custom platforms (Mastodon/Pleroma/Nostr) use a custom modal (`pickInstanceDialog`):
+  - Pre-defined common options in `PLATFORMS[platform].common` array
+  - Custom URL input with `__custom__` radio value
+  - Remember checkbox is **opt-in** (unchecked by default) — `gnt-{platform}-instance` is set only if checked
+  - User-entered customs are auto-saved to `gnt-{platform}-customs` JSON array (max 10, newest first)
+  - Saved customs appear in modal under "Your saved options" section with delete-on-hover × button
+  - Common options cannot be deleted from the modal
+  - Shift+Click on the share button forces re-opening the modal (skips remembered value)
+- Nostr handler dispatches by client domain: iris.to, snort.social, primal.net, coracle.social, nostrudel.ninja each have different `share?text=` URL formats; custom domains fall back to `?text=`
+- Tags rendered as hashtags with underscores replacing spaces (e.g., `مفتوح المصدر` → `#مفتوح_المصدر`) for cross-platform compatibility
+
 **Critical `exclude` rule:**
 `admin/` directory must stay in `_config.yml`'s `exclude` list. Jekyll crashes on `admin/node_modules/` (Liquid syntax errors).
 
