@@ -1,0 +1,52 @@
+{% comment %}
+  ═══════════════════════════════════════════════════════════════
+  Giscus — التعليقات والتفاعلات عبر GitHub Discussions
+  ───────────────────────────────────────────────────────────────
+  للتفعيل (مرة واحدة فقط):
+  1. فعّل Discussions في إعدادات المستودع:
+     Settings → Features → ✓ Discussions
+  2. ثبّت تطبيق Giscus على المستودع:
+     https://github.com/apps/giscus
+  3. اذهب إلى https://giscus.app واملأ النموذج (Repository: SalehGNUTUX/GT-NEWSTECH)
+  4. انسخ القيم: data-repo-id و data-category-id
+  5. عدّل القيمتين أدناه (المعلَّمتين بـ REPLACE_ME_)
+  ═══════════════════════════════════════════════════════════════
+{% endcomment %}
+
+<section class="comments-section" id="commentsSection">
+  <header class="comments-header">
+    <h2 class="comments-title">
+      <i class="fa-solid fa-comments"></i>
+      {% if page.lang == 'en' %}Reactions &amp; Comments{% else %}التفاعلات والتعليقات{% endif %}
+    </h2>
+    <p class="comments-sub">
+      {% if page.lang == 'en' %}
+      Sign in with GitHub to leave a comment or react. Powered by
+      {% else %}
+      سجّل الدخول بحساب GitHub للتعليق أو التفاعل. مدعوم بـ
+      {% endif %}
+      <a href="https://giscus.app" target="_blank" rel="noopener noreferrer">Giscus</a>
+      <span style="color:var(--muted);font-size:.75rem">
+        ({% if page.lang == 'en' %}stored in GitHub Discussions{% else %}مخزَّن في GitHub Discussions{% endif %})
+      </span>
+    </p>
+  </header>
+
+  <div class="giscus" id="giscus-container"></div>
+
+  <script src="https://giscus.app/client.js"
+          data-repo="SalehGNUTUX/GT-NEWSTECH"
+          data-repo-id="REPLACE_ME_REPO_ID"
+          data-category="Announcements"
+          data-category-id="REPLACE_ME_CATEGORY_ID"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="top"
+          data-theme="{% if page.lang == 'ar' %}dark{% else %}dark{% endif %}"
+          data-lang="{% if page.lang == 'en' %}en{% else %}ar{% endif %}"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async></script>
+</section>

@@ -89,6 +89,7 @@ exclude:
   - "دليل-الربط-بـGitHub.md"
   - "دليل-نظام-لوحتي-التحكم.md"
   - "قالب-مقال-مرجعي.md"
+  - "دليل-تفعيل-Giscus.md"
   - CLAUDE.md
   - README.md
   - .claude/

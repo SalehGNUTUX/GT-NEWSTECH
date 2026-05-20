@@ -273,4 +273,9 @@ layout: default
   </section>
   {% endif %}
 
+  <!-- التعليقات والتفاعلات عبر Giscus -->
+  {% unless _is_scheduled %}
+    {% include giscus.html %}
+  {% endunless %}
+
 </article>

@@ -37,6 +37,49 @@
     });
   }
 
+  /* ── الروابط الخارجية تفتح في تبويب جديد ──────────────────
+     أي رابط لنطاق مختلف عن الموقع الحالي يُضاف له target="_blank"
+     مع rel="noopener noreferrer" لأمان أعلى */
+  (function () {
+    var here = window.location.host;
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      try {
+        var u = new URL(a.href);
+        if (u.host && u.host !== here) {
+          a.setAttribute('target', '_blank');
+          var rel = (a.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+          if (rel.indexOf('noopener')   < 0) rel.push('noopener');
+          if (rel.indexOf('noreferrer') < 0) rel.push('noreferrer');
+          a.setAttribute('rel', rel.join(' '));
+        }
+      } catch (e) {}
+    });
+  })();
+
+  /* ── مزامنة ثيم Giscus مع ثيم الموقع (داكن/فاتح) ────────── */
+  (function () {
+    function sendThemeToGiscus() {
+      var iframe = document.querySelector('iframe.giscus-frame');
+      if (!iframe || !iframe.contentWindow) return;
+      var siteTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: siteTheme === 'dark' ? 'dark' : 'light' } } },
+        'https://giscus.app'
+      );
+    }
+    /* تحديث عند تغيير ثيم الموقع */
+    new MutationObserver(sendThemeToGiscus).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+    /* عند تحميل giscus iframe لأول مرة */
+    window.addEventListener('message', function (e) {
+      if (e.origin === 'https://giscus.app' && e.data && e.data.giscus) {
+        setTimeout(sendThemeToGiscus, 100);
+      }
+    });
+  })();
+
   /* ── Compact Header on Scroll (mobile) ─────────────────────
      عند التمرير لأكثر من 20px → يضيف class 'compact' على الرأس
      CSS يصغّر الشعار من 30→22px ليُعطي مساحة قراءة أكبر */

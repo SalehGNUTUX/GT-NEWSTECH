@@ -2371,3 +2371,53 @@ body { padding-top: var(--header-height, 64px); }
   }
   /* الشعار قابل للنقر — يعود للصفحة الرئيسية (يعمل تلقائياً) */
 }
+
+/* ── Comments Section (Giscus) ──────────────────────────── */
+.comments-section {
+  margin: 3rem auto 2rem;
+  max-width: 860px;
+  padding: 0 1rem;
+}
+
+.comments-header {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gold-dim, rgba(212,160,23,.2));
+}
+
+.comments-title {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--gold, #d4a017);
+  margin: 0 0 .5rem;
+}
+.comments-title i { font-size: 1.2rem; }
+
+.comments-sub {
+  color: var(--muted, #999);
+  font-size: .85rem;
+  margin: 0;
+  line-height: 1.6;
+}
+.comments-sub a {
+  color: var(--gold, #d4a017);
+  font-weight: 600;
+  text-decoration: none;
+}
+.comments-sub a:hover { text-decoration: underline; }
+
+/* الإطار الذي يحوي giscus iframe */
+.giscus, .giscus-frame {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius, 10px);
+}
+
+@media (max-width: 768px) {
+  .comments-section { margin: 2rem auto 1.5rem; padding: 0 .75rem; }
+  .comments-title   { font-size: 1.15rem; }
+  .comments-sub     { font-size: .78rem; }
+}
