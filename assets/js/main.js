@@ -365,7 +365,7 @@
             '</div>' +
             '<label class="platform-remember">' +
               '<input type="checkbox" id="_inst_remember" ' +
-                     ((!saved || saved.remember) ? 'checked' : '') + '>' +
+                     ((saved && saved.remember) ? 'checked' : '') + '>' +
               '<span>' +
                 (isEn ? 'Remember my choice (don\'t ask again)' :
                         'تذكَّر اختياري (لا تسألني مجدداً)') +
