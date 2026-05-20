@@ -1207,6 +1207,7 @@ body { padding-top: var(--header-height, 64px); }
   color: #fff; border-color: #dc2743;
 }
 .share-dc:hover  { background: #5865f2;  color: #fff; border-color: #5865f2;  }   /* Discord */
+.share-ns:hover  { background: #8e44ee;  color: #fff; border-color: #8e44ee;  }   /* Nostr (purple) */
 .share-copy:hover{ background: var(--gold); color: #000; border-color: var(--gold); }
 
 /* ── Toast إشعار المشاركة ──────────────────────────────── */
@@ -2461,4 +2462,140 @@ body { padding-top: var(--header-height, 64px); }
   .comments-section { margin: 2rem auto 1.5rem; padding: 0 .75rem; }
   .comments-title   { font-size: 1.15rem; }
   .comments-sub     { font-size: .78rem; }
+}
+
+/* ── Modal اختيار منصة (Mastodon/Pleroma/Nostr) ───────── */
+.platform-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.78);
+  backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+  animation: pm-fadeIn .2s ease;
+}
+@keyframes pm-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.platform-modal {
+  background: var(--bg-elevated, #1a1a1a);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 14px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 460px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,.6);
+}
+.platform-modal-header {
+  display: flex; align-items: center; gap: .65rem;
+  margin-bottom: .35rem;
+}
+.platform-modal-header i { font-size: 1.3rem; }
+.platform-modal-header h3 {
+  margin: 0; font-size: 1.1rem; font-weight: 900;
+  color: var(--gold, #d4a017);
+}
+.platform-modal-sub {
+  color: var(--muted, #999);
+  font-size: .82rem;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.platform-options {
+  display: flex; flex-direction: column; gap: .35rem;
+  margin-bottom: 1rem;
+}
+.platform-radio {
+  display: flex; align-items: center; gap: .65rem;
+  padding: .55rem .75rem;
+  background: var(--bg, #0a0a0a);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.platform-radio:hover { border-color: var(--gold, #d4a017); }
+.platform-radio input[type="radio"] { display: none; }
+.platform-radio-dot {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border, #555);
+  flex-shrink: 0;
+  transition: all .15s;
+  position: relative;
+}
+.platform-radio input[type="radio"]:checked + .platform-radio-dot {
+  border-color: var(--gold, #d4a017);
+  background: var(--gold, #d4a017);
+  box-shadow: inset 0 0 0 3px var(--bg, #0a0a0a);
+}
+.platform-radio-label {
+  font-family: 'Inter', monospace; font-size: .88rem;
+  color: var(--text, #e0d8c8);
+}
+.platform-custom-input {
+  flex: 1;
+  background: var(--bg2, #111);
+  border: 1px solid var(--border, #2a2a2a);
+  border-radius: 6px;
+  padding: .4rem .6rem;
+  color: var(--text, #e0d8c8);
+  font-family: 'Inter', monospace;
+  font-size: .85rem;
+  outline: none;
+}
+.platform-custom-input:focus { border-color: var(--gold, #d4a017); }
+
+.platform-remember {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .65rem .75rem;
+  background: rgba(212,160,23,.08);
+  border: 1px solid rgba(212,160,23,.25);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  font-size: .82rem;
+  color: var(--text, #e0d8c8);
+}
+.platform-remember input[type="checkbox"] {
+  width: 17px; height: 17px;
+  accent-color: var(--gold, #d4a017);
+  flex-shrink: 0;
+}
+
+.platform-modal-actions {
+  display: flex; gap: .5rem; justify-content: flex-end;
+}
+.platform-btn-gold, .platform-btn-ghost {
+  padding: .55rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  display: inline-flex; align-items: center; gap: .4rem;
+  transition: all .15s;
+}
+.platform-btn-gold {
+  background: linear-gradient(135deg, var(--gold, #d4a017), #f0c040);
+  color: #000;
+  box-shadow: 0 3px 10px rgba(212,160,23,.3);
+}
+.platform-btn-gold:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(212,160,23,.5);
+}
+.platform-btn-ghost {
+  background: transparent;
+  color: var(--muted, #999);
+  border-color: var(--border, #2a2a2a);
+}
+.platform-btn-ghost:hover { background: var(--bg, #0a0a0a); color: var(--text); }
+
+@media (max-width: 480px) {
+  .platform-modal { padding: 1.1rem; }
+  .platform-modal-header h3 { font-size: 1rem; }
 }

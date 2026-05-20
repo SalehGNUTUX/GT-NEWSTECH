@@ -279,25 +279,147 @@
       return t;
     }
 
-    /* للمنصات التي تحتاج instance (Mastodon/Pleroma) — يطلب مرة ويحفظ.
-       إذا forceAsk = true → يمسح المحفوظ ويسأل من جديد. */
-    function getInstance(platform, forceAsk) {
-      var key = 'gnt-' + platform + '-instance';
-      if (forceAsk) localStorage.removeItem(key);
-      var saved = localStorage.getItem(key);
-      if (saved && !forceAsk) return saved;
-      var label = platform === 'mastodon' ? 'Mastodon' : 'Pleroma';
-      var defaultUrl = saved || (platform === 'mastodon' ? 'mastodon.social' : 'pleroma.social');
-      var msg = (isEn ? 'Enter your ' : 'أدخل عنوان خادم ') + label +
-                (isEn ? ' instance domain (e.g., ' : ' الخاص بك (مثلاً: ') + defaultUrl + ')';
-      if (forceAsk && saved) {
-        msg += '\n\n' + (isEn ? '(previous: ' : '(السابق: ') + saved + ')';
+    /* إعدادات المنصات المدعومة بـ instance/client */
+    var PLATFORMS = {
+      mastodon: {
+        label: 'Mastodon',
+        common: ['mastodon.social', 'fosstodon.org', 'mas.to', 'techhub.social', 'hachyderm.io'],
+        default: 'mastodon.social',
+        placeholder: 'mastodon.example.com'
+      },
+      pleroma: {
+        label: 'Pleroma',
+        common: ['pleroma.social', 'fe.disroot.org', 'spinster.xyz'],
+        default: 'pleroma.social',
+        placeholder: 'pleroma.example.com'
+      },
+      nostr: {
+        label: 'Nostr',
+        common: ['iris.to', 'snort.social', 'primal.net', 'coracle.social', 'nostrudel.ninja'],
+        default: 'iris.to',
+        placeholder: 'nostr-client.example.com'
       }
-      var input = prompt(msg, defaultUrl);
-      if (!input) return null;
-      var clean = input.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
-      localStorage.setItem(key, clean);
-      return clean;
+    };
+
+    /* جلب الـ instance المحفوظ + حالة الـ "remember" */
+    function loadInstance(platform) {
+      try {
+        var raw = localStorage.getItem('gnt-' + platform + '-instance');
+        if (!raw) return null;
+        /* الصيغة: "domain|remember" أو "domain" للقديم */
+        var parts = raw.split('|');
+        return { domain: parts[0], remember: parts[1] !== '0' };
+      } catch (e) { return null; }
+    }
+    function saveInstance(platform, domain, remember) {
+      if (remember) {
+        localStorage.setItem('gnt-' + platform + '-instance', domain + '|1');
+      } else {
+        /* لا تحفظ — حذف لو موجود */
+        localStorage.removeItem('gnt-' + platform + '-instance');
+      }
+    }
+
+    /* Modal مخصص لاختيار instance — يدعم 'تذكُّر' و'لا تسألني مجدداً' */
+    function pickInstanceDialog(platform) {
+      return new Promise(function (resolve) {
+        var cfg = PLATFORMS[platform];
+        var saved = loadInstance(platform);
+        var current = saved ? saved.domain : cfg.default;
+
+        var wrap = document.createElement('div');
+        wrap.className = 'platform-modal-overlay';
+        var optionsHtml = cfg.common.map(function (d) {
+          var checked = d === current ? 'checked' : '';
+          return (
+            '<label class="platform-radio">' +
+              '<input type="radio" name="_inst" value="' + d + '" ' + checked + '>' +
+              '<span class="platform-radio-dot"></span>' +
+              '<span class="platform-radio-label">' + d + '</span>' +
+            '</label>'
+          );
+        }).join('');
+
+        var isCustom = saved && cfg.common.indexOf(saved.domain) < 0;
+        wrap.innerHTML =
+          '<div class="platform-modal">' +
+            '<div class="platform-modal-header">' +
+              '<i class="fa-solid fa-share-nodes" style="color:var(--gold)"></i>' +
+              '<h3>' + (isEn ? 'Pick your ' : 'اختر منصة ') + cfg.label + '</h3>' +
+            '</div>' +
+            '<p class="platform-modal-sub">' +
+              (isEn
+                ? 'Choose a popular server or enter your own:'
+                : 'اختر خادماً شائعاً أو أدخل خاصاً بك:') +
+            '</p>' +
+            '<div class="platform-options">' + optionsHtml +
+              '<label class="platform-radio">' +
+                '<input type="radio" name="_inst" value="__custom__" ' +
+                       (isCustom ? 'checked' : '') + '>' +
+                '<span class="platform-radio-dot"></span>' +
+                '<input type="text" id="_inst_custom" class="platform-custom-input" ' +
+                       'placeholder="' + cfg.placeholder + '" ' +
+                       'value="' + (isCustom ? saved.domain : '') + '" ' +
+                       'dir="ltr">' +
+              '</label>' +
+            '</div>' +
+            '<label class="platform-remember">' +
+              '<input type="checkbox" id="_inst_remember" ' +
+                     ((!saved || saved.remember) ? 'checked' : '') + '>' +
+              '<span>' +
+                (isEn ? 'Remember my choice (don\'t ask again)' :
+                        'تذكَّر اختياري (لا تسألني مجدداً)') +
+              '</span>' +
+            '</label>' +
+            '<div class="platform-modal-actions">' +
+              '<button class="platform-btn-gold" id="_inst_ok">' +
+                '<i class="fa-solid fa-check"></i> ' +
+                (isEn ? 'Continue' : 'متابعة') +
+              '</button>' +
+              '<button class="platform-btn-ghost" id="_inst_cancel">' +
+                (isEn ? 'Cancel' : 'إلغاء') +
+              '</button>' +
+            '</div>' +
+          '</div>';
+
+        document.body.appendChild(wrap);
+        /* فعّل المدخل المخصص عند التركيز عليه */
+        var customInp = wrap.querySelector('#_inst_custom');
+        customInp.addEventListener('focus', function () {
+          wrap.querySelector('input[value="__custom__"]').checked = true;
+        });
+
+        function close(result) {
+          wrap.remove();
+          resolve(result);
+        }
+
+        wrap.querySelector('#_inst_ok').addEventListener('click', function () {
+          var picked = wrap.querySelector('input[name="_inst"]:checked');
+          if (!picked) return;
+          var domain = picked.value === '__custom__'
+            ? customInp.value.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '')
+            : picked.value;
+          if (!domain) { customInp.focus(); return; }
+          var remember = wrap.querySelector('#_inst_remember').checked;
+          saveInstance(platform, domain, remember);
+          close(domain);
+        });
+        wrap.querySelector('#_inst_cancel').addEventListener('click', function () {
+          close(null);
+        });
+        /* Esc لإغلاق */
+        wrap.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') close(null);
+        });
+      });
+    }
+
+    /* getInstance — يستخدم المحفوظ أو يفتح Modal */
+    async function getInstance(platform, forceAsk) {
+      var saved = loadInstance(platform);
+      if (saved && saved.remember && !forceAsk) return saved.domain;
+      return await pickInstanceDialog(platform);
     }
 
     /* نسخ للحافظة مع تغذية بصرية على الزر */
@@ -357,17 +479,33 @@
                 '&text=' + encodeURIComponent(buildFullText());
         window.open(u, '_blank', 'noopener');
       },
-      mastodon: function (btn, ev) {
-        /* Shift+Click → يمسح المحفوظ ويطلب instance جديداً */
-        var inst = getInstance('mastodon', ev && ev.shiftKey);
+      mastodon: async function (btn, ev) {
+        /* Shift+Click → يفتح Modal لاختيار جديد */
+        var inst = await getInstance('mastodon', ev && ev.shiftKey);
         if (!inst) return;
         var u = 'https://' + inst + '/share?text=' + encodeURIComponent(buildFullText());
         window.open(u, '_blank', 'noopener');
       },
-      pleroma: function (btn, ev) {
-        var inst = getInstance('pleroma', ev && ev.shiftKey);
+      pleroma: async function (btn, ev) {
+        var inst = await getInstance('pleroma', ev && ev.shiftKey);
         if (!inst) return;
         var u = 'https://' + inst + '/share?message=' + encodeURIComponent(buildFullText());
+        window.open(u, '_blank', 'noopener');
+      },
+      nostr: async function (btn, ev) {
+        var inst = await getInstance('nostr', ev && ev.shiftKey);
+        if (!inst) return;
+        /* كل واجهة Nostr لها مسار مختلف للنشر */
+        var text = encodeURIComponent(buildFullText());
+        var u;
+        switch (inst) {
+          case 'iris.to':            u = 'https://iris.to/post/new?text=' + text; break;
+          case 'snort.social':       u = 'https://snort.social/new-note?text=' + text; break;
+          case 'primal.net':         u = 'https://primal.net/new?text=' + text; break;
+          case 'coracle.social':     u = 'https://coracle.social/notes/new?text=' + text; break;
+          case 'nostrudel.ninja':    u = 'https://nostrudel.ninja/n/new?text=' + text; break;
+          default:                   u = 'https://' + inst + '/?text=' + text; break;
+        }
         window.open(u, '_blank', 'noopener');
       },
       instagram: function (btn) {
