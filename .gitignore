@@ -16,6 +16,7 @@ admin/node_modules/
 admin/package-lock.json
 admin/.admin-password
 admin/.admin-security.json
+admin/.github-token
 admin/.trash/
 *.tmp*
 .jekyll-cache/

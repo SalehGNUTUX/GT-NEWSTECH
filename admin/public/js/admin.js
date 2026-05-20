@@ -185,7 +185,7 @@ function fmt(kb) {
 function navigate(page) {
   S.page = page;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page));
-  const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', trash:'المهملات', git:'Git / نشر', remotes:'المستودعات', security:'الأمان', config:'الإعدادات' };
+  const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', trash:'المهملات', comments:'إدارة التعليقات', git:'Git / نشر', remotes:'المستودعات', security:'الأمان', config:'الإعدادات' };
   $('topbarTitle').textContent = titles[page] || page;
   renderPage(page);
 }
@@ -203,6 +203,7 @@ async function renderPage(page) {
   if (page === 'images')       return renderImages(c);
   if (page === 'categories')   return renderCategories(c);
   if (page === 'trash')        return renderTrash(c);
+  if (page === 'comments')     return renderComments(c);
   if (page === 'git')          return renderGit(c);
   if (page === 'remotes')      return renderRemotes(c);
   if (page === 'security')     return renderSecurity(c);
@@ -524,6 +525,312 @@ async function updateTrashBadge() {
       nav?.classList.remove('has-badge');
     }
   } catch (_) {}
+}
+
+// ── Comments Management ─────────────────────────────────────────
+async function renderComments(c) {
+  /* تحقق من توفر GitHub token */
+  const tokenStatus = await api('/api/github-token/status');
+  if (!tokenStatus.hasToken) {
+    return renderTokenSetup(c);
+  }
+
+  c.innerHTML = '<div class="loading-wrap"><i class="fa-solid fa-spinner fa-spin"></i> جاري جلب التعليقات من GitHub...</div>';
+
+  const data = await api('/api/comments');
+  if (data.needsToken) return renderTokenSetup(c);
+  if (data.error) {
+    c.innerHTML = `<div class="card"><div class="card-body" style="color:var(--danger)">
+      <i class="fa-solid fa-triangle-exclamation"></i> خطأ: ${escapeHtml(data.error)}
+      ${data.error.includes('token') || data.error.includes('credentials') ? '<br><button class="btn btn-gold btn-sm" style="margin-top:.75rem" onclick="renderTokenSetup($(\'content\'))">تحديث Token</button>' : ''}
+    </div></div>`;
+    return;
+  }
+
+  const discussions = data.discussions?.nodes || [];
+  const allComments = discussions.flatMap(d => d.comments.nodes);
+  const totalComments = allComments.length + allComments.reduce((s, c) => s + (c.replies?.totalCount || 0), 0);
+  const totalReactions = discussions.reduce((s, d) => s + d.reactionGroups.reduce((x, r) => x + r.users.totalCount, 0), 0);
+
+  c.innerHTML = `
+  <div class="stats-grid" style="margin-bottom:1rem">
+    <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-comments"></i></div>
+      <div><div class="stat-val">${discussions.length}</div><div class="stat-lbl">نقاش (مقال)</div></div></div>
+    <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-comment-dots"></i></div>
+      <div><div class="stat-val">${totalComments}</div><div class="stat-lbl">تعليق ورد</div></div></div>
+    <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-heart"></i></div>
+      <div><div class="stat-val">${totalReactions}</div><div class="stat-lbl">تفاعل</div></div></div>
+    <div class="stat-card stat-card--link" onclick="renderTokenSetup($('content'))" style="cursor:pointer">
+      <div class="stat-icon" style="background:rgba(212,160,23,.15)"><i class="fa-solid fa-key" style="color:var(--gold)"></i></div>
+      <div><div class="stat-val" style="font-size:.95rem">إعداد</div><div class="stat-lbl">Token</div></div></div>
+  </div>
+
+  <div style="margin-bottom:1rem;display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="btn btn-ghost btn-sm" onclick="renderComments($('content'))">
+      <i class="fa-solid fa-rotate"></i> تحديث
+    </button>
+    <a href="https://github.com/SalehGNUTUX/GT-NEWSTECH/discussions" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+      <i class="fa-brands fa-github"></i> فتح في GitHub
+    </a>
+  </div>
+
+  ${discussions.length === 0 ? `
+    <div class="empty-state" style="padding:3rem">
+      <i class="fa-solid fa-comments" style="font-size:2.5rem;color:var(--muted);margin-bottom:1rem"></i>
+      <p>لا توجد تعليقات بعد. ستظهر هنا عندما يبدأ القراء بالتفاعل.</p>
+    </div>
+  ` : discussions.map(d => renderDiscussionCard(d)).join('')}`;
+}
+
+function renderDiscussionCard(d) {
+  const comments = d.comments.nodes;
+  const totalReactions = d.reactionGroups.reduce((s, r) => s + r.users.totalCount, 0);
+  /* استخرج رابط المقال من URL النقاش (يحوي pathname mapping) */
+  const articleTitle = d.title.replace(/^.*\//, '');
+  return `
+  <div class="discussion-card" data-id="${d.id}">
+    <div class="discussion-header">
+      <div style="flex:1;min-width:0">
+        <div class="discussion-title" title="${escapeHtml(d.title)}">
+          <i class="fa-solid fa-file-lines" style="color:var(--gold)"></i>
+          ${escapeHtml(d.title)}
+        </div>
+        <div class="discussion-meta">
+          <span><i class="fa-solid fa-comment"></i> ${d.comments.totalCount}</span>
+          <span><i class="fa-solid fa-heart"></i> ${totalReactions}</span>
+          <span><i class="fa-solid fa-clock"></i> ${timeAgo(d.updatedAt)}</span>
+          ${d.locked ? '<span style="color:var(--danger)"><i class="fa-solid fa-lock"></i> مقفل</span>' : ''}
+        </div>
+      </div>
+      <div class="discussion-actions">
+        <a href="${d.url}" target="_blank" rel="noopener" class="btn-icon" title="فتح في GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        ${d.locked
+          ? `<button class="btn-icon" title="فك القفل" onclick="toggleLock('${d.id}',false)"><i class="fa-solid fa-unlock"></i></button>`
+          : `<button class="btn-icon danger" title="قفل النقاش" onclick="toggleLock('${d.id}',true)"><i class="fa-solid fa-lock"></i></button>`}
+      </div>
+    </div>
+
+    <div class="comments-list">
+      ${comments.length === 0
+        ? '<div style="color:var(--muted);padding:.75rem;font-size:.85rem">لا تعليقات في هذا النقاش (فقط ردود فعل)</div>'
+        : comments.map(c => renderCommentItem(c, d.id, false)).join('')}
+    </div>
+
+    <div class="discussion-reply">
+      <textarea class="discussion-reply-text" id="reply-${d.id}" placeholder="أضف رداً جديداً من المالك..." rows="2"></textarea>
+      <button class="btn btn-gold btn-sm" onclick="postReply('${d.id}', null, 'reply-${d.id}')">
+        <i class="fa-solid fa-paper-plane"></i> رد
+      </button>
+    </div>
+  </div>`;
+}
+
+function renderCommentItem(c, discussionId, isReply) {
+  const auth = c.authorAssociation || '';
+  const ownerBadge = ['OWNER', 'COLLABORATOR', 'MEMBER'].includes(auth)
+    ? `<span class="badge-owner" title="${auth}">${auth === 'OWNER' ? 'مالك' : auth === 'COLLABORATOR' ? 'متعاون' : 'عضو'}</span>`
+    : '';
+  const reactionsCount = c.reactions?.totalCount || 0;
+  const replies = (c.replies?.nodes || []);
+
+  return `
+  <div class="comment-item ${c.isMinimized ? 'is-hidden' : ''} ${isReply ? 'is-reply' : ''}">
+    <img class="comment-avatar" src="${c.author?.avatarUrl || ''}" alt="" loading="lazy">
+    <div style="flex:1;min-width:0">
+      <div class="comment-header">
+        <a href="${c.author?.url || '#'}" target="_blank" rel="noopener" class="comment-author">
+          @${escapeHtml(c.author?.login || 'مجهول')}
+        </a>
+        ${ownerBadge}
+        <span class="comment-time">${timeAgo(c.createdAt)}</span>
+        ${c.isMinimized ? `<span class="badge-hidden">🙈 ${c.minimizedReason || 'مخفي'}</span>` : ''}
+        ${c.isAnswer ? '<span class="badge-answer">✓ إجابة</span>' : ''}
+      </div>
+      <div class="comment-body">${escapeHtml(c.body).slice(0, 500)}${c.body.length > 500 ? '…' : ''}</div>
+      ${reactionsCount > 0 ? `<div class="comment-reactions">${reactionsCount} تفاعل</div>` : ''}
+
+      <div class="comment-actions">
+        ${!isReply ? `<button class="btn btn-sm btn-ghost" onclick="toggleReplyBox('${c.id}')">
+          <i class="fa-solid fa-reply"></i> رد
+        </button>` : ''}
+        ${c.isMinimized
+          ? `<button class="btn btn-sm btn-ghost" onclick="unhideComment('${c.id}')">
+              <i class="fa-solid fa-eye"></i> إظهار
+            </button>`
+          : `<button class="btn btn-sm btn-ghost" onclick="hideComment('${c.id}')">
+              <i class="fa-solid fa-eye-slash"></i> إخفاء
+            </button>`}
+        <button class="btn btn-sm btn-ghost danger" onclick="deleteComment('${c.id}')">
+          <i class="fa-solid fa-trash"></i> حذف
+        </button>
+      </div>
+
+      <div class="reply-box" id="replyBox-${c.id}" hidden>
+        <textarea class="discussion-reply-text" id="replyText-${c.id}" rows="2" placeholder="اكتب ردك..."></textarea>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn btn-gold btn-sm" onclick="postReply('${discussionId}', '${c.id}', 'replyText-${c.id}')">
+            <i class="fa-solid fa-paper-plane"></i> أرسل الرد
+          </button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleReplyBox('${c.id}')">إلغاء</button>
+        </div>
+      </div>
+
+      ${replies.length ? `<div class="comment-replies">
+        ${replies.map(r => renderCommentItem({...r, reactions: {totalCount: 0}}, discussionId, true)).join('')}
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderTokenSetup(c) {
+  c.innerHTML = `
+  <div class="card">
+    <div class="card-header">
+      <i class="fa-solid fa-key" style="color:var(--gold)"></i>
+      <h3>إعداد GitHub Personal Access Token</h3>
+    </div>
+    <div class="card-body">
+      <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem;line-height:1.7">
+        لإدارة التعليقات والتفاعلات على المقالات، يحتاج لوحة التحكم Personal Access Token (PAT) من GitHub
+        بصلاحيات قراءة/كتابة Discussions. الـ token يُحفظ محلياً في
+        <code>admin/.github-token</code> (لا يُرفع للمستودع).
+      </p>
+
+      <h4 style="margin:1rem 0 .5rem;color:var(--gold);font-size:.95rem">خطوات إنشاء Token (مرة واحدة):</h4>
+      <ol style="padding-inline-start:1.5rem;color:var(--text);font-size:.85rem;line-height:1.9">
+        <li>افتح: <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener" style="color:var(--gold)">github.com/settings/tokens/new</a></li>
+        <li>الاسم (Note): <code>GT-NEWSTECH Admin</code></li>
+        <li>المدة (Expiration): اختر <strong>No expiration</strong> أو سنة</li>
+        <li>الصلاحيات (Scopes): فعّل ☑ <strong>repo</strong> (يشمل كل ما يلزم للـ Discussions)</li>
+        <li>اضغط <strong>Generate token</strong></li>
+        <li>انسخ الـ token (يبدأ بـ <code>ghp_</code>) — لن يظهر مرة أخرى!</li>
+        <li>الصقه أدناه</li>
+      </ol>
+
+      <div class="form-group" style="margin-top:1rem">
+        <label>Personal Access Token</label>
+        <div style="display:flex;gap:.5rem">
+          <input type="password" id="ghToken" placeholder="ghp_..." dir="ltr" style="flex:1;font-family:monospace">
+          ${pasteBtn('ghToken')}
+        </div>
+      </div>
+
+      <div id="ghTokenResult" style="margin:.75rem 0;font-size:.82rem;min-height:1.2em"></div>
+
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="saveGitHubToken()">
+          <i class="fa-solid fa-save"></i> حفظ Token
+        </button>
+        <button class="btn btn-danger" onclick="removeGitHubToken()">
+          <i class="fa-solid fa-trash"></i> إزالة Token المحفوظ
+        </button>
+        <button class="btn btn-ghost" onclick="renderComments($('content'))">
+          <i class="fa-solid fa-arrow-right"></i> العودة للتعليقات
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+window.saveGitHubToken = async function() {
+  const token = $('ghToken')?.value.trim();
+  if (!token) { $('ghTokenResult').innerHTML = '<span style="color:var(--danger)">أدخل الـ token أولاً</span>'; return; }
+  const d = await api('/api/github-token', { method:'POST', body: JSON.stringify({ token }) });
+  if (d.cancelled) return;
+  if (d.ok) {
+    $('ghTokenResult').innerHTML = '<span style="color:var(--success)">✓ تم حفظ الـ token. جارٍ جلب التعليقات...</span>';
+    setTimeout(() => renderComments($('content')), 800);
+  } else {
+    $('ghTokenResult').innerHTML = `<span style="color:var(--danger)">${d.error || 'خطأ'}</span>`;
+  }
+};
+
+window.removeGitHubToken = async function() {
+  if (!confirm('إزالة GitHub Token؟')) return;
+  const d = await api('/api/github-token', { method:'DELETE' });
+  if (d.cancelled) return;
+  if (d.ok) {
+    toast('تمت الإزالة', 'info');
+    renderTokenSetup($('content'));
+  }
+};
+
+window.toggleReplyBox = function(commentId) {
+  const box = $(`replyBox-${commentId}`);
+  if (!box) return;
+  if (box.hasAttribute('hidden')) {
+    box.removeAttribute('hidden');
+    setTimeout(() => $(`replyText-${commentId}`)?.focus(), 50);
+  } else {
+    box.setAttribute('hidden', '');
+  }
+};
+
+window.postReply = async function(discussionId, replyToId, textareaId) {
+  const ta = $(textareaId);
+  const body = ta?.value.trim();
+  if (!body) { toast('اكتب نص الرد أولاً', 'error'); return; }
+  toast('جاري إرسال الرد...', 'info');
+  const d = await api('/api/comments/reply', {
+    method: 'POST',
+    body: JSON.stringify({ discussionId, replyToId, body })
+  });
+  if (d.cancelled) return;
+  if (d.ok) {
+    toast('✓ تم إرسال الرد', 'success');
+    renderComments($('content'));
+  } else {
+    toast('خطأ: ' + (d.error || ''), 'error', 5000);
+  }
+};
+
+window.hideComment = async function(id) {
+  const reason = prompt('سبب الإخفاء (OFF_TOPIC, SPAM, ABUSE, OUTDATED, DUPLICATE, RESOLVED):', 'OFF_TOPIC');
+  if (!reason) return;
+  const d = await api(`/api/comments/${id}/hide`, { method:'POST', body: JSON.stringify({ reason: reason.toUpperCase() }) });
+  if (d.cancelled) return;
+  if (d.ok) { toast('✓ أُخفي التعليق', 'success'); renderComments($('content')); }
+  else toast('خطأ: ' + (d.error||''), 'error', 5000);
+};
+
+window.unhideComment = async function(id) {
+  const d = await api(`/api/comments/${id}/unhide`, { method:'POST' });
+  if (d.cancelled) return;
+  if (d.ok) { toast('✓ أُظهر التعليق', 'success'); renderComments($('content')); }
+  else toast('خطأ: ' + (d.error||''), 'error', 5000);
+};
+
+window.deleteComment = async function(id) {
+  if (!confirm('حذف التعليق نهائياً؟ لا يمكن التراجع.')) return;
+  const d = await api(`/api/comments/${id}`, { method:'DELETE' });
+  if (d.cancelled) return;
+  if (d.ok) { toast('تم الحذف', 'info'); renderComments($('content')); }
+  else toast('خطأ: ' + (d.error||''), 'error', 5000);
+};
+
+window.toggleLock = async function(discussionId, lock) {
+  if (lock && !confirm('قفل النقاش؟ لن يستطيع أحد التعليق.')) return;
+  const ep = lock ? 'lock' : 'unlock';
+  const d = await api(`/api/comments/discussion/${discussionId}/${ep}`, { method:'POST' });
+  if (d.cancelled) return;
+  if (d.ok) { toast(lock ? '🔒 قُفل النقاش' : '🔓 فُكَّ القفل', 'success'); renderComments($('content')); }
+  else toast('خطأ: ' + (d.error||''), 'error', 5000);
+};
+
+/* مساعد: timeAgo */
+function timeAgo(iso) {
+  const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (s < 60)     return 'الآن';
+  if (s < 3600)   return `منذ ${Math.floor(s/60)} د`;
+  if (s < 86400)  return `منذ ${Math.floor(s/3600)} س`;
+  if (s < 604800) return `منذ ${Math.floor(s/86400)} يوم`;
+  return new Date(iso).toLocaleDateString('ar');
+}
+
+function escapeHtml(s) {
+  return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 }
 
 async function renderTrash(c) {

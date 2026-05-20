@@ -16,6 +16,7 @@ const PORT = 4001;
 const ROOT          = path.join(__dirname, '..');
 const PASSWORD_FILE = path.join(__dirname, '.admin-password');  // gitignored
 const SECURITY_FILE = path.join(__dirname, '.admin-security.json'); // gitignored
+const GITHUB_TOKEN_FILE = path.join(__dirname, '.github-token'); // gitignored
 const TRASH_DIR     = path.join(__dirname, '.trash');           // gitignored
 const LANGS      = ['ar', 'en'];
 const CATS_FILE  = path.join(ROOT, '_data', 'categories.yml');
@@ -925,6 +926,197 @@ app.post('/api/auth/confirm', (req, res) => {
   const exp = Date.now() + 30000;  // 30 ثانية
   const sig = crypto.createHmac('sha256', hash).update(`confirm-${exp}`).digest('hex');
   res.json({ ok: true, confirmToken: `${exp}.${sig}` });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   إدارة التعليقات عبر GitHub Discussions API (GraphQL)
+   ═══════════════════════════════════════════════════════════════ */
+
+function getGitHubToken() {
+  return fs.existsSync(GITHUB_TOKEN_FILE) ? fs.readFileSync(GITHUB_TOKEN_FILE, 'utf8').trim() : null;
+}
+
+async function githubGraphQL(query, variables = {}) {
+  const token = getGitHubToken();
+  if (!token) throw new Error('NO_TOKEN');
+  const r = await fetch('https://api.github.com/graphql', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'User-Agent': 'GT-NEWSTECH-Admin'
+    },
+    body: JSON.stringify({ query, variables })
+  });
+  const data = await r.json();
+  if (data.errors) throw new Error(data.errors.map(e => e.message).join(' | '));
+  if (!data.data) throw new Error('Empty response');
+  return data.data;
+}
+
+/* حالة الـ Token */
+app.get('/api/github-token/status', (_req, res) => {
+  res.json({ hasToken: !!getGitHubToken() });
+});
+
+/* حفظ Token (يتطلب تأكيد كلمة المرور دائماً) */
+app.post('/api/github-token', confirmRequired('manage_security', true), (req, res) => {
+  const { token } = req.body || {};
+  if (!token || typeof token !== 'string' || token.length < 20) {
+    return res.status(400).json({ error: 'token غير صالح' });
+  }
+  fs.writeFileSync(GITHUB_TOKEN_FILE, token.trim(), { mode: 0o600 });
+  res.json({ ok: true });
+});
+
+/* حذف Token */
+app.delete('/api/github-token', confirmRequired('manage_security', true), (_req, res) => {
+  if (fs.existsSync(GITHUB_TOKEN_FILE)) fs.unlinkSync(GITHUB_TOKEN_FILE);
+  res.json({ ok: true });
+});
+
+/* جلب كل النقاشات والتعليقات */
+app.get('/api/comments', async (_req, res) => {
+  if (!getGitHubToken()) return res.status(400).json({ error: 'No token configured', needsToken: true });
+  try {
+    const data = await githubGraphQL(`
+      query {
+        repository(owner: "SalehGNUTUX", name: "GT-NEWSTECH") {
+          discussions(first: 50, orderBy: {field: UPDATED_AT, direction: DESC}) {
+            totalCount
+            nodes {
+              id title url createdAt updatedAt locked
+              author { login avatarUrl url }
+              comments(first: 50) {
+                totalCount
+                nodes {
+                  id body bodyHTML createdAt
+                  isAnswer isMinimized minimizedReason
+                  author { login avatarUrl url }
+                  authorAssociation
+                  reactions(first: 20) {
+                    totalCount
+                    nodes { content user { login } }
+                  }
+                  replies(first: 20) {
+                    totalCount
+                    nodes {
+                      id body bodyHTML createdAt
+                      isMinimized minimizedReason
+                      author { login avatarUrl url }
+                      authorAssociation
+                    }
+                  }
+                }
+              }
+              reactionGroups {
+                content
+                users(first: 0) { totalCount }
+              }
+            }
+          }
+        }
+      }
+    `);
+    res.json(data.repository);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+/* الرد على نقاش أو تعليق */
+app.post('/api/comments/reply', async (req, res) => {
+  const { discussionId, replyToId, body } = req.body || {};
+  if (!discussionId || !body) return res.status(400).json({ error: 'discussionId و body مطلوبان' });
+  try {
+    const input = { discussionId, body };
+    if (replyToId) input.replyToId = replyToId;
+    const data = await githubGraphQL(`
+      mutation($input: AddDiscussionCommentInput!) {
+        addDiscussionComment(input: $input) {
+          comment { id body createdAt }
+        }
+      }
+    `, { input });
+    res.json({ ok: true, comment: data.addDiscussionComment.comment });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+/* إخفاء تعليق (minimize) — يحتاج classifier */
+app.post('/api/comments/:id/hide', async (req, res) => {
+  const validClassifiers = ['OFF_TOPIC', 'SPAM', 'ABUSE', 'OUTDATED', 'DUPLICATE', 'RESOLVED'];
+  const classifier = (req.body && req.body.reason) || 'OFF_TOPIC';
+  if (!validClassifiers.includes(classifier)) {
+    return res.status(400).json({ error: 'reason غير صالح' });
+  }
+  try {
+    const data = await githubGraphQL(`
+      mutation($input: MinimizeCommentInput!) {
+        minimizeComment(input: $input) {
+          minimizedComment { isMinimized minimizedReason }
+        }
+      }
+    `, { input: { subjectId: req.params.id, classifier } });
+    res.json({ ok: true, ...data.minimizeComment.minimizedComment });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* إظهار تعليق مخفي (unminimize) */
+app.post('/api/comments/:id/unhide', async (req, res) => {
+  try {
+    const data = await githubGraphQL(`
+      mutation($id: ID!) {
+        unminimizeComment(input: { subjectId: $id }) {
+          unminimizedComment { ... on DiscussionComment { isMinimized } }
+        }
+      }
+    `, { id: req.params.id });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* حذف تعليق نهائياً */
+app.delete('/api/comments/:id', async (req, res) => {
+  try {
+    await githubGraphQL(`
+      mutation($id: ID!) {
+        deleteDiscussionComment(input: { id: $id }) {
+          comment { id }
+        }
+      }
+    `, { id: req.params.id });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* قفل نقاش */
+app.post('/api/comments/discussion/:id/lock', async (req, res) => {
+  try {
+    await githubGraphQL(`
+      mutation($id: ID!) {
+        lockLockable(input: { lockableId: $id, lockReason: SPAM }) {
+          lockedRecord { ... on Discussion { locked } }
+        }
+      }
+    `, { id: req.params.id });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* فك قفل نقاش */
+app.post('/api/comments/discussion/:id/unlock', async (req, res) => {
+  try {
+    await githubGraphQL(`
+      mutation($id: ID!) {
+        unlockLockable(input: { lockableId: $id }) {
+          unlockedRecord { ... on Discussion { locked } }
+        }
+      }
+    `, { id: req.params.id });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 // ── Start ──────────────────────────────────────────────────────
