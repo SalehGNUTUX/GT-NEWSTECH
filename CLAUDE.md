@@ -1,8 +1,5 @@
 # CLAUDE.md
 
-claude --resume 00b11c2c-76d9-4243-8c50-e75d5064e94f
-
-
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ---
@@ -112,7 +109,7 @@ git add . && git commit -m "message" && git push origin main
 **Comments & Reactions (Giscus):**
 - `_includes/giscus.html` — embed widget, included at end of `post.html` (skipped if `_is_scheduled`)
 - Data stored in GitHub Discussions of `SalehGNUTUX/GT-NEWSTECH` (same repo)
-- Two placeholders need to be replaced by user (one-time): `REPLACE_ME_REPO_ID` and `REPLACE_ME_CATEGORY_ID` (from giscus.app)
+- Configured for `SalehGNUTUX/GT-NEWSTECH` (real IDs in `_includes/giscus.html`). To re-point to a different repo, regenerate at giscus.app and replace `data-repo-id` + `data-category-id`.
 - Theme syncs dynamically with site theme via `postMessage` (see `main.js`)
 - Lang attribute set per page (`ar` or `en`)
 - Mapping: `pathname` — one discussion thread per article URL
@@ -190,6 +187,16 @@ DELETE /api/auth/password            ← remove password (requires confirmRequir
 GET  /api/auth/security              ← read security config (confirmFor, sessionMinutes)
 PUT  /api/auth/security              ← update config (requires confirmRequired manage_security)
 POST /api/auth/confirm               ← validate password → returns confirmToken valid 30s
+GET  /api/github-token/status        ← hasToken: bool
+POST /api/github-token               ← store PAT in admin/.github-token (confirmRequired manage_security)
+DELETE /api/github-token             ← remove PAT
+GET  /api/comments                   ← GraphQL: discussions + replies + reactions
+POST /api/comments/reply             ← addDiscussionComment
+POST /api/comments/:id/hide          ← minimizeComment (SPAM/OFF_TOPIC/…)
+POST /api/comments/:id/unhide        ← unminimizeComment
+DELETE /api/comments/:id             ← deleteDiscussionComment
+POST /api/comments/discussion/:id/lock|unlock
+POST /api/images/from-url            ← download image from URL into assets/images/<lang>/
 GET  /api/config
 ```
 
@@ -229,7 +236,20 @@ GET  /api/config
 - Remove: requires `confirmRequired('remove_password', true)` — deletes both `.admin-password` AND `.admin-security.json` so system forgets everything
 - After removal: new password can be set without `current` (no password is set)
 
-**SPA routing:** `#dashboard`, `#articles`, `#new-article`, `#images`, `#categories`, `#trash`, `#git`, `#remotes`, `#security`, `#config`
+**SPA routing:** `#dashboard`, `#articles`, `#new-article`, `#images`, `#categories`, `#trash`, `#git`, `#remotes`, `#comments`, `#security`, `#config`
+
+**Comments moderation page (`#comments`):**
+- Uses GitHub GraphQL API for Discussions of `SalehGNUTUX/GT-NEWSTECH`
+- Requires PAT with `repo` scope, stored in `admin/.github-token` (mode 0600, gitignored)
+- Token mgmt UI in Security page; add/remove requires `manage_security` confirmation
+- Lists discussions by article, threaded replies, badges (OWNER, MAINTAINER, hidden, answer)
+- Actions: reply, hide (with classification), unhide, delete, lock/unlock discussion
+
+**Article editor toolbar (`#new-article` → tab "محتوى المقال"):**
+- Undo/Redo/Cut/Paste/Clear • Bold/Italic/H2/H3 • Lists/Quote • Code block/inline • Link/Image-by-URL/Table/AFF
+- **Cut** copies selection to clipboard + deletes it; needs HTTPS or localhost for clipboard API
+- **Image by URL** prompts for URL + alt text (uses selection as default alt) → inserts `![alt](url)` Markdown
+- Toolbar HTML in `admin/public/index.html`; handlers in `admin/public/js/admin.js` (`document.querySelectorAll('.tb-btn')` block)
 
 **Articles page:** toolbar rendered once (`if (!$('articlesTable'))`), only `<tbody>` updated on search/filter to preserve input focus.
 
@@ -291,6 +311,48 @@ Single file `assets/css/style.css`. Theming via CSS custom properties:
 - `inset-inline: 0` (not `left:0; right:0;`) for RTL/LTR support
 - `backdrop-filter: blur(8px)` for glass effect on scroll
 - `html { scroll-padding-top: 80px; }` ensures TOC anchor jumps land below the fixed header
+
+---
+
+## Backup mirroring (GitLab + Codeberg)
+
+User maintains 34 GitHub repos (all under `SalehGNUTUX`) and mirrors them to two backup hosts for redundancy.
+
+**GitLab — Pull Mirror (still available):**
+- `gitlab_github_sync.sh` bulk-creates Pull Mirrors via GitLab API
+- Token in `~/.gitlab_token` (mode 0600); 30-min minimum sync interval
+
+**Codeberg — Push via GitHub Actions** (Pull Mirror was disabled site-wide):
+- `codeberg_github_sync.sh` is the **old** Pull Mirror script — kept for archive only, returns HTTP 403
+- The current setup uses `.github/workflows/codeberg-mirror.yml` in each repo that does `git push --mirror` to Codeberg on every push (seconds, not 1h)
+- Three operational scripts:
+  - `codeberg_workflow_install.sh` — bulk install on all repos (skips already-configured)
+  - `codeberg_add_repo.sh REPO_NAME` — single-repo helper after `gh repo create`
+  - `codeberg_fix_secrets.sh` — re-set CODEBERG_TOKEN across all repos (e.g., after token rotation)
+- Codeberg user is **`gnutux`** (different from GitHub's `SalehGNUTUX`)
+- Token needs `repository: Admin` (creates empty repos) + `user: Read`
+
+**Critical gotcha — token `\n`:**
+- `echo "$TOKEN" > ~/.codeberg_token` writes 41 bytes (token + newline)
+- `echo "$TOKEN" | gh secret set --body -` keeps the `\n` → GitHub Actions builds URL like `https://gnutux:TOKEN\n@codeberg.org/...` → fails with `Credentials are incorrect or have expired`
+- **Always use `gh secret set CODEBERG_TOKEN --repo X < ~/.codeberg_token`** (file via stdin — `gh` strips the trailing newline)
+- The workflow also `git config --global credential.helper ""` to neutralize the helper `actions/checkout` registers for github.com (it interferes with codeberg.org auth)
+
+Reference: `codeberg_github_sync_wiki.md` + `gitlab_github_sync_wiki.md`.
+
+---
+
+## Local-only files (gitignored — must persist across restarts)
+
+| File | Purpose |
+|---|---|
+| `admin/.admin-password` | SHA-256 hash of admin panel password |
+| `admin/.admin-security.json` | confirmFor toggles + sessionMinutes |
+| `admin/.github-token` | PAT for Discussions moderation (mode 0600) |
+| `admin/.trash/` | Soft-deleted articles as JSON (one file per article) |
+| `_config.local.yml` | Local Jekyll overrides (auto-created by `start.sh`) |
+| `~/.codeberg_token` | Codeberg PAT (outside repo; used by mirror scripts) |
+| `~/.gitlab_token` | GitLab PAT (outside repo; used by mirror script) |
 
 ---
 
