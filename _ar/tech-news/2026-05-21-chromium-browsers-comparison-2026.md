@@ -40,7 +40,7 @@ tags:
 
 الصورة أدناه توضح الشعارات الرسمية لأشهر المتصفحات المستندة إلى كروميوم:
 
-![شعارات متصفحات كروميوم](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Braze-logo.svg/1024px-Braze-logo.svg.png)
+![شعارات متصفحات كروميوم](https://www.chromium.org/_assets/icon-chromium-96.png)
 
 ### 1. Chromium (الأصل)
 

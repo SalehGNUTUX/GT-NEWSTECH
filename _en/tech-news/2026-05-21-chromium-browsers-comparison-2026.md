@@ -43,6 +43,9 @@ For Linux users, the difference between Chrome and Chromium is minimal. However,
 
 ### 1. Chromium (The Original)
 
+![chromium browser logo](https://www.chromium.org/_assets/icon-chromium-96.png)
+
+
 Original Chromium is the foundation of everything else. Its interface is simple, it contains no Google additions or services, and it is available in the repositories of most Linux distributions.
 
 Features include being lightweight, fast, fully open-source, no tracking or crash reporting, and full support for extensions from the Chrome Web Store.

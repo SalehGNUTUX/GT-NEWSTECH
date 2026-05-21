@@ -47,12 +47,38 @@ for r in json.load(sys.stdin):
     print(r['full_name'])
 ")
 
+delete_failed=0
 for full in $full_names; do
   echo "  حذف: $full"
-  curl -sf -X DELETE -H "Authorization: token $CODEBERG_TOKEN" \
-    "$API/repos/$full" > /dev/null || echo "    ⚠ فشل حذف $full"
+  http_code=$(curl -s -o /tmp/cb_del_resp.txt -w "%{http_code}" \
+    -X DELETE -H "Authorization: token $CODEBERG_TOKEN" \
+    "$API/repos/$full")
+  if [ "$http_code" = "204" ]; then
+    echo "    ✓ تم"
+  else
+    echo "    ⚠ فشل (HTTP $http_code)"
+    body=$(cat /tmp/cb_del_resp.txt 2>/dev/null)
+    [ -n "$body" ] && echo "      الرد: $body"
+    delete_failed=1
+  fi
   sleep 1
 done
+rm -f /tmp/cb_del_resp.txt
+
+if [ "$delete_failed" = "1" ]; then
+  echo ""
+  echo "════════════════════════════════════════════"
+  echo "  ⚠ فشل حذف بعض المستودعات."
+  echo ""
+  echo "  السبب الأرجح: التوكن ينقصه صلاحية الحذف."
+  echo "  افتح: https://codeberg.org/user/settings/applications"
+  echo "  وعدّل التوكن ليشمل:"
+  echo "    • repository → Admin   (أو على الأقل Delete)"
+  echo "    • user       → Read"
+  echo "════════════════════════════════════════════"
+  read -p "هل تريد المتابعة لإنشاء المرايا للمستودعات المحذوفة فقط؟ (y/N): " cont
+  [ "$cont" != "y" ] && [ "$cont" != "Y" ] && exit 1
+fi
 
 echo "✓ تم حذف الكل. الانتظار 10 ثوانٍ لاكتمال العملية..."
 sleep 10
@@ -90,29 +116,34 @@ print(json.dumps({
 }))
 ")
 
-  resp=$(curl -s -X POST "$API/repos/migrate" \
+  http_code=$(curl -s -o /tmp/cb_mig_resp.txt -w "%{http_code}" \
+    -X POST "$API/repos/migrate" \
     -H "Authorization: token $CODEBERG_TOKEN" \
     -H "Content-Type: application/json" \
     -d "$body")
+  resp=$(cat /tmp/cb_mig_resp.txt)
 
-  err=$(echo "$resp" | python3 -c "
+  if [ "$http_code" = "201" ]; then
+    echo "  ✓ تم"
+  else
+    err=$(echo "$resp" | python3 -c "
 import json, sys
 try:
     d = json.load(sys.stdin)
-    if isinstance(d, dict) and 'message' in d and 'id' not in d:
-        print(d['message'])
+    if isinstance(d, dict):
+        msg = d.get('message') or d.get('error') or str(d)
+        print(msg)
+    else:
+        print(str(d))
 except Exception:
-    pass
+    print(sys.stdin.read())
 " 2>/dev/null)
-
-  if [ -n "$err" ]; then
-    echo "  ⚠ خطأ: $err"
-  else
-    echo "  ✓ تم"
+    echo "  ⚠ خطأ (HTTP $http_code): $err"
   fi
   sleep 2
 done
 
+rm -f /tmp/cb_mig_resp.txt
 echo ""
 echo "════════════════════════════════════════════"
 echo "  ✓ اكتمل! تحقق من:                          "
