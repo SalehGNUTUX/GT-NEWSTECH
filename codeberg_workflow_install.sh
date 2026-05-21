@@ -70,11 +70,11 @@ echo "$repos" | while IFS='|' read -r name visibility; do
     "$CB_API/repos/$CODEBERG_USER/$name")
   if [ "$cb_check" = "404" ]; then
     echo "  (1/3) إنشاء مستودع فارغ على Codeberg..."
-    create_body=$(python3 -c "
-import json
+    create_body=$(REPO_NAME="$name" REPO_VIS="$visibility" python3 -c "
+import json, os
 print(json.dumps({
-    'name': '$name',
-    'private': $( [ "$visibility" = "private" ] && echo true || echo false ),
+    'name': os.environ['REPO_NAME'],
+    'private': os.environ['REPO_VIS'] == 'private',
     'auto_init': False,
     'default_branch': 'main'
 }))")
@@ -92,9 +92,9 @@ print(json.dumps({
     echo "  (1/3) موجود على Codeberg مسبقاً — تخطّي"
   fi
 
-  # (ب) أضف Secret في GitHub
+  # (ب) أضف Secret في GitHub (بدون newline — printf لا echo)
   echo "  (2/3) إضافة CODEBERG_TOKEN secret..."
-  if echo "$CODEBERG_TOKEN" | gh secret set CODEBERG_TOKEN --repo "$GITHUB_USER/$name" --body - 2>/dev/null; then
+  if printf '%s' "$CODEBERG_TOKEN" | gh secret set CODEBERG_TOKEN --repo "$GITHUB_USER/$name" --body - 2>/dev/null; then
     echo "    ✓ تم"
   else
     echo "    ⚠ فشل ضبط secret — تحقّق من صلاحية gh على هذا المستودع"
