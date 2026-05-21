@@ -4,7 +4,7 @@ title: 'Top Chromium-Based Browsers: A Complete Guide 2026'
 slug: top-chromium-browsers-2026
 lang: en
 category: tech-news
-date: 2026-05-21T11:43:00.000Z
+date: 2026-05-21T11:54:00.000Z
 author: GNUTUX
 excerpt: >-
   A complete guide to the most powerful Chromium-based browsers in 2026.

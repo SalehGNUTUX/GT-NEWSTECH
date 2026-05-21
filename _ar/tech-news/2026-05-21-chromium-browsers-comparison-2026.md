@@ -4,7 +4,7 @@ title: 'أقوى المتصفحات المبنية على كروميوم: دلي
 slug: top-chromium-browsers-2026
 lang: ar
 category: tech-news
-date: 2026-05-21T11:40:00.000Z
+date: 2026-05-21T11:53:00.000Z
 author: GNUTUX
 excerpt: >-
   دليل شامل لأقوى المتصفحات المبنية على محرك كروميوم في 2026. مقارنة بين
