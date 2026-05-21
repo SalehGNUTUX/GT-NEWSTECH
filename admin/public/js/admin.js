@@ -1559,12 +1559,34 @@ document.querySelectorAll('.tb-btn').forEach(btn => {
       chUndo(); ta.focus(); return;
     } else if (btn.dataset.action === 'redo') {
       chRedo(); ta.focus(); return;
+    } else if (btn.dataset.action === 'cut') {
+      if (!sel) { toast('حدّد نصاً للقص أولاً', 'info'); ta.focus(); return; }
+      chSave();
+      const cutText = sel;
+      ta.setRangeText('', s, e, 'start');
+      navigator.clipboard.writeText(cutText)
+        .then(() => toast('قُصّ النص إلى الحافظة', 'success'))
+        .catch(() => toast('قُصّ النص (لكن النسخ للحافظة فشل)', 'info'));
+      updateWordCount();
+      chSave();
+      ta.focus();
+      return;
     } else if (btn.dataset.action === 'paste') {
       chSave();
       pasteIntoField(ta, { atCursor: true }).then(() => {
         updateWordCount();
         chSave();
       });
+      return;
+    } else if (btn.dataset.action === 'img-url') {
+      const url = prompt('رابط الصورة (URL):', 'https://');
+      if (!url || url === 'https://') { ta.focus(); return; }
+      const alt = prompt('وصف الصورة (alt) — مهم لـ SEO:', sel || '') || '';
+      chSave();
+      ta.setRangeText(`![${alt}](${url})`, s, e, 'end');
+      updateWordCount();
+      chSave();
+      ta.focus();
       return;
     } else if (btn.dataset.action === 'clear') {
       if (!ta.value || confirm('مسح كامل محتوى المقال؟')) {
