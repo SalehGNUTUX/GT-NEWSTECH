@@ -4,16 +4,18 @@
 # الاستخدام: CODEBERG_TOKEN=$(cat ~/.codeberg_token) bash codeberg_fix_secrets.sh
 set -e
 
-CODEBERG_TOKEN="${CODEBERG_TOKEN:?ضع CODEBERG_TOKEN=... قبل التشغيل}"
+TOKEN_FILE="${TOKEN_FILE:-$HOME/.codeberg_token}"
 GITHUB_USER="${GITHUB_USER:-SalehGNUTUX}"
+
+[ ! -f "$TOKEN_FILE" ] && { echo "❌ لم أجد $TOKEN_FILE"; exit 1; }
 
 echo "📥 جلب مستودعات GitHub..."
 repos=$(gh repo list "$GITHUB_USER" --no-archived --source --limit 200 --json name --jq '.[].name')
 
-echo "🔧 إعادة ضبط CODEBERG_TOKEN في كل مستودع..."
+echo "🔧 إعادة ضبط CODEBERG_TOKEN في كل مستودع (قراءة مباشرة من $TOKEN_FILE)..."
 for name in $repos; do
   echo -n "  $name ... "
-  if printf '%s' "$CODEBERG_TOKEN" | gh secret set CODEBERG_TOKEN --repo "$GITHUB_USER/$name" --body - 2>/dev/null; then
+  if gh secret set CODEBERG_TOKEN --repo "$GITHUB_USER/$name" < "$TOKEN_FILE" >/dev/null 2>&1; then
     echo "✓"
   else
     echo "⚠ فشل"

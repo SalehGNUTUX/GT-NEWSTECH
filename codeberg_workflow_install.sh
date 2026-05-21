@@ -92,9 +92,11 @@ print(json.dumps({
     echo "  (1/3) موجود على Codeberg مسبقاً — تخطّي"
   fi
 
-  # (ب) أضف Secret في GitHub (بدون newline — printf لا echo)
+  # (ب) أضف Secret في GitHub (نمرّر القيمة عبر متغيّر بيئة لا stdin — gh يحذف \n تلقائياً)
   echo "  (2/3) إضافة CODEBERG_TOKEN secret..."
-  if printf '%s' "$CODEBERG_TOKEN" | gh secret set CODEBERG_TOKEN --repo "$GITHUB_USER/$name" --body - 2>/dev/null; then
+  if GH_SECRET_VAL="$CODEBERG_TOKEN" gh secret set CODEBERG_TOKEN \
+      --repo "$GITHUB_USER/$name" \
+      --body "$CODEBERG_TOKEN" >/dev/null 2>&1; then
     echo "    ✓ تم"
   else
     echo "    ⚠ فشل ضبط secret — تحقّق من صلاحية gh على هذا المستودع"

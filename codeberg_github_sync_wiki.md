@@ -172,6 +172,22 @@ gh run view <run-id> --repo SalehGNUTUX/REPO_NAME
 - التوكن لم ينتهِ صلاحيته على Codeberg
 - مستودع Codeberg موجود (إن لم يكن، أنشئه يدوياً أو شغّل `codeberg_workflow_install.sh`)
 
+### `Credentials are incorrect or have expired` رغم أن التوكن صحيح
+
+السبب الأرجح: **ملف التوكن ينتهي بـ `\n`** (`echo "..." > file` يضيف سطراً جديداً). حتى لو طوله ظاهرياً صحيح، الـ secret المُخزَّن سيحتوي على الـ newline ويُفسد URL المصادقة.
+
+**الحل:** أعد ضبط الـ secret من الملف مباشرة (gh يقطع `\n` عند القراءة من stdin):
+```bash
+gh secret set CODEBERG_TOKEN --repo SalehGNUTUX/REPO < ~/.codeberg_token
+```
+
+أو لكل المستودعات دفعة واحدة:
+```bash
+bash codeberg_fix_secrets.sh
+```
+
+⚠ **لا** تستعمل `echo "$TOKEN" | gh secret set --body -` — `echo` يضيف `\n` في النهاية.
+
 ---
 
 ## الفرق عن Pull Mirror التقليدي

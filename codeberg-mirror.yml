@@ -37,8 +37,7 @@ jobs:
             exit 1
           fi
           REPO_NAME="${GITHUB_REPOSITORY##*/}"
-          # نستعمل http.extraheader بدل URL credentials (أكثر توافقاً مع Forgejo/Codeberg)
-          AUTH_HEADER=$(printf 'Authorization: token %s' "$CODEBERG_TOKEN" | base64 -w0)
-          git remote add codeberg "https://codeberg.org/${CODEBERG_USER}/${REPO_NAME}.git"
-          git -c "http.https://codeberg.org/.extraheader=AUTHORIZATION: basic $(printf '%s:%s' "$CODEBERG_USER" "$CODEBERG_TOKEN" | base64 -w0)" \
-              push --mirror codeberg
+          # نُلغي credential helper (actions/checkout سجّل واحداً لـ github) ثم push مباشر بـ URL
+          git config --global --unset-all credential.helper || true
+          git config --global credential.helper ""
+          git push --mirror "https://${CODEBERG_USER}:${CODEBERG_TOKEN}@codeberg.org/${CODEBERG_USER}/${REPO_NAME}.git"
