@@ -3,7 +3,10 @@ layout: post
 title: >-
   GT-QuranReader الإصدار 4: قارئ قرآن متعدد المنصات مع 4 روايات و13 قارئاً
   وتظليل متزامن
+slug: gt-quranreader-v4-release
+lang: ar
 category: gnutux-projects
+date: 2026-05-24T19:09:00.000Z
 author: GNUTUX
 excerpt: >-
   GT-QuranReader هو تطبيق مفتوح المصدر لقراءة القرآن الكريم يدعم 4 روايات (ورش،
@@ -20,9 +23,6 @@ tags:
   - مفتوح المصدر
   - React
   - Electron
-date: 2026-05-24T19:09:00.000Z
-lang: ar
-slug: gt-quranreader-v4-release
 ---
 
 ## مشكلة تطبيقات القراءة التقليدية
@@ -52,7 +52,7 @@ GT-QuranReader جاء ليكون حلاً مختلفاً. تطبيق مفتوح 
 
 الصورة أدناه توضح واجهة التطبيق مع تظليل الآية المتزامن:
 
-![تظليل الآية المتزامن في GT-QuranReader](https://salehgnutux.github.io/GT-QURANREADER/screenshot-sync.png)
+![تظليل الآية المتزامن في GT-QuranReader](https://github.com/SalehGNUTUX/GT-QURANREADER/raw/main/docs/screenshots/desktop-playing.png)
 
 ## محرك البحث الذكي
 
@@ -72,9 +72,9 @@ GT-QuranReader جاء ليكون حلاً مختلفاً. تطبيق مفتوح 
 
 السمة التلقائية تتبع إعدادات نظام التشغيل (فاتح/داكن) وتتبدل تلقائياً.
 
-الصورة أدناه توضح السمة الذهبية والسمة الليلية:
+الصورة أدناه توضح السمة الذهبية الإفتراضية:
 
-![السمات البصرية في GT-QuranReader](https://salehgnutux.github.io/GT-QURANREADER/screenshot-themes.png)
+![السمات البصرية في GT-QuranReader](https://github.com/SalehGNUTUX/GT-QURANREADER/raw/main/docs/screenshots/desktop-gold.png)
 
 ## ستة خطوط قرآنية للاختيار
 
