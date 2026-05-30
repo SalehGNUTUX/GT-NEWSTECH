@@ -6,11 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-GT-NEWSTECH is a bilingual (Arabic/English) Jekyll static site hosted on GitHub Pages. It has **three** access points:
+GT-NEWSTECH is a bilingual (Arabic/English) Jekyll static site hosted on GitHub Pages. It has **four** access points:
 
 - **Jekyll site** — the public website, built and deployed via GitHub Actions
 - **Admin panel** (`admin/`) — a local-only Node.js/Express SPA, never deployed
 - **Decap CMS** (`cms/`) — a hosted static SPA at `/cms/`, uses GitHub API for editing
+- **Admin Worker** (`admin-worker/`) — a Cloudflare Worker that mirrors the admin panel UI but reads/writes via GitHub Contents API instead of a local Express server. **Phase 1 (read-only) — not yet deployed.** See [Admin Worker section](#admin-worker-remote-admin-cloudflare).
 
 ---
 
@@ -33,6 +34,14 @@ bash serve.sh
 ```bash
 bash admin-start.sh
 ```
+
+### Remote admin Worker (local dev for testing)
+```bash
+cd admin-worker
+npx wrangler dev --port 8787 --local
+# http://localhost:8787  (requires admin-worker/.dev.vars — see admin-worker/README.md)
+```
+See `admin-worker/STATUS.md` for current phase + roadmap.
 
 ### Manual Jekyll build (for debugging)
 ```bash
@@ -296,6 +305,40 @@ Hosted static SPA at `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`.
 - `/api/git/abort` calls `rebase --abort` or `merge --abort` depending on `.git/rebase-merge` or `.git/MERGE_HEAD`
 - Never edit the same article in both panels simultaneously (best practice still applies)
 
+### Admin Worker (remote admin, Cloudflare)
+
+`admin-worker/` is a **separate** project that mirrors the admin panel UI but runs as a Cloudflare Worker, so it's reachable from any device without keeping the local machine running. Phase 1 (read-only) is built and tested locally; **not deployed yet**.
+
+**Key contract: it matches `admin/server.js` API exactly** — so the same `admin/public/` UI works against either backend with relative `/api/...` paths. To preserve this, when you change shapes returned by `admin/server.js` (e.g. add/remove a field on `/api/articles`), mirror the change in `admin-worker/src/routes/`.
+
+**Architecture:**
+- **Backend = single Worker** (`src/index.js`, ~150 lines router) — no Express, no Node modules at runtime, only Web APIs (`fetch`, `crypto.subtle`)
+- **All reads via GitHub Contents API** with a fine-grained PAT (`Contents: Read-only` for Phase 1, will need `Read and write` for Phase 2)
+- **Tree cache** (60s) on `getAllArticles` to avoid hitting GitHub for every list query
+- **YAML parser** is custom (`src/lib/yaml.js`) — supports block scalars (`>-`, `|`, `|-`, `|+`); kept tiny on purpose (no `js-yaml` in a Worker)
+- **Auth identical to `admin/server.js`:** SHA-256 password hash + HMAC session tokens (`${ts}.${hmac}`), `x-admin-token` header — so client code in `admin/public/js/admin.js` is unchanged
+- **Stubs for not-yet-implemented endpoints** (`/api/trash`, `/api/git/status`, `/api/remotes`, `/api/comments`, `/api/github-token/status`) return safe empty/default shapes so the UI doesn't error; **write endpoints return `501` with an Arabic message** explaining "Phase 1 — read only"
+
+**Run locally:**
+```bash
+cd admin-worker
+npm install
+# Create .dev.vars (gitignored) with secrets — see README.md §1
+npx wrangler dev --port 8787 --local
+# Open http://localhost:8787  (default test password from .dev.vars)
+```
+
+**Secrets (3) stored as Cloudflare secrets in production, or `.dev.vars` for local dev:**
+- `GITHUB_TOKEN` — fine-grained PAT, single-repo, `Contents: Read-only` (Phase 1)
+- `ADMIN_PASS_HASH` — `sha256sum` of the admin password (hex, 64 chars)
+- `AUTH_SECRET` — random 32-byte hex for HMAC signing of session tokens
+
+**UI source of truth:** `admin-worker/public/` is a **copy** of `admin/public/` (HTML/CSS/JS identical). When the local panel UI changes, **copy the changed files into `admin-worker/public/`** to keep them in sync until Phase 3 unifies them (planned: symlink or shared build step).
+
+**Status & roadmap:** see `admin-worker/STATUS.md` — Phase 1.5 (fix category colors + content rendering mismatch), Phase 2 (write endpoints + image upload + trash), Phase 3 (`wrangler deploy` + Cloudflare Access + dual-mode UI), Phase 4 (sync notifications between local and remote panels).
+
+**Rollback:** the entire `admin-worker/` introduction has tag `pre-worker-v1` and branch `backup/pre-cloudflare-worker` on GitHub. To wipe Phase 1 entirely: `git reset --hard pre-worker-v1` (destructive — confirm with user first).
+
 ### CSS architecture
 
 Single file `assets/css/style.css`. Theming via CSS custom properties:
@@ -351,6 +394,9 @@ Reference: `codeberg_github_sync_wiki.md` + `gitlab_github_sync_wiki.md`.
 | `admin/.github-token` | PAT for Discussions moderation (mode 0600) |
 | `admin/.trash/` | Soft-deleted articles as JSON (one file per article) |
 | `_config.local.yml` | Local Jekyll overrides (auto-created by `start.sh`) |
+| `admin-worker/.dev.vars` | Local-dev secrets for the Worker: `GITHUB_TOKEN` (PAT), `ADMIN_PASS_HASH`, `AUTH_SECRET` |
+| `admin-worker/node_modules/` | Wrangler + deps (only used for `wrangler dev`/`wrangler deploy`) |
+| `admin-worker/.wrangler/` | Wrangler cache + local Miniflare state |
 | `~/.codeberg_token` | Codeberg PAT (outside repo; used by mirror scripts) |
 | `~/.gitlab_token` | GitLab PAT (outside repo; used by mirror script) |
 
