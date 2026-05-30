@@ -1,0 +1,22 @@
+name = "gt-newstech-admin"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+# تخدم ملفات admin-worker/public/ كموقع ثابت + worker للـ API
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# المستودع الذي تعمل عليه اللوحة
+[vars]
+GITHUB_REPO = "SalehGNUTUX/GT-NEWSTECH"
+GITHUB_BRANCH = "main"
+
+# الأسرار (تُضاف عبر `wrangler secret put`):
+#   GITHUB_TOKEN    ← PAT بصلاحية Contents:read على المستودع (للمرحلة 1 قراءة فقط)
+#   ADMIN_PASS_HASH ← SHA-256 hex لكلمة المرور
+#   AUTH_SECRET     ← نص عشوائي طويل لتوقيع session tokens (HMAC)
+
+# سجلات (اختياري للتشخيص)
+[observability]
+enabled = true

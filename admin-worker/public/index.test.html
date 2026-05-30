@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GT-NEWSTECH — Remote Admin (المرحلة 1)</title>
+<style>
+  :root { --gold:#c9a227; --bg:#0a0a0a; --card:#181818; --muted:#888; --line:#2a2a2a; --text:#eee; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Cairo',system-ui,sans-serif; background:var(--bg); color:var(--text); }
+  header { padding:1rem 1.5rem; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:1rem; }
+  header h1 { margin:0; font-size:1.1rem; color:var(--gold); }
+  header .badge { background:rgba(201,162,39,.15); color:var(--gold); padding:.2rem .6rem; border-radius:99px; font-size:.75rem; }
+  main { max-width:1100px; margin:0 auto; padding:1.5rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:.75rem; padding:1.25rem; margin-bottom:1rem; }
+  .login { max-width:400px; margin:4rem auto; }
+  .login h2 { margin-top:0; color:var(--gold); }
+  input { width:100%; padding:.65rem .8rem; background:#111; border:1px solid var(--line); border-radius:.5rem; color:var(--text); font-size:.95rem; }
+  button { background:var(--gold); color:#000; border:0; padding:.65rem 1.25rem; border-radius:.5rem; font-weight:600; cursor:pointer; }
+  button:hover { background:#dab33a; }
+  button.ghost { background:transparent; border:1px solid var(--line); color:var(--text); }
+  .row { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; }
+  .grid { display:grid; gap:.75rem; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+  .stat { background:#0d0d0d; border:1px solid var(--line); border-radius:.5rem; padding:1rem; }
+  .stat .num { font-size:1.8rem; font-weight:700; color:var(--gold); }
+  .stat .lbl { color:var(--muted); font-size:.85rem; margin-top:.25rem; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { padding:.6rem .5rem; border-bottom:1px solid var(--line); text-align:right; }
+  th { color:var(--muted); font-weight:500; font-size:.85rem; }
+  .tag { display:inline-block; background:rgba(201,162,39,.12); color:var(--gold); padding:.15rem .5rem; border-radius:99px; font-size:.75rem; margin-inline-end:.25rem; }
+  .err { background:rgba(220,38,38,.1); border:1px solid #7f1d1d; color:#fecaca; padding:.7rem 1rem; border-radius:.5rem; }
+  nav { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+  nav a { padding:.5rem 1rem; background:#0d0d0d; border:1px solid var(--line); border-radius:.5rem; color:var(--text); text-decoration:none; cursor:pointer; }
+  nav a.active { background:var(--gold); color:#000; border-color:var(--gold); }
+  pre { background:#0d0d0d; border:1px solid var(--line); border-radius:.5rem; padding:1rem; overflow:auto; font-size:.8rem; max-height:400px; }
+  .muted { color:var(--muted); }
+  img.thumb { width:80px; height:80px; object-fit:cover; border-radius:.4rem; }
+</style>
+</head>
+<body>
+
+<div id="loginView" class="login card" hidden>
+  <h2>تسجيل دخول</h2>
+  <p class="muted" style="margin-top:0">المرحلة 1 — قراءة فقط (stats, articles, images)</p>
+  <input id="loginPass" type="password" placeholder="كلمة المرور" autocomplete="current-password">
+  <div id="loginErr" class="err" style="margin-top:.75rem" hidden></div>
+  <button id="loginBtn" style="margin-top:.75rem; width:100%">دخول</button>
+</div>
+
+<div id="appView" hidden>
+  <header>
+    <h1>GT-NEWSTECH</h1>
+    <span class="badge">Remote • قراءة فقط</span>
+    <span id="repoBadge" class="muted" style="margin-inline-start:auto; font-size:.85rem"></span>
+    <button class="ghost" id="logoutBtn">خروج</button>
+  </header>
+
+  <main>
+    <nav>
+      <a data-tab="dashboard" class="active">لوحة القيادة</a>
+      <a data-tab="articles">المقالات</a>
+      <a data-tab="images">الصور</a>
+      <a data-tab="raw">JSON خام</a>
+    </nav>
+
+    <div id="tab-dashboard">
+      <div id="statsGrid" class="grid"></div>
+      <div class="card" style="margin-top:1rem"><h3 style="margin-top:0; color:var(--gold)">الأقسام</h3><div id="catsList"></div></div>
+    </div>
+
+    <div id="tab-articles" hidden>
+      <div class="card">
+        <div class="row" style="margin-bottom:1rem">
+          <select id="aLang"><option value="ar">عربي</option><option value="en">English</option></select>
+          <select id="aCat"><option value="">كل الأقسام</option></select>
+          <input id="aQ" placeholder="بحث…" style="flex:1; min-width:200px">
+          <button id="aGo">تحديث</button>
+          <span id="aCount" class="muted"></span>
+        </div>
+        <div id="aTable"></div>
+      </div>
+    </div>
+
+    <div id="tab-images" hidden>
+      <div class="card">
+        <div class="row" style="margin-bottom:1rem">
+          <select id="iLang"><option value="ar">عربي</option><option value="en">English</option></select>
+          <button id="iGo">تحديث</button>
+          <span id="iCount" class="muted"></span>
+        </div>
+        <div id="iGrid" class="grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))"></div>
+      </div>
+    </div>
+
+    <div id="tab-raw" hidden>
+      <div class="card">
+        <div class="row" style="margin-bottom:.75rem">
+          <input id="rawUrl" value="/api/stats" style="flex:1">
+          <button id="rawGo">GET</button>
+        </div>
+        <pre id="rawOut">…</pre>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const TOK_KEY = 'gt-admin-token';
+let token = localStorage.getItem(TOK_KEY) || '';
+
+const $ = (id) => document.getElementById(id);
+
+async function api(path, opts = {}) {
+  const headers = { ...(opts.headers || {}) };
+  if (token) headers['X-Admin-Token'] = token;
+  if (opts.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
+  const r = await fetch(path, { ...opts, headers });
+  let data = null;
+  try { data = await r.json(); } catch {}
+  if (r.status === 401 && data?.sessionExpired) {
+    token = ''; localStorage.removeItem(TOK_KEY); showLogin();
+    throw new Error('انتهت الجلسة');
+  }
+  if (!r.ok || data?.ok === false) throw new Error(data?.reason || ('HTTP ' + r.status));
+  return data;
+}
+
+function showLogin() { $('loginView').hidden = false; $('appView').hidden = true; setTimeout(() => $('loginPass').focus(), 50); }
+function showApp()   { $('loginView').hidden = true;  $('appView').hidden = false; loadDashboard(); }
+
+$('loginBtn').addEventListener('click', async () => {
+  const pwd = $('loginPass').value;
+  $('loginErr').hidden = true;
+  try {
+    const r = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ password: pwd }) });
+    token = r.token; localStorage.setItem(TOK_KEY, token);
+    showApp();
+  } catch (e) {
+    $('loginErr').textContent = e.message; $('loginErr').hidden = false;
+  }
+});
+$('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') $('loginBtn').click(); });
+
+$('logoutBtn').addEventListener('click', () => {
+  token = ''; localStorage.removeItem(TOK_KEY); showLogin();
+});
+
+// تبويبات
+document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
+  document.querySelectorAll('nav a').forEach(x => x.classList.remove('active'));
+  a.classList.add('active');
+  ['dashboard','articles','images','raw'].forEach(t => { $('tab-'+t).hidden = (t !== a.dataset.tab); });
+  if (a.dataset.tab === 'articles') loadArticles();
+  if (a.dataset.tab === 'images') loadImages();
+}));
+
+async function loadDashboard() {
+  try {
+    const [s, c] = await Promise.all([api('/api/stats'), api('/api/categories')]);
+    $('repoBadge').textContent = `${s.repo} @ ${s.branch}`;
+    $('statsGrid').innerHTML = `
+      <div class="stat"><div class="num">${s.total_ar}</div><div class="lbl">مقال عربي</div></div>
+      <div class="stat"><div class="num">${s.total_en}</div><div class="lbl">مقال إنجليزي</div></div>
+      <div class="stat"><div class="num">${s.categories.length}</div><div class="lbl">قسم</div></div>
+      <div class="stat"><div class="num">${(s.tree_sha||'').slice(0,7)}</div><div class="lbl">آخر commit</div></div>
+    `;
+    // ملء قائمة الأقسام في فلتر المقالات
+    const sel = $('aCat'); sel.innerHTML = '<option value="">كل الأقسام</option>';
+    for (const cat of c.categories) {
+      sel.insertAdjacentHTML('beforeend', `<option value="${cat.id}">${cat.name_ar} / ${cat.name_en}</option>`);
+    }
+    $('catsList').innerHTML = `<table><tr><th>القسم</th><th>AR</th><th>EN</th><th>إجمالي</th></tr>` +
+      s.categories.map(c => `<tr><td>${c.name_ar} <span class="muted">/ ${c.name_en}</span></td><td>${c.ar}</td><td>${c.en}</td><td><b>${c.ar+c.en}</b></td></tr>`).join('') +
+      `</table>`;
+  } catch (e) {
+    $('statsGrid').innerHTML = `<div class="err">${e.message}</div>`;
+  }
+}
+
+async function loadArticles() {
+  const lang = $('aLang').value, cat = $('aCat').value, q = $('aQ').value;
+  $('aTable').innerHTML = '<p class="muted">جاري التحميل…</p>';
+  try {
+    const r = await api(`/api/articles?lang=${lang}&cat=${encodeURIComponent(cat)}&q=${encodeURIComponent(q)}`);
+    $('aCount').textContent = `${r.count} مقال`;
+    if (r.articles.length === 0) { $('aTable').innerHTML = '<p class="muted">لا توجد مقالات.</p>'; return; }
+    $('aTable').innerHTML = `<table>
+      <tr><th>التاريخ</th><th>القسم</th><th>العنوان</th><th>Slug</th><th>وسوم</th></tr>
+      ${r.articles.map(a => `<tr>
+        <td class="muted">${String(a.date).slice(0,16)}</td>
+        <td><span class="tag">${a.category}</span></td>
+        <td>${escapeHtml(a.title)}</td>
+        <td class="muted">${a.slug}</td>
+        <td>${(a.tags||[]).slice(0,3).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</td>
+      </tr>`).join('')}
+    </table>`;
+  } catch (e) {
+    $('aTable').innerHTML = `<div class="err">${e.message}</div>`;
+  }
+}
+$('aGo').addEventListener('click', loadArticles);
+
+async function loadImages() {
+  const lang = $('iLang').value;
+  $('iGrid').innerHTML = '<p class="muted">جاري التحميل…</p>';
+  try {
+    const r = await api(`/api/images?lang=${lang}`);
+    $('iCount').textContent = `${r.count} صورة`;
+    $('iGrid').innerHTML = r.images.map(im =>
+      `<div class="stat" style="padding:.5rem">
+        <img class="thumb" src="${im.raw}" alt="" loading="lazy" style="width:100%; height:120px">
+        <div style="margin-top:.4rem; font-size:.75rem; word-break:break-all">${im.name}</div>
+        <div class="muted" style="font-size:.7rem">${(im.size/1024).toFixed(0)} KB</div>
+      </div>`).join('');
+  } catch (e) {
+    $('iGrid').innerHTML = `<div class="err">${e.message}</div>`;
+  }
+}
+$('iGo').addEventListener('click', loadImages);
+
+$('rawGo').addEventListener('click', async () => {
+  try {
+    const r = await api($('rawUrl').value);
+    $('rawOut').textContent = JSON.stringify(r, null, 2);
+  } catch (e) {
+    $('rawOut').textContent = 'خطأ: ' + e.message;
+  }
+});
+
+function escapeHtml(s) { return String(s||'').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+
+// بدء
+(async () => {
+  try {
+    const s = await fetch('/api/auth/status').then(r => r.json());
+    if (!s.hasPassword) {
+      document.body.innerHTML = `<main style="max-width:600px;margin:4rem auto;padding:2rem"><div class="card"><h2 style="color:#c9a227">إعداد مطلوب</h2><p>لم يتم ضبط كلمة مرور بعد. اضبط الأسرار بـ wrangler:</p><pre>wrangler secret put ADMIN_PASS_HASH\nwrangler secret put AUTH_SECRET\nwrangler secret put GITHUB_TOKEN</pre><p class="muted">انظر admin-worker/README.md للتفاصيل.</p></div></main>`;
+      return;
+    }
+  } catch {}
+  if (token) { showApp(); } else { showLogin(); }
+})();
+</script>
+</body>
+</html>
