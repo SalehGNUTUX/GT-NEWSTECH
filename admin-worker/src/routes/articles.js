@@ -1,56 +1,26 @@
-// نسخة طبق الأصل من admin/server.js — تُرجع نفس الشكل (مصفوفة مسطّحة، لا غلاف)
-import { getTree, getBlob, getFile } from '../lib/github.js';
+// نسخة مُحسَّنة: تستعمل _data/articles-index.json (طلب واحد فقط) بدل 68 blob
+// يُنتَج هذا الـ index تلقائياً عبر .github/workflows/build-articles-index.yml
+import { getFile } from '../lib/github.js';
 import { parseFrontMatter } from '../lib/yaml.js';
 import { json } from '../index.js';
 
-// ─── cache صغير في الذاكرة لشجرة المستودع (60 ثانية) ─────
-let _treeCache = { ts: 0, val: null };
-async function getCachedTree(env) {
+// cache صغير لـ index في ذاكرة الـ Worker (60s) — يُحدَّث عند تغيّر الـ tree_sha
+let _indexCache = { ts: 0, val: null };
+
+async function getIndex(env) {
   const now = Date.now();
-  if (now - _treeCache.ts < 60_000 && _treeCache.val) return _treeCache.val;
-  const t = await getTree(env);
-  _treeCache = { ts: now, val: t };
-  return t;
+  if (now - _indexCache.ts < 60_000 && _indexCache.val) return _indexCache.val;
+  const f = await getFile(env, '_data/articles-index.json');
+  if (!f) throw new Error('articles-index.json not found — شغّل scripts/build-articles-index.js محلياً أو انتظر اكتمال workflow');
+  const parsed = JSON.parse(f.content);
+  _indexCache = { ts: now, val: parsed };
+  return parsed;
 }
 
-// قراءة كل المقالات (مع cache) — تُرجع مصفوفة بشكل { ...frontmatter, content, _file, _lang, _cat, _sha }
-async function getAllArticles(env) {
-  const t = await getCachedTree(env);
-  const files = t.tree.filter(x =>
-    x.type === 'blob' &&
-    /^_(ar|en)\/[^/]+\/[^/]+\.md$/.test(x.path)
-  );
-
-  const list = [];
-  const chunkSize = 8;
-  for (let i = 0; i < files.length; i += chunkSize) {
-    const slice = files.slice(i, i + chunkSize);
-    const results = await Promise.all(slice.map(async f => {
-      try {
-        const blob = await getBlob(env, f.sha);
-        const { data, body } = parseFrontMatter(blob.content);
-        const parts = f.path.split('/');
-        return {
-          ...data,
-          content: (body || '').trim(),
-          _file: parts[parts.length - 1],
-          _lang: parts[0].slice(1),  // _ar → ar
-          _cat: parts[1],
-          _sha: f.sha,
-        };
-      } catch {
-        return null;
-      }
-    }));
-    for (const r of results) if (r) list.push(r);
-  }
-
-  // ترتيب بالتاريخ تنازلياً
-  return list.sort((a, b) => {
-    const da = new Date(a.date || 0).getTime();
-    const db = new Date(b.date || 0).getTime();
-    return db - da;
-  });
+// تُصدَّر للاستعمال من stats
+export async function getAllArticles(env) {
+  const idx = await getIndex(env);
+  return idx.articles || [];
 }
 
 // GET /api/articles?lang=&cat=&q=
@@ -62,10 +32,11 @@ export async function listArticles(env, params) {
     const q = params.q.toLowerCase();
     list = list.filter(a => (a.title || '').toLowerCase().includes(q));
   }
-  return json(list);  // مصفوفة مباشرة، كما في server.js
+  return json(list);
 }
 
 // GET /api/article?lang=&cat=&file=
+// هنا فقط نجلب محتوى الـ markdown (للتحرير) — طلب واحد بصورة كسولة
 export async function getArticle(env, params) {
   const { lang, cat, file } = params;
   if (!lang || !cat || !file) return json({ error: 'Missing params' }, 400);
@@ -86,6 +57,3 @@ export async function getArticle(env, params) {
     _sha: f.sha,
   });
 }
-
-// نُصدِّر getAllArticles لاستعمالها في stats
-export { getAllArticles };

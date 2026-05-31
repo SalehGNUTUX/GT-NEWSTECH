@@ -1,0 +1,12 @@
+{
+  "name": "gt-newstech-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build-index": "node build-articles-index.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}

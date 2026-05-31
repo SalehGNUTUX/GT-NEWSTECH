@@ -1,0 +1,50 @@
+name: Build articles index
+
+# يحدّث _data/articles-index.json تلقائياً عند أي تغيير في المقالات
+# يُقرأ من Cloudflare Worker (admin-worker) كملف واحد فقط بدل 68 طلب لكل blob
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '_ar/**/*.md'
+      - '_en/**/*.md'
+      - 'scripts/build-articles-index.js'
+      - 'scripts/package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-articles-index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        working-directory: scripts
+        run: npm ci || npm install --no-audit --no-fund
+
+      - name: Build index
+        run: node scripts/build-articles-index.js
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet _data/articles-index.json; then
+            echo "✓ لا تغييرات في الـ index"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _data/articles-index.json
+          git commit -m "chore: تحديث articles-index.json تلقائياً [skip ci]"
+          git push
