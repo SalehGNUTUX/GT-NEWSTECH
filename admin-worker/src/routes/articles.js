@@ -1,23 +1,25 @@
-// نسخة مُحسَّنة: تستعمل _data/articles-index.json (طلب واحد فقط) بدل 68 blob
-// يُنتَج هذا الـ index تلقائياً عبر .github/workflows/build-articles-index.yml
-import { getFile } from '../lib/github.js';
-import { parseFrontMatter } from '../lib/yaml.js';
+// CRUD للمقالات. القراءة تستعمل _data/articles-index.json (طلب واحد).
+// الكتابة عبر GitHub Contents API (commit واحد لكل عملية).
+
+import { getFile, putFile, deleteFile } from '../lib/github.js';
+import { parseFrontMatter, buildMarkdown } from '../lib/yaml.js';
 import { json } from '../index.js';
 
-// cache صغير لـ index في ذاكرة الـ Worker (60s) — يُحدَّث عند تغيّر الـ tree_sha
+// ── cache صغير لـ index (60s) ──────────────────────────────
 let _indexCache = { ts: 0, val: null };
+
+function invalidateIndexCache() { _indexCache = { ts: 0, val: null }; }
 
 async function getIndex(env) {
   const now = Date.now();
   if (now - _indexCache.ts < 60_000 && _indexCache.val) return _indexCache.val;
   const f = await getFile(env, '_data/articles-index.json');
-  if (!f) throw new Error('articles-index.json not found — شغّل scripts/build-articles-index.js محلياً أو انتظر اكتمال workflow');
+  if (!f) throw new Error('articles-index.json غير موجود — شغّل scripts/build-articles-index.js');
   const parsed = JSON.parse(f.content);
   _indexCache = { ts: now, val: parsed };
   return parsed;
 }
 
-// تُصدَّر للاستعمال من stats
 export async function getAllArticles(env) {
   const idx = await getIndex(env);
   return idx.articles || [];
@@ -36,14 +38,10 @@ export async function listArticles(env, params) {
 }
 
 // GET /api/article?lang=&cat=&file=
-// هنا فقط نجلب محتوى الـ markdown (للتحرير) — طلب واحد بصورة كسولة
 export async function getArticle(env, params) {
   const { lang, cat, file } = params;
-  if (!lang || !cat || !file) return json({ error: 'Missing params' }, 400);
-  if (!/^(ar|en)$/.test(lang)) return json({ error: 'invalid lang' }, 400);
-  if (!/^[\w-]+$/.test(cat)) return json({ error: 'invalid cat' }, 400);
-  if (!/^[\w.-]+\.md$/.test(file)) return json({ error: 'invalid file' }, 400);
-
+  const err = validateRefStrict(lang, cat, file);
+  if (err) return json({ error: err }, 400);
   const path = `_${lang}/${cat}/${file}`;
   const f = await getFile(env, path);
   if (!f) return json({ error: 'Not found' }, 404);
@@ -57,3 +55,182 @@ export async function getArticle(env, params) {
     _sha: f.sha,
   });
 }
+
+// ── الكتابة ───────────────────────────────────────────────
+
+const AUTHOR = {
+  name: 'GT-NEWSTECH Admin (remote)',
+  email: 'admin@gt-newstech.local',
+};
+
+// تحويل "YYYY-MM-DD HH:MM:SS" → "YYYY-MM-DD HH:MM:SS +0000" (يُكتب في YAML غير مقتبس)
+// إذا كان النص ISO بالفعل، نتركه كما هو.
+function normalizeDate(d) {
+  if (!d) return d;
+  if (d instanceof Date) return d;
+  const s = String(d).trim();
+  if (/Z$|[+-]\d{2}:\d{2}$/.test(s)) return s; // ISO مع منطقة
+  const m = s.match(/^(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}:\d{2}(?::\d{2})?))?$/);
+  if (!m) return s;
+  const datePart = m[1];
+  const timePart = m[2] || '00:00:00';
+  const fullTime = timePart.length === 5 ? `${timePart}:00` : timePart;
+  return `${datePart} ${fullTime} +0000`;
+}
+
+// POST /api/article  body: { lang, cat, slug, content, ...frontmatter }
+export async function createArticle(env, req) {
+  const body = await req.json().catch(() => null);
+  if (!body) return json({ error: 'invalid JSON' }, 400);
+  const { lang, cat, slug, content = '', ...fm } = body;
+
+  if (!lang || !cat || !slug) return json({ error: 'lang, cat, slug مطلوبة' }, 400);
+  if (!/^(ar|en)$/.test(lang)) return json({ error: 'lang غير صحيح' }, 400);
+  if (!/^[\w-]+$/.test(cat)) return json({ error: 'cat غير صحيح' }, 400);
+  if (!/^[a-z0-9][\w-]*$/i.test(slug)) return json({ error: 'slug يجب أن يكون لاتيني (أحرف، أرقام، -، _)' }, 400);
+
+  // تاريخ
+  const dateForFilename = dateToYMD(fm.date);
+  const file = `${dateForFilename}-${slug}.md`;
+  const path = `_${lang}/${cat}/${file}`;
+
+  // تحقّق أن الملف لا يوجد
+  const existing = await getFile(env, path);
+  if (existing) return json({ error: 'مقال بنفس الـ slug والتاريخ موجود' }, 409);
+
+  // بناء front matter
+  const cleanFm = {
+    layout: fm.layout || 'post',
+    title: fm.title || '',
+    date: normalizeDate(fm.date),
+    category: cat,
+    lang,
+    slug,
+    author: fm.author || 'GNUTUX',
+    ...(fm.tags ? { tags: fm.tags } : {}),
+    ...(fm.excerpt ? { excerpt: fm.excerpt } : {}),
+    ...(fm.image ? { image: fm.image } : {}),
+    ...(fm.also_in ? { also_in: fm.also_in } : {}),
+    ...(fm.affiliate !== undefined ? { affiliate: fm.affiliate } : {}),
+  };
+  const md = buildMarkdown(cleanFm, '\n' + content.trim() + '\n');
+
+  await putFile(env, {
+    path,
+    content: md,
+    message: `feat: ${fm.title || slug} (${lang}/${cat}) [remote]`,
+    author: AUTHOR,
+  });
+
+  invalidateIndexCache();
+  return json({ ok: true, path, file, message: 'تم الإنشاء — الـ index سيُحدّث خلال ~30 ثانية' });
+}
+
+// PUT /api/article?lang=&cat=&file=  body: { ...frontmatter, content }
+export async function updateArticle(env, req, params) {
+  const { lang, cat, file } = params;
+  const err = validateRefStrict(lang, cat, file);
+  if (err) return json({ error: err }, 400);
+
+  const body = await req.json().catch(() => null);
+  if (!body) return json({ error: 'invalid JSON' }, 400);
+  const { content = '', ...fm } = body;
+
+  const path = `_${lang}/${cat}/${file}`;
+  const existing = await getFile(env, path);
+  if (!existing) return json({ error: 'المقال غير موجود' }, 404);
+
+  // إعادة بناء front matter — نحافظ على الحقول المُرسَلة فقط
+  const cleanFm = {
+    layout: fm.layout || 'post',
+    title: fm.title || '',
+    date: normalizeDate(fm.date),
+    category: cat,
+    lang,
+    slug: fm.slug || file.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/\.md$/, ''),
+    author: fm.author || 'GNUTUX',
+    ...(fm.tags ? { tags: fm.tags } : {}),
+    ...(fm.excerpt ? { excerpt: fm.excerpt } : {}),
+    ...(fm.image ? { image: fm.image } : {}),
+    ...(fm.also_in ? { also_in: fm.also_in } : {}),
+    ...(fm.affiliate !== undefined ? { affiliate: fm.affiliate } : {}),
+  };
+  const md = buildMarkdown(cleanFm, '\n' + content.trim() + '\n');
+
+  try {
+    await putFile(env, {
+      path,
+      content: md,
+      sha: existing.sha,
+      message: `update: ${fm.title || file} [remote]`,
+      author: AUTHOR,
+    });
+  } catch (e) {
+    if (e.status === 409) {
+      return json({ error: 'تم تعديل المقال من جهاز آخر. أعد التحميل وحاول مجدداً.' }, 409);
+    }
+    throw e;
+  }
+
+  invalidateIndexCache();
+  return json({ ok: true, path, message: 'تم التعديل' });
+}
+
+// DELETE /api/article?lang=&cat=&file=
+// المرحلة 2: حذف صلب من main. السلة (_trash/) ستأتي لاحقاً.
+// إعادة المحاولة عند 409 (eventual consistency على Contents API بعد PUT حديث)
+export async function removeArticle(env, params) {
+  const { lang, cat, file } = params;
+  const err = validateRefStrict(lang, cat, file);
+  if (err) return json({ error: err }, 400);
+
+  const path = `_${lang}/${cat}/${file}`;
+
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const existing = await getFile(env, path);
+    if (!existing) return json({ error: 'المقال غير موجود' }, 404);
+
+    try {
+      await deleteFile(env, {
+        path,
+        sha: existing.sha,
+        message: `delete: ${file} (${lang}/${cat}) [remote]`,
+        author: AUTHOR,
+      });
+      invalidateIndexCache();
+      return json({ ok: true, path, message: 'تم الحذف — للاسترجاع راجع git log' });
+    } catch (e) {
+      if (e.status === 409 && attempt < 3) {
+        // sha غير محدّث بعد. انتظر قليلاً ثم أعد القراءة.
+        await new Promise(r => setTimeout(r, 600 * attempt));
+        continue;
+      }
+      throw e;
+    }
+  }
+}
+
+// ── أدوات داخلية ──────────────────────────────────────────
+
+function validateRefStrict(lang, cat, file) {
+  if (!lang || !cat || !file) return 'Missing params';
+  if (!/^(ar|en)$/.test(lang)) return 'invalid lang';
+  if (!/^[\w-]+$/.test(cat)) return 'invalid cat';
+  if (!/^\d{4}-\d{2}-\d{2}-[\w.-]+\.md$/.test(file)) return 'invalid file';
+  return null;
+}
+
+function dateToYMD(d) {
+  if (!d) {
+    const n = new Date();
+    return `${n.getUTCFullYear()}-${pad(n.getUTCMonth()+1)}-${pad(n.getUTCDate())}`;
+  }
+  if (d instanceof Date) {
+    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`;
+  }
+  const s = String(d).trim();
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${m[1]}-${m[2]}-${m[3]}` : '1970-01-01';
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }

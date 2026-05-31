@@ -175,3 +175,64 @@ export function parseFrontMatter(text) {
     return { data: {}, body: m[2] };
   }
 }
+
+// كتابة قيمة كقيمة YAML آمنة (مقتبسة عند الحاجة فقط)
+function yamlValue(v, depth = 0) {
+  if (v === null || v === undefined) return '';
+  if (typeof v === 'boolean') return v ? 'true' : 'false';
+  if (typeof v === 'number') return String(v);
+  if (v instanceof Date) return v.toISOString().replace('T', ' ').replace(/\.\d+Z$/, ' +0000');
+  if (Array.isArray(v)) {
+    if (v.length === 0) return '[]';
+    // مصفوفة بسيطة inline
+    const items = v.map(x => yamlScalarInline(x));
+    return `[${items.join(', ')}]`;
+  }
+  if (typeof v === 'string') return yamlScalarInline(v);
+  return String(v);
+}
+
+// YAML timestamp: 2026-05-31 OR 2026-05-31 14:00:00 OR with timezone — لا حاجة لاقتباس
+const YAML_TS_RE = /^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2}(:\d{2})?(\s*[+-]\d{2}:?\d{2}|\sZ|Z)?)?$/;
+
+function yamlScalarInline(s) {
+  s = String(s);
+  if (s === '') return '""';
+  // YAML timestamp — اتركه غير مقتبس (Jekyll يفضّله للمقارنة الزمنية)
+  if (YAML_TS_RE.test(s)) return s;
+  // إن احتوى محارف خاصة، نقتبسه
+  if (/^[\d\-+.]/.test(s) || /[:#\[\]{}&*!|>'"%@`,]/.test(s) || /^\s|\s$/.test(s) ||
+      /^(true|false|null|yes|no|on|off)$/i.test(s) || s.includes('\n')) {
+    return '"' + s.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
+  }
+  return s;
+}
+
+// بناء front matter من كائن — مرتّب حسب الحقول الشائعة في GT-NEWSTECH
+export function buildFrontMatter(data) {
+  // ترتيب الحقول كما في النسخة المحلية (matter.stringify يستعمل مفاتيح الإدخال)
+  const order = ['layout', 'title', 'date', 'category', 'lang', 'slug', 'author',
+                 'tags', 'excerpt', 'image', 'also_in', 'affiliate'];
+  const lines = ['---'];
+  const seen = new Set();
+  for (const k of order) {
+    if (k in data && data[k] !== undefined) {
+      lines.push(`${k}: ${yamlValue(data[k])}`);
+      seen.add(k);
+    }
+  }
+  // أي مفاتيح أخرى لم تُذكر في الترتيب
+  for (const k of Object.keys(data)) {
+    if (seen.has(k)) continue;
+    if (k.startsWith('_')) continue; // حقول داخلية
+    if (data[k] === undefined) continue;
+    lines.push(`${k}: ${yamlValue(data[k])}`);
+  }
+  lines.push('---');
+  return lines.join('\n');
+}
+
+// ضمّ front matter + body لإنشاء ملف md كامل
+export function buildMarkdown(fm, body) {
+  return buildFrontMatter(fm) + '\n' + (body || '') + (body && !body.endsWith('\n') ? '\n' : '');
+}

@@ -1,7 +1,7 @@
 # GT-NEWSTECH Remote Admin — حالة العمل وخارطة الطريق
 
-> آخر تحديث: 2026-05-30
-> الحالة الإجمالية: **المرحلة 1 (قراءة فقط) تعمل محلياً ✓ — لم تُنشر بعد على Cloudflare**
+> آخر تحديث: 2026-05-31
+> الحالة الإجمالية: **المرحلة 2 (CRUD كامل) تعمل محلياً ✓ — لم تُنشر بعد على Cloudflare**
 
 ---
 
@@ -18,18 +18,29 @@
 - header `x-admin-token` متطابق مع الواجهة الحالية
 
 ### Endpoints جاهزة (طبق contract `admin/server.js`)
+
+**القراءة (المرحلة 1):**
 | Endpoint | الحالة | ملاحظة |
 |---|---|---|
 | `GET /api/health` | ✓ | بدون مصادقة |
-| `GET /api/mode` | ✓ | جديد — يُعلم الواجهة أنها في وضع بعيد |
+| `GET /api/mode` | ✓ | يُعلم الواجهة أنها في وضع بعيد |
 | `GET /api/auth/status` | ✓ | |
 | `POST /api/auth/login` | ✓ | |
-| `GET /api/stats` | ✓ | `{total, byLang, byCat, recent}` — متطابق |
-| `GET /api/categories` | ✓ | مصفوفة من YAML + scan disk |
-| `GET /api/articles?lang=&cat=&q=` | ✓ | مصفوفة `{...fm, content, _file, _lang, _cat}` |
-| `GET /api/article?lang=&cat=&file=` | ✓ | كائن واحد بنفس الشكل |
+| `GET /api/stats` | ✓ | `{total, byLang, byCat, recent}` |
+| `GET /api/categories` | ✓ | `{categories:[{...c, count_ar, count_en}]}` |
+| `GET /api/articles?lang=&cat=&q=` | ✓ | مصفوفة `{...fm, _file, _lang, _cat}` |
+| `GET /api/article?lang=&cat=&file=` | ✓ | كائن واحد بنفس الشكل + content |
 | `GET /api/images?lang=` | ✓ | روابط raw.githubusercontent |
 | `GET /api/config` | ✓ | معلومات بسيطة |
+
+**الكتابة (المرحلة 2):**
+| Endpoint | الحالة | ملاحظة |
+|---|---|---|
+| `POST /api/article` | ✓ | يُنشئ commit جديد، invalidate index cache |
+| `PUT /api/article?lang=&cat=&file=` | ✓ | sha optimistic lock، 409 لو تعارض |
+| `DELETE /api/article?lang=&cat=&file=` | ✓ | retry تلقائي ×3 على 409 (eventual consistency) |
+| `POST /api/images/:lang` | ✓ | multipart، حد 20MB، صيغ jpg/png/webp/avif/gif/svg |
+| `DELETE /api/images/:lang/:name` | ✓ | حذف صلب |
 
 ### Stubs آمنة (يردّ الـ Worker حتى لا يكسر الواجهة)
 - `GET /api/auth/security` → `{confirmFor:{}, sessionMinutes:1440}`
@@ -79,14 +90,19 @@
 - [ ] إضافة شارة "وضع بعيد — قراءة فقط" في الـ topbar (لتمييز اللوحتين)
 - [ ] إخفاء أزرار الكتابة في الوضع البعيد بدلاً من جعلها تفشل بـ 501
 
-### المرحلة 2 — الكتابة (~4-6 ساعات)
-- [ ] `POST /api/article` (إنشاء) — عبر Contents API بـ commit جديد
-- [ ] `PUT /api/article` (تعديل) — مع sha للقفل التفاؤلي
-- [ ] `DELETE /api/article` (حذف) — branch `trash` للمهملات
-- [ ] `POST /api/images/:lang` (رفع صورة) — base64 → Contents API (حد 25MB)
-- [ ] `POST /api/categories` (إنشاء قسم) — تحديث YAML + إنشاء مجلدات
-- [ ] PAT يحتاج ترقية إلى صلاحية `Contents: Read and write`
-- [ ] دعم استرجاع من المهملات
+### المرحلة 2 — الكتابة (مكتملة ✓)
+- [x] `POST /api/article` — إنشاء عبر Contents API
+- [x] `PUT /api/article` — تعديل مع sha للقفل التفاؤلي
+- [x] `DELETE /api/article` — حذف صلب (مع retry تلقائي عند 409 — eventual consistency)
+- [x] `POST /api/images/:lang` — رفع صورة (multipart → Contents API، حد 20MB)
+- [x] `DELETE /api/images/:lang/:name` — حذف صورة
+- [x] **PAT مُرقَّى** إلى `Contents: Read and write`
+- [x] الـ GitHub Action يحدّث `articles-index.json` تلقائياً بعد كل عملية كتابة
+
+### المرحلة 2.5 — الإضافات الباقية (~2-3 ساعات)
+- [ ] `POST /api/categories` — إنشاء قسم جديد (تحديث YAML + إنشاء مجلدات)
+- [ ] سلة `_trash/` — حذف بنقل لمجلد بدل الحذف الصلب + استرجاع
+- [ ] إصلاح timezone للتاريخ (الـ Worker يخزّن UTC، حالياً يفترض client أرسلها UTC)
 
 ### المرحلة 3 — Cloudflare deploy + Access (~2 ساعة)
 - [ ] `wrangler deploy` فعلي على `gt-newstech-admin.<user>.workers.dev`

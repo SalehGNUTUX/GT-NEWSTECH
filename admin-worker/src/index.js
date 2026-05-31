@@ -5,8 +5,8 @@
 import { makeToken, requireAuth, validatePassword, sha256Hex } from './lib/auth.js';
 import { getStats } from './routes/stats.js';
 import { getCategories } from './routes/categories.js';
-import { listArticles, getArticle } from './routes/articles.js';
-import { listImages } from './routes/images.js';
+import { listArticles, getArticle, createArticle, updateArticle, removeArticle } from './routes/articles.js';
+import { listImages, uploadImage, removeImage } from './routes/images.js';
 
 export function json(obj, status = 200, extra = {}) {
   return new Response(JSON.stringify(obj), {
@@ -94,7 +94,20 @@ async function route(req, env, url) {
   if (p === '/api/articles'   && m === 'GET') return listArticles(env, params);
   if (p === '/api/article'    && m === 'GET') return getArticle(env, params);
   if (p === '/api/images'     && m === 'GET') return listImages(env, params);
-  if (p === '/api/config'     && m === 'GET') return json({ remote: true, phase: 1, repo: env.GITHUB_REPO });
+  if (p === '/api/config'     && m === 'GET') return json({ remote: true, phase: 2, repo: env.GITHUB_REPO });
+
+  // كتابة (المرحلة 2) ─────────────────────────────────────
+  if (p === '/api/article' && m === 'POST')   return createArticle(env, req);
+  if (p === '/api/article' && m === 'PUT')    return updateArticle(env, req, params);
+  if (p === '/api/article' && m === 'DELETE') return removeArticle(env, params);
+
+  // رفع الصور: POST /api/images/:lang  |  حذف: DELETE /api/images/:lang/:name
+  const imgMatch = p.match(/^\/api\/images\/(ar|en)(?:\/(.+))?$/);
+  if (imgMatch) {
+    const [, ilang, iname] = imgMatch;
+    if (m === 'POST' && !iname) return uploadImage(env, req, ilang);
+    if (m === 'DELETE' && iname) return removeImage(env, ilang, decodeURIComponent(iname));
+  }
 
   // ─── stubs آمنة (UI يتعامل معها بدون أخطاء) ──────────
   if (p === '/api/auth/security' && m === 'GET') {
