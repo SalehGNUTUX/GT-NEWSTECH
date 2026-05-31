@@ -7,6 +7,7 @@ import { getStats } from './routes/stats.js';
 import { getCategories } from './routes/categories.js';
 import { listArticles, getArticle, createArticle, updateArticle, removeArticle } from './routes/articles.js';
 import { listImages, uploadImage, removeImage } from './routes/images.js';
+import { listComments, replyToDiscussion, hideComment, unhideComment, deleteComment, lockDiscussion, unlockDiscussion } from './routes/comments.js';
 
 export function json(obj, status = 200, extra = {}) {
   return new Response(JSON.stringify(obj), {
@@ -70,8 +71,8 @@ async function route(req, env, url) {
   const params = Object.fromEntries(url.searchParams);
 
   // ── مفتوحة بدون مصادقة ──
-  if (p === '/api/health')        return json({ ok: true, ts: Date.now(), repo: env.GITHUB_REPO, mode: 'remote', phase: 1 });
-  if (p === '/api/mode')          return json({ mode: 'remote', phase: 1, readOnly: true });
+  if (p === '/api/health')        return json({ ok: true, ts: Date.now(), repo: env.GITHUB_REPO, mode: 'remote', phase: 2 });
+  if (p === '/api/mode')          return json({ mode: 'remote', phase: 2, readOnly: false });
   if (p === '/api/auth/status')   return json({ hasPassword: !!env.ADMIN_PASS_HASH });
 
   if (p === '/api/auth/login' && m === 'POST') {
@@ -123,10 +124,25 @@ async function route(req, env, url) {
     return json([]);  // لا مهملات في الوضع البعيد (المرحلة 1)
   }
   if (p === '/api/github-token/status' && m === 'GET') {
-    return json({ hasToken: false });
+    // في الـ Worker، التوكن مُدمج (GITHUB_TOKEN واحد لكل العمليات)
+    return json({ hasToken: !!env.GITHUB_TOKEN, source: 'worker-secret' });
   }
-  if (p === '/api/comments' && m === 'GET') {
-    return json({ discussions: [], remote: true });
+
+  // التعليقات (GitHub Discussions GraphQL) ─────────────────
+  if (p === '/api/comments' && m === 'GET') return listComments(env);
+  if (p === '/api/comments/reply' && m === 'POST') return replyToDiscussion(env, req);
+  const cMatch = p.match(/^\/api\/comments\/([^/]+)(?:\/(hide|unhide))?$/);
+  if (cMatch) {
+    const [, cid, action] = cMatch;
+    if (action === 'hide' && m === 'POST') return hideComment(env, req, cid);
+    if (action === 'unhide' && m === 'POST') return unhideComment(env, cid);
+    if (!action && m === 'DELETE') return deleteComment(env, cid);
+  }
+  const dMatch = p.match(/^\/api\/comments\/discussion\/([^/]+)\/(lock|unlock)$/);
+  if (dMatch && m === 'POST') {
+    const [, did, action] = dMatch;
+    if (action === 'lock') return lockDiscussion(env, did);
+    if (action === 'unlock') return unlockDiscussion(env, did);
   }
 
   // ─── كل المسارات الأخرى (الكتابة/التعديل/الحذف…) ─────
