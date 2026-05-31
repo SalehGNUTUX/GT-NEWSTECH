@@ -1,12 +1,15 @@
-// نسخة طبق الأصل من admin/server.js — تُرجع مصفوفة مباشرة + يكمل الأقسام الناقصة من القرص
+// نسخة طبق الأصل من admin/server.js
+// تُرجع { categories: [{...c, count_ar, count_en}] } — هذا ما تنتظره admin.js
 import { getFile, getTree } from '../lib/github.js';
 import { parseYaml } from '../lib/yaml.js';
+import { getAllArticles } from './articles.js';
 import { json } from '../index.js';
 
 export async function getCategories(env) {
-  const [catsFile, tree] = await Promise.all([
+  const [catsFile, tree, all] = await Promise.all([
     getFile(env, '_data/categories.yml'),
     getTree(env),
+    getAllArticles(env),
   ]);
   const cats = catsFile ? (parseYaml(catsFile.content) || []) : [];
 
@@ -24,5 +27,12 @@ export async function getCategories(env) {
     }
   }
 
-  return json(cats);
+  // إحصاءات لكل قسم (من index)
+  const result = cats.map(c => ({
+    ...c,
+    count_ar: all.filter(a => a._lang === 'ar' && a._cat === c.id).length,
+    count_en: all.filter(a => a._lang === 'en' && a._cat === c.id).length,
+  }));
+
+  return json({ categories: result });
 }

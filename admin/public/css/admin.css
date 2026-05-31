@@ -58,7 +58,7 @@ input,textarea,select,button { font-family:inherit; }
 .nav-item:hover { color:var(--text); background:var(--bg3); }
 .nav-item.active { color:var(--gold); background:rgba(212,160,23,.1); }
 .nav-sep { height:1px; background:var(--border); margin:8px 0; }
-.sidebar-footer { padding:12px 14px; border-top:1px solid var(--border); }
+.sidebar-footer { padding:12px 14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:6px; }
 .preview-link {
   display:flex; align-items:center; gap:7px;
   font-size:.78rem; color:var(--muted); padding:6px 8px;

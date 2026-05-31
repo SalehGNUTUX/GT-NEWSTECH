@@ -58,7 +58,7 @@ input,textarea,select,button { font-family:inherit; }
 .nav-item:hover { color:var(--text); background:var(--bg3); }
 .nav-item.active { color:var(--gold); background:rgba(212,160,23,.1); }
 .nav-sep { height:1px; background:var(--border); margin:8px 0; }
-.sidebar-footer { padding:12px 14px; border-top:1px solid var(--border); }
+.sidebar-footer { padding:12px 14px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:6px; }
 .preview-link {
   display:flex; align-items:center; gap:7px;
   font-size:.78rem; color:var(--muted); padding:6px 8px;
@@ -908,3 +908,56 @@ small { color:var(--muted); font-size:.7rem; }
   min-height: 38px;
 }
 .discussion-reply-text:focus { border-color: var(--gold); outline: none; }
+
+/* ═══════════════════════════════════════════════
+   Remote mode (admin-worker only)
+   يطبَّق فقط عندما <body data-mode="remote">
+   ═══════════════════════════════════════════════ */
+
+.remote-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: linear-gradient(135deg, rgba(56,189,248,.18), rgba(99,102,241,.18));
+  border: 1px solid rgba(56,189,248,.5);
+  color: #38bdf8;
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.remote-badge i { font-size: .7rem; }
+
+@media (max-width: 600px) {
+  .remote-badge { font-size: .65rem; padding: .2rem .5rem; }
+  .remote-badge i { display: none; }
+}
+
+/* في وضع remote: إخفاء العناصر المرتبطة بالكتابة/الصلاحيات المحلية */
+body[data-mode="remote"] [data-page="new-article"],
+body[data-mode="remote"] [data-page="git"],
+body[data-mode="remote"] [data-page="remotes"],
+body[data-mode="remote"] [data-page="trash"],
+body[data-mode="remote"] [data-page="security"] {
+  display: none !important;
+}
+
+/* لافتة قسم الإعدادات تذكّر بأن الوضع بعيد */
+body[data-mode="remote"] [data-page="config"]::after {
+  content: " (للقراءة فقط)";
+  font-size: .7rem;
+  color: var(--muted);
+  margin-inline-start: .25rem;
+}
+
+/* تلوين خفيف للسايدبار يميّز اللوحتين بصرياً */
+body[data-mode="remote"] .sidebar-brand {
+  border-bottom: 1px solid rgba(56,189,248,.25);
+  background: linear-gradient(180deg, rgba(56,189,248,.04), transparent);
+}
+body[data-mode="remote"] .brand-sub::after {
+  content: " • Remote";
+  color: #38bdf8;
+  font-weight: 600;
+}
