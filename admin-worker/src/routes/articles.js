@@ -68,15 +68,20 @@ const AUTHOR = {
 // إذا كان النص ISO بالفعل، نتركه كما هو.
 function normalizeDate(d) {
   if (!d) return d;
-  if (d instanceof Date) return d;
-  const s = String(d).trim();
-  if (/Z$|[+-]\d{2}:\d{2}$/.test(s)) return s; // ISO مع منطقة
-  const m = s.match(/^(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}:\d{2}(?::\d{2})?))?$/);
+  if (d instanceof Date) return d.toISOString().replace(/\.\d+Z$/, 'Z');
+  let s = String(d).trim();
+  // ISO مع Z — نُبقيها كما هي (نقطع المللي فقط):
+  // "2026-05-31T13:00:00.000Z" → "2026-05-31T13:00:00Z"
+  // parseDatetime في admin.js يكتشف ISO Z ويحوّلها لـ local عند التحرير
+  if (/Z$/.test(s)) return s.replace(/\.\d+Z$/, 'Z');
+  if (/[+-]\d{2}:?\d{2}$/.test(s)) return s; // ISO مع offset
+  // fallback: نص "YYYY-MM-DD HH:MM:SS" بدون منطقة → نحوّله إلى ISO Z (يُعامَل كـ UTC)
+  const m = s.match(/^(\d{4}-\d{2}-\d{2})(?:[T ](\d{2}:\d{2})(?::(\d{2}))?)?$/);
   if (!m) return s;
   const datePart = m[1];
-  const timePart = m[2] || '00:00:00';
-  const fullTime = timePart.length === 5 ? `${timePart}:00` : timePart;
-  return `${datePart} ${fullTime} +0000`;
+  const timePart = m[2] || '00:00';
+  const secPart = m[3] || '00';
+  return `${datePart}T${timePart}:${secPart}Z`;
 }
 
 // POST /api/article  body: { lang, cat, slug, content, ...frontmatter }
@@ -225,6 +230,10 @@ function validateRefStrict(lang, cat, file) {
   return null;
 }
 
+// تسمية الملف: نستخدم تاريخ UTC من ISO (متطابق مع _data/articles-index.json)
+// مهم: إذا أرسل المتصفح تاريخاً محلياً عبر ISO (بعد تحويل mode-detect)،
+// قد يختلف اليوم عن اليوم المحلي قرب منتصف الليل — لكن الأهم هو
+// التطابق مع date في front matter (UTC)
 function dateToYMD(d) {
   if (!d) {
     const n = new Date();
@@ -234,6 +243,13 @@ function dateToYMD(d) {
     return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`;
   }
   const s = String(d).trim();
+  // إذا ISO Z، استخرج التاريخ بعد التحويل لـ UTC date
+  if (/Z$/.test(s)) {
+    const dt = new Date(s);
+    if (!isNaN(dt.getTime())) {
+      return `${dt.getUTCFullYear()}-${pad(dt.getUTCMonth()+1)}-${pad(dt.getUTCDate())}`;
+    }
+  }
   const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
   return m ? `${m[1]}-${m[2]}-${m[3]}` : '1970-01-01';
 }
