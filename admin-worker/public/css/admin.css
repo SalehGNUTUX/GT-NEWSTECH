@@ -934,12 +934,33 @@ small { color:var(--muted); font-size:.7rem; }
   .remote-badge i { display: none; }
 }
 
-/* في وضع remote: إخفاء العناصر غير المتاحة (Git/Remotes/Trash لاحقاً) */
-/* "مقال جديد" مُتاح في المرحلة 2 — الكتابة تعمل */
+/* في وضع remote: إخفاء العناصر غير المتاحة */
+/* "مقال جديد" مُتاح في المرحلة 2. الأمان مخفي لأن إعداداته محلية فقط */
 body[data-mode="remote"] [data-page="git"],
 body[data-mode="remote"] [data-page="remotes"],
-body[data-mode="remote"] [data-page="trash"] {
+body[data-mode="remote"] [data-page="trash"],
+body[data-mode="remote"] [data-page="security"] {
   display: none !important;
+}
+
+/* زر تسجيل الخروج في الـ topbar */
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--tr);
+}
+.btn-logout:hover {
+  color: #e05252;
+  border-color: #e05252;
+  background: rgba(224, 82, 82, .08);
 }
 
 /* لافتة قسم الإعدادات تذكّر بأن الوضع بعيد */

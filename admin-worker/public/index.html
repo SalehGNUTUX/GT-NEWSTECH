@@ -77,6 +77,10 @@
     <div class="topbar-actions">
       <span class="lang-badge ar active" id="filterAr" title="عربي">AR</span>
       <span class="lang-badge en" id="filterEn" title="إنجليزي">EN</span>
+      <button class="btn-logout" id="logoutBtn" title="تسجيل الخروج"
+        onclick="if(confirm('تأكيد تسجيل الخروج؟')){localStorage.removeItem('gnt-admin-token');location.reload();}">
+        <i class="fa-solid fa-right-from-bracket"></i> خروج
+      </button>
     </div>
   </header>
 

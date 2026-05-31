@@ -908,3 +908,23 @@ small { color:var(--muted); font-size:.7rem; }
   min-height: 38px;
 }
 .discussion-reply-text:focus { border-color: var(--gold); outline: none; }
+
+/* زر تسجيل الخروج في الـ topbar */
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--tr);
+}
+.btn-logout:hover {
+  color: #e05252;
+  border-color: #e05252;
+  background: rgba(224, 82, 82, .08);
+}
