@@ -81,6 +81,8 @@ exclude:
   - vendor/
   - node_modules/
   - admin/
+  - admin-worker/
+  - _trash/
   - serve.sh
   - admin-start.sh
   - start.sh

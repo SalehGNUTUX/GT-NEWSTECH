@@ -935,10 +935,9 @@ small { color:var(--muted); font-size:.7rem; }
 }
 
 /* في وضع remote: إخفاء العناصر غير المتاحة */
-/* "مقال جديد" مُتاح في المرحلة 2. الأمان مخفي لأن إعداداته محلية فقط */
+/* "مقال جديد" و"المهملات" مُتاحان في المرحلة 2.5 */
 body[data-mode="remote"] [data-page="git"],
 body[data-mode="remote"] [data-page="remotes"],
-body[data-mode="remote"] [data-page="trash"],
 body[data-mode="remote"] [data-page="security"] {
   display: none !important;
 }

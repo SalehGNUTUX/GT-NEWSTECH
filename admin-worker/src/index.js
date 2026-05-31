@@ -7,6 +7,7 @@ import { getStats } from './routes/stats.js';
 import { getCategories, createCategory } from './routes/categories.js';
 import { listArticles, getArticle, createArticle, updateArticle, removeArticle } from './routes/articles.js';
 import { listImages, uploadImage, removeImage } from './routes/images.js';
+import { listTrash, restoreFromTrash, purgeTrashItem, emptyTrash } from './routes/trash.js';
 import { listComments, replyToDiscussion, hideComment, unhideComment, deleteComment, lockDiscussion, unlockDiscussion } from './routes/comments.js';
 
 export function json(obj, status = 200, extra = {}) {
@@ -135,8 +136,14 @@ async function route(req, env, url) {
   if (p === '/api/remotes' && m === 'GET') {
     return json([{ name: 'origin', url: `https://github.com/${env.GITHUB_REPO}` }]);
   }
-  if (p === '/api/trash' && m === 'GET') {
-    return json([]);  // لا مهملات في الوضع البعيد (المرحلة 1)
+  // المهملات (المرحلة 2.5) ─────────────────────────────────
+  if (p === '/api/trash' && m === 'GET')    return listTrash(env);
+  if (p === '/api/trash' && m === 'DELETE') return emptyTrash(env);
+  const tMatch = p.match(/^\/api\/trash\/([^/]+)(?:\/(restore))?$/);
+  if (tMatch) {
+    const [, tid, action] = tMatch;
+    if (action === 'restore' && m === 'POST') return restoreFromTrash(env, tid);
+    if (!action && m === 'DELETE') return purgeTrashItem(env, tid);
   }
   if (p === '/api/github-token/status' && m === 'GET') {
     // في الـ Worker، التوكن مُدمج (GITHUB_TOKEN واحد لكل العمليات)

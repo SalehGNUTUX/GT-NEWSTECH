@@ -3,6 +3,7 @@
 
 import { getFile, putFile, deleteFile } from '../lib/github.js';
 import { parseFrontMatter, buildMarkdown } from '../lib/yaml.js';
+import { moveToTrash } from './trash.js';
 import { json } from '../index.js';
 
 // ── cache صغير لـ index (60s) ──────────────────────────────
@@ -177,8 +178,7 @@ export async function updateArticle(env, req, params) {
 }
 
 // DELETE /api/article?lang=&cat=&file=
-// المرحلة 2: حذف صلب من main. السلة (_trash/) ستأتي لاحقاً.
-// إعادة المحاولة عند 409 (eventual consistency على Contents API بعد PUT حديث)
+// ينقل إلى _trash/ بدل الحذف الصلب — قابل للاسترجاع من تبويب المهملات
 export async function removeArticle(env, params) {
   const { lang, cat, file } = params;
   const err = validateRefStrict(lang, cat, file);
@@ -191,17 +191,22 @@ export async function removeArticle(env, params) {
     if (!existing) return json({ error: 'المقال غير موجود' }, 404);
 
     try {
-      await deleteFile(env, {
-        path,
+      const { data } = parseFrontMatter(existing.content);
+      const result = await moveToTrash(env, {
+        originalPath: path,
+        content: existing.content,
         sha: existing.sha,
-        message: `delete: ${file} (${lang}/${cat}) [remote]`,
-        author: AUTHOR,
+        frontmatter: data,
       });
       invalidateIndexCache();
-      return json({ ok: true, path, message: 'تم الحذف — للاسترجاع راجع git log' });
+      return json({
+        ok: true,
+        path,
+        trashId: result.id,
+        message: 'نُقل إلى السلة — يمكنك استرجاعه من تبويب المهملات',
+      });
     } catch (e) {
       if (e.status === 409 && attempt < 3) {
-        // sha غير محدّث بعد. انتظر قليلاً ثم أعد القراءة.
         await new Promise(r => setTimeout(r, 600 * attempt));
         continue;
       }
