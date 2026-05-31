@@ -157,6 +157,79 @@ export async function putBinaryFile(env, opts) {
   return { sha: j.content?.sha, commit: j.commit };
 }
 
+// commit ذرّي بعدة ملفات دفعة واحدة (Git Trees API)
+// files: [{ path, content, encoding?: 'utf-8'|'base64' }]
+// يُرجع { commit: { sha, ... } }
+export async function commitFiles(env, files, message, author) {
+  const branch = env.GITHUB_BRANCH;
+  const repo = env.GITHUB_REPO;
+  const baseHeaders = headers(env, { 'Content-Type': 'application/json' });
+
+  // 1) الحصول على SHA الـ HEAD الحالي
+  const refR = await fetch(`${API}/repos/${repo}/git/ref/heads/${branch}`, { headers: baseHeaders });
+  if (!refR.ok) throw new Error(`ref: ${await refR.text()}`);
+  const refJ = await refR.json();
+  const headSha = refJ.object.sha;
+
+  // 2) احصل على base tree
+  const commitR = await fetch(`${API}/repos/${repo}/git/commits/${headSha}`, { headers: baseHeaders });
+  if (!commitR.ok) throw new Error(`commit: ${await commitR.text()}`);
+  const baseTree = (await commitR.json()).tree.sha;
+
+  // 3) أنشئ blob لكل ملف
+  const treeItems = [];
+  for (const f of files) {
+    const encoded = f.encoding === 'base64'
+      ? f.content
+      : btoa(unescape(encodeURIComponent(f.content))); // UTF-8 → base64
+    const blobR = await fetch(`${API}/repos/${repo}/git/blobs`, {
+      method: 'POST',
+      headers: baseHeaders,
+      body: JSON.stringify({ content: encoded, encoding: 'base64' }),
+    });
+    if (!blobR.ok) throw new Error(`blob ${f.path}: ${await blobR.text()}`);
+    const blobJ = await blobR.json();
+    treeItems.push({ path: f.path, mode: '100644', type: 'blob', sha: blobJ.sha });
+  }
+
+  // 4) أنشئ tree جديد
+  const treeR = await fetch(`${API}/repos/${repo}/git/trees`, {
+    method: 'POST',
+    headers: baseHeaders,
+    body: JSON.stringify({ base_tree: baseTree, tree: treeItems }),
+  });
+  if (!treeR.ok) throw new Error(`tree: ${await treeR.text()}`);
+  const newTreeSha = (await treeR.json()).sha;
+
+  // 5) أنشئ commit جديد
+  const cBody = {
+    message,
+    tree: newTreeSha,
+    parents: [headSha],
+  };
+  if (author) {
+    cBody.author = author;
+    cBody.committer = author;
+  }
+  const newCommitR = await fetch(`${API}/repos/${repo}/git/commits`, {
+    method: 'POST',
+    headers: baseHeaders,
+    body: JSON.stringify(cBody),
+  });
+  if (!newCommitR.ok) throw new Error(`new commit: ${await newCommitR.text()}`);
+  const newCommit = await newCommitR.json();
+
+  // 6) حدّث الـ ref
+  const updateR = await fetch(`${API}/repos/${repo}/git/refs/heads/${branch}`, {
+    method: 'PATCH',
+    headers: baseHeaders,
+    body: JSON.stringify({ sha: newCommit.sha }),
+  });
+  if (!updateR.ok) throw new Error(`update ref: ${await updateR.text()}`);
+
+  return { commit: newCommit };
+}
+
 // حذف ملف. يحتاج sha (للقفل التفاؤلي).
 // opts: { path, message, sha, branch?, author? }
 export async function deleteFile(env, opts) {

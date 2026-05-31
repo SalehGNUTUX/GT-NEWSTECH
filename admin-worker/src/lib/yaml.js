@@ -236,3 +236,33 @@ export function buildFrontMatter(data) {
 export function buildMarkdown(fm, body) {
   return buildFrontMatter(fm) + '\n' + (body || '') + (body && !body.endsWith('\n') ? '\n' : '');
 }
+
+// تسلسل لقائمة الأقسام (مصفوفة كائنات) — مطابق لشكل _data/categories.yml
+export function serializeCategories(cats) {
+  const lines = [];
+  for (const c of cats) {
+    const keys = ['id', 'name_ar', 'name_en', 'icon', 'color'];
+    let first = true;
+    for (const k of keys) {
+      if (c[k] === undefined) continue;
+      const prefix = first ? '- ' : '  ';
+      lines.push(`${prefix}${k}: ${yamlValueForCat(c[k])}`);
+      first = false;
+    }
+    // أي مفاتيح إضافية
+    for (const k of Object.keys(c)) {
+      if (keys.includes(k)) continue;
+      if (c[k] === undefined) continue;
+      lines.push(`  ${k}: ${yamlValueForCat(c[k])}`);
+    }
+  }
+  return lines.join('\n') + '\n';
+}
+
+function yamlValueForCat(v) {
+  if (typeof v === 'string') {
+    // اقتبس النصوص في categories.yml دائماً (يحوي عربية + رموز Font Awesome)
+    return '"' + String(v).replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
+  }
+  return yamlValue(v);
+}
