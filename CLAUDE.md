@@ -11,7 +11,7 @@ GT-NEWSTECH is a bilingual (Arabic/English) Jekyll static site hosted on GitHub 
 - **Jekyll site** — the public website, built and deployed via GitHub Actions
 - **Admin panel** (`admin/`) — a local-only Node.js/Express SPA, never deployed
 - **Decap CMS** (`cms/`) — a hosted static SPA at `/cms/`, uses GitHub API for editing
-- **Admin Worker** (`admin-worker/`) — a Cloudflare Worker that mirrors the admin panel UI but reads/writes via GitHub Contents API instead of a local Express server. **Phase 1 (read-only) — not yet deployed.** See [Admin Worker section](#admin-worker-remote-admin-cloudflare).
+- **Admin Worker** (`admin-worker/`) — a Cloudflare Worker that mirrors the admin panel UI but reads/writes via GitHub Contents API instead of a local Express server. **Deployed and operational** at `https://gt-newstech-admin.gnutux-arabic.workers.dev`. Full CRUD + trash + comments + categories. See [Admin Worker section](#admin-worker-remote-admin-cloudflare).
 
 ---
 
@@ -307,17 +307,20 @@ Hosted static SPA at `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`.
 
 ### Admin Worker (remote admin, Cloudflare)
 
-`admin-worker/` is a **separate** project that mirrors the admin panel UI but runs as a Cloudflare Worker, so it's reachable from any device without keeping the local machine running. Phase 1 (read-only) is built and tested locally; **not deployed yet**.
+`admin-worker/` is a **separate** project that mirrors the admin panel UI but runs as a Cloudflare Worker, so it's reachable from any device without keeping the local machine running. **Deployed and operational** at `https://gt-newstech-admin.gnutux-arabic.workers.dev`.
 
 **Key contract: it matches `admin/server.js` API exactly** — so the same `admin/public/` UI works against either backend with relative `/api/...` paths. To preserve this, when you change shapes returned by `admin/server.js` (e.g. add/remove a field on `/api/articles`), mirror the change in `admin-worker/src/routes/`.
 
 **Architecture:**
-- **Backend = single Worker** (`src/index.js`, ~150 lines router) — no Express, no Node modules at runtime, only Web APIs (`fetch`, `crypto.subtle`)
-- **All reads via GitHub Contents API** with a fine-grained PAT (`Contents: Read-only` for Phase 1, will need `Read and write` for Phase 2)
-- **Tree cache** (60s) on `getAllArticles` to avoid hitting GitHub for every list query
-- **YAML parser** is custom (`src/lib/yaml.js`) — supports block scalars (`>-`, `|`, `|-`, `|+`); kept tiny on purpose (no `js-yaml` in a Worker)
-- **Auth identical to `admin/server.js`:** SHA-256 password hash + HMAC session tokens (`${ts}.${hmac}`), `x-admin-token` header — so client code in `admin/public/js/admin.js` is unchanged
-- **Stubs for not-yet-implemented endpoints** (`/api/trash`, `/api/git/status`, `/api/remotes`, `/api/comments`, `/api/github-token/status`) return safe empty/default shapes so the UI doesn't error; **write endpoints return `501` with an Arabic message** explaining "Phase 1 — read only"
+- **Backend = single Worker** (`src/index.js`, ~200 lines router) — no Express, no Node modules at runtime, only Web APIs (`fetch`, `crypto.subtle`)
+- **Performance fix:** all article-list reads use `_data/articles-index.json` (one GitHub API request instead of 68 blobs). Index auto-rebuilt by `.github/workflows/build-articles-index.yml` on every push that touches `_ar/**` or `_en/**`
+- **Write operations** use GitHub Contents API directly. Multi-file writes (e.g., creating a category which touches 3 files) use Git Trees API via `lib/github.js commitFiles()` for atomic commits.
+- **YAML parser** is custom (`src/lib/yaml.js`) — supports block scalars (`>-`, `|`, `|-`, `|+`); kept tiny on purpose (no `js-yaml` in a Worker). Also provides `buildFrontMatter`, `buildMarkdown`, `serializeCategories`
+- **Auth identical to `admin/server.js`:** SHA-256 password hash + HMAC session tokens (`${ts}.${hmac}`), `x-admin-token` header. Plus 30-second confirm tokens for sensitive operations (`/api/auth/confirm`, used for `DELETE /api/github-token`).
+- **Mode detection** (`public/js/mode-detect.js`) sets `<body data-mode="remote">`, adds badge, hides irrelevant tabs (Git/Remotes/Security), and **monkey-patches `window.fetch`** to convert local-time dates to ISO UTC before sending to `/api/article` POST/PUT — fixes timezone bugs without changing `admin.js`
+- **Trash** lives in `_trash/` directory + `_data/trash-index.json` index (both committed via git). Jekyll ignores `_trash/` via `_config.yml` exclude. `DELETE /api/article` moves to trash; restore moves back; purge deletes permanently
+- **Categories creation** writes 3 files in one atomic commit via Git Trees API: updated `_data/categories.yml`, `ar/category/<id>.html`, `en/category/<id>.html`
+- **Comments management** via GitHub GraphQL API for Discussions — same endpoints as local panel (list/reply/hide/unhide/delete + lock/unlock discussion)
 
 **Run locally:**
 ```bash
@@ -328,16 +331,24 @@ npx wrangler dev --port 8787 --local
 # Open http://localhost:8787  (default test password from .dev.vars)
 ```
 
+**Deploy updates:**
+```bash
+cd admin-worker
+npx wrangler deploy
+```
+
 **Secrets (3) stored as Cloudflare secrets in production, or `.dev.vars` for local dev:**
-- `GITHUB_TOKEN` — fine-grained PAT, single-repo, `Contents: Read-only` (Phase 1)
+- `GITHUB_TOKEN` — Classic PAT (`ghp_...`) with `repo` scope (covers Contents R+W + Discussions R+W). The local `admin/.github-token` is the same token, kept in sync.
 - `ADMIN_PASS_HASH` — `sha256sum` of the admin password (hex, 64 chars)
 - `AUTH_SECRET` — random 32-byte hex for HMAC signing of session tokens
 
-**UI source of truth:** `admin-worker/public/` is a **copy** of `admin/public/` (HTML/CSS/JS identical). When the local panel UI changes, **copy the changed files into `admin-worker/public/`** to keep them in sync until Phase 3 unifies them (planned: symlink or shared build step).
+**Gotcha for secret upload:** Use `printf '%s' "value" | npx wrangler secret put NAME` or `cat file | npx wrangler secret put NAME`. **Avoid** `echo` (adds newline) and the interactive paste prompt (may capture trailing chars). After upload, wait ~60s for Cloudflare's global propagation before testing.
 
-**Status & roadmap:** see `admin-worker/STATUS.md` — Phase 1.5 (fix category colors + content rendering mismatch), Phase 2 (write endpoints + image upload + trash), Phase 3 (`wrangler deploy` + Cloudflare Access + dual-mode UI), Phase 4 (sync notifications between local and remote panels).
+**UI source of truth:** `admin-worker/public/` is a **copy** of `admin/public/` (HTML/CSS/JS identical) plus `js/mode-detect.js` and remote-mode CSS. When the local panel UI changes, **copy the changed files into `admin-worker/public/`** to keep them in sync.
 
-**Rollback:** the entire `admin-worker/` introduction has tag `pre-worker-v1` and branch `backup/pre-cloudflare-worker` on GitHub. To wipe Phase 1 entirely: `git reset --hard pre-worker-v1` (destructive — confirm with user first).
+**Status & roadmap:** see `admin-worker/STATUS.md`. Completed: Phases 1, 2, 2.5, 3a (deploy). Remaining: Phase 3b (Cloudflare Access for Google login / One-time PIN as second factor — Cloudflare dashboard only, no code), Phase 4 (sync notifications between local and remote panels, unified trash).
+
+**Rollback:** the entire `admin-worker/` introduction has tag `pre-worker-v1` and branch `backup/pre-cloudflare-worker` on GitHub. To wipe entirely: `git reset --hard pre-worker-v1` (destructive — confirm with user first). To wipe just the Cloudflare deployment: `npx wrangler delete` from `admin-worker/`.
 
 ### CSS architecture
 
