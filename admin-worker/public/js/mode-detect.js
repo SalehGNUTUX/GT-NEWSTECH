@@ -1,10 +1,11 @@
 /* mode-detect.js
- * يفحص /api/mode عند تحميل الصفحة:
- *  - يضع <body data-mode="remote"> لاستعمالها في CSS لإخفاء أزرار الكتابة
- *  - يُضيف شارة "وضع بعيد — قراءة فقط" بجانب AR/EN في topbar
- *  - يُعدّل عنوان التبويب
+ * يكتشف وضع التشغيل (محلي vs بعيد) ويُحدّث الواجهة وفقاً لذلك.
+ *  - <body data-mode="remote"> لإخفاء التبويبات غير المتاحة في الوضع البعيد
+ *  - شارة "بعيد" في الـ topbar
+ *  - عنوان التبويب
  *
- * يعمل قبل admin.js مباشرةً.
+ * المرحلة 2: الكتابة مفعّلة، فقط Git/Remotes/Trash/Security تبقى مخفية
+ *           (Trash/Security ستُفعَّل في المرحلة 2.5/3)
  */
 (async () => {
   try {
@@ -14,11 +15,11 @@
     if (m.mode !== 'remote') return;
 
     document.body.dataset.mode = 'remote';
-    document.body.dataset.phase = String(m.phase || 1);
+    document.body.dataset.phase = String(m.phase || 2);
     if (m.readOnly) document.body.dataset.readonly = 'true';
 
     // عنوان التبويب
-    document.title = '🌐 GT-NEWSTECH (بعيد) — قراءة فقط';
+    document.title = '☁ GT-NEWSTECH (بعيد)';
 
     // شارة في topbar
     const insertBadge = () => {
@@ -27,8 +28,8 @@
       const badge = document.createElement('span');
       badge.id = 'remoteBadge';
       badge.className = 'remote-badge';
-      badge.innerHTML = '<i class="fa-solid fa-cloud"></i> وضع بعيد — قراءة فقط';
-      badge.title = 'هذه اللوحة تقرأ من GitHub عبر Cloudflare Worker. التعديلات تتم من اللوحة المحلية أو في المرحلة 2.';
+      badge.innerHTML = '<i class="fa-solid fa-cloud"></i> وضع بعيد';
+      badge.title = 'هذه اللوحة تعمل على Cloudflare Worker. الكتابة عبر GitHub API مباشرةً.';
       ta.prepend(badge);
     };
 

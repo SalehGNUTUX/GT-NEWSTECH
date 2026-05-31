@@ -934,12 +934,11 @@ small { color:var(--muted); font-size:.7rem; }
   .remote-badge i { display: none; }
 }
 
-/* في وضع remote: إخفاء العناصر المرتبطة بالكتابة/الصلاحيات المحلية */
-body[data-mode="remote"] [data-page="new-article"],
+/* في وضع remote: إخفاء العناصر غير المتاحة (Git/Remotes/Trash لاحقاً) */
+/* "مقال جديد" مُتاح في المرحلة 2 — الكتابة تعمل */
 body[data-mode="remote"] [data-page="git"],
 body[data-mode="remote"] [data-page="remotes"],
-body[data-mode="remote"] [data-page="trash"],
-body[data-mode="remote"] [data-page="security"] {
+body[data-mode="remote"] [data-page="trash"] {
   display: none !important;
 }
 
