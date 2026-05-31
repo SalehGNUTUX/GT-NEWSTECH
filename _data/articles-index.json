@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-31T10:01:51.471Z",
+  "generated_at": "2026-05-31T10:15:41.000Z",
   "count": 68,
   "by_lang": {
     "ar": 34,
@@ -1294,7 +1294,7 @@
     {
       "title": "HudMod: محرر فيديو مفتوح المصدر سريع وخفيف من مطور عربي",
       "slug": "hudmod-video-editor",
-      "date": "2026-05-10T21:06:00.000Z",
+      "date": "2026-05-10T22:06:00.000Z",
       "category": "foss",
       "also_in": [],
       "author": "GNUTUX",
@@ -1317,7 +1317,7 @@
     {
       "title": "Kdenlive 26.04.1: محرر الفيديو مفتوح المصدر من KDE يحصل على تحديث أمني مهم",
       "slug": "kdenlive-26041-release",
-      "date": "2026-05-10T21:06:00.000Z",
+      "date": "2026-05-10T22:06:00.000Z",
       "category": "foss",
       "also_in": [],
       "author": "GNUTUX",
@@ -1335,6 +1335,29 @@
       "affiliate": null,
       "_file": "2026-05-10-kdenlive-26041-release.md",
       "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Kdenlive 26.04.1: Open-Source Video Editor from KDE Gets Critical Security Update",
+      "slug": "kdenlive-26041-release",
+      "date": "2026-05-10T12:00:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "The Kdenlive project has released version 26.04.1 of its open-source video editor, featuring an important security fix that makes this update mandatory for all users.",
+      "image": "kdenlive-26.04.jpg",
+      "tags": [
+        "Kdenlive",
+        "KDE",
+        "Video Editor",
+        "Open Source",
+        "Security",
+        "FFmpeg"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-05-10-kdenlive-26041-release.md",
+      "_lang": "en",
       "_cat": "foss"
     },
     {
@@ -1361,29 +1384,6 @@
       "_file": "2026-05-10-gt-markdawin-arabic-markdown-editor.md",
       "_lang": "en",
       "_cat": "gnutux-projects"
-    },
-    {
-      "title": "Kdenlive 26.04.1: Open-Source Video Editor from KDE Gets Critical Security Update",
-      "slug": "kdenlive-26041-release",
-      "date": "2026-05-10T11:00:00.000Z",
-      "category": "foss",
-      "also_in": [],
-      "author": "GNUTUX",
-      "excerpt": "The Kdenlive project has released version 26.04.1 of its open-source video editor, featuring an important security fix that makes this update mandatory for all users.",
-      "image": "kdenlive-26.04.jpg",
-      "tags": [
-        "Kdenlive",
-        "KDE",
-        "Video Editor",
-        "Open Source",
-        "Security",
-        "FFmpeg"
-      ],
-      "layout": "post",
-      "affiliate": null,
-      "_file": "2026-05-10-kdenlive-26041-release.md",
-      "_lang": "en",
-      "_cat": "foss"
     },
     {
       "title": "نماذج اللغة المفتوحة: هل تهدد هيمنة GPT-4 وClaude؟",
