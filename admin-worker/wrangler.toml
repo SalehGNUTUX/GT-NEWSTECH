@@ -1,6 +1,7 @@
 name = "gt-newstech-admin"
 main = "src/index.js"
 compatibility_date = "2026-01-01"
+account_id = "f03637899e8ad8c55b649300337eeaa8"
 
 # تخدم ملفات admin-worker/public/ كموقع ثابت + worker للـ API
 [assets]
