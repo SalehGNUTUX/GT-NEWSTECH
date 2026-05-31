@@ -53,3 +53,33 @@ export async function requireAuth(req, env) {
   const auth = req.headers.get('x-admin-token') || '';
   return verifyToken(env, auth);
 }
+
+// ── تأكيد كلمة المرور للعمليات الحساسة ─────────────────────
+// مطابق لـ confirmRequired في admin/server.js (alwaysRequire=true)
+const CONFIRM_TTL_MS = 30 * 1000; // 30 ثانية
+
+// إنشاء confirmToken (يُسلَّم بعد التحقق من كلمة المرور)
+export async function makeConfirmToken(env) {
+  const exp = Date.now() + CONFIRM_TTL_MS;
+  const sig = await hmacHex(env.ADMIN_PASS_HASH, `confirm-${exp}`);
+  return `${exp}.${sig}`;
+}
+
+export async function verifyConfirmToken(env, token) {
+  if (!token || !token.includes('.')) return false;
+  const idx = token.indexOf('.');
+  const exp = parseInt(token.slice(0, idx), 10);
+  const sig = token.slice(idx + 1);
+  if (!exp || Date.now() > exp) return false;
+  const expected = await hmacHex(env.ADMIN_PASS_HASH, `confirm-${exp}`);
+  if (sig.length !== expected.length) return false;
+  let diff = 0;
+  for (let i = 0; i < sig.length; i++) diff |= sig.charCodeAt(i) ^ expected.charCodeAt(i);
+  return diff === 0;
+}
+
+// requireConfirm: يفحص header x-admin-confirm، يُرجع true لو سليم
+export async function requireConfirm(req, env) {
+  const ct = req.headers.get('x-admin-confirm') || '';
+  return verifyConfirmToken(env, ct);
+}

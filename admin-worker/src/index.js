@@ -2,7 +2,7 @@
 // المرحلة 1: قراءة فقط (stats, articles, images, categories) + login.
 // الواجهة الكاملة من admin/public/ تعمل كما هي — الميزات غير المتاحة تُرجع 501.
 
-import { makeToken, requireAuth, validatePassword, sha256Hex } from './lib/auth.js';
+import { makeToken, requireAuth, validatePassword, sha256Hex, makeConfirmToken, requireConfirm } from './lib/auth.js';
 import { getStats } from './routes/stats.js';
 import { getCategories } from './routes/categories.js';
 import { listArticles, getArticle, createArticle, updateArticle, removeArticle } from './routes/articles.js';
@@ -84,6 +84,20 @@ async function route(req, env, url) {
     return json({ ok: true, token });
   }
 
+  // تأكيد كلمة المرور للعمليات الحساسة (يُسلِّم confirmToken صالح 30 ثانية)
+  if (p === '/api/auth/confirm' && m === 'POST') {
+    // يحتاج جلسة سليمة أولاً
+    if (!await requireAuth(req, env)) {
+      return json({ error: 'unauthorized', sessionExpired: true }, 401);
+    }
+    const body = await req.json().catch(() => ({}));
+    if (!await validatePassword(env, body.password || '')) {
+      return json({ error: 'كلمة مرور خاطئة' }, 401);
+    }
+    const confirmToken = await makeConfirmToken(env);
+    return json({ ok: true, confirmToken });
+  }
+
   // ── محمية ──
   if (!await requireAuth(req, env)) {
     return json({ error: 'unauthorized', sessionExpired: true }, 401);
@@ -126,6 +140,31 @@ async function route(req, env, url) {
   if (p === '/api/github-token/status' && m === 'GET') {
     // في الـ Worker، التوكن مُدمج (GITHUB_TOKEN واحد لكل العمليات)
     return json({ hasToken: !!env.GITHUB_TOKEN, source: 'worker-secret' });
+  }
+
+  // DELETE /api/github-token — يحتاج تأكيد كلمة المرور
+  if (p === '/api/github-token' && m === 'DELETE') {
+    if (!await requireConfirm(req, env)) {
+      return json({ needsConfirm: true, action: 'manage_security' }, 401);
+    }
+    // الـ Worker لا يستطيع حذف Cloudflare secret من داخله — توضيح للمستخدم
+    return json({
+      ok: false,
+      error: 'لإزالة التوكن فعلياً، شغّل من جهازك: npx wrangler secret delete GITHUB_TOKEN ' +
+             '(الـ Worker لا يحذف secrets الـ Cloudflare من داخله لأسباب أمنية)',
+      needsCli: true,
+    }, 501);
+  }
+  // POST /api/github-token — أيضاً غير متاح من الواجهة البعيدة
+  if (p === '/api/github-token' && m === 'POST') {
+    if (!await requireConfirm(req, env)) {
+      return json({ needsConfirm: true, action: 'manage_security' }, 401);
+    }
+    return json({
+      ok: false,
+      error: 'لإضافة/تغيير التوكن، شغّل من جهازك: cat token.txt | npx wrangler secret put GITHUB_TOKEN',
+      needsCli: true,
+    }, 501);
   }
 
   // التعليقات (GitHub Discussions GraphQL) ─────────────────
