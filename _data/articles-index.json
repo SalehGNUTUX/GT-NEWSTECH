@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-06-01T15:21:14.251Z",
-  "count": 72,
+  "generated_at": "2026-06-01T17:45:18.746Z",
+  "count": 74,
   "by_lang": {
-    "ar": 36,
-    "en": 36
+    "ar": 37,
+    "en": 37
   },
   "articles": [
+    {
+      "title": "Organic Maps May 2026: Full CJK Support on Android, Custom Track Colors, and New Theme Park Attractions",
+      "slug": "organic-maps-may-2026-update",
+      "date": "2026-06-01T17:44:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "The May 2026 update of Organic Maps adds full CJK font support on Android, a color picker for GPS tracks, icons for water slides and roller coasters, along with public transport improvements and up-to-date OSM data.",
+      "image": "organicmaps.png",
+      "tags": [
+        "Organic Maps",
+        "Open Source Maps",
+        "Navigation",
+        "GPS",
+        "OSM",
+        "Android",
+        "iOS",
+        "Linux"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-01-organic-maps-may-2026-update.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "Organic Maps مايو 2026: دعم كامل للغات CJK على أندرويد، ألوان مخصصة للمسارات، وجاذبات جديدة في خرائط المتنزهات",
+      "slug": "organic-maps-may-2026-update",
+      "date": "2026-06-01T17:41:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "تحديث مايو 2026 من Organic Maps يضيف دعمًا كاملاً للخطوط الصينية واليابانية والكورية على أندرويد، منتقي ألوان لمسارات GPS، وأيقونات لدور الألعاب المائية والمنزلقات والبوابات الاحتفالية، إلى جانب تحسينات في خرائط النقل العام وبيانات OSM الحديثة.",
+      "image": "organicmaps.png",
+      "tags": [
+        "Organic Maps",
+        "خرائط مفتوحة المصدر",
+        "تنقل",
+        "GPS",
+        "OSM",
+        "أندرويد",
+        "iOS",
+        "لينكس"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-01-organic-maps-may-2026-update.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "FreeDomain: مشروع يوفر أسماء نطاق مجانية للجميع بأكثر من 500 ألف نطاق مسجل",
       "slug": "freedomain-free-domain-names",
