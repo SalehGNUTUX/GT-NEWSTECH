@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-05-31T11:50:58.210Z",
-  "count": 68,
+  "generated_at": "2026-06-01T12:51:47.855Z",
+  "count": 70,
   "by_lang": {
-    "ar": 34,
-    "en": 34
+    "ar": 35,
+    "en": 35
   },
   "articles": [
+    {
+      "title": "فَيَرفُكس يُطلِق \"مشروع نوفا\": واجهة مُحدَّثة، أداء أسرع 9%، و\"زر قتل\" شامل لإسكات الذكاء الاصطناعي",
+      "slug": "firefox-project-nova-ai-kill-switch",
+      "date": "2026-06-01T12:48:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "مشروع Nova ليس مجرد تحديث شكلي، بل هو إعادة تصميم لواجهة فيَرفُكس مع تحسينات ملموسة في الأداء، ويركز على منح المستخدم القدرة على تعطيل جميع ميزات الذكاء الاصطناعي الحالية والمستقبلية بزر واحد واضح.",
+      "image": "fb_img_1779708023074.jpg",
+      "tags": [
+        "فيَرفُكس",
+        "موزيلا",
+        "متصفحات",
+        "خصوصية",
+        "ذكاء اصطناعي",
+        "برمجيات حرة"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-01-firefox-project-nova-ai-kill-switch.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Firefox 'Project Nova': New Interface, 9% Faster, and an AI 'Kill Switch' to Silence Everything",
+      "slug": "firefox-project-nova-ai-kill-switch",
+      "date": "2026-05-25T12:51:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Project Nova is not just a visual update. It is a complete redesign of the Firefox interface with tangible performance improvements, focusing on giving users the ability to disable all current and future AI features with one clear button.",
+      "image": "https://blog.mozilla.org/wp-content/uploads/2026/05/firefox_nova_hero-960x540.jpg",
+      "tags": [
+        "Firefox",
+        "Mozilla",
+        "Browsers",
+        "Privacy",
+        "Artificial Intelligence",
+        "Free Software"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-05-25-firefox-project-nova-ai-kill-switch.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "GT-QuranReader Version 4: Multi-Platform Quran Reader with 4 Riwayahs, 13+ Reciters, and Synchronized Highlighting",
       "slug": "gt-quranreader-v4-release",
