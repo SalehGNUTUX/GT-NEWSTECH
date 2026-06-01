@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01T12:51:47.855Z",
+  "generated_at": "2026-06-01T14:29:34.106Z",
   "count": 70,
   "by_lang": {
     "ar": 35,
@@ -39,7 +39,7 @@
       "also_in": [],
       "author": "GNUTUX",
       "excerpt": "Project Nova is not just a visual update. It is a complete redesign of the Firefox interface with tangible performance improvements, focusing on giving users the ability to disable all current and future AI features with one clear button.",
-      "image": "https://blog.mozilla.org/wp-content/uploads/2026/05/firefox_nova_hero-960x540.jpg",
+      "image": "ffpnova.jpg",
       "tags": [
         "Firefox",
         "Mozilla",
