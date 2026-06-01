@@ -3,15 +3,17 @@ layout: post
 title: >-
   Firefox 'Project Nova': New Interface, 9% Faster, and an AI 'Kill Switch' to
   Silence Everything
+slug: firefox-project-nova-ai-kill-switch
+lang: en
 category: foss
+date: 2026-05-25T12:51:00.000Z
 author: GNUTUX
 excerpt: >-
   Project Nova is not just a visual update. It is a complete redesign of the
   Firefox interface with tangible performance improvements, focusing on giving
   users the ability to disable all current and future AI features with one clear
   button.
-image: >-
-  https://blog.mozilla.org/wp-content/uploads/2026/05/firefox_nova_hero-960x540.jpg
+image: ffpnova.jpg
 tags:
   - Firefox
   - Mozilla
@@ -19,9 +21,6 @@ tags:
   - Privacy
   - Artificial Intelligence
   - Free Software
-date: 2026-05-25T12:51:00.000Z
-lang: en
-slug: firefox-project-nova-ai-kill-switch
 ---
 
 ## A New Era of Control
