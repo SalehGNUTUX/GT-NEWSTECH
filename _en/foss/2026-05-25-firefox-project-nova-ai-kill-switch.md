@@ -6,7 +6,7 @@ title: >-
 slug: firefox-project-nova-ai-kill-switch
 lang: en
 category: foss
-date: 2026-05-25T12:51:00.000Z
+date: 2026-06-01T15:20:00.000Z
 author: GNUTUX
 excerpt: >-
   Project Nova is not just a visual update. It is a complete redesign of the

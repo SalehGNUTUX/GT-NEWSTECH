@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'FreeDomain: مشروع يوفر أسماء نطاق مجانية للجميع بأكثر من 500 ألف نطاق مسجل'
+slug: freedomain-free-domain-names
+lang: ar
 category: foss
+date: 2026-06-01T15:20:00.000Z
 author: GNUTUX
 excerpt: >-
   FreeDomain هو مشروع مفتوح المصدر من DigitalPlat Foundation يوفر أسماء نطاق
@@ -17,9 +20,6 @@ tags:
   - مشاريع مفتوحة المصدر
 also_in:
   - tech-news
-date: 2026-05-27T14:48:00.000Z
-lang: ar
-slug: freedomain-free-domain-names
 ---
 
 ## مشكلة تكلفة أسماء النطاق
