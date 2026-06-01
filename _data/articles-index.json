@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-06-01T14:29:34.106Z",
-  "count": 70,
+  "generated_at": "2026-06-01T15:21:14.251Z",
+  "count": 72,
   "by_lang": {
-    "ar": 35,
-    "en": 35
+    "ar": 36,
+    "en": 36
   },
   "articles": [
+    {
+      "title": "FreeDomain: مشروع يوفر أسماء نطاق مجانية للجميع بأكثر من 500 ألف نطاق مسجل",
+      "slug": "freedomain-free-domain-names",
+      "date": "2026-06-01T15:20:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "FreeDomain هو مشروع مفتوح المصدر من DigitalPlat Foundation يوفر أسماء نطاق مجانية تحت امتدادات متعددة مثل .us.kg و .dpdns.org، وقد سجل أكثر من 500 ألف نطاق حتى الآن، مع دعم لأي مزود DNS.",
+      "image": "consigue-tu-dominio-gratis-en-domain.digitalplat.org_.webp",
+      "tags": [
+        "FreeDomain",
+        "أسماء نطاق",
+        "مجاني",
+        "مواقع",
+        "DNS",
+        "مشاريع مفتوحة المصدر"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-05-27-freedomain-free-domain-names.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Firefox 'Project Nova': New Interface, 9% Faster, and an AI 'Kill Switch' to Silence Everything",
+      "slug": "firefox-project-nova-ai-kill-switch",
+      "date": "2026-06-01T15:20:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Project Nova is not just a visual update. It is a complete redesign of the Firefox interface with tangible performance improvements, focusing on giving users the ability to disable all current and future AI features with one clear button.",
+      "image": "ffpnova.jpg",
+      "tags": [
+        "Firefox",
+        "Mozilla",
+        "Browsers",
+        "Privacy",
+        "Artificial Intelligence",
+        "Free Software"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-05-25-firefox-project-nova-ai-kill-switch.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "فَيَرفُكس يُطلِق \"مشروع نوفا\": واجهة مُحدَّثة، أداء أسرع 9%، و\"زر قتل\" شامل لإسكات الذكاء الاصطناعي",
       "slug": "firefox-project-nova-ai-kill-switch",
@@ -32,25 +80,25 @@
       "_cat": "foss"
     },
     {
-      "title": "Firefox 'Project Nova': New Interface, 9% Faster, and an AI 'Kill Switch' to Silence Everything",
-      "slug": "firefox-project-nova-ai-kill-switch",
-      "date": "2026-05-25T12:51:00.000Z",
+      "title": "FreeDomain: Open Source Project Providing Free Domain Names to Everyone with Over 500,000 Registered",
+      "slug": "freedomain-free-domain-names",
+      "date": "2026-05-27T15:19:00.000Z",
       "category": "foss",
       "also_in": [],
       "author": "GNUTUX",
-      "excerpt": "Project Nova is not just a visual update. It is a complete redesign of the Firefox interface with tangible performance improvements, focusing on giving users the ability to disable all current and future AI features with one clear button.",
-      "image": "ffpnova.jpg",
+      "excerpt": "FreeDomain is an open source project from the DigitalPlat Foundation offering free domain names under multiple extensions such as .us.kg and .dpdns.org, with over 500,000 domains registered so far, and support for any DNS provider.",
+      "image": "consigue-tu-dominio-gratis-en-domain.digitalplat.org_.webp",
       "tags": [
-        "Firefox",
-        "Mozilla",
-        "Browsers",
-        "Privacy",
-        "Artificial Intelligence",
-        "Free Software"
+        "FreeDomain",
+        "Domain Names",
+        "Free",
+        "Websites",
+        "DNS",
+        "Open Source Projects"
       ],
       "layout": "post",
       "affiliate": null,
-      "_file": "2026-05-25-firefox-project-nova-ai-kill-switch.md",
+      "_file": "2026-05-27-freedomain-free-domain-names.md",
       "_lang": "en",
       "_cat": "foss"
     },
