@@ -6,8 +6,19 @@ lang: en
 category: gaming
 date: 2026-05-10T01:00:00.000Z
 author: GNUTUX
-excerpt: '>-'
+excerpt: >-
+  Linux in 2026 is no longer a secondary choice for gaming — it's a mature and
+  capable platform. With Proton 10.0-4, SteamOS 3.8, Lutris 0.5.21, and Heroic
+  2.20.0, you can enjoy thousands of games with excellent performance. And if
+  you're a Steam Deck or other handheld device user, you're especially fortunate
+  with the massive improvements in SteamOS 3.8.
 image: 50550bd1-822b-42b6-8426-2926636ae1ec.png
+tags:
+  - linux
+  - games
+  - steam
+  - lutris
+  - gnutux
 ---
 
 ## Linux as a Gaming Platform — A True Success Story
