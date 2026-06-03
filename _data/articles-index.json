@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-06-03T11:58:00.533Z",
-  "count": 78,
+  "generated_at": "2026-06-03T12:48:30.433Z",
+  "count": 80,
   "by_lang": {
-    "ar": 39,
-    "en": 39
+    "ar": 40,
+    "en": 40
   },
   "articles": [
+    {
+      "title": "X.Org Server 21.1.23 and Xwayland 24.1.12 Patch 9 Critical Security Vulnerabilities",
+      "slug": "xorg-xwayland-security-update",
+      "date": "2026-06-03T12:46:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux",
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The X.Org project has released two emergency security updates for X.Org Server 21.1.23 and Xwayland 24.1.12, addressing 9 critical security vulnerabilities, 8 of which were discovered by AI. The flaws include buffer overflows and use-after-free issues in Font Alias, XKB, GLX, and DRI2 components.",
+      "image": "xorgfix.jpeg",
+      "tags": [
+        "X.Org",
+        "Xwayland",
+        "Security",
+        "Security Update",
+        "Linux",
+        "Free Software"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-03-xorg-xwayland-security-update.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "إصدارات أمنية طارئة: X.Org Server 21.1.23 و Xwayland 24.1.12 تعالج 9 ثغرات خطيرة",
+      "slug": "xorg-xwayland-security-update",
+      "date": "2026-06-03T12:45:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux",
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدر مشروع X.Org تحديثين أمنيين طارئين لـ X.Org Server 21.1.23 و Xwayland 24.1.12، يعالجان 9 ثغرات أمنية خطيرة تم اكتشاف 8 منها بواسطة الذكاء الاصطناعي، تشمل مشاكل تجاوز سعة المخزن المؤقت واستخدام الذاكرة بعد تحريرها في مكونات Font Alias وXKB وGLX وDRI2.",
+      "image": "xorgfix.jpeg",
+      "tags": [
+        "X.Org",
+        "Xwayland",
+        "أمن",
+        "تحديث أمني",
+        "لينكس",
+        "برمجيات حرة"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-03-xorg-xwayland-security-update.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "Transmission 4.1.2: New Bugfix Release Focused on Download Stability and Tracker Fixes",
       "slug": "transmission-4-1-2-bugfix-release",
