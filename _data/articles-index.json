@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-06-03T20:08:27.478Z",
-  "count": 82,
+  "generated_at": "2026-06-03T20:28:47.207Z",
+  "count": 84,
   "by_lang": {
-    "ar": 41,
-    "en": 41
+    "ar": 42,
+    "en": 42
   },
   "articles": [
+    {
+      "title": "COSMIC Desktop 1.0.15: Major Gaming Improvements and Multi-Window Fullscreen Support",
+      "slug": "cosmic-desktop-1-0-15",
+      "date": "2026-06-03T20:23:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "System76 released version 1.0.15 of the COSMIC desktop environment built in Rust, featuring multi-window fullscreen support within a single workspace, implementation of the pointer constraints protocol to improve gaming experience, RPM package support in COSMIC Store, and multiple improvements across companion applications.",
+      "image": "cosmic_desktop.jpg",
+      "tags": [
+        "COSMIC",
+        "System76",
+        "Pop!_OS",
+        "Wayland",
+        "Desktop",
+        "Linux",
+        "Rust"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-03-cosmic-desktop-1-0-15.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "COSMIC Desktop 1.0.15: تحسينات كبيرة في الألعاب ودعم النوافذ الممتلئة المتعددة",
+      "slug": "cosmic-desktop-1-0-15",
+      "date": "2026-06-03T20:21:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدرت System76 الإصدار 1.0.15 من بيئة سطح المكتب COSMIC المبنية بلغة Rust، والتي تضم دعم النوافذ الممتلئة المتعددة في مساحة العمل الواحدة، وتنفيذ بروتوكول pointer constraints لتحسين تجربة الألعاب، ودعم حزم RPM في متجر COSMIC، وتحسينات متعددة في التطبيقات المصاحبة.",
+      "image": "cosmic_desktop.jpg",
+      "tags": [
+        "COSMIC",
+        "System76",
+        "Pop!_OS",
+        "Wayland",
+        "سطح مكتب",
+        "لينكس",
+        "Rust"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-03-cosmic-desktop-1-0-15.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "GT-CLPM 1.4.0: Universal Package Manager for Linux with Unified GUI for 13+ Managers",
       "slug": "gt-clpm-package-manager",
