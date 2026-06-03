@@ -1,11 +1,69 @@
 {
-  "generated_at": "2026-06-03T12:48:30.433Z",
-  "count": 80,
+  "generated_at": "2026-06-03T18:23:37.429Z",
+  "count": 82,
   "by_lang": {
-    "ar": 40,
-    "en": 40
+    "ar": 41,
+    "en": 41
   },
   "articles": [
+    {
+      "title": "GT-CLPM 1.4.0: Universal Package Manager for Linux with Unified GUI for 13+ Managers",
+      "slug": "gt-clpm-package-manager",
+      "date": "2026-06-03T18:22:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "GT-CLPM is a comprehensive package manager for GNU/Linux systems, providing a unified graphical interface for over 13 package managers, with Zenity and KDialog support, graphical password prompt, repository management, and programming language package managers. Version 1.4.0 adds KDialog support, dist-upgrade, and automatic system theme application.",
+      "image": "gt_clpm_gnutux_en.png",
+      "tags": [
+        "GT-CLPM",
+        "Package Manager",
+        "Linux",
+        "APT",
+        "DNF",
+        "Pacman",
+        "Zypper",
+        "Flatpak",
+        "Snap",
+        "Development Tools"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-03-gt-clpm-package-manager.md",
+      "_lang": "en",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "GT-CLPM 1.4.0: مدير الحزم الشامل لأنظمة لينكس بواجهة رسومية موحدة لـ 13+ مديراً",
+      "slug": "gt-clpm-package-manager",
+      "date": "2026-06-03T18:21:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "GT-CLPM هو مدير حزم شامل لأنظمة غنو/لينكس، يوفر واجهة رسومية موحدة لأكثر من 13 مدير حزم، مع دعم Zenity و KDialog، ونافذة كلمة مرور رسومية، وإدارة للمستودعات، ومديري حزم لغات البرمجة. الإصدار 1.4.0 يضيف دعم KDialog والترقية الشاملة وتطبيق سمة النظام تلقائياً.",
+      "image": "gt_clpm_gnutux_ar.png",
+      "tags": [
+        "GT-CLPM",
+        "مدير حزم",
+        "لينكس",
+        "APT",
+        "DNF",
+        "Pacman",
+        "Zypper",
+        "Flatpak",
+        "Snap",
+        "أدوات تطوير"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-03-gt-clpm-package-manager.md",
+      "_lang": "ar",
+      "_cat": "gnutux-projects"
+    },
     {
       "title": "X.Org Server 21.1.23 and Xwayland 24.1.12 Patch 9 Critical Security Vulnerabilities",
       "slug": "xorg-xwayland-security-update",
