@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-03T18:23:37.429Z",
+  "generated_at": "2026-06-03T20:08:27.478Z",
   "count": 82,
   "by_lang": {
     "ar": 41,
@@ -1788,9 +1788,16 @@
       "category": "gaming",
       "also_in": [],
       "author": "GNUTUX",
-      "excerpt": ">-",
+      "excerpt": "لينكس في 2026 ليس مجرد خيار ثانٍ للألعاب — إنه منصة ناضجة وقادرة. مع Proton 10.0-4، SteamOS 3.8، Lutris 0.5.21، وHeroic 2.20.0، يمكنك الاستمتاع بآلاف الألعاب بأداء ممتاز. وإذا كنت من مستخدمي Steam Deck أو الأجهزة المحمولة الأخرى فأنت محظوظ بشكل خاص مع التحسينات الهائلة في SteamOS 3.8.",
       "image": "bb7d98af-a85d-4d7b-a3bc-de48aa7a4f5d.png",
-      "tags": [],
+      "tags": [
+        "لينكس",
+        "ألعاب",
+        "ستيم، مراجعة",
+        "steam",
+        "lutris",
+        "gnutux"
+      ],
       "layout": "post",
       "affiliate": null,
       "_file": "2026-05-09-ألعاب-على-غنو-لينكس.md",
@@ -1891,9 +1898,15 @@
       "category": "gaming",
       "also_in": [],
       "author": "GNUTUX",
-      "excerpt": ">-",
+      "excerpt": "Linux in 2026 is no longer a secondary choice for gaming — it's a mature and capable platform. With Proton 10.0-4, SteamOS 3.8, Lutris 0.5.21, and Heroic 2.20.0, you can enjoy thousands of games with excellent performance. And if you're a Steam Deck or other handheld device user, you're especially fortunate with the massive improvements in SteamOS 3.8.",
       "image": "50550bd1-822b-42b6-8426-2926636ae1ec.png",
-      "tags": [],
+      "tags": [
+        "linux",
+        "games",
+        "steam",
+        "lutris",
+        "gnutux"
+      ],
       "layout": "post",
       "affiliate": null,
       "_file": "2026-05-09-gnulinux-gaming-guide.md",
