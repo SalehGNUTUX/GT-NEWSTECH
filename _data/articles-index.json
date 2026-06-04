@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-04T22:15:37.202Z",
+  "generated_at": "2026-06-04T22:31:02.233Z",
   "count": 92,
   "by_lang": {
     "ar": 46,
@@ -2096,9 +2096,16 @@
       "category": "tech-news",
       "also_in": [],
       "author": "GNUTUX",
-      "excerpt": ">-",
+      "excerpt": "وفقاً لأحدث تقرير من IDC للربع الأول من 2026، باتت رقائق ARM تمثل 35% من إجمالي مبيعات الحواسيب المحمولة عالمياً، مقارنةً بـ 12% فقط في 2022، و20% في 2024. النمو المتسارع يعكس تحولاً جذرياً في الصناعة لم نشهده منذ عقود.",
       "image": "arm-chips-dominate-laptop-market-with-35-share-in-2026.webp",
-      "tags": [],
+      "tags": [
+        "معالج",
+        "رقائق",
+        "ARM",
+        "حاسوب",
+        "صناعة",
+        "معمارية"
+      ],
       "layout": "post",
       "affiliate": null,
       "_file": "2026-05-05-رقائق-arm-تتصدر.md",
@@ -2180,9 +2187,16 @@
       "category": "tech-news",
       "also_in": [],
       "author": "GNUTUX",
-      "excerpt": ">-",
+      "excerpt": "According to the latest IDC report for Q1 2026, ARM-based chips now represent 35% of global laptop shipments, up from just 12% in 2022 and 20% in 2024. This accelerated growth reflects a seismic shift in the industry not seen in decades.",
       "image": "arm-chips-dominate-laptop-market-with-35-share-in-2026.webp",
-      "tags": [],
+      "tags": [
+        "laptop",
+        "IDC",
+        "ARM",
+        "GNUTUX",
+        "computer",
+        "tech"
+      ],
       "layout": "post",
       "affiliate": null,
       "_file": "2026-05-05-arm-chips-laptop-market-2026.md",
