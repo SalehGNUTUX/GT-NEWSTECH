@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-06-04T20:47:14.453Z",
-  "count": 90,
+  "generated_at": "2026-06-04T22:02:35.834Z",
+  "count": 92,
   "by_lang": {
-    "ar": 45,
-    "en": 45
+    "ar": 46,
+    "en": 46
   },
   "articles": [
+    {
+      "title": "Prism Desktop: واجهة سطح مكتب أنيقة للتحكم في Home Assistant على ويندوز ولينكس",
+      "slug": "prism-desktop-home-assistant-client",
+      "date": "2026-06-05T22:00:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Prism Desktop هو تطبيق سطح مكتب خفيف لأنظمة ويندوز ولينكس، يعمل كعميل لـ Home Assistant عبر WebSocket API، مع دعم علبة النظام، إشعارات سطح المكتب، عناصر تحكم متحركة، لوحة تحكم قابلة للسحب والإفلات، واختصارات لوحة المفاتيح.",
+      "image": "prismdesktop.png",
+      "tags": [
+        "Prism Desktop",
+        "Home Assistant",
+        "أتمتة المنزل",
+        "إنترنت الأشياء",
+        "Python",
+        "ويندوز",
+        "لينكس"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-05-prism-desktop-home-assistant-client.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Prism Desktop: An Elegant Desktop Interface for Home Assistant on Windows and Linux",
+      "slug": "prism-desktop-home-assistant-client",
+      "date": "2026-06-04T22:02:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Prism Desktop is a lightweight desktop application for Windows and Linux, serving as a Home Assistant client via WebSocket API, featuring system tray integration, desktop notifications, morphing controls, a drag-and-drop dashboard, and keyboard shortcuts.",
+      "image": "prismdesktop.png",
+      "tags": [
+        "Prism Desktop",
+        "Home Assistant",
+        "Home Automation",
+        "IoT",
+        "Python",
+        "Windows",
+        "Linux"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-05-prism-desktop-home-assistant-client.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Linux Lite 8.0 'Hematite': A Major Leap for the Beginner-Friendly Distribution",
       "slug": "linux-lite-8-0-release",
