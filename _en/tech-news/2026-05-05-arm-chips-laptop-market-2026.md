@@ -6,8 +6,19 @@ lang: en
 category: tech-news
 date: 2026-05-10T01:00:00.000Z
 author: GNUTUX
-excerpt: '>-'
+excerpt: >-
+  According to the latest IDC report for Q1 2026, ARM-based chips now represent
+  35% of global laptop shipments, up from just 12% in 2022 and 20% in 2024. This
+  accelerated growth reflects a seismic shift in the industry not seen in
+  decades.
 image: arm-chips-dominate-laptop-market-with-35-share-in-2026.webp
+tags:
+  - laptop
+  - IDC
+  - ARM
+  - GNUTUX
+  - computer
+  - tech
 ---
 
 ## ARM Redraws the Laptop Market Map
