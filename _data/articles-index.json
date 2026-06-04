@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-04T22:02:35.834Z",
+  "generated_at": "2026-06-04T22:15:37.202Z",
   "count": 92,
   "by_lang": {
     "ar": 46,
@@ -9,7 +9,7 @@
     {
       "title": "Prism Desktop: واجهة سطح مكتب أنيقة للتحكم في Home Assistant على ويندوز ولينكس",
       "slug": "prism-desktop-home-assistant-client",
-      "date": "2026-06-05T22:00:00.000Z",
+      "date": "2026-06-04T22:14:00.000Z",
       "category": "foss",
       "also_in": [
         "tech-news"
