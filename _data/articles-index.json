@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-06-04T19:31:11.617Z",
-  "count": 86,
+  "generated_at": "2026-06-04T20:03:25.776Z",
+  "count": 88,
   "by_lang": {
-    "ar": 43,
-    "en": 43
+    "ar": 44,
+    "en": 44
   },
   "articles": [
+    {
+      "title": "Largest Tech Funding in History: Alphabet Raises $84.75 Billion for AI Infrastructure",
+      "slug": "alphabet-84-billion-ai-infrastructure",
+      "date": "2026-06-04T20:02:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Alphabet, Google's parent company, announced the largest technology funding in history at $84.75 billion, led by a $10 billion investment from Berkshire Hathaway, aimed at expanding AI infrastructure, data centers, and TPU chips.",
+      "image": "alphabet_google_ai.jpg",
+      "tags": [
+        "Alphabet",
+        "Google",
+        "Funding",
+        "Artificial Intelligence",
+        "AI",
+        "Infrastructure",
+        "Berkshire Hathaway"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-04-alphabet-84-billion-ai-infrastructure.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "أكبر تمويل في تاريخ التكنولوجيا: Alphabet تجمع 84.75 مليار دولار لبناء بنية تحتية للذكاء الاصطناعي",
+      "slug": "alphabet-84-billion-ai-infrastructure",
+      "date": "2026-06-04T20:01:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أعلنت شركة Alphabet، الشركة الأم لـ Google، عن أكبر عملية تمويل في تاريخ التكنولوجيا بقيمة 84.75 مليار دولار، بقيادة استثمار بقيمة 10 مليارات دولار من شركة Berkshire Hathaway، بهدف توسيع البنية التحتية للذكاء الاصطناعي ومراكز البيانات ورقائق TPU.",
+      "image": "alphabet_google_ai.jpg",
+      "tags": [
+        "Alphabet",
+        "Google",
+        "تمويل",
+        "ذكاء اصطناعي",
+        "AI",
+        "بنية تحتية",
+        "Berkshire Hathaway"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-04-alphabet-84-billion-ai-infrastructure.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "GT-TAHAKOM v1.0.0: Universal Remote Control for TVs and Home Devices via WiFi and Infrared",
       "slug": "gt-tahakom-universal-remote-control",
