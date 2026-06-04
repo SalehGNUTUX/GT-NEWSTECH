@@ -1,11 +1,69 @@
 {
-  "generated_at": "2026-06-03T20:28:47.207Z",
-  "count": 84,
+  "generated_at": "2026-06-04T19:31:11.617Z",
+  "count": 86,
   "by_lang": {
-    "ar": 42,
-    "en": 42
+    "ar": 43,
+    "en": 43
   },
   "articles": [
+    {
+      "title": "GT-TAHAKOM v1.0.0: Universal Remote Control for TVs and Home Devices via WiFi and Infrared",
+      "slug": "gt-tahakom-universal-remote-control",
+      "date": "2026-06-04T19:30:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "GT-TAHAKOM is an open source Android application that unifies control of smart and traditional TVs and set-top boxes through three methods: WiFi for smart TVs, infrared for traditional devices, and WiFi-IR bridges for Broadlink devices, with automatic discovery and smart tuning.",
+      "image": "gt-tahakom-en.png",
+      "tags": [
+        "GT-TAHAKOM",
+        "Remote Control",
+        "Android Apps",
+        "IoT",
+        "IR",
+        "WiFi",
+        "LG webOS",
+        "Samsung",
+        "Android TV",
+        "Roku"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-04-gt-tahakom-universal-remote-control.md",
+      "_lang": "en",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "GT-TAHAKOM v1.0.0: تطبيق تحكم موحد للتلفزيون والأجهزة المنزلية عبر WiFi والأشعة تحت الحمراء",
+      "slug": "gt-tahakom-universal-remote-control",
+      "date": "2026-06-04T19:29:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "GT-TAHAKOM هو تطبيق أندرويد مفتوح المصدر يجمع التحكم بالتلفزيونات الذكية والعادية وأجهزة الاستقبال عبر ثلاثة وسائط: WiFi للتلفزيونات الذكية، الأشعة تحت الحمراء للأجهزة التقليدية، وجسر WiFi-IR لأجهزة Broadlink، مع اكتشاف تلقائي وضبط ذكي.",
+      "image": "gt-tahakom-ar.png",
+      "tags": [
+        "GT_TAHAKOM",
+        "تحكم عن بعد",
+        "تطبيقات أندرويد",
+        "IoT",
+        "IR",
+        "WiFi",
+        "LG webOS",
+        "Samsung",
+        "Android TV",
+        "Roku"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-04-gt-tahakom-universal-remote-control.md",
+      "_lang": "ar",
+      "_cat": "gnutux-projects"
+    },
     {
       "title": "COSMIC Desktop 1.0.15: Major Gaming Improvements and Multi-Window Fullscreen Support",
       "slug": "cosmic-desktop-1-0-15",
