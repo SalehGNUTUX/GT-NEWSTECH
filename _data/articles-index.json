@@ -1,11 +1,57 @@
 {
-  "generated_at": "2026-06-04T20:03:25.776Z",
-  "count": 88,
+  "generated_at": "2026-06-04T20:47:14.453Z",
+  "count": 90,
   "by_lang": {
-    "ar": 44,
-    "en": 44
+    "ar": 45,
+    "en": 45
   },
   "articles": [
+    {
+      "title": "Linux Lite 8.0 'Hematite': A Major Leap for the Beginner-Friendly Distribution",
+      "slug": "linux-lite-8-0-release",
+      "date": "2026-06-04T20:46:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "The Linux Lite team has released version 8.0 'Hematite' based on Ubuntu 26.04 LTS, featuring Linux kernel 7.0, the new Calamares installer, custom gaming kernels, and exclusive tools like Lite Distro Builder and MyAI. A foundational update after fourteen years of development.",
+      "image": "linux-lite.jpg",
+      "tags": [
+        "Linux Lite",
+        "Linux Distributions",
+        "Xfce",
+        "Ubuntu 26.04",
+        "Linux Gaming",
+        "Tools"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-04-linux-lite-8-0-release.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Linux Lite 8.0 'Hematite': نقلة نوعية في عالم التوزيعات المناسبة للمبتدئين",
+      "slug": "linux-lite-8-0-release",
+      "date": "2026-06-04T20:45:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "أصدر فريق Linux Lite الإصدار 8.0 'Hematite' استناداً إلى Ubuntu 26.04 LTS، مع نواة Linux 7.0، ومثبت Calamares الجديد، ونواة مخصصة للألعاب، وأدوات حصرية مثل Lite Distro Builder و MyAI. تحديث أساسي بعد أربعة عشر عاماً من التطوير.",
+      "image": "linux-lite.jpg",
+      "tags": [
+        "Linux Lite",
+        "توزيعات لينكس",
+        "Xfce",
+        "Ubuntu 26.04",
+        "ألعاب لينكس",
+        "أدوات"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-04-linux-lite-8-0-release.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "Largest Tech Funding in History: Alphabet Raises $84.75 Billion for AI Infrastructure",
       "slug": "alphabet-84-billion-ai-infrastructure",
