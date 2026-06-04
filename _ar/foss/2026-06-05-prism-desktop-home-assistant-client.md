@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'Prism Desktop: واجهة سطح مكتب أنيقة للتحكم في Home Assistant على ويندوز ولينكس'
+slug: prism-desktop-home-assistant-client
+lang: ar
 category: foss
+date: 2026-06-04T22:14:00.000Z
 author: GNUTUX
 excerpt: >-
   Prism Desktop هو تطبيق سطح مكتب خفيف لأنظمة ويندوز ولينكس، يعمل كعميل لـ Home
@@ -18,9 +21,6 @@ tags:
   - لينكس
 also_in:
   - tech-news
-date: 2026-06-05T22:00:00.000Z
-lang: ar
-slug: prism-desktop-home-assistant-client
 ---
 
 ## مشكلة متصفحات المنزل الذكي
