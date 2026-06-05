@@ -1,14 +1,23 @@
 ---
 layout: post
-title: "DistroSea: Test Linux Distributions Online Directly from Your Browser"
-date: 2026-06-05T18:33:00Z
-category: gnulinux
-lang: en
+title: 'DistroSea: Test Linux Distributions Online Directly from Your Browser'
 slug: distrosea-test-linux-distros-online
+lang: en
+category: gnulinux
+date: 2026-06-05T17:39:00.000Z
 author: GNUTUX
-tags: [DistroSea, Linux Distributions, Distro Testing, Virtual Machine, Online Experience]
-excerpt: "DistroSea is a free website that lets you try over 100 Linux distributions directly from your browser through cloud-based virtual machines. It supports popular distros like Ubuntu, Fedora, Debian, Arch Linux, and Linux Mint, and works from any browser without installation or registration."
+excerpt: >-
+  DistroSea is a free website that lets you try over 100 Linux distributions
+  directly from your browser through cloud-based virtual machines. It supports
+  popular distros like Ubuntu, Fedora, Debian, Arch Linux, and Linux Mint, and
+  works from any browser without installation or registration.
 image: distrosea_gnutux.jpg
+tags:
+  - DistroSea
+  - Linux Distributions
+  - Distro Testing
+  - Virtual Machine
+  - Online Experience
 ---
 
 ## The Problem of Choosing the Right Distribution

@@ -1,14 +1,23 @@
 ---
 layout: post
-title: "DistroSea: جرب توزيعات لينكس مباشرة من متصفحك دون تثبيت"
-date: 2026-06-05T19:38:00Z
-category: gnulinux
-lang: ar
+title: 'DistroSea: جرب توزيعات لينكس مباشرة من متصفحك دون تثبيت'
 slug: distrosea-test-linux-distros-online
+lang: ar
+category: gnulinux
+date: 2026-06-05T17:39:00.000Z
 author: GNUTUX
-tags: [DistroSea, توزيعات لينكس, اختبار توزيعات, جهاز افتراضي, تجربة عبر الإنترنت]
-excerpt: DistroSea هو موقع مجاني يتيح لك تجربة أكثر من 100 توزيعة لينكس مباشرة من متصفحك عبر أجهزة افتراضية تعمل في السحابة. يدعم التوزيعات الشهيرة مثل Ubuntu و Fedora و Debian و Arch Linux و Linux Mint، ويعمل من أي متصفح دون تثبيت أو تسجيل.
+excerpt: >-
+  DistroSea هو موقع مجاني يتيح لك تجربة أكثر من 100 توزيعة لينكس مباشرة من
+  متصفحك عبر أجهزة افتراضية تعمل في السحابة. يدعم التوزيعات الشهيرة مثل Ubuntu و
+  Fedora و Debian و Arch Linux و Linux Mint، ويعمل من أي متصفح دون تثبيت أو
+  تسجيل.
 image: distrosea_gnutux.jpg
+tags:
+  - DistroSea
+  - توزيعات لينكس
+  - اختبار توزيعات
+  - جهاز افتراضي
+  - تجربة عبر الإنترنت
 ---
 
 ## مشكلة اختيار التوزيعة المناسبة
