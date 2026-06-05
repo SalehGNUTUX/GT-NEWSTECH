@@ -122,6 +122,7 @@ collections:
         widget: list
         required: false
         allow_add: true
+        hint: "تجنّب النقاط '.' والشُّرَط '-' داخل الوسم. عند المشاركة على X/Mastodon يُستبدل كل منها بـ '_' في الـ hashtag (مثل: Tailwind_v3_4)"
 
       - name: body
         label: "محتوى المقال"
@@ -215,6 +216,7 @@ collections:
         widget: list
         required: false
         allow_add: true
+        hint: "Avoid dots '.' and hyphens '-' inside a tag. They are converted to '_' in share hashtags (e.g., Tailwind_v3_4)"
 
       - name: body
         label: "Article Content"
