@@ -285,13 +285,33 @@ function saveArticle(lang, cat, file, fm, content) {
 function getImages(lang) {
   const dir = path.join(ROOT, 'assets', 'images', lang);
   if (!fs.existsSync(dir)) return [];
+
+  // المسار المُفضَّل: اقرأ من _data/images-index.json (يستعمل git log عبر workflow)
+  // يضمن اتساق الترتيب مع اللوحة البعيدة + صحّة الترتيب حتى لو mtime القرص ضائع
+  const indexPath = path.join(ROOT, '_data', 'images-index.json');
+  if (fs.existsSync(indexPath)) {
+    try {
+      const idx = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+      const list = idx[lang] || [];
+      // فلتر: الملفات الموجودة فعلاً على القرص (تجنّب أن يُشير index لملف حُذف)
+      return list
+        .filter(im => fs.existsSync(path.join(dir, im.name)))
+        .map(im => ({
+          name: im.name, lang,
+          url: `/site-images/${lang}/${im.name}`,
+          size: im.size, mtime: im.last_modified_ts * 1000,
+        }));
+    } catch (_) { /* fallback */ }
+  }
+
+  // Fallback: ترتيب بـ mtime من fs (دقيق نسبياً للصور المرفوعة محلياً)
   return fs.readdirSync(dir)
     .filter(f => IMG_EXTS.test(f))
     .map(f => {
       const stat = fs.statSync(path.join(dir, f));
       return { name: f, lang, url: `/site-images/${lang}/${f}`, size: stat.size, mtime: stat.mtimeMs };
     })
-    .sort((a, b) => b.mtime - a.mtime); // الأحدث أولاً
+    .sort((a, b) => b.mtime - a.mtime);
 }
 
 function buildFilename(date, slug) {
