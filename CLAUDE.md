@@ -148,6 +148,7 @@ git add . && git commit -m "message" && git push origin main
   - Shift+Click on the share button forces re-opening the modal (skips remembered value)
 - Nostr handler dispatches by client domain: iris.to, snort.social, primal.net, coracle.social, nostrudel.ninja each have different `share?text=` URL formats; custom domains fall back to `?text=`
 - Tags rendered as hashtags: **spaces, dots, AND hyphens** are all replaced by `_` (e.g., `Tailwind v3.4` → `#Tailwind_v3_4`, `open-source` → `#open_source`). Done in `_layouts/post.html` via Liquid `replace` chain. Cross-platform-safe (no hashtag breaks on `.` or `-`). Decap CMS shows a `hint` on tags field warning the user.
+- **Permanent `#gnutux` hashtag** appended to every article's `_share_tags` in `_layouts/post.html` — site identity. Authors who put "gnutux" in their per-article tags will see it twice; they can remove it manually if needed.
 - **X (Twitter) share text** includes the URL **inline** between excerpt and tags (not via `&url=` parameter) so the tweet reads: title → excerpt → URL → tags. `buildShortText()` budgets for ~270 chars.
 - **Floating action buttons (FABs)** on post pages, stacked right-side bottom-up: `back-to-top` (always) → `fab-share` (opens modal with cloned `.share-btn`s — clicks dispatched to the originals) → `fab-lang` (only if `translation` Liquid var is set — links to other-lang version by slug). Defined in `_layouts/post.html` after `</article>`. CSS uses `bottom: 1.5rem / 5rem / 8.5rem`.
 

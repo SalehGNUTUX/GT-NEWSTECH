@@ -247,8 +247,12 @@ layout: default
       {%- assign _share_url   = page.url | absolute_url -%}
       {%- assign _share_title = page.title -%}
       {%- assign _share_excerpt = page.excerpt | default: page.description | strip_html | strip | truncate: 220 -%}
-      {%- comment -%} الوسوم كـ hashtags: استبدال المسافات و الشُّرَط و النقاط بـ underscore فقط {%- endcomment -%}
-      {%- capture _share_tags -%}{% for t in page.tags %}#{{ t | replace: ' ', '_' | replace: '-', '_' | replace: '.', '_' | replace: '__', '_' }} {% endfor %}{%- endcapture -%}
+      {%- comment -%}
+        الوسوم كـ hashtags: استبدال المسافات و الشُّرَط و النقاط بـ underscore فقط.
+        يُلحَق #gnutux في النهاية كوسم ثابت لكل المقالات (هوية الموقع).
+        لو الكاتب أضاف "gnutux" يدوياً في tags، يظهر مرتين — مسؤوليته يحذفه.
+      {%- endcomment -%}
+      {%- capture _share_tags -%}{% for t in page.tags %}#{{ t | replace: ' ', '_' | replace: '-', '_' | replace: '.', '_' | replace: '__', '_' }} {% endfor %}#gnutux{%- endcapture -%}
 
       <!-- Share -->
       <div class="post-share"
