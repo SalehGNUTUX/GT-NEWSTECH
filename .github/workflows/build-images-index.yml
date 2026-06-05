@@ -1,0 +1,46 @@
+name: Build images index
+
+# يحدّث _data/images-index.json تلقائياً عند أي تغيير في الصور
+# يُقرأ من admin-worker لترتيب الصور بالأحدث أولاً
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/images/**'
+      - 'scripts/build-images-index.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-images-index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # نحتاج الـ history لـ git log -1 على كل صورة
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build index
+        run: node scripts/build-images-index.js
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet _data/images-index.json; then
+            echo "✓ لا تغييرات في الـ index"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _data/images-index.json
+          git commit -m "chore: تحديث images-index.json تلقائياً [skip ci]"
+          git push

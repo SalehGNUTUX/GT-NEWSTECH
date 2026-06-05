@@ -286,8 +286,9 @@ function getImages(lang) {
     .filter(f => IMG_EXTS.test(f))
     .map(f => {
       const stat = fs.statSync(path.join(dir, f));
-      return { name: f, lang, url: `/site-images/${lang}/${f}`, size: stat.size };
-    });
+      return { name: f, lang, url: `/site-images/${lang}/${f}`, size: stat.size, mtime: stat.mtimeMs };
+    })
+    .sort((a, b) => b.mtime - a.mtime); // الأحدث أولاً
 }
 
 function buildFilename(date, slug) {

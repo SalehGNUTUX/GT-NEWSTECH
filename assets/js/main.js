@@ -26,14 +26,90 @@
     }, { passive: true });
   }
 
-  /* ── Back To Top ──────────────────────────────────────────── */
+  /* ── Scroll toggle (أعلى/أسفل) ─────────────────────────────
+     - في الأعلى أو قريب منه: السهم متجه للأسفل، النقر يأخذك للأسفل
+     - بعد التمرير لـ >400px: السهم متجه للأعلى، النقر يأخذك للأعلى */
   var backBtn = document.getElementById('backToTop');
+  var backIcon = document.getElementById('backToTopIcon');
+  var SVG_UP = '<polyline points="18 15 12 9 6 15"/>';
+  var SVG_DOWN = '<polyline points="6 9 12 15 18 9"/>';
   if (backBtn) {
-    window.addEventListener('scroll', function () {
-      backBtn.classList.toggle('visible', window.scrollY > 400);
-    }, { passive: true });
+    var isDown = true; // الحالة الافتراضية: نزول
+    function updateScrollButton() {
+      var y = window.scrollY;
+      var shouldBeUp = y > 400;
+      if (shouldBeUp !== !isDown) {
+        isDown = !shouldBeUp;
+        if (backIcon) backIcon.innerHTML = isDown ? SVG_DOWN : SVG_UP;
+        backBtn.setAttribute('aria-label', isDown ? 'انتقال لأسفل الصفحة' : 'العودة للأعلى');
+      }
+      backBtn.classList.add('visible'); // ظاهر دائماً (مع تبدّل الاتجاه)
+    }
+    window.addEventListener('scroll', updateScrollButton, { passive: true });
+    updateScrollButton();
     backBtn.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({
+        top: isDown ? document.documentElement.scrollHeight : 0,
+        behavior: 'smooth',
+      });
+    });
+  }
+
+  /* ── زر مشاركة عائم (Floating Action Button) ────────────────
+     يُظهر modal يحوي نسخة من أزرار المشاركة الموجودة في .post-share،
+     لتجنّب النزول لأسفل المقال للوصول إليها. */
+  var fabShare = document.getElementById('fabShare');
+  var postShare = document.querySelector('.post-share');
+  if (fabShare && postShare) {
+    fabShare.addEventListener('click', function () {
+      var modal = document.getElementById('fabShareModal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'fabShareModal';
+        modal.className = 'fab-share-modal';
+        modal.innerHTML = '<div class="fab-share-overlay"></div>' +
+                          '<div class="fab-share-box">' +
+                            '<div class="fab-share-header">' +
+                              '<span>' + (document.documentElement.lang === 'en' ? 'Share article' : 'شارك المقال') + '</span>' +
+                              '<button class="fab-share-close" aria-label="إغلاق">✕</button>' +
+                            '</div>' +
+                            '<div class="fab-share-body"></div>' +
+                          '</div>';
+        document.body.appendChild(modal);
+
+        /* ننسخ المحتوى الفعلي للأزرار من .post-share داخل الـ modal،
+           ثم نُعيد إرفاق نفس معالج النقر — يستخدم نفس البيانات (data-*) */
+        var cloned = postShare.cloneNode(true);
+        cloned.classList.add('post-share--in-modal');
+        cloned.removeAttribute('id');
+        modal.querySelector('.fab-share-body').appendChild(cloned);
+
+        /* أعد ربط الأحداث على النسخة المنسوخة:
+           بدل تكرار الـ handlers، نُشغّل نقر برمجياً على الزر الأصلي
+           في .post-share (يحمل نفس data-platform). يحافظ على Shift+Click كذلك. */
+        cloned.querySelectorAll('.share-btn[data-platform]').forEach(function (btn) {
+          var p = btn.dataset.platform;
+          btn.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            var origBtn = postShare.querySelector('.share-btn[data-platform="' + p + '"]');
+            if (origBtn) {
+              /* مرّر shiftKey بصياغة event مماثل */
+              var fake = new MouseEvent('click', { bubbles: true, shiftKey: ev.shiftKey });
+              origBtn.dispatchEvent(fake);
+              modal.classList.remove('show');
+            }
+          });
+        });
+
+        function closeModal() { modal.classList.remove('show'); }
+        modal.querySelector('.fab-share-close').addEventListener('click', closeModal);
+        modal.querySelector('.fab-share-overlay').addEventListener('click', closeModal);
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeModal();
+        });
+      }
+      modal.classList.add('show');
     });
   }
 
@@ -266,14 +342,20 @@
       return parts.join('\n\n');
     }
 
-    /* نص مختصر (لـ X/Twitter — حد 280 حرف) */
+    /* نص مختصر (لـ X/Twitter — حد 280 حرف).
+       الترتيب: عنوان → ملخص (إن وسع) → الرابط → الوسوم (إن وسعت).
+       الرابط مضمَّن في النص (لا في &url=) ليأتي بين الملخص والوسوم. */
     function buildShortText() {
-      var maxLen = 240; // نترك مساحة للـ URL
+      var urlLen = url.length + 4; // \n\n + URL
+      var maxLen = 270;
       var t = title;
-      if (excerpt && (t.length + excerpt.length + 5) < maxLen) {
+      var room = maxLen - t.length - urlLen;
+      if (excerpt && excerpt.length + 2 < room) {
         t += '\n\n' + excerpt;
+        room -= excerpt.length + 2;
       }
-      if (tags && (t.length + tags.length + 3) < maxLen + 20) {
+      t += '\n\n' + url;
+      if (tags && tags.length + 2 < (maxLen - t.length + 20)) {
         t += '\n\n' + tags;
       }
       return t;
@@ -511,9 +593,9 @@
     /* معالج كل منصة */
     var handlers = {
       x: function () {
+        /* URL مضمَّن داخل buildShortText للحفاظ على ترتيب: نص → رابط → وسوم */
         var u = 'https://twitter.com/intent/tweet?text=' +
-                encodeURIComponent(buildShortText()) +
-                '&url=' + encodeURIComponent(url);
+                encodeURIComponent(buildShortText());
         window.open(u, '_blank', 'noopener');
       },
       facebook: function () {

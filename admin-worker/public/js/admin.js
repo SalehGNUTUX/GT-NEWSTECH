@@ -182,8 +182,17 @@ function fmt(kb) {
 }
 
 // ── Routing ────────────────────────────────────────────────────
-function navigate(page) {
+function navigate(raw) {
+  /* يقبل "articles" أو "articles?lang=ar" — يفصل الـ query ويُطبّق lang/cat تلقائياً */
+  const [page, qs] = (raw || '').split('?');
   S.page = page;
+  if (qs) {
+    const params = new URLSearchParams(qs);
+    const lang = params.get('lang');
+    const cat  = params.get('cat');
+    if (lang) S.langFilter = lang;
+    if (cat) S.catFilter = cat;
+  }
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page));
   const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', trash:'المهملات', comments:'إدارة التعليقات', git:'Git / نشر', remotes:'المستودعات', security:'الأمان', config:'الإعدادات' };
   $('topbarTitle').textContent = titles[page] || page;
@@ -216,12 +225,12 @@ async function renderDashboard(c) {
   const catTotal = Object.values(d.byCat).reduce((a,b)=>a+b,0)||1;
   c.innerHTML = `
   <div class="stats-grid">
-    <div class="stat-card"><div class="stat-icon gold"><i class="fa-solid fa-newspaper"></i></div>
-      <div><div class="stat-val">${d.total}</div><div class="stat-lbl">إجمالي المقالات</div></div></div>
-    <div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-language"></i></div>
-      <div><div class="stat-val">${d.byLang.ar||0}</div><div class="stat-lbl">مقالة عربية</div></div></div>
-    <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-earth-americas"></i></div>
-      <div><div class="stat-val">${d.byLang.en||0}</div><div class="stat-lbl">English Articles</div></div></div>
+    <a class="stat-card stat-card--link" href="#articles" title="عرض كل المقالات"><div class="stat-icon gold"><i class="fa-solid fa-newspaper"></i></div>
+      <div><div class="stat-val">${d.total}</div><div class="stat-lbl">إجمالي المقالات</div></div></a>
+    <a class="stat-card stat-card--link" href="#articles?lang=ar" title="عرض المقالات العربية"><div class="stat-icon blue"><i class="fa-solid fa-language"></i></div>
+      <div><div class="stat-val">${d.byLang.ar||0}</div><div class="stat-lbl">مقالة عربية</div></div></a>
+    <a class="stat-card stat-card--link" href="#articles?lang=en" title="View English articles"><div class="stat-icon green"><i class="fa-solid fa-earth-americas"></i></div>
+      <div><div class="stat-val">${d.byLang.en||0}</div><div class="stat-lbl">English Articles</div></div></a>
     ${Object.entries(CATS).map(([k,v])=>`
     <a class="stat-card stat-card--link" href="#cat-stats/${k}" title="إحصائيات تفصيلية">
       <div class="stat-icon" style="background:rgba(255,255,255,.06)"><i class="fa-${v.brand?'brands':'solid'} ${v.icon}" style="font-size:1.1rem;color:var(--gold)"></i></div>
@@ -1692,12 +1701,82 @@ $('saveArticle').addEventListener('click', async () => {
 
   if(d.ok) {
     toast('تم حفظ المقال ✓', 'success');
-    $('editorModal').setAttribute('hidden', '');
-    navigate('articles');
+    /* فحص إن كانت النسخة الأخرى من اللغة موجودة. إن لا → اعرض dialog */
+    const otherLang = lang === 'ar' ? 'en' : 'ar';
+    let otherExists = false;
+    try {
+      const allOther = await api(`/api/articles?lang=${otherLang}`);
+      otherExists = Array.isArray(allOther) && allOther.some(a => a.slug === slug);
+    } catch(_) {}
+
+    if (!otherExists) {
+      $('editorModal').setAttribute('hidden', '');
+      const otherLabel = otherLang === 'en' ? 'الإنجليزية' : 'العربية';
+      const shared = {
+        slug, category: cat, image: fm.image || '',
+        also_in: alsoIn, author: fm.author, tags: tagsRaw,
+        date: `${dateVal} ${timeVal}:00`,
+      };
+      promptCrossLang(otherLang, otherLabel, shared);
+    } else {
+      $('editorModal').setAttribute('hidden', '');
+      navigate('articles');
+    }
   } else {
     toast('خطأ: '+(d.error||'فشل الحفظ'), 'error');
   }
 });
+
+/* Dialog يظهر بعد حفظ مقال جديد ليُذكّر بتحرير النسخة الأخرى من اللغة.
+   يملأ الحقول المشتركة (slug، image، category، tags، date) لتسريع العمل. */
+function promptCrossLang(otherLang, otherLabel, shared) {
+  const wrap = document.createElement('div');
+  wrap.className = 'confirm-overlay';
+  wrap.innerHTML = `
+    <div class="confirm-modal" style="max-width:480px">
+      <div class="confirm-header">
+        <i class="fa-solid fa-language" style="color:var(--gold)"></i>
+        <h3>تحرير النسخة ${otherLabel}؟</h3>
+      </div>
+      <div class="confirm-body">
+        <p>حُفظ المقال بنجاح. هل تريد تحرير النسخة ${otherLabel} الآن؟</p>
+        <p style="color:var(--muted);font-size:.85rem;margin-top:.5rem">
+          ستُملأ الحقول المشتركة تلقائياً: <b>Slug</b>، <b>القسم</b>، <b>الصورة</b>، <b>الوسوم</b>، <b>التاريخ</b>.
+        </p>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-gold" id="clEdit"><i class="fa-solid fa-pen-nib"></i> تحرير ${otherLabel}</button>
+        <button class="btn btn-ghost" id="clLater">لاحقاً</button>
+      </div>
+    </div>`;
+  document.body.appendChild(wrap);
+  const close = () => wrap.remove();
+  wrap.querySelector('#clLater').onclick = () => { close(); navigate('articles'); };
+  wrap.querySelector('#clEdit').onclick = () => {
+    close();
+    /* افتح المحرر مع لغة الأخرى — استدعاء openEditor بدون ref → مقال جديد،
+       ثم نملأ الحقول المشتركة بعد فتح المحرر */
+    openEditor(null).then(() => {
+      $('fSlug').value = shared.slug;
+      $('fCategory').value = shared.category;
+      const langInput = document.querySelector(`[name=fLang][value="${otherLang}"]`);
+      if (langInput) { langInput.checked = true; langInput.dispatchEvent(new Event('change')); }
+      $('fImage').value = shared.image;
+      $('fAuthor').value = shared.author;
+      $('fTags').value = shared.tags;
+      const dt = parseDatetime(shared.date);
+      $('fDate').value = dt.dateStr;
+      if ($('fTime')) $('fTime').value = dt.timeStr;
+      /* فعّل also_in من القسم نفسه + ما اختير سابقاً */
+      if (typeof syncAlsoInWithCat === 'function') syncAlsoInWithCat();
+      shared.also_in?.forEach(c => {
+        const cb = document.querySelector(`#fAlsoIn input[value="${c}"]`);
+        if (cb) cb.checked = true;
+      });
+      toast(`الحقول المشتركة جاهزة — اكتب العنوان والمحتوى بـ${otherLang === 'en' ? 'الإنجليزية' : 'العربية'}`, 'info');
+    });
+  };
+}
 
 $('closeEditor').addEventListener('click', () => $('editorModal').setAttribute('hidden', ''));
 $('cancelEditor').addEventListener('click', () => $('editorModal').setAttribute('hidden', ''));
