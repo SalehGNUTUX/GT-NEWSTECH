@@ -40,10 +40,14 @@
     }
 
     // ── إصلاح timezone للتاريخ ──
-    // اللوحة المحلية ترسل "YYYY-MM-DD HH:MM:SS" كوقت محلي،
-    // الـ Worker يعمل في UTC ولا يعرف timezone المتصفح.
-    // نعترض POST/PUT لـ /api/article ونُحوّل التاريخ إلى ISO UTC.
-    // (parseDatetime في admin.js يعرف كيف يقرأ ISO ويعرضه محلياً عند التحرير)
+    // admin.js يرسل "YYYY-MM-DD HH:MM:SS" كوقت محلي (بدون منطقة).
+    // الـ Worker يعمل في UTC. التحويل عبر toISOString يفقد دقة DST في بعض الحالات.
+    // الحل: نحفظ التاريخ بـ wall-clock للمستخدم مع offset متصفحه صراحةً:
+    //   "2026-06-05T18:16:00+0200"
+    // - Jekyll يفهم timestamp مع offset → دقيق دائماً
+    // - Worker normalizeDate يُبقي offset كما هو
+    // - parseDatetime في admin.js يكتشف ISO ويعرضه محلياً عند التحرير
+    const pad = n => String(n).padStart(2, '0');
     const origFetch = window.fetch.bind(window);
     window.fetch = async function (input, init = {}) {
       const url = typeof input === 'string' ? input : (input?.url || '');
@@ -56,13 +60,18 @@
           if (body.date && typeof body.date === 'string') {
             const m = body.date.trim()
               .match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?$/);
-            // نُحوّل فقط لو ليست ISO Z بالفعل (لا تحتوي Z أو offset)
+            // نُحوّل فقط لو ليست ISO Z/offset بالفعل
             if (m && !/Z$|[+-]\d{2}:?\d{2}$/.test(body.date)) {
-              const local = new Date(
-                +m[1], +m[2] - 1, +m[3],
-                +(m[4] || 0), +(m[5] || 0), +(m[6] || 0)
-              );
-              body.date = local.toISOString(); // → "YYYY-MM-DDTHH:MM:SS.sssZ"
+              const y = +m[1], mo = +m[2], d = +m[3];
+              const hh = +(m[4] || 0), mm = +(m[5] || 0), ss = +(m[6] || 0);
+              // offset الفعلي للوقت المحدّد (يعتبر DST تلقائياً)
+              const refDate = new Date(y, mo - 1, d, hh, mm, ss);
+              const offMin = -refDate.getTimezoneOffset(); // مثال +120 لـ UTC+2
+              const sign = offMin >= 0 ? '+' : '-';
+              const absOff = Math.abs(offMin);
+              const offH = pad(Math.floor(absOff / 60));
+              const offM = pad(absOff % 60);
+              body.date = `${y}-${pad(mo)}-${pad(d)}T${pad(hh)}:${pad(mm)}:${pad(ss)}${sign}${offH}${offM}`;
               init = { ...init, body: JSON.stringify(body) };
             }
           }
