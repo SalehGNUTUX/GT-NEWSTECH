@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "DistroSea: جرب توزيعات لينكس مباشرة من متصفحك دون تثبيت"
-date: 2026-06-05T18:33:00Z
+date: 2026-06-05T19:38:00Z
 category: gnulinux
 lang: ar
 slug: distrosea-test-linux-distros-online
