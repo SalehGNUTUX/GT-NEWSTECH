@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-06-04T22:31:02.233Z",
-  "count": 92,
+  "generated_at": "2026-06-05T16:33:15.226Z",
+  "count": 94,
   "by_lang": {
-    "ar": 46,
-    "en": 46
+    "ar": 47,
+    "en": 47
   },
   "articles": [
+    {
+      "title": "Azure Linux 4.0: مايكروسوفت تفتح باب اختبار توزيعتها القائمة على فيدورا",
+      "slug": "azure-linux-4-0-public-preview",
+      "date": "2026-06-05T16:25:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أعلنت مايكروسوفت عن إطلاق Azure Linux 4.0 في مرحلة المعاينة العامة، وهو إصدار يعيد بناء التوزيعة بالكامل على أساس Fedora Linux، مما يمثل تحولاً استراتيجياً في فلسفة تطوير التوزيعة لتكون خادماً عاماً بدلاً من مجرد حاوية لـ AKS.",
+      "image": "azure-linux-4-released-gnutux.jpg",
+      "tags": [
+        "Azure Linux",
+        "مايكروسوفت",
+        "توزيعات لينكس",
+        "سحابة",
+        "فيدورا",
+        "CBL-Mariner"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-05-azure-linux-4-0-public-preview.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Azure Linux 4.0: Microsoft Opens the Door to Testing Its Fedora-Based Distribution",
+      "slug": "azure-linux-4-0-public-preview",
+      "date": "2026-06-05T16:25:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Microsoft announced the public preview of Azure Linux 4.0, a version that completely rebuilds the distribution on top of Fedora Linux, representing a strategic shift in the distribution's philosophy to become a general-purpose server instead of just an AKS container host.",
+      "image": "azure-linux-4-released-gnutux.jpg",
+      "tags": [
+        "Azure Linux",
+        "Microsoft",
+        "Linux Distributions",
+        "Cloud",
+        "Fedora",
+        "CBL-Mariner"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-05-azure-linux-4-0-public-preview.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
     {
       "title": "Prism Desktop: واجهة سطح مكتب أنيقة للتحكم في Home Assistant على ويندوز ولينكس",
       "slug": "prism-desktop-home-assistant-client",
