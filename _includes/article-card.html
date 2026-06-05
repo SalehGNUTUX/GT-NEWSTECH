@@ -22,10 +22,23 @@
       {% else %}
         {% assign _img_src = site.baseurl | append: '/assets/images/' | append: post.lang | append: '/' | append: post.image %}
       {% endif %}
-      <img src="{{ _img_src }}"
-           alt="{{ post.title }}"
-           loading="lazy"
-           onerror="this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('card-fallback-logo')">
+      {%- comment -%}
+        WebP companion: لكل image.jpg/png يولّد image.webp تلقائياً عند الرفع.
+        نخدم WebP للمتصفحات الحديثة (95%+) عبر <picture>، fallback للأصل.
+      {%- endcomment -%}
+      {%- assign _ext_pos = _img_src | size | minus: 4 -%}
+      {%- assign _img_base = _img_src | slice: 0, _ext_pos -%}
+      {%- assign _img_ext = _img_src | slice: _ext_pos, 4 | downcase -%}
+      <picture>
+        {%- if _img_ext == ".jpg" or _img_ext == ".png" or _img_ext == "jpeg" -%}
+        <source srcset="{{ _img_base }}.webp" type="image/webp">
+        {%- endif -%}
+        <img src="{{ _img_src }}"
+             alt="{{ post.title }}"
+             loading="lazy"
+             decoding="async"
+             onerror="this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('card-fallback-logo')">
+      </picture>
       {% else %}
       <div class="card-image-placeholder">
         <img src="{{ site.baseurl }}/assets/icons/gt-newstech-icon.png"

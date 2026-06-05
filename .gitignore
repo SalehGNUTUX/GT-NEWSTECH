@@ -20,3 +20,6 @@ admin/.github-token
 admin/.trash/
 *.tmp*
 .jekyll-cache/
+
+# نسخ احتياطية للصور قبل الضغط (محلية فقط)
+assets/images/_originals/

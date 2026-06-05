@@ -83,6 +83,7 @@ exclude:
   - admin/
   - admin-worker/
   - _trash/
+  - assets/images/_originals/
   - serve.sh
   - admin-start.sh
   - start.sh

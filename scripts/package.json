@@ -4,9 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build-index": "node build-articles-index.js"
+    "build-index": "node build-articles-index.js",
+    "build-images-index": "node build-images-index.js",
+    "optimize": "node optimize-images.js",
+    "optimize:new": "node optimize-images.js --new",
+    "optimize:dry": "node optimize-images.js --dry"
   },
   "dependencies": {
-    "gray-matter": "^4.0.3"
+    "gray-matter": "^4.0.3",
+    "sharp": "^0.34.5"
   }
 }

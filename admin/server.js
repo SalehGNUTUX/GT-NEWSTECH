@@ -192,39 +192,85 @@ function sanitizeFilename(original) {
  * - صيغة غير مدعومة → تُحوَّل إلى JPEG
  * القيمة المُعادة: { filename, converted }
  */
+/**
+ * Pipeline ضغط Sharp — يطبَّق على كل الصور المرفوعة:
+ *  - تكبير عرض > 1600px إلى 1600px (يحافظ على نسبة الأبعاد)
+ *  - JPEG: quality 85 + mozjpeg (~60-70% توفير بدون فقد بصري)
+ *  - PNG: تحسين compressionLevel 9 + palette لو الصورة بسيطة
+ *  - WebP: quality 82
+ *  - حذف EXIF/metadata
+ * يعيد buffer مضغوط بالصيغة الأصلية + companion WebP.
+ */
+const MAX_WIDTH = 1600;
+
+async function compressImage(buffer, ext) {
+  const lowerExt = ext.toLowerCase();
+  // svg/gif: لا نضغطها (svg نص، gif قد يكون animation)
+  if (lowerExt === '.svg' || lowerExt === '.gif') {
+    return { main: buffer, webp: null };
+  }
+
+  let pipeline = sharp(buffer, { failOn: 'none' });
+  const meta = await pipeline.metadata();
+  if (meta.width > MAX_WIDTH) {
+    pipeline = pipeline.resize({ width: MAX_WIDTH, withoutEnlargement: true });
+  }
+  pipeline = pipeline.withMetadata({ orientation: undefined }); // احفظ orientation فقط، احذف EXIF
+
+  let mainBuffer;
+  if (lowerExt === '.jpg' || lowerExt === '.jpeg') {
+    mainBuffer = await pipeline.jpeg({ quality: 85, mozjpeg: true, progressive: true }).toBuffer();
+  } else if (lowerExt === '.png') {
+    mainBuffer = await pipeline.png({ compressionLevel: 9, palette: meta.channels < 4 }).toBuffer();
+  } else if (lowerExt === '.webp') {
+    mainBuffer = await pipeline.webp({ quality: 82 }).toBuffer();
+  } else if (lowerExt === '.avif') {
+    mainBuffer = await pipeline.avif({ quality: 70 }).toBuffer();
+  } else {
+    mainBuffer = await pipeline.toBuffer();
+  }
+
+  // WebP companion لكل JPG/PNG (يخدمه القالب عبر <picture>)
+  let webpBuffer = null;
+  if (lowerExt === '.jpg' || lowerExt === '.jpeg' || lowerExt === '.png') {
+    let webpPipe = sharp(buffer, { failOn: 'none' });
+    if (meta.width > MAX_WIDTH) webpPipe = webpPipe.resize({ width: MAX_WIDTH, withoutEnlargement: true });
+    webpBuffer = await webpPipe.webp({ quality: 82 }).toBuffer();
+  }
+
+  return { main: mainBuffer, webp: webpBuffer };
+}
+
 async function saveImage(buffer, originalName, destDir) {
   fs.mkdirSync(destDir, { recursive: true });
   const { base, ext } = sanitizeFilename(originalName);
 
-  if (WEB_FORMATS.test(originalName)) {
-    // صيغة ويب — حفظ مباشر
-    const filename = base + ext;
-    fs.writeFileSync(path.join(destDir, filename), buffer);
-    return { filename, converted: false };
+  // صيغة غير مدعومة لـsharp — تحويل لـJPEG ثم ضغط
+  if (!WEB_FORMATS.test(originalName)) {
+    const filename = base + '.jpg';
+    const converted = await sharp(buffer).jpeg({ quality: 85, mozjpeg: true, progressive: true })
+      .resize({ width: MAX_WIDTH, withoutEnlargement: true })
+      .toBuffer();
+    fs.writeFileSync(path.join(destDir, filename), converted);
+    // وأيضاً WebP companion
+    const webp = await sharp(buffer).resize({ width: MAX_WIDTH, withoutEnlargement: true })
+      .webp({ quality: 82 }).toBuffer();
+    fs.writeFileSync(path.join(destDir, base + '.webp'), webp);
+    return { filename, converted: true };
   }
 
-  // صيغة غير مدعومة — تحويل إلى JPEG
-  const filename = base + '.jpg';
-  await sharp(buffer).jpeg({ quality: 88 }).toFile(path.join(destDir, filename));
-  return { filename, converted: true };
+  // صيغة ويب → ضغط Sharp pipeline
+  const { main, webp } = await compressImage(buffer, ext);
+  const filename = base + ext;
+  fs.writeFileSync(path.join(destDir, filename), main);
+  if (webp) fs.writeFileSync(path.join(destDir, base + '.webp'), webp);
+  return { filename, converted: false };
 }
 
-/**
- * يحفظ صورة من مسار محلي
- */
 async function saveImageFromPath(sourcePath, destDir) {
   fs.mkdirSync(destDir, { recursive: true });
-  const { base, ext } = sanitizeFilename(path.basename(sourcePath));
-
-  if (WEB_FORMATS.test(sourcePath)) {
-    const filename = base + ext;
-    fs.copyFileSync(sourcePath, path.join(destDir, filename));
-    return { filename, converted: false };
-  }
-
-  const filename = base + '.jpg';
-  await sharp(sourcePath).jpeg({ quality: 88 }).toFile(path.join(destDir, filename));
-  return { filename, converted: true };
+  const buffer = fs.readFileSync(sourcePath);
+  return saveImage(buffer, path.basename(sourcePath), destDir);
 }
 
 // ── Helpers ────────────────────────────────────────────────────
