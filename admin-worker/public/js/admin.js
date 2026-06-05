@@ -194,6 +194,12 @@ function navigate(raw) {
     if (cat) S.catFilter = cat;
   }
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page));
+  /* مزامنة بصرية لشارات اللغة في الـ topbar مع S.langFilter */
+  const fAr = $('filterAr'), fEn = $('filterEn');
+  if (fAr && fEn) {
+    fAr.classList.toggle('active', S.langFilter === 'ar');
+    fEn.classList.toggle('active', S.langFilter === 'en');
+  }
   const titles = { dashboard:'لوحة التحكم', articles:'المقالات', 'new-article':'مقال جديد', images:'مدير الصور', categories:'الأقسام', trash:'المهملات', comments:'إدارة التعليقات', git:'Git / نشر', remotes:'المستودعات', security:'الأمان', config:'الإعدادات' };
   $('topbarTitle').textContent = titles[page] || page;
   renderPage(page);
