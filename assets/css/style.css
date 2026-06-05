@@ -1796,11 +1796,11 @@ body { padding-top: var(--header-height, 64px); }
   background: var(--gold-light);
 }
 
-/* ── Floating Share Button (FAB) ───────────────────────────── */
-.fab-share {
+/* ── Floating Action Buttons (FAB) — ترتيب رأسي على نفس الجانب ──
+   من الأسفل للأعلى: back-to-top → fab-share → fab-lang */
+.fab-share, .fab-lang {
   position: fixed;
-  bottom: 1.5rem;
-  inset-inline-end: 5rem;          /* بجانب زر الـ scroll */
+  inset-inline-end: 1.5rem;
   width: 44px;
   height: 44px;
   background: var(--bg-secondary, #1a1a1a);
@@ -1814,11 +1814,22 @@ body { padding-top: var(--header-height, 64px); }
   box-shadow: 0 6px 18px rgba(0,0,0,.35);
   transition: all var(--transition);
   z-index: 50;
+  text-decoration: none;
 }
-.fab-share:hover {
+.fab-share { bottom: 5rem; }   /* فوق زر التمرير */
+.fab-lang  { bottom: 8.5rem; } /* فوق زر المشاركة */
+
+.fab-share:hover, .fab-lang:hover {
   background: var(--gold);
   color: #000;
   transform: translateY(-3px);
+}
+
+.fab-lang-text {
+  font-weight: 800;
+  font-size: .8rem;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 1px;
 }
 
 /* Modal الذي يظهر بأزرار المشاركة */
@@ -1877,7 +1888,9 @@ body { padding-top: var(--header-height, 64px); }
 .post-share--in-modal .share-label { display: none; }
 
 @media (max-width: 600px) {
-  .fab-share { bottom: 1rem; inset-inline-end: 4rem; width: 40px; height: 40px; }
+  .fab-share, .fab-lang { inset-inline-end: 1rem; width: 40px; height: 40px; }
+  .fab-share { bottom: 4.5rem; }
+  .fab-lang  { bottom: 7.5rem; }
 }
 
 /* ── Utilities ──────────────────────────────────────────────── */

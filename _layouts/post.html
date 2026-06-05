@@ -330,3 +330,29 @@ layout: default
   {% endif %}
 
 </article>
+
+{%- comment -%}
+  ────────────── الأزرار العائمة (FABs) ──────────────
+  ترتيب من أسفل لأعلى:
+    1. زر التمرير (موجود في default.html)
+    2. زر المشاركة (هنا)
+    3. زر تبديل لغة المقال (هنا، يظهر فقط إن وُجدت ترجمة)
+{%- endcomment -%}
+
+{% if translation %}
+<a href="{{ translation.url | relative_url }}"
+   class="fab-lang"
+   aria-label="{{ alt_label }}"
+   title="{{ alt_label }}">
+  <span class="fab-lang-text">{% if page.lang == 'en' %}AR{% else %}EN{% endif %}</span>
+</a>
+{% endif %}
+
+<button class="fab-share" id="fabShare"
+        aria-label="{% if page.lang == 'en' %}Share{% else %}مشاركة{% endif %}"
+        title="{% if page.lang == 'en' %}Share article{% else %}شارك المقال{% endif %}">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="11.49"/>
+  </svg>
+</button>

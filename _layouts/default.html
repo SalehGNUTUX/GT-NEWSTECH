@@ -276,17 +276,11 @@
     </div>
   </footer>
 
-  {%- comment -%} زر مشاركة عائم: لصفحات المقالات فقط — يفتح modal بأزرار المشاركة {%- endcomment -%}
-  {% if page.layout == 'post' %}
-  <button class="fab-share" id="fabShare"
-          aria-label="{% if page.lang == 'en' %}Share{% else %}مشاركة{% endif %}"
-          title="{% if page.lang == 'en' %}Share article{% else %}شارك المقال{% endif %}">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-      <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="11.49"/>
-    </svg>
-  </button>
-  {% endif %}
+  {%- comment -%}
+    الأزرار العائمة (FABs):
+    - زر تبديل لغة المقال + زر مشاركة → موجودان في post.html (يحتاجان متغيّر translation)
+    - زر التمرير (الصعود/النزول) → دائماً
+  {%- endcomment -%}
 
   <!-- Scroll toggle: يتبدّل بين أعلى/أسفل حسب موقع التمرير -->
   <button class="back-to-top" id="backToTop" aria-label="تمرير">
