@@ -1,6 +1,12 @@
 {
-  "generated_at": "2026-06-05T19:08:44.041Z",
+  "generated_at": "2026-06-05T20:20:15.928Z",
   "ar": [
+    {
+      "name": "html-video.png",
+      "size": 1401732,
+      "last_modified_ts": 1780690801,
+      "path": "assets/images/ar/html-video.png"
+    },
     {
       "name": "0-ad-featured-800x450.jpeg",
       "size": 105365,
@@ -532,6 +538,12 @@
   ],
   "en": [
     {
+      "name": "html-video.png",
+      "size": 1401732,
+      "last_modified_ts": 1780690801,
+      "path": "assets/images/en/html-video.png"
+    },
+    {
       "name": "0-ad-featured-800x450.jpeg",
       "size": 105365,
       "last_modified_ts": 1780686505,
@@ -1060,6 +1072,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 88,
-  "count_en": 88
+  "count_ar": 89,
+  "count_en": 89
 }
