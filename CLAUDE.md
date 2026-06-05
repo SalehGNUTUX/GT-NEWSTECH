@@ -230,7 +230,7 @@ GET  /api/config
   </picture>
   ```
   Modern browsers (95%+) get WebP, older ones fall back to original. Hero image in post.html adds `fetchpriority="high"`.
-- **Batch script** for existing images: `cd scripts && npm run optimize` (or `:dry` / `:new`)
+- **Batch script** for existing images: `cd scripts && npm run optimize` (or `:dry` / `:new`). First full run on the library (96 images): **40 MB → 26 MB (-45%)**, plus 94 WebP companions totaling 3.92 MB. Heavy screenshots reduced 70-78% via resize to 1600px. Two corrupt files (`claudevscodex.png`, `ubuntu-2604-noble-numbat.avif`) failed with `heif: Invalid input` and were skipped — re-encode them if you need them in the build.
 - **The Worker cannot compress** (no native sharp binaries on Cloudflare Workers) — for now, remote uploads bypass compression. Options: reject uploads > 2MB at the Worker, browser-side compression via `browser-image-compression`, or Cloudflare Images (paid).
 
 **Categories are dynamic:**
