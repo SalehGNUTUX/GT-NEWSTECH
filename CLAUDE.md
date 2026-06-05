@@ -211,10 +211,27 @@ POST /api/images/from-url            ← download image from URL into assets/ima
 GET  /api/config
 ```
 
-**Image handling (sharp):**
-- Web formats (jpg, png, webp, avif, gif, svg) → saved as-is
-- Non-web formats (heic, heif, tiff, bmp) → converted to JPEG
-- `saveImage()` / `saveImageFromPath()` handle both cases
+**Image handling (sharp compress pipeline):**
+- **Every upload passes through `compressImage()`** (`admin/server.js`) — no raw saves
+- Pipeline: resize to `max-width 1600px`, strip EXIF, then format-specific compression:
+  - JPEG: `quality: 85, mozjpeg: true, progressive: true` (~60-70% smaller)
+  - PNG: `compressionLevel: 9, palette` (if channels < 4)
+  - WebP: `quality: 82`
+  - AVIF: `quality: 70`
+  - SVG / GIF: skipped (SVG is text, GIF may be animation)
+- **WebP companion auto-generated** alongside every JPG/PNG (`image.jpg` + `image.webp`)
+- Non-web formats (heic, heif, tiff, bmp) → converted to JPEG **and** WebP
+- **Only writes if output smaller than input** (avoids inflating already-tiny images)
+- `_layouts/post.html` and `_includes/article-card.html` use `<picture>` element:
+  ```html
+  <picture>
+    <source srcset="image.webp" type="image/webp">
+    <img src="image.jpg" alt="..." loading="lazy" decoding="async">
+  </picture>
+  ```
+  Modern browsers (95%+) get WebP, older ones fall back to original. Hero image in post.html adds `fetchpriority="high"`.
+- **Batch script** for existing images: `cd scripts && npm run optimize` (or `:dry` / `:new`)
+- **The Worker cannot compress** (no native sharp binaries on Cloudflare Workers) — for now, remote uploads bypass compression. Options: reject uploads > 2MB at the Worker, browser-side compression via `browser-image-compression`, or Cloudflare Images (paid).
 
 **Categories are dynamic:**
 - `getCatIds()` reads `_data/categories.yml` + scans `_ar/` subfolders
@@ -417,6 +434,7 @@ Reference: `codeberg_github_sync_wiki.md` + `gitlab_github_sync_wiki.md`.
 | `admin/.trash/` | Legacy — empty after Phase 4 unification (deletes now go to repo's `_trash/`) |
 | `_config.local.yml` | Local Jekyll overrides (auto-created by `start.sh`) |
 | `admin-worker/.dev.vars` | Local-dev secrets for the Worker: `GITHUB_TOKEN` (PAT), `ADMIN_PASS_HASH`, `AUTH_SECRET` |
+| `assets/images/_originals/<lang>/` | Backups created by `scripts/optimize-images.js` before in-place compression |
 | `admin-worker/node_modules/` | Wrangler + deps (only used for `wrangler dev`/`wrangler deploy`) |
 | `admin-worker/.wrangler/` | Wrangler cache + local Miniflare state |
 | `~/.codeberg_token` | Codeberg PAT (outside repo; used by mirror scripts) |
