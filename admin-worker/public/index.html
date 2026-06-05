@@ -61,6 +61,9 @@
   </nav>
 
   <div class="sidebar-footer">
+    <a href="http://localhost:4000/" target="_blank" class="preview-link" title="Jekyll محلي (يحتاج start.sh)">
+      <i class="fa-solid fa-laptop-code"></i> معاينة محلية
+    </a>
     <a href="https://SalehGNUTUX.github.io/GT-NEWSTECH/" target="_blank" class="preview-link" title="الموقع المنشور على GitHub Pages">
       <i class="fa-solid fa-globe"></i> معاينة مباشرة
     </a>
@@ -75,6 +78,11 @@
     </button>
     <div class="topbar-title" id="topbarTitle">لوحة التحكم</div>
     <div class="topbar-actions">
+      <!-- شارة "خلف بـ N commits" — تظهر فقط عند وجود commits بعيدة لم تُسحب -->
+      <a id="behindBadge" href="#git" class="behind-badge" hidden
+         title="السحب لتحديث الملفات المحلية">
+        <i class="fa-solid fa-cloud-arrow-down"></i> <span id="behindBadgeText"></span>
+      </a>
       <span class="lang-badge ar active" id="filterAr" title="عربي">AR</span>
       <span class="lang-badge en" id="filterEn" title="إنجليزي">EN</span>
       <button class="btn-logout" id="logoutBtn" title="تسجيل الخروج"
@@ -333,7 +341,6 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
-<script src="/js/mode-detect.js"></script>
 <script src="/js/admin.js"></script>
 </body>
 </html>

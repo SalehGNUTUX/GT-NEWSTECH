@@ -1,7 +1,7 @@
 // نسخة طبق الأصل من admin/server.js
 // تُرجع { categories: [{...c, count_ar, count_en}] } — هذا ما تنتظره admin.js
 import { getFile, getTree, commitFiles } from '../lib/github.js';
-import { parseYaml, serializeCategories } from '../lib/yaml.js';
+import { parseYaml, serializeCategories, updateCmsConfigText } from '../lib/yaml.js';
 import { getAllArticles } from './articles.js';
 import { json } from '../index.js';
 
@@ -78,14 +78,31 @@ export async function createCategory(env, req) {
   const arPage = `---\nlayout: category\nlang: ar\ncategory: ${id}\npermalink: /ar/category/${id}/\n---\n`;
   const enPage = `---\nlayout: category\nlang: en\ncategory: ${id}\npermalink: /en/category/${id}/\n---\n`;
 
-  // commit ذرّي بالـ3 ملفات
+  // Decap CMS auto-sync: حدّث cms/config.yml (مثلما تفعل اللوحة المحلية)
+  const files = [
+    { path: '_data/categories.yml', content: newYaml },
+    { path: `ar/category/${id}.html`, content: arPage },
+    { path: `en/category/${id}.html`, content: enPage },
+  ];
+  let cmsSync = { skipped: 'cms/config.yml غير موجود' };
   try {
-    const result = await commitFiles(env, [
-      { path: '_data/categories.yml', content: newYaml },
-      { path: `ar/category/${id}.html`, content: arPage },
-      { path: `en/category/${id}.html`, content: enPage },
-    ], `feat: قسم جديد ${id} (${name_ar}) [remote]`, AUTHOR);
-    return json({ ok: true, category: newCat, commit: result.commit.sha.slice(0, 7) });
+    const cmsFile = await getFile(env, 'cms/config.yml');
+    if (cmsFile) {
+      const newCmsText = updateCmsConfigText(cmsFile.content, id, name_ar, name_en);
+      if (newCmsText) {
+        files.push({ path: 'cms/config.yml', content: newCmsText });
+        cmsSync = { ok: true };
+      } else {
+        cmsSync = { skipped: 'القسم موجود مسبقاً في cms/config.yml' };
+      }
+    }
+  } catch (e) { cmsSync = { error: e.message }; }
+
+  // commit ذرّي بكل الملفات (3 أو 4)
+  try {
+    const result = await commitFiles(env, files,
+      `feat: قسم جديد ${id} (${name_ar}) [remote]`, AUTHOR);
+    return json({ ok: true, category: newCat, commit: result.commit.sha.slice(0, 7), cmsSync });
   } catch (e) {
     return json({ error: e.message }, 500);
   }

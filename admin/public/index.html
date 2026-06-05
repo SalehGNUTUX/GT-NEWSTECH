@@ -78,6 +78,11 @@
     </button>
     <div class="topbar-title" id="topbarTitle">لوحة التحكم</div>
     <div class="topbar-actions">
+      <!-- شارة "خلف بـ N commits" — تظهر فقط عند وجود commits بعيدة لم تُسحب -->
+      <a id="behindBadge" href="#git" class="behind-badge" hidden
+         title="السحب لتحديث الملفات المحلية">
+        <i class="fa-solid fa-cloud-arrow-down"></i> <span id="behindBadgeText"></span>
+      </a>
       <span class="lang-badge ar active" id="filterAr" title="عربي">AR</span>
       <span class="lang-badge en" id="filterEn" title="إنجليزي">EN</span>
       <button class="btn-logout" id="logoutBtn" title="تسجيل الخروج"

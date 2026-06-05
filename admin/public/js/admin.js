@@ -523,11 +523,33 @@ window.deleteImage = async (lang, name) => {
   await loadImages();
 };
 
+// ── Behind badge (تأخّر اللوحة المحلية عن origin) ────────────────
+// يُحدَّث عند البدء + كل 90 ثانية + بعد كل push من اللوحة
+async function updateBehindBadge() {
+  const badge = $('behindBadge');
+  const text  = $('behindBadgeText');
+  if (!badge) return;
+  try {
+    /* /api/git/status ينفّذ fetch تلقائياً ويُرجع ahead/behind */
+    const d = await api('/api/git/status');
+    if (d.behind > 0) {
+      text.textContent = `خلف بـ ${d.behind}`;
+      badge.removeAttribute('hidden');
+    } else {
+      badge.setAttribute('hidden', '');
+    }
+  } catch (_) { badge.setAttribute('hidden', ''); }
+}
+window.updateBehindBadge = updateBehindBadge;
+setInterval(updateBehindBadge, 90_000); // كل دقيقة ونصف
+
 // ── Trash ───────────────────────────────────────────────────────
 async function updateTrashBadge() {
   try {
     const d = await api('/api/trash');
-    const n = (d.items || []).length;
+    /* يقبل مصفوفة مباشرة (الـ format الموحَّد الجديد) أو {items:[...]} (قديم) */
+    const items = Array.isArray(d) ? d : (d.items || []);
+    const n = items.length;
     const badge = $('trashBadge');
     const nav   = $('trashNavItem');
     if (!badge) return;
@@ -850,7 +872,8 @@ function escapeHtml(s) {
 
 async function renderTrash(c) {
   const d = await api('/api/trash');
-  const items = d.items || [];
+  /* مصفوفة مباشرة (موحَّد) أو {items:[...]} (قديم) */
+  const items = Array.isArray(d) ? d : (d.items || []);
   c.innerHTML = `
   <div class="card">
     <div class="card-header">
@@ -879,7 +902,7 @@ async function renderTrash(c) {
                 </td>
                 <td style="padding:10px 14px">${catBadge(item.cat, true)}</td>
                 <td style="padding:10px 14px;font-size:.75rem;color:var(--muted);font-family:'Inter',monospace">
-                  ${new Date(item.deleted_at).toLocaleString('ar-SA', {dateStyle:'short', timeStyle:'short'})}
+                  ${new Date(item.deletedAt || item.deleted_at).toLocaleString('ar-SA', {dateStyle:'short', timeStyle:'short'})}
                 </td>
                 <td style="padding:10px 14px">
                   <div style="display:flex;gap:.4rem">
@@ -1312,6 +1335,10 @@ async function openEditor(ref) {
   let a = {};
   if(ref) {
     a = await api(`/api/article?lang=${ref.lang}&cat=${ref.cat}&file=${encodeURIComponent(ref.file)}`);
+    /* snapshot للكشف عن التعارض عند الحفظ — sha (Worker) أو mtime (محلي) */
+    S.editingArticleSnapshot = { _sha: a._sha, _mtime: a._mtime };
+  } else {
+    S.editingArticleSnapshot = null;
   }
 
   $('editorTitle').textContent = ref ? 'تحرير المقال' : 'مقال جديد';
@@ -1669,6 +1696,25 @@ $('saveArticle').addEventListener('click', async () => {
   const cat   = $('fCategory').value;
 
   if(!title || !slug || !lang || !cat) { toast('يرجى ملء الحقول الإلزامية', 'error'); return; }
+
+  /* فحص التعارض: لو نُعدّل مقالاً قائماً، نتأكد أن sha/mtime لم يتغيّر منذ الفتح.
+     يحمي من الكتابة فوق تعديلات من لوحة/متعاون آخر. */
+  if (S.editingArticle && S.editingArticleSnapshot) {
+    try {
+      const current = await api(`/api/article?lang=${S.editingArticle.lang}&cat=${S.editingArticle.cat}&file=${encodeURIComponent(S.editingArticle.file)}`);
+      const snap = S.editingArticleSnapshot;
+      const changedSha   = snap._sha   && current._sha   && snap._sha   !== current._sha;
+      const changedMtime = snap._mtime && current._mtime && snap._mtime !== current._mtime;
+      if (changedSha || changedMtime) {
+        const proceed = confirm(
+          'هذا المقال عُدِّل من لوحة أخرى أو متعاون آخر منذ فتحه.\n\n' +
+          '• "موافق" → الكتابة فوق التعديل البعيد بنسختك (خطر فقدان التغييرات الأخرى)\n' +
+          '• "إلغاء" → أغلق المحرر وأعد فتحه لرؤية النسخة الحالية'
+        );
+        if (!proceed) { toast('أُلغي الحفظ — أعد فتح المقال للحصول على النسخة الحالية', 'info'); return; }
+      }
+    } catch (_) { /* فشل الفحص لا يمنع الحفظ */ }
+  }
 
   const alsoIn = Array.from($('fAlsoIn').querySelectorAll('input:checked')).map(c=>c.value).filter(v=>v!==cat);
   const tagsRaw = $('fTags').value.trim();
@@ -2544,6 +2590,7 @@ loadCats().then(async () => {
   /* تحديث قائمة الأقسام في محرر المقال — ديناميكياً */
   populateCategoryFields();
   updateTrashBadge();
+  updateBehindBadge();
   navigate(location.hash.slice(1) || 'dashboard');
 });
 

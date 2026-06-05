@@ -266,3 +266,53 @@ function yamlValueForCat(v) {
   }
   return yamlValue(v);
 }
+
+/**
+ * يُحدّث cms/config.yml لإضافة قسم جديد في كل options المعروفة
+ * (category + also_in × AR + EN).
+ * نسخة pure من updateCmsConfig في admin/server.js — يأخذ النص ويُرجع النص الجديد.
+ * يُرجع null لو القسم موجود مسبقاً.
+ */
+export function updateCmsConfigText(text, id, nameAr, nameEn) {
+  if (!text) return null;
+  if (text.includes(`value: ${id} }`)) return null; // موجود مسبقاً
+
+  const lines = text.split('\n');
+  const out = [];
+  let inCol = null;       // 'ar' | 'en' | null
+  let inOpts = false;     // داخل options:
+  let lastOptIdx = -1;    // آخر سطر option في out
+  let optIndent = '';
+
+  const flush = () => {
+    if (inOpts && lastOptIdx >= 0 && inCol) {
+      const label = inCol === 'en' ? nameEn : nameAr;
+      out.splice(lastOptIdx + 1, 0, `${optIndent}- { label: "${label}", value: ${id} }`);
+      lastOptIdx = -1;
+    }
+    inOpts = false;
+  };
+
+  for (const line of lines) {
+    const tr = line.trim();
+    if (tr.startsWith('- name: ar_articles')) { flush(); inCol = 'ar'; }
+    else if (tr.startsWith('- name: en_articles')) { flush(); inCol = 'en'; }
+
+    if (tr === 'options:') {
+      flush();
+      inOpts = true;
+      lastOptIdx = -1;
+    } else if (inOpts && /^\s+- \{ label:/.test(line)) {
+      out.push(line);
+      lastOptIdx = out.length - 1;
+      optIndent = line.match(/^(\s*)/)[1];
+      continue;
+    } else if (inOpts && tr !== '' && !/^\s+#/.test(line)) {
+      flush();
+    }
+    out.push(line);
+  }
+  flush();
+
+  return out.join('\n');
+}

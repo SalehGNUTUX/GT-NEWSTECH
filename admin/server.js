@@ -17,7 +17,7 @@ const ROOT          = path.join(__dirname, '..');
 const PASSWORD_FILE = path.join(__dirname, '.admin-password');  // gitignored
 const SECURITY_FILE = path.join(__dirname, '.admin-security.json'); // gitignored
 const GITHUB_TOKEN_FILE = path.join(__dirname, '.github-token'); // gitignored
-const TRASH_DIR     = path.join(__dirname, '.trash');           // gitignored
+const TRASH_DIR     = path.join(__dirname, '.trash');           // legacy، تُحفظ مؤقتاً لكن لا تُستعمل
 const LANGS      = ['ar', 'en'];
 const CATS_FILE  = path.join(ROOT, '_data', 'categories.yml');
 const IMG_EXTS   = /\.(jpg|jpeg|png|gif|webp|svg|avif)$/i;
@@ -232,7 +232,10 @@ function readArticle(lang, cat, file) {
   const fp      = path.join(ROOT, `_${lang}`, cat, file);
   const raw     = fs.readFileSync(fp, 'utf8');
   const parsed  = matter(raw);
-  return { ...parsed.data, content: parsed.content.trim(), _file: file, _lang: lang, _cat: cat };
+  const stat    = fs.statSync(fp);
+  return { ...parsed.data, content: parsed.content.trim(),
+           _file: file, _lang: lang, _cat: cat,
+           _mtime: stat.mtimeMs }; // للكشف عن تعارض الحفظ
 }
 
 function getAllArticles() {
@@ -475,81 +478,117 @@ app.put('/api/article', confirmRequired('edit_article'), (req, res) => {
 });
 
 /* Delete article → ينقل إلى المهملات */
+/* ── Trash unified: _trash/ + _data/trash-index.json (نفس contract Worker)
+   لتظهر السلة في كلتا اللوحتين (محلية + بعيدة). ── */
+const TRASH_ROOT   = path.join(ROOT, '_trash');
+const TRASH_INDEX  = path.join(ROOT, '_data', 'trash-index.json');
+
+function makeTrashId() {
+  const ts  = Math.floor(Date.now() / 1000).toString(36);
+  const rnd = Math.floor(Math.random() * 0xffff).toString(36).padStart(4, '0');
+  return `${ts}-${rnd}`;
+}
+
+function readTrashIndex() {
+  if (!fs.existsSync(TRASH_INDEX)) return { entries: [] };
+  try { return JSON.parse(fs.readFileSync(TRASH_INDEX, 'utf8')); }
+  catch (_) { return { entries: [] }; }
+}
+
+function writeTrashIndex(idx) {
+  fs.mkdirSync(path.dirname(TRASH_INDEX), { recursive: true });
+  fs.writeFileSync(TRASH_INDEX, JSON.stringify({ entries: idx.entries || [] }, null, 2) + '\n');
+}
+
 app.delete('/api/article', confirmRequired('delete_article'), (req, res) => {
   const { lang, cat, file } = req.query;
   if (!lang || !cat || !file) return res.status(400).json({ error: 'Missing params' });
-  const fp = path.join(ROOT, `_${lang}`, cat, file);
-  if (!fs.existsSync(fp)) return res.status(404).json({ error: 'Not found' });
+  const originalPath = path.join(ROOT, `_${lang}`, cat, file);
+  if (!fs.existsSync(originalPath)) return res.status(404).json({ error: 'Not found' });
 
-  fs.mkdirSync(TRASH_DIR, { recursive: true });
-  const id        = `${Date.now()}_${lang}_${cat}_${file}`;
-  const trashPath = path.join(TRASH_DIR, `${id}.json`);
-  const content   = fs.readFileSync(fp, 'utf8');
-  const parsed    = matter(content);
+  const content = fs.readFileSync(originalPath, 'utf8');
+  const parsed = matter(content);
+  const id = makeTrashId();
+  const trashRelPath = `_trash/${id}.md`;
+  const trashFp = path.join(ROOT, trashRelPath);
 
-  fs.writeFileSync(trashPath, JSON.stringify({
-    id, lang, cat, file,
-    title:      parsed.data.title || file,
-    deleted_at: new Date().toISOString(),
-    content
-  }, null, 2));
+  /* انقل الملف لـ _trash/ + سجّل في الفهرس */
+  fs.mkdirSync(TRASH_ROOT, { recursive: true });
+  fs.writeFileSync(trashFp, content, 'utf8');
 
-  fs.unlinkSync(fp);
+  const idx = readTrashIndex();
+  idx.entries.unshift({
+    id,
+    originalPath: `_${lang}/${cat}/${file}`,
+    trashPath: trashRelPath,
+    deletedAt: new Date().toISOString(),
+    title: parsed.data.title || '',
+    slug: parsed.data.slug || '',
+    lang, cat, file,
+  });
+  writeTrashIndex(idx);
+
+  fs.unlinkSync(originalPath);
   res.json({ ok: true, trashId: id });
 });
 
-/* ── Trash API ────────────────────────────────────────────────── */
+/* ── Trash API (unified) ──────────────────────────────────────── */
 
-/* قائمة المهملات */
+/* قائمة المهملات — يُرجع نفس شكل اللوحة البعيدة (مصفوفة من entries) */
 app.get('/api/trash', (_req, res) => {
-  if (!fs.existsSync(TRASH_DIR)) return res.json({ items: [] });
-  const items = fs.readdirSync(TRASH_DIR)
-    .filter(f => f.endsWith('.json'))
-    .map(f => {
-      try { return JSON.parse(fs.readFileSync(path.join(TRASH_DIR, f), 'utf8')); }
-      catch (_) { return null; }
-    })
-    .filter(Boolean)
-    .sort((a, b) => new Date(b.deleted_at) - new Date(a.deleted_at));
-  res.json({ items });
+  const idx = readTrashIndex();
+  res.json(idx.entries);
 });
 
 /* استرجاع من المهملات */
 app.post('/api/trash/:id/restore', (req, res) => {
-  const trashPath = path.join(TRASH_DIR, `${req.params.id}.json`);
-  if (!fs.existsSync(trashPath)) return res.status(404).json({ error: 'Not found' });
+  const id = req.params.id;
+  const idx = readTrashIndex();
+  const entry = idx.entries.find(e => e.id === id);
+  if (!entry) return res.status(404).json({ error: 'Not found' });
 
-  const data    = JSON.parse(fs.readFileSync(trashPath, 'utf8'));
-  const destDir = path.join(ROOT, `_${data.lang}`, data.cat);
-  const destFp  = path.join(destDir, data.file);
+  const trashFp = path.join(ROOT, entry.trashPath);
+  if (!fs.existsSync(trashFp)) return res.status(404).json({ error: 'Trash file missing' });
 
-  /* إذا الملف موجود أضف timestamp للاسم */
+  const destFp = path.join(ROOT, entry.originalPath);
+  /* إذا الملف موجود أضف timestamp للاسم لتفادي الكتابة فوقه */
   const finalFp = fs.existsSync(destFp)
-    ? path.join(destDir, `restored_${Date.now()}_${data.file}`)
+    ? path.join(path.dirname(destFp), `restored_${Date.now()}_${path.basename(destFp)}`)
     : destFp;
 
-  fs.mkdirSync(destDir, { recursive: true });
-  fs.writeFileSync(finalFp, data.content);
-  fs.unlinkSync(trashPath);
+  fs.mkdirSync(path.dirname(finalFp), { recursive: true });
+  fs.copyFileSync(trashFp, finalFp);
+  fs.unlinkSync(trashFp);
+
+  idx.entries = idx.entries.filter(e => e.id !== id);
+  writeTrashIndex(idx);
   res.json({ ok: true, file: path.basename(finalFp) });
 });
 
 /* حذف نهائي من المهملات */
 app.delete('/api/trash/:id', (req, res) => {
-  const trashPath = path.join(TRASH_DIR, `${req.params.id}.json`);
-  if (!fs.existsSync(trashPath)) return res.status(404).json({ error: 'Not found' });
-  fs.unlinkSync(trashPath);
+  const id = req.params.id;
+  const idx = readTrashIndex();
+  const entry = idx.entries.find(e => e.id === id);
+  if (!entry) return res.status(404).json({ error: 'Not found' });
+
+  const trashFp = path.join(ROOT, entry.trashPath);
+  if (fs.existsSync(trashFp)) fs.unlinkSync(trashFp);
+  idx.entries = idx.entries.filter(e => e.id !== id);
+  writeTrashIndex(idx);
   res.json({ ok: true });
 });
 
 /* تفريغ المهملات */
 app.delete('/api/trash', (_req, res) => {
-  if (fs.existsSync(TRASH_DIR)) {
-    fs.readdirSync(TRASH_DIR)
-      .filter(f => f.endsWith('.json'))
-      .forEach(f => fs.unlinkSync(path.join(TRASH_DIR, f)));
+  const idx = readTrashIndex();
+  let removed = 0;
+  for (const entry of idx.entries) {
+    const trashFp = path.join(ROOT, entry.trashPath);
+    if (fs.existsSync(trashFp)) { fs.unlinkSync(trashFp); removed++; }
   }
-  res.json({ ok: true });
+  writeTrashIndex({ entries: [] });
+  res.json({ ok: true, removed });
 });
 
 /* Images list */
