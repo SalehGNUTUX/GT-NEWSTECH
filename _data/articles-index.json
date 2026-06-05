@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T17:38:43.797Z",
+  "generated_at": "2026-06-05T17:41:47.739Z",
   "count": 96,
   "by_lang": {
     "ar": 48,
@@ -9,7 +9,7 @@
     {
       "title": "DistroSea: جرب توزيعات لينكس مباشرة من متصفحك دون تثبيت",
       "slug": "distrosea-test-linux-distros-online",
-      "date": "2026-06-05T19:38:00.000Z",
+      "date": "2026-06-05T17:39:00.000Z",
       "category": "gnulinux",
       "also_in": [],
       "author": "GNUTUX",
@@ -31,7 +31,7 @@
     {
       "title": "DistroSea: Test Linux Distributions Online Directly from Your Browser",
       "slug": "distrosea-test-linux-distros-online",
-      "date": "2026-06-05T18:33:00.000Z",
+      "date": "2026-06-05T17:39:00.000Z",
       "category": "gnulinux",
       "also_in": [],
       "author": "GNUTUX",
