@@ -147,7 +147,7 @@ git add . && git commit -m "message" && git push origin main
   - Common options cannot be deleted from the modal
   - Shift+Click on the share button forces re-opening the modal (skips remembered value)
 - Nostr handler dispatches by client domain: iris.to, snort.social, primal.net, coracle.social, nostrudel.ninja each have different `share?text=` URL formats; custom domains fall back to `?text=`
-- Tags rendered as hashtags: **spaces, dots, AND hyphens** are all replaced by `_` (e.g., `Tailwind v3.4` → `#Tailwind_v3_4`, `open-source` → `#open_source`). Done in `_layouts/post.html` via Liquid `replace` chain. Cross-platform-safe (no hashtag breaks on `.` or `-`).
+- Tags rendered as hashtags: **spaces, dots, AND hyphens** are all replaced by `_` (e.g., `Tailwind v3.4` → `#Tailwind_v3_4`, `open-source` → `#open_source`). Done in `_layouts/post.html` via Liquid `replace` chain. Cross-platform-safe (no hashtag breaks on `.` or `-`). Decap CMS shows a `hint` on tags field warning the user.
 - **X (Twitter) share text** includes the URL **inline** between excerpt and tags (not via `&url=` parameter) so the tweet reads: title → excerpt → URL → tags. `buildShortText()` budgets for ~270 chars.
 - **Floating action buttons (FABs)** on post pages, stacked right-side bottom-up: `back-to-top` (always) → `fab-share` (opens modal with cloned `.share-btn`s — clicks dispatched to the originals) → `fab-lang` (only if `translation` Liquid var is set — links to other-lang version by slug). Defined in `_layouts/post.html` after `</article>`. CSS uses `bottom: 1.5rem / 5rem / 8.5rem`.
 
@@ -169,7 +169,7 @@ GET  /api/articles?lang=&cat=&q=
 GET  /api/article?lang=&cat=&file=
 POST /api/article                    ← body must include cat, lang, slug explicitly
 PUT  /api/article?lang=&cat=&file=
-DELETE /api/article?lang=&cat=&file= ← moves to admin/.trash/ (gitignored)
+DELETE /api/article?lang=&cat=&file= ← moves to _trash/<id>.md + updates _data/trash-index.json (same contract as Worker)
 GET  /api/trash                      ← list trash items
 POST /api/trash/:id/restore          ← restore from trash
 DELETE /api/trash/:id                ← permanent delete
@@ -221,7 +221,7 @@ GET  /api/config
 - `readCatsData()` / `writeCatsData()` use js-yaml
 
 **Trash system:**
-- `admin/.trash/` stores deleted articles as JSON (gitignored)
+- **Unified trash:** both panels use `_trash/<id>.md` + `_data/trash-index.json` (in the repo, git-tracked). `_trash/` is excluded from Jekyll via `_config.yml`. Items deleted from either panel are visible/restorable in both. The old `admin/.trash/` is legacy — kept as a path constant but no longer written to.
 - Each item: `{ id, lang, cat, file, title, deleted_at, content }`
 - Restore: writes content back to original path
 
@@ -250,6 +250,12 @@ GET  /api/config
 **SPA routing:** `#dashboard`, `#articles`, `#new-article`, `#images`, `#categories`, `#trash`, `#git`, `#remotes`, `#comments`, `#security`, `#config`. The router (`navigate()`) parses query strings: `#articles?lang=ar&cat=foss` sets `S.langFilter='ar'`, `S.catFilter='foss'`, then renders the page. Dashboard AR/EN stat cards are anchors to `#articles?lang=ar/en` — clicking them syncs the topbar `filterAr/filterEn` badges (`.active` class toggled inside `navigate()`).
 
 **Cross-language save reminder:** After successfully saving a new article (POST /api/article), the editor checks `/api/articles?lang=<other>` for an article with the same `slug`. If none → shows a dialog with "Edit other-lang version" + "Later" buttons. Choosing edit opens the editor pre-filled with shared fields (slug, category, image, tags, date, author, also_in) so the user only writes title + content in the other language. Implemented in `promptCrossLang()` after `$('saveArticle')` click handler.
+
+**Behind-N-commits badge:** topbar shows a pulsing blue badge "خلف بـ N" when the local panel is behind origin/main. `updateBehindBadge()` calls `/api/git/status` (which performs `git fetch origin main` server-side) on boot + every 90s + after pushes. Hidden in remote mode (no concept of "behind" via GitHub API). Click navigates to Git tab for pull.
+
+**sha/mtime conflict detection on save:** when an existing article is opened for editing, `openEditor()` snapshots `{_sha, _mtime}` (Worker returns `_sha`; local `server.js readArticle` returns `_mtime` from `fs.statSync`). Before PUT, the editor re-fetches `/api/article` and compares — if either field differs from the snapshot, a `confirm()` appears: "edited from another panel — overwrite OR cancel?". Prevents silent overwrite of changes made via remote panel / Decap CMS / another machine.
+
+**Image picker lang-sync:** `openImagePicker()` reads the editor's current language (`[name=fLang]:checked`) and pre-selects the matching ptab (`AR/EN Images`) + the matching `importDest` radio. Saves 2 clicks per English article. Falls back to `S.langFilter` if no fLang is set yet.
 
 **Comments moderation page (`#comments`):**
 - Uses GitHub GraphQL API for Discussions of `SalehGNUTUX/GT-NEWSTECH`
@@ -321,9 +327,10 @@ Hosted static SPA at `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`.
 - **Write operations** use GitHub Contents API directly. Multi-file writes (e.g., creating a category which touches 3 files) use Git Trees API via `lib/github.js commitFiles()` for atomic commits.
 - **YAML parser** is custom (`src/lib/yaml.js`) — supports block scalars (`>-`, `|`, `|-`, `|+`); kept tiny on purpose (no `js-yaml` in a Worker). Also provides `buildFrontMatter`, `buildMarkdown`, `serializeCategories`
 - **Auth identical to `admin/server.js`:** SHA-256 password hash + HMAC session tokens (`${ts}.${hmac}`), `x-admin-token` header. Plus 30-second confirm tokens for sensitive operations (`/api/auth/confirm`, used for `DELETE /api/github-token`).
-- **Mode detection** (`public/js/mode-detect.js`) sets `<body data-mode="remote">`, adds badge, hides irrelevant tabs (Git/Remotes/Security), and **monkey-patches `window.fetch`** to convert local-time dates to ISO UTC before sending to `/api/article` POST/PUT — fixes timezone bugs without changing `admin.js`
+- **Mode detection** (`public/js/mode-detect.js`) sets `<body data-mode="remote">`, adds badge, hides irrelevant tabs (Git/Remotes/Security), and **monkey-patches `window.fetch`** to convert local-time dates to **ISO 8601 with explicit offset** (e.g., `2026-06-05T18:16:00+0200`) before sending to `/api/article` POST/PUT. Why offset and not `Z`: `toISOString()` silently shifts the value by DST boundaries on some platforms, causing a 1-hour drift; explicit offset preserves the user's wall-clock + their browser's actual UTC delta, and Jekyll/Ruby DateTime interprets it precisely.
+- **Categories creation in Worker** writes 4 files in one atomic Git Trees commit: updated `_data/categories.yml`, `ar/category/<id>.html`, `en/category/<id>.html`, **AND `cms/config.yml`** (via `updateCmsConfigText()` in `lib/yaml.js` — pure port of the local `updateCmsConfig` line-based YAML editor). Decap CMS picks up new categories without manual edit.
 - **Trash** lives in `_trash/` directory + `_data/trash-index.json` index (both committed via git). Jekyll ignores `_trash/` via `_config.yml` exclude. `DELETE /api/article` moves to trash; restore moves back; purge deletes permanently
-- **Categories creation** writes 3 files in one atomic commit via Git Trees API: updated `_data/categories.yml`, `ar/category/<id>.html`, `en/category/<id>.html`
+- **Categories creation** writes 3 files in one atomic commit via Git Trees API: updated `_data/categories.yml`, `ar/category/<id>.html`, `en/category/<id>.html` (Worker also writes `cms/config.yml` — see above)
 - **Comments management** via GitHub GraphQL API for Discussions — same endpoints as local panel (list/reply/hide/unhide/delete + lock/unlock discussion)
 
 **Run locally:**
@@ -407,7 +414,7 @@ Reference: `codeberg_github_sync_wiki.md` + `gitlab_github_sync_wiki.md`.
 | `admin/.admin-password` | SHA-256 hash of admin panel password |
 | `admin/.admin-security.json` | confirmFor toggles + sessionMinutes |
 | `admin/.github-token` | PAT for Discussions moderation (mode 0600) |
-| `admin/.trash/` | Soft-deleted articles as JSON (one file per article) |
+| `admin/.trash/` | Legacy — empty after Phase 4 unification (deletes now go to repo's `_trash/`) |
 | `_config.local.yml` | Local Jekyll overrides (auto-created by `start.sh`) |
 | `admin-worker/.dev.vars` | Local-dev secrets for the Worker: `GITHUB_TOKEN` (PAT), `ADMIN_PASS_HASH`, `AUTH_SECRET` |
 | `admin-worker/node_modules/` | Wrangler + deps (only used for `wrangler dev`/`wrangler deploy`) |
@@ -429,5 +436,5 @@ Reference: `codeberg_github_sync_wiki.md` + `gitlab_github_sync_wiki.md`.
 - **Decap CMS locale**: keep `locale: en` — changing to `ar` breaks Collections panel rendering
 - **Do not add integrity hash** to Font Awesome CDN link
 - **`_data/articles-index.json` is auto-managed.** Never edit by hand — it's regenerated by `.github/workflows/build-articles-index.yml` on every push that touches `_ar/**` or `_en/**`, and the Worker reads it on every list query. If you need to regenerate locally: `cd scripts && npm install && node build-articles-index.js`.
-- **`_data/images-index.json` is auto-managed.** Same pattern as articles-index: `.github/workflows/build-images-index.yml` runs on push that touches `assets/images/**` and generates per-image `last_modified_ts` via `git log -1 --format=%at`. The Worker uses this to show images newest-first; the local panel sorts by `fs.statSync(...).mtimeMs`. Regenerate locally with `node scripts/build-images-index.js` (script needs `fetch-depth: 0` checkout to read git history).
+- **`_data/images-index.json` is auto-managed.** Same pattern as articles-index: `.github/workflows/build-images-index.yml` runs on push that touches `assets/images/**` and generates per-image `last_modified_ts` via `git log -1 --format=%at`. **Both panels read this index for newest-first sort** — the local panel falls back to `fs.statSync(...).mtimeMs` only if the index file is missing. This guarantees the same image order in both UIs (`fs.statSync mtime` was unreliable when images were restored from backup with same timestamps). Regenerate locally with `node scripts/build-images-index.js` (script needs `fetch-depth: 0` checkout to read git history).
 - **Unified GitHub PAT.** The same Classic PAT (`ghp_...` with `repo` scope = Contents R+W + Discussions R+W) is used in **two** places: (1) `admin/.github-token` for local Discussions moderation, (2) Cloudflare secret `GITHUB_TOKEN` for the remote Worker (both CRUD and Discussions). When rotating the PAT, update **both** locations. The remote Worker secret update needs `~60s` for Cloudflare's global propagation.
