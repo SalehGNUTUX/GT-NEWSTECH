@@ -1873,6 +1873,23 @@ $('urlImageBtn')?.addEventListener('click', async () => {
 });
 
 async function openImagePicker() {
+  /* اللغة الحالية من حقل المقال (تتغيّر مع radio "اللغة" في البيانات).
+     نُزامن:
+       1. تبويب الصور (ptab AR/EN) مع لغة المقال
+       2. radio "النسخ إلى" — يُحدَّد افتراضياً للغة المقال
+     لتجنّب نقرات إضافية. */
+  const articleLang = document.querySelector('[name=fLang]:checked')?.value || S.langFilter || 'ar';
+  S.pickerLang = articleLang;
+
+  // تبويبات اختيار الصور
+  document.querySelectorAll('.ptab').forEach(t => {
+    t.classList.toggle('active', t.dataset.lang === articleLang);
+  });
+
+  // radio "النسخ إلى" — افتراضياً للغة المقال
+  const destRadio = document.querySelector(`[name=importDest][value="${articleLang}"]`);
+  if (destRadio) destRadio.checked = true;
+
   $('imagePickerModal').removeAttribute('hidden');
   await loadPickerImages();
 }
