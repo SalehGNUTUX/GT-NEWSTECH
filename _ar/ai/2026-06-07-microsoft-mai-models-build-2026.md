@@ -3,7 +3,10 @@ layout: post
 title: >-
   مايكروسوفت تطلق 7 نماذج MAI في مؤتمر Build 2026: منافسة مباشرة لـ Claude
   وGemini
+slug: microsoft-mai-models-build-2026
+lang: ar
 category: ai
+date: 2026-06-06T19:21:00.000Z
 author: GNUTUX
 excerpt: >-
   في مؤتمر Build 2026، كشفت مايكروسوفت عن 7 نماذج ذكاء اصطناعي جديدة تحت مسمى
@@ -20,9 +23,6 @@ tags:
   - نماذج لغوية
   - AI
   - Mustafa Suleyman
-date: 2026-06-07T19:10:00.000Z
-lang: ar
-slug: microsoft-mai-models-build-2026
 ---
 
 ## السباق على الذكاء الاصطناعي يشتد

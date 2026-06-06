@@ -3,7 +3,10 @@ layout: post
 title: >-
   Microsoft Launches 7 MAI Models at Build 2026: Direct Competition with Claude
   and Gemini
+slug: microsoft-mai-models-build-2026
+lang: en
 category: ai
+date: 2026-06-06T19:21:00.000Z
 author: GNUTUX
 excerpt: >-
   At the Build 2026 conference, Microsoft unveiled 7 new AI models under the MAI
@@ -19,9 +22,6 @@ tags:
   - Build 2026
   - Language Models
   - Mustafa Suleyman
-date: 2026-06-07T19:12:00.000Z
-lang: en
-slug: microsoft-mai-models-build-2026
 ---
 
 ## The AI Race Intensifies
