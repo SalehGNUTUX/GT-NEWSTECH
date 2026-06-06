@@ -20,18 +20,46 @@ async function getImagesIndex(env) {
   } catch { return null; }
 }
 
+// map: image_name → article_date (timestamp)
+async function buildImageToArticleDate(env, lang) {
+  const map = new Map();
+  try {
+    const f = await getFile(env, '_data/articles-index.json');
+    if (!f) return map;
+    const idx = JSON.parse(f.content);
+    for (const a of (idx.articles || [])) {
+      if (a._lang !== lang || !a.image) continue;
+      const imgName = String(a.image).includes('/') ? String(a.image).split('/').pop() : a.image;
+      const dt = new Date(a.date).getTime();
+      if (!isFinite(dt)) continue;
+      if (!map.has(imgName) || map.get(imgName) < dt) map.set(imgName, dt);
+    }
+  } catch (_) {}
+  return map;
+}
+
 async function getImages(env, lang) {
-  // مسار سريع: اقرأ من _data/images-index.json (مرتَّب مسبقاً بالأحدث أولاً)
+  const imgToArticleDate = await buildImageToArticleDate(env, lang);
   const idx = await getImagesIndex(env);
+
   if (idx && idx[lang]) {
-    return idx[lang].map(img => ({
-      name: img.name,
-      size: img.size,
-      lang,
-      url: `https://raw.githubusercontent.com/${env.GITHUB_REPO}/${env.GITHUB_BRANCH}/assets/images/${lang}/${img.name}`,
-    }));
+    // ترتيب بتاريخ المقال (لو متاح)، fallback git log
+    return idx[lang]
+      .map(img => {
+        const articleDate = imgToArticleDate.get(img.name);
+        const sortTs = articleDate ? Math.floor(articleDate / 1000) : img.last_modified_ts;
+        return { ...img, _sortTs: sortTs };
+      })
+      .sort((a, b) => b._sortTs - a._sortTs)
+      .map(img => ({
+        name: img.name,
+        size: img.size,
+        lang,
+        url: `https://raw.githubusercontent.com/${env.GITHUB_REPO}/${env.GITHUB_BRANCH}/assets/images/${lang}/${img.name}`,
+      }));
   }
-  // مسار احتياطي: لو الـ index غير موجود بعد، نقرأ مباشرة (ترتيب abc)
+
+  // fallback: listDir (alphabetical)
   const items = await listDir(env, `assets/images/${lang}`);
   return items
     .filter(x => x.type === 'file' && EXT_OK.test(x.name))

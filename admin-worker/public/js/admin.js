@@ -1072,6 +1072,23 @@ window.createCategory = async function() {
 };
 
 // Git ───────────────────────────────────────────────────────────
+/* تحديث صفحة Git + behindBadge معاً، مع تدوير الأيقونة للـfeedback */
+window.refreshGitPanel = async function(btn) {
+  const icon = btn?.querySelector('i');
+  icon?.classList.add('fa-spin');
+  try {
+    await Promise.all([
+      renderGit($('content')),
+      typeof updateBehindBadge === 'function' ? updateBehindBadge() : Promise.resolve(),
+    ]);
+    toast('تم التحديث ✓', 'success', 1500);
+  } catch (e) {
+    toast('خطأ في التحديث: ' + (e.message || ''), 'error');
+  } finally {
+    icon?.classList.remove('fa-spin');
+  }
+};
+
 async function renderGit(c) {
   const d = await api('/api/git/status');
   const behind = d.behind || 0;
@@ -1090,7 +1107,7 @@ async function renderGit(c) {
   ${syncAlert}
   <div class="card" style="margin-bottom:16px">
     <div class="card-header"><i class="fa-brands fa-git-alt" style="color:#f05032"></i><h3>حالة Git</h3>
-      <button class="btn btn-sm btn-ghost" style="margin-right:auto" onclick="renderGit($('content'))"><i class="fa-solid fa-rotate"></i> تحديث</button>
+      <button class="btn btn-sm btn-ghost" style="margin-right:auto" id="gitRefreshBtn" onclick="refreshGitPanel(this)"><i class="fa-solid fa-rotate"></i> تحديث</button>
     </div>
     <div class="card-body">
       <div class="git-status-box">${d.status||'✓ لا توجد تغييرات محلية'}</div>

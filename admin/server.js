@@ -328,34 +328,73 @@ function saveArticle(lang, cat, file, fm, content) {
   fs.writeFileSync(path.join(dir, file), str, 'utf8');
 }
 
+/**
+ * map: image_name → article date (timestamp)
+ * للصور المرتبطة بمقال نأخذ تاريخ المقال (أحدث مقال يستعملها).
+ * للصور غير المرتبطة (مرفوعة لكن لم تُستعمل) نأخذ git log من images-index.
+ */
+function buildImageToArticleDate(lang) {
+  const map = new Map();
+  const articlesIdxPath = path.join(ROOT, '_data', 'articles-index.json');
+  if (!fs.existsSync(articlesIdxPath)) return map;
+  try {
+    const idx = JSON.parse(fs.readFileSync(articlesIdxPath, 'utf8'));
+    for (const a of (idx.articles || [])) {
+      if (a._lang !== lang || !a.image) continue;
+      // يدعم اسم بسيط أو مسار كامل
+      const imgName = String(a.image).includes('/') ? String(a.image).split('/').pop() : a.image;
+      const dt = new Date(a.date).getTime();
+      if (!isFinite(dt)) continue;
+      // لو أكثر من مقال يستعمل نفس الصورة، خذ الأحدث
+      if (!map.has(imgName) || map.get(imgName) < dt) map.set(imgName, dt);
+    }
+  } catch (_) {}
+  return map;
+}
+
 function getImages(lang) {
   const dir = path.join(ROOT, 'assets', 'images', lang);
   if (!fs.existsSync(dir)) return [];
 
-  // المسار المُفضَّل: اقرأ من _data/images-index.json (يستعمل git log عبر workflow)
-  // يضمن اتساق الترتيب مع اللوحة البعيدة + صحّة الترتيب حتى لو mtime القرص ضائع
+  const imgToArticleDate = buildImageToArticleDate(lang);
+
+  // المسار المُفضَّل: _data/images-index.json (يستعمل git log عبر workflow)
   const indexPath = path.join(ROOT, '_data', 'images-index.json');
   if (fs.existsSync(indexPath)) {
     try {
       const idx = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
       const list = idx[lang] || [];
-      // فلتر: الملفات الموجودة فعلاً على القرص (تجنّب أن يُشير index لملف حُذف)
       return list
         .filter(im => fs.existsSync(path.join(dir, im.name)))
-        .map(im => ({
-          name: im.name, lang,
-          url: `/site-images/${lang}/${im.name}`,
-          size: im.size, mtime: im.last_modified_ts * 1000,
-        }));
+        .map(im => {
+          // تاريخ الترتيب: تاريخ المقال لو الصورة مُستعملة، وإلا git log
+          const articleDate = imgToArticleDate.get(im.name);
+          const sortTs = articleDate || (im.last_modified_ts * 1000);
+          return {
+            name: im.name, lang,
+            url: `/site-images/${lang}/${im.name}`,
+            size: im.size,
+            mtime: sortTs,
+            usedInArticle: !!articleDate,
+          };
+        })
+        .sort((a, b) => b.mtime - a.mtime); // الأحدث أولاً
     } catch (_) { /* fallback */ }
   }
 
-  // Fallback: ترتيب بـ mtime من fs (دقيق نسبياً للصور المرفوعة محلياً)
+  // Fallback: fs.mtime + map المقالات
   return fs.readdirSync(dir)
     .filter(f => IMG_EXTS.test(f))
     .map(f => {
       const stat = fs.statSync(path.join(dir, f));
-      return { name: f, lang, url: `/site-images/${lang}/${f}`, size: stat.size, mtime: stat.mtimeMs };
+      const articleDate = imgToArticleDate.get(f);
+      return {
+        name: f, lang,
+        url: `/site-images/${lang}/${f}`,
+        size: stat.size,
+        mtime: articleDate || stat.mtimeMs,
+        usedInArticle: !!articleDate,
+      };
     })
     .sort((a, b) => b.mtime - a.mtime);
 }
