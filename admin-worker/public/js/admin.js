@@ -1887,10 +1887,14 @@ function openUrlImportModal() {
         <label style="display:block;font-size:.8rem;color:var(--muted);margin-top:.7rem;margin-bottom:.3rem">اسم مخصص (اختياري)</label>
         <input id="urlImpName" type="text" placeholder="مثلاً: my-photo.jpg (سيُستنتج من الرابط لو فارغ)" dir="ltr"
                style="width:100%;background:#111;border:1px solid var(--border);color:var(--text);padding:.55rem .7rem;border-radius:.45rem">
-        <div style="display:flex;gap:1rem;margin-top:.7rem;align-items:center">
-          <span style="font-size:.85rem">الحفظ إلى:</span>
-          <label><input type="radio" name="urlImpLang" value="ar" ${defaultLang==='ar'?'checked':''}> AR</label>
-          <label><input type="radio" name="urlImpLang" value="en" ${defaultLang==='en'?'checked':''}> EN</label>
+        <div style="font-size:.85rem;color:var(--muted);margin-top:.7rem;margin-bottom:.3rem">الإجراء:</div>
+        <div style="display:flex;flex-direction:column;gap:.4rem">
+          <label><input type="radio" name="urlImpLang" value="ar" ${defaultLang==='ar'?'checked':''}> تنزيل و حفظ في <b>AR</b> فقط</label>
+          <label><input type="radio" name="urlImpLang" value="en" ${defaultLang==='en'?'checked':''}> تنزيل و حفظ في <b>EN</b> فقط</label>
+          <label><input type="radio" name="urlImpLang" value="both"> تنزيل و حفظ في <b>AR + EN</b> (نسختان متطابقتان)</label>
+          <label style="border-top:1px dashed var(--border);padding-top:.4rem;margin-top:.2rem">
+            <input type="radio" name="urlImpLang" value="direct"> استعمل كرابط مباشر <span style="color:var(--muted);font-size:.75rem">(بدون تنزيل — لو تثق بثبات الرابط)</span>
+          </label>
         </div>
         <div id="urlImpStatus" style="margin-top:.5rem;font-size:.85rem"></div>
       </div>
@@ -1926,27 +1930,46 @@ function openUrlImportModal() {
       wrap.querySelector('#urlImpStatus').innerHTML = '<span style="color:#e05252">الرابط يجب أن يبدأ بـ http:// أو https://</span>';
       return;
     }
+    const choice = wrap.querySelector('[name=urlImpLang]:checked').value;
+    const status = wrap.querySelector('#urlImpStatus');
+
+    /* الخيار 4: استعمل URL مباشرة بدون تنزيل (تثق بمصدره) */
+    if (choice === 'direct') {
+      $('fImage').value = url;
+      $('fImage').dispatchEvent(new Event('input'));
+      toast('✓ تم استعمال الرابط مباشرة (الصورة على الخادم الأصلي)', 'success', 4000);
+      close();
+      return;
+    }
+
     const name = wrap.querySelector('#urlImpName').value.trim() || undefined;
-    const lang = wrap.querySelector('[name=urlImpLang]:checked').value;
-    wrap.querySelector('#urlImpStatus').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التنزيل و الحفظ...';
-    const body = JSON.stringify({ url, lang, filename: name });
-    try {
-      const d = await api('/api/images/from-url', { method: 'POST', body });
-      if (d.cancelled) { close(); return; }
-      if (!d.ok) {
-        wrap.querySelector('#urlImpStatus').innerHTML = `<span style="color:#e05252">${d.error || 'فشل'}</span>`;
+    const langs = choice === 'both' ? ['ar', 'en'] : [choice];
+
+    status.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري التنزيل و الحفظ في ${langs.join(' + ').toUpperCase()}...`;
+
+    /* لكل لغة طلب منفصل — يضمن تطابق الاسم في الاثنين */
+    const results = [];
+    for (const lang of langs) {
+      try {
+        const d = await api('/api/images/from-url', {
+          method: 'POST',
+          body: JSON.stringify({ url, lang, filename: name }),
+        });
+        if (!d.ok) throw new Error(d.error || 'فشل');
+        results.push({ lang, ...d });
+      } catch (e) {
+        status.innerHTML = `<span style="color:#e05252">فشل ${lang.toUpperCase()}: ${e.message}</span>`;
         return;
       }
-      $('fImage').value = d.filename;
-      $('fImage').dispatchEvent(new Event('input'));
-      const msg = d.converted
-        ? `✓ تم التنزيل: ${d.filename} (محوّلة إلى JPEG)`
-        : `✓ تم التنزيل: ${d.filename}`;
-      toast(msg, 'success', 4000);
-      close();
-    } catch (e) {
-      wrap.querySelector('#urlImpStatus').innerHTML = `<span style="color:#e05252">${e.message}</span>`;
     }
+
+    /* نضع الاسم في حقل fImage (صورة الترويسة) */
+    $('fImage').value = results[0].filename;
+    $('fImage').dispatchEvent(new Event('input'));
+    const langsTxt = results.map(r => r.lang.toUpperCase()).join(' + ');
+    const conv = results.some(r => r.converted) ? ' (محوّلة إلى JPEG)' : '';
+    toast(`✓ تم التنزيل في ${langsTxt}: ${results[0].filename}${conv}`, 'success', 4500);
+    close();
   };
 }
 
