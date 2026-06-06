@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-06-06T19:22:00.908Z",
-  "count": 102,
+  "generated_at": "2026-06-06T19:37:54.510Z",
+  "count": 104,
   "by_lang": {
-    "ar": 51,
-    "en": 51
+    "ar": 52,
+    "en": 52
   },
   "articles": [
+    {
+      "title": "Ubuntu 26.10 Stonking Stingray: GNOME 51, GStreamer 1.30, and RISC-V Coming in October",
+      "slug": "ubuntu-26-10-stonking-stingray-roadmap",
+      "date": "2026-06-07T19:37:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Canonical has revealed the roadmap for Ubuntu 26.10 Stonking Stingray, scheduled for release on October 15, 2026. The release will feature GNOME 51, Linux kernel 7.2, GStreamer 1.30 with Rust plugins, a package-agnostic App Center, full RISC-V support, and migration to dbus-broker.",
+      "image": "ubuntu2610.jpg",
+      "tags": [
+        "Ubuntu",
+        "26.10",
+        "Stonking Stingray",
+        "GNOME 51",
+        "GStreamer",
+        "RISC-V",
+        "dbus-broker",
+        "App Center"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-07-ubuntu-26-10-stonking-stingray-roadmap.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Ubuntu 26.10 Stonking Stingray: GNOME 51 و GStreamer 1.30 و RISC-V في طريقها لأكتوبر",
+      "slug": "ubuntu-26-10-stonking-stingray-roadmap",
+      "date": "2026-06-07T19:35:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "كشفت Canonical عن خريطة طريق Ubuntu 26.10 Stonking Stingray، المقرر إصداره في 15 أكتوبر 2026. سيأتي الإصدار مع GNOME 51 ونواة Linux 7.2 ومكتبة GStreamer 1.30 بإضافات Rust، ومركز تطبيقات مستقل عن نوع الحزم، ودعم كامل لمعالجات RISC-V، والانتقال إلى dbus-broker.",
+      "image": "ubuntu2610.jpg",
+      "tags": [
+        "Ubuntu",
+        "26.10",
+        "Stonking Stingray",
+        "GNOME 51",
+        "GStreamer",
+        "RISC-V",
+        "dbus-broker",
+        "App Center"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-07-ubuntu-26-10-stonking-stingray-roadmap.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "مايكروسوفت تطلق 7 نماذج MAI في مؤتمر Build 2026: منافسة مباشرة لـ Claude وGemini",
       "slug": "microsoft-mai-models-build-2026",
