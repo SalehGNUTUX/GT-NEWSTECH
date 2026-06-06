@@ -1,11 +1,163 @@
 {
-  "generated_at": "2026-06-05T18:53:16.396Z",
-  "count": 96,
+  "generated_at": "2026-06-06T19:22:00.908Z",
+  "count": 102,
   "by_lang": {
-    "ar": 48,
-    "en": 48
+    "ar": 51,
+    "en": 51
   },
   "articles": [
+    {
+      "title": "مايكروسوفت تطلق 7 نماذج MAI في مؤتمر Build 2026: منافسة مباشرة لـ Claude وGemini",
+      "slug": "microsoft-mai-models-build-2026",
+      "date": "2026-06-06T19:21:00.000Z",
+      "category": "ai",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "في مؤتمر Build 2026، كشفت مايكروسوفت عن 7 نماذج ذكاء اصطناعي جديدة تحت مسمى MAI، تشمل نموذجاً للاستدلال الرياضي والبرمجي وآخر للبرمجة، إلى جانب نماذج للصور والصوت. تتفوق النماذج الجديدة في المعايير على Claude Sonnet 4.6 وGoogle Nano Banana Pro، وتأتي مع استراتيجية Zero Distillation وFrontier Tuning.",
+      "image": "from-url-1780773087202.jpg",
+      "tags": [
+        "Microsoft",
+        "MAI",
+        "مايكروسوفت",
+        "ذكاء اصطناعي",
+        "Build 2026",
+        "نماذج لغوية",
+        "AI",
+        "Mustafa Suleyman"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-07-microsoft-mai-models-build-2026.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
+    {
+      "title": "Microsoft Launches 7 MAI Models at Build 2026: Direct Competition with Claude and Gemini",
+      "slug": "microsoft-mai-models-build-2026",
+      "date": "2026-06-06T19:21:00.000Z",
+      "category": "ai",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "At the Build 2026 conference, Microsoft unveiled 7 new AI models under the MAI brand, including a reasoning model for math and programming, a coding model, and models for image and audio processing. The new models outperform Claude Sonnet 4.6 and Google Nano Banana Pro on benchmarks, and come with a Zero Distillation and Frontier Tuning strategy.",
+      "image": "from-url-1780773122115.jpg",
+      "tags": [
+        "Microsoft",
+        "MAI",
+        "AI",
+        "Build 2026",
+        "Language Models",
+        "Mustafa Suleyman"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-07-microsoft-mai-models-build-2026.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "Vyxel Apps: Open Source Android Store Powered Entirely by GitHub",
+      "slug": "vyxel-apps-github-powered-android-store",
+      "date": "2026-06-06T12:44:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Vyxel Apps is an open source Android application that turns GitHub into a complete app store. It lets you discover, install, and update thousands of open source applications directly from their repositories, with 18 categories, a Trust Score system, update notifications, and GitHub star synchronization.",
+      "image": "vyxel-apps.png",
+      "tags": [
+        "Vyxel Apps",
+        "Android",
+        "App Store",
+        "GitHub",
+        "Open Source",
+        "Privacy",
+        "F-Droid"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-06-vyxel-apps-github-powered-android-store.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "Vyxel Apps: متجر تطبيقات أندرويد مفتوح المصدر يعتمد كلياً على GitHub",
+      "slug": "vyxel-apps-github-powered-android-store",
+      "date": "2026-06-06T12:43:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Vyxel Apps هو تطبيق أندرويد مفتوح المصدر يحول GitHub إلى متجر تطبيقات متكامل. يمكنك من اكتشاف وتثبيت وتحديث آلاف التطبيقات المفتوحة المصدر مباشرة من مستودعاتها، مع 18 تصنيفاً، ونظام Trust Score، وتنبيهات التحديثات، ومزامنة المشاريع التي وضعت لها نجمة.",
+      "image": "vyxel-apps.png",
+      "tags": [
+        "Vyxel Apps",
+        "أندرويد",
+        "متجر تطبيقات",
+        "GitHub",
+        "مفتوح المصدر",
+        "خصوصية",
+        "F-Droid"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-06-vyxel-apps-github-powered-android-store.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "html-video: Open Source Project That Turns Any Article or Link into Professional AI Video",
+      "slug": "html-video-open-source-ai-video-generator",
+      "date": "2026-06-05T20:19:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "html-video is an open source project from the Open Design team that lets you turn any article, link, or GitHub repository into a professional ready-to-publish video. It works with AI agents like Claude Code, Cursor, and Codex, supports 21 ready-made templates, and generates background music using MiniMax.",
+      "image": "html-video.png",
+      "tags": [
+        "html-video",
+        "AI",
+        "Video",
+        "Open Source",
+        "HyperFrames",
+        "Remotion",
+        "Open Design"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-05-html-video-open-source-ai-video-generator.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "html-video: مشروع مفتوح المصدر يحول أي مقال أو رابط إلى فيديو احترافي بالذكاء الاصطناعي",
+      "slug": "html-video-open-source-ai-video-generator",
+      "date": "2026-06-05T20:17:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "html-video هو مشروع مفتوح المصدر من فريق Open Design، يسمح لك بتحويل أي مقال، رابط، أو مستودع GitHub إلى فيديو احترافي جاهز للنشر. يعمل عبر وكلاء الذكاء الاصطناعي مثل Claude Code وCursor وCodex، ويدعم 21 قالباً جاهزاً وتوليد موسيقى خلفية باستخدام MiniMax.",
+      "image": "html-video.png",
+      "tags": [
+        "html-video",
+        "ذكاء اصطناعي",
+        "فيديو",
+        "مفتوح المصدر",
+        "HyperFrames",
+        "Remotion",
+        "Open Design"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-05-html-video-open-source-ai-video-generator.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "DistroSea: جرب توزيعات لينكس مباشرة من متصفحك دون تثبيت",
       "slug": "distrosea-test-linux-distros-online",
