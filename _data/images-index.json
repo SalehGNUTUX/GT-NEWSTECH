@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-06-06T19:13:18.060Z",
+  "generated_at": "2026-06-06T20:04:49.926Z",
   "ar": [
+    {
+      "name": "boxedtux-ar.png",
+      "size": 553563,
+      "last_modified_ts": 1780776277,
+      "path": "assets/images/ar/boxedtux-ar.png"
+    },
+    {
+      "name": "boxedtux-ar.webp",
+      "size": 52286,
+      "last_modified_ts": 1780776277,
+      "path": "assets/images/ar/boxedtux-ar.webp"
+    },
+    {
+      "name": "ubuntu2610.jpg",
+      "size": 119809,
+      "last_modified_ts": 1780774661,
+      "path": "assets/images/ar/ubuntu2610.jpg"
+    },
+    {
+      "name": "ubuntu2610.webp",
+      "size": 81366,
+      "last_modified_ts": 1780774661,
+      "path": "assets/images/ar/ubuntu2610.webp"
+    },
     {
       "name": "from-url-1780773087202.jpg",
       "size": 101052,
@@ -568,6 +592,30 @@
   ],
   "en": [
     {
+      "name": "boxedtux-en.png",
+      "size": 72972,
+      "last_modified_ts": 1780776277,
+      "path": "assets/images/en/boxedtux-en.png"
+    },
+    {
+      "name": "boxedtux-en.webp",
+      "size": 33062,
+      "last_modified_ts": 1780776277,
+      "path": "assets/images/en/boxedtux-en.webp"
+    },
+    {
+      "name": "ubuntu2610.jpg",
+      "size": 119809,
+      "last_modified_ts": 1780774661,
+      "path": "assets/images/en/ubuntu2610.jpg"
+    },
+    {
+      "name": "ubuntu2610.webp",
+      "size": 81366,
+      "last_modified_ts": 1780774661,
+      "path": "assets/images/en/ubuntu2610.webp"
+    },
+    {
       "name": "from-url-1780773122115.jpg",
       "size": 101052,
       "last_modified_ts": 1780773185,
@@ -1132,6 +1180,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 94,
-  "count_en": 94
+  "count_ar": 98,
+  "count_en": 98
 }
