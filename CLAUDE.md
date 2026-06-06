@@ -208,7 +208,7 @@ POST /api/comments/:id/hide          ← minimizeComment (SPAM/OFF_TOPIC/…)
 POST /api/comments/:id/unhide        ← unminimizeComment
 DELETE /api/comments/:id             ← deleteDiscussionComment
 POST /api/comments/discussion/:id/lock|unlock
-POST /api/images/from-url            ← download image from URL into assets/images/<lang>/
+POST /api/images/from-url            ← download image from URL into assets/images/<lang>/ (body: { url, lang, filename? }). Validates Content-Type starts with `image/`, sanitizes the filename, runs the compress pipeline. **The remote Worker has the same endpoint** — it uses `fetch` + Contents API and relies on `generate-webp.yml` workflow to produce the WebP companion later (~30s after commit).
 GET  /api/config
 ```
 
@@ -276,6 +276,14 @@ GET  /api/config
 **sha/mtime conflict detection on save:** when an existing article is opened for editing, `openEditor()` snapshots `{_sha, _mtime}` (Worker returns `_sha`; local `server.js readArticle` returns `_mtime` from `fs.statSync`). Before PUT, the editor re-fetches `/api/article` and compares — if either field differs from the snapshot, a `confirm()` appears: "edited from another panel — overwrite OR cancel?". Prevents silent overwrite of changes made via remote panel / Decap CMS / another machine.
 
 **Image picker lang-sync:** `openImagePicker()` reads the editor's current language (`[name=fLang]:checked`) and pre-selects the matching ptab (`AR/EN Images`) + the matching `importDest` radio. Saves 2 clicks per English article. Falls back to `S.langFilter` if no fLang is set yet.
+
+**Image-from-URL modal (`urlImageBtn` next to `fImage`):** Triggered by the link icon beside the hero-image input. `openUrlImportModal()` shows: URL input with **live preview** (auto-renders when a valid image URL is pasted), optional custom filename, and 4 action radios:
+1. Download & save in **AR only**
+2. Download & save in **EN only**
+3. Download & save in **AR + EN** (calls `/api/images/from-url` twice — same filename, both folders)
+4. **Use as direct URL** (no download — puts the raw URL into `fImage`, so the image is served from the original host)
+
+Option 4 stays useful for stable hosts (GitHub raw, Wikimedia, CDNs). Options 1-3 protect against source rot or deletion.
 
 **Comments moderation page (`#comments`):**
 - Uses GitHub GraphQL API for Discussions of `SalehGNUTUX/GT-NEWSTECH`
