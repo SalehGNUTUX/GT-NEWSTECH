@@ -3,7 +3,10 @@ layout: post
 title: >-
   Ubuntu 26.10 Stonking Stingray: GNOME 51, GStreamer 1.30, and RISC-V Coming in
   October
+slug: ubuntu-26-10-stonking-stingray-roadmap
+lang: en
 category: gnulinux
+date: 2026-06-06T19:40:00.000Z
 author: GNUTUX
 excerpt: >-
   Canonical has revealed the roadmap for Ubuntu 26.10 Stonking Stingray,
@@ -20,9 +23,6 @@ tags:
   - RISC-V
   - dbus-broker
   - App Center
-date: 2026-06-07T19:37:00.000Z
-lang: en
-slug: ubuntu-26-10-stonking-stingray-roadmap
 ---
 
 ## Preparing for 28.04 LTS
