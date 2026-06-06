@@ -364,7 +364,18 @@ function getImages(lang) {
     try {
       const idx = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
       const list = idx[lang] || [];
+      // أخفِ .webp companions (الـmaster .jpg/.png مرفوع مع .webp شقيق)
+      // المستخدم يختار master؛ الـcompanion يخدمه القالب تلقائياً عبر <picture>
+      const nameSet = new Set(list.map(im => im.name));
+      const isCompanion = name => {
+        if (!name.toLowerCase().endsWith('.webp')) return false;
+        const base = name.slice(0, -5);
+        return nameSet.has(base + '.jpg') || nameSet.has(base + '.jpeg') ||
+               nameSet.has(base + '.png') || nameSet.has(base + '.JPG') ||
+               nameSet.has(base + '.JPEG') || nameSet.has(base + '.PNG');
+      };
       return list
+        .filter(im => !isCompanion(im.name))
         .filter(im => fs.existsSync(path.join(dir, im.name)))
         .map(im => {
           // تاريخ الترتيب: تاريخ المقال لو الصورة مُستعملة، وإلا git log

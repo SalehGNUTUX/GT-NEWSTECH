@@ -43,8 +43,19 @@ async function getImages(env, lang) {
   const idx = await getImagesIndex(env);
 
   if (idx && idx[lang]) {
+    const list = idx[lang];
+    // أخفِ .webp companions
+    const nameSet = new Set(list.map(im => im.name));
+    const isCompanion = name => {
+      if (!name.toLowerCase().endsWith('.webp')) return false;
+      const base = name.slice(0, -5);
+      return nameSet.has(base + '.jpg') || nameSet.has(base + '.jpeg') ||
+             nameSet.has(base + '.png') || nameSet.has(base + '.JPG') ||
+             nameSet.has(base + '.JPEG') || nameSet.has(base + '.PNG');
+    };
     // ترتيب بتاريخ المقال (لو متاح)، fallback git log
-    return idx[lang]
+    return list
+      .filter(img => !isCompanion(img.name))
       .map(img => {
         const articleDate = imgToArticleDate.get(img.name);
         const sortTs = articleDate ? Math.floor(articleDate / 1000) : img.last_modified_ts;
