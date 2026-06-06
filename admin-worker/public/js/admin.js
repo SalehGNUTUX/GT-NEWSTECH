@@ -1864,30 +1864,91 @@ window.deleteArticle = async (lang, cat, file, title) => {
 // ── Image Picker ───────────────────────────────────────────────
 $('pickImageBtn').addEventListener('click', () => openImagePicker());
 
-// ── Image from URL ─────────────────────────────────────────────
-$('urlImageBtn')?.addEventListener('click', async () => {
-  const url = prompt('الصق رابط الصورة (https://...):');
-  if (!url) return;
-  if (!/^https?:\/\//i.test(url)) { toast('الرابط يجب أن يبدأ بـ http:// أو https://', 'error'); return; }
+// ── Image from URL — Modal مع معاينة و اسم اختياري ───────────────
+$('urlImageBtn')?.addEventListener('click', () => openUrlImportModal());
 
-  const lang = document.querySelector('[name=fLang]:checked')?.value || 'ar';
-  toast('جاري تنزيل الصورة...', 'info');
+function openUrlImportModal() {
+  const defaultLang = document.querySelector('[name=fLang]:checked')?.value || 'ar';
+  const wrap = document.createElement('div');
+  wrap.className = 'confirm-overlay';
+  wrap.innerHTML = `
+    <div class="confirm-modal" style="max-width:520px">
+      <div class="confirm-header">
+        <i class="fa-solid fa-link" style="color:var(--gold)"></i>
+        <h3>استيراد صورة من رابط</h3>
+      </div>
+      <div class="confirm-body">
+        <label style="display:block;font-size:.8rem;color:var(--muted);margin-bottom:.3rem">رابط الصورة <span style="color:#e05252">*</span></label>
+        <input id="urlImpInput" type="url" placeholder="https://example.com/image.jpg" dir="ltr"
+               style="width:100%;background:#111;border:1px solid var(--border);color:var(--text);padding:.55rem .7rem;border-radius:.45rem">
+        <div id="urlImpPreviewWrap" style="margin-top:.7rem;display:none;text-align:center">
+          <img id="urlImpPreview" style="max-width:100%;max-height:200px;border-radius:.4rem;border:1px solid var(--border)">
+        </div>
+        <label style="display:block;font-size:.8rem;color:var(--muted);margin-top:.7rem;margin-bottom:.3rem">اسم مخصص (اختياري)</label>
+        <input id="urlImpName" type="text" placeholder="مثلاً: my-photo.jpg (سيُستنتج من الرابط لو فارغ)" dir="ltr"
+               style="width:100%;background:#111;border:1px solid var(--border);color:var(--text);padding:.55rem .7rem;border-radius:.45rem">
+        <div style="display:flex;gap:1rem;margin-top:.7rem;align-items:center">
+          <span style="font-size:.85rem">الحفظ إلى:</span>
+          <label><input type="radio" name="urlImpLang" value="ar" ${defaultLang==='ar'?'checked':''}> AR</label>
+          <label><input type="radio" name="urlImpLang" value="en" ${defaultLang==='en'?'checked':''}> EN</label>
+        </div>
+        <div id="urlImpStatus" style="margin-top:.5rem;font-size:.85rem"></div>
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-gold" id="urlImpGo"><i class="fa-solid fa-download"></i> تنزيل و حفظ</button>
+        <button class="btn btn-ghost" id="urlImpCancel">إلغاء</button>
+      </div>
+    </div>`;
+  document.body.appendChild(wrap);
+  const close = () => wrap.remove();
+  wrap.querySelector('#urlImpCancel').onclick = close;
 
-  const d = await api('/api/images/from-url', {
-    method: 'POST',
-    body: JSON.stringify({ url, lang })
+  const urlInp = wrap.querySelector('#urlImpInput');
+  const preview = wrap.querySelector('#urlImpPreview');
+  const previewWrap = wrap.querySelector('#urlImpPreviewWrap');
+
+  /* معاينة فورية عند لصق URL صالح */
+  urlInp.addEventListener('input', () => {
+    const u = urlInp.value.trim();
+    if (/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif|avif|svg)(\?|$)/i.test(u)) {
+      preview.src = u;
+      previewWrap.style.display = 'block';
+    } else {
+      previewWrap.style.display = 'none';
+    }
   });
+  preview.onerror = () => { previewWrap.style.display = 'none'; };
+  setTimeout(() => urlInp.focus(), 50);
 
-  if (d.cancelled) return;
-  if (!d.ok) { toast('خطأ: ' + (d.error || 'فشل التنزيل'), 'error', 5000); return; }
-
-  $('fImage').value = d.filename;
-  $('fImage').dispatchEvent(new Event('input'));
-  const msg = d.converted
-    ? `✓ تم تنزيل الصورة وحفظها كـ ${d.filename} (مع تحويل لـ JPEG)`
-    : `✓ تم تنزيل الصورة: ${d.filename}`;
-  toast(msg, 'success', 4000);
-});
+  wrap.querySelector('#urlImpGo').onclick = async () => {
+    const url = urlInp.value.trim();
+    if (!/^https?:\/\//i.test(url)) {
+      wrap.querySelector('#urlImpStatus').innerHTML = '<span style="color:#e05252">الرابط يجب أن يبدأ بـ http:// أو https://</span>';
+      return;
+    }
+    const name = wrap.querySelector('#urlImpName').value.trim() || undefined;
+    const lang = wrap.querySelector('[name=urlImpLang]:checked').value;
+    wrap.querySelector('#urlImpStatus').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التنزيل و الحفظ...';
+    const body = JSON.stringify({ url, lang, filename: name });
+    try {
+      const d = await api('/api/images/from-url', { method: 'POST', body });
+      if (d.cancelled) { close(); return; }
+      if (!d.ok) {
+        wrap.querySelector('#urlImpStatus').innerHTML = `<span style="color:#e05252">${d.error || 'فشل'}</span>`;
+        return;
+      }
+      $('fImage').value = d.filename;
+      $('fImage').dispatchEvent(new Event('input'));
+      const msg = d.converted
+        ? `✓ تم التنزيل: ${d.filename} (محوّلة إلى JPEG)`
+        : `✓ تم التنزيل: ${d.filename}`;
+      toast(msg, 'success', 4000);
+      close();
+    } catch (e) {
+      wrap.querySelector('#urlImpStatus').innerHTML = `<span style="color:#e05252">${e.message}</span>`;
+    }
+  };
+}
 
 async function openImagePicker() {
   /* اللغة الحالية من حقل المقال (تتغيّر مع radio "اللغة" في البيانات).

@@ -157,6 +157,71 @@ export async function uploadImage(env, req, lang) {
   return json({ ok: true, uploaded });
 }
 
+// POST /api/images/from-url  body: { url, lang, filename? }
+// ينزّل الصورة من رابط ثم يرفعها للمستودع (GitHub Contents API).
+// الـ.webp companion يولّده generate-webp.yml workflow بعد ~30s.
+export async function importFromUrl(env, req) {
+  const body = await req.json().catch(() => ({}));
+  const { url, lang, filename: customName } = body;
+  if (!url || !lang) return json({ error: 'url و lang مطلوبان' }, 400);
+  if (!/^https?:\/\//i.test(url)) return json({ error: 'الرابط يجب أن يبدأ بـ http:// أو https://' }, 400);
+  if (!/^(ar|en)$/.test(lang)) return json({ error: 'lang غير صحيح' }, 400);
+
+  let r;
+  try { r = await fetch(url, { redirect: 'follow' }); }
+  catch (e) { return json({ error: 'فشل التنزيل: ' + e.message }, 502); }
+  if (!r.ok) return json({ error: `الخادم البعيد رفض الطلب: ${r.status}` }, 400);
+
+  const ct = (r.headers.get('content-type') || '').split(';')[0].trim();
+  if (!ct.startsWith('image/')) return json({ error: `الرابط لا يشير إلى صورة (${ct})` }, 400);
+
+  // اسم نظيف من الـURL أو من المستخدم
+  let name = customName;
+  if (!name) {
+    try {
+      const u = new URL(url);
+      const last = decodeURIComponent(u.pathname.split('/').pop().split('?')[0]);
+      name = last && /\.\w+$/.test(last) ? last : `from-url-${Date.now()}.jpg`;
+    } catch { name = `from-url-${Date.now()}.jpg`; }
+  }
+  // Unicode-aware sanitize (مثل uploadImage)
+  name = name.replace(/[^\p{L}\p{N}._-]+/gu, '_').replace(/_{2,}/g, '_');
+  if (!EXT_OK.test(name)) {
+    // استنتج الامتداد من content-type
+    const map = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp',
+                  'image/avif': '.avif', 'image/gif': '.gif', 'image/svg+xml': '.svg' };
+    const ext = map[ct] || '.jpg';
+    name = name.replace(/\.\w+$/, '') + ext;
+  }
+
+  const bytes = new Uint8Array(await r.arrayBuffer());
+  if (bytes.length > MAX_SIZE) {
+    return json({ error: `الصورة كبيرة: ${(bytes.length/1048576).toFixed(1)}MB > ${MAX_SIZE/1048576}MB` }, 413);
+  }
+
+  const path = `assets/images/${lang}/${name}`;
+  try {
+    const existing = await getFile(env, path).catch(() => null);
+    const res = await putBinaryFile(env, {
+      path,
+      bytes,
+      sha: existing?.sha,
+      message: `${existing ? 'update' : 'add'} image from URL: ${name} [remote]`,
+      author: AUTHOR,
+    });
+    return json({
+      ok: true,
+      filename: name,
+      converted: false, // Worker لا يحوّل
+      url: `https://raw.githubusercontent.com/${env.GITHUB_REPO}/${env.GITHUB_BRANCH}/${path}`,
+      sha: res.sha,
+      sourceUrl: url,
+    });
+  } catch (e) {
+    return json({ error: 'فشل الحفظ: ' + e.message }, 500);
+  }
+}
+
 // DELETE /api/images/:lang/:name
 export async function removeImage(env, lang, name) {
   if (!/^(ar|en)$/.test(lang)) return json({ error: 'lang غير صحيح' }, 400);

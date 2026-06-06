@@ -6,7 +6,7 @@ import { makeToken, requireAuth, validatePassword, sha256Hex, makeConfirmToken, 
 import { getStats } from './routes/stats.js';
 import { getCategories, createCategory } from './routes/categories.js';
 import { listArticles, getArticle, createArticle, updateArticle, removeArticle } from './routes/articles.js';
-import { listImages, uploadImage, removeImage } from './routes/images.js';
+import { listImages, uploadImage, removeImage, importFromUrl } from './routes/images.js';
 import { listTrash, restoreFromTrash, purgeTrashItem, emptyTrash } from './routes/trash.js';
 import { listComments, replyToDiscussion, hideComment, unhideComment, deleteComment, lockDiscussion, unlockDiscussion } from './routes/comments.js';
 
@@ -117,6 +117,9 @@ async function route(req, env, url) {
   if (p === '/api/article' && m === 'PUT')    return updateArticle(env, req, params);
   if (p === '/api/article' && m === 'DELETE') return removeArticle(env, params);
   if (p === '/api/categories' && m === 'POST') return createCategory(env, req);
+
+  // استيراد من رابط (يجب فحصه قبل نمط :lang لأن "from-url" ليس lang)
+  if (p === '/api/images/from-url' && m === 'POST') return importFromUrl(env, req);
 
   // رفع الصور: POST /api/images/:lang  |  حذف: DELETE /api/images/:lang/:name
   const imgMatch = p.match(/^\/api\/images\/(ar|en)(?:\/(.+))?$/);
