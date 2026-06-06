@@ -23,21 +23,35 @@
         {% assign _img_src = site.baseurl | append: '/assets/images/' | append: post.lang | append: '/' | append: post.image %}
       {% endif %}
       {%- comment -%}
-        WebP companion: لكل image.jpg/png يولّد image.webp تلقائياً عند الرفع.
-        نخدم WebP للمتصفحات الحديثة (95%+) عبر <picture>، fallback للأصل.
+        WebP companion: نُولّد image.webp تلقائياً عند الرفع.
+        - استخراج الامتداد بـ split (يدعم 3 و 4 و 5 أحرف: jpg/jpeg/png/...)
+        - نتحقّق فعلياً من وجود الـwebp في site.static_files قبل إضافته
+          (يتجنّب console errors + flicker لو الـcompanion غير مُولَّد)
       {%- endcomment -%}
-      {%- assign _ext_pos = _img_src | size | minus: 4 -%}
-      {%- assign _img_base = _img_src | slice: 0, _ext_pos -%}
-      {%- assign _img_ext = _img_src | slice: _ext_pos, 4 | downcase -%}
+      {%- assign _img_parts = _img_src | split: '.' -%}
+      {%- assign _img_ext = _img_parts | last | downcase -%}
+      {%- assign _ext_with_dot = _img_ext | size | plus: 1 -%}
+      {%- assign _base_size = _img_src | size | minus: _ext_with_dot -%}
+      {%- assign _img_base = _img_src | slice: 0, _base_size -%}
+      {%- assign _webp_path = _img_base | append: '.webp' | remove_first: site.baseurl -%}
+      {%- assign _has_webp = false -%}
+      {%- if _img_ext == "jpg" or _img_ext == "jpeg" or _img_ext == "png" -%}
+        {%- for f in site.static_files -%}
+          {%- if f.path == _webp_path -%}
+            {%- assign _has_webp = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
       <picture>
-        {%- if _img_ext == ".jpg" or _img_ext == ".png" or _img_ext == "jpeg" -%}
+        {%- if _has_webp -%}
         <source srcset="{{ _img_base }}.webp" type="image/webp">
         {%- endif -%}
         <img src="{{ _img_src }}"
              alt="{{ post.title }}"
              loading="lazy"
              decoding="async"
-             onerror="this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('card-fallback-logo')">
+             onerror="if(this.dataset.fallen)return;this.dataset.fallen=1;this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('card-fallback-logo')">
       </picture>
       {% else %}
       <div class="card-image-placeholder">

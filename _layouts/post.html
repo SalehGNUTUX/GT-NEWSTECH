@@ -104,11 +104,23 @@ layout: default
     {% else %}
       {% assign _post_img = site.baseurl | append: '/assets/images/' | append: page.lang | append: '/' | append: page.image %}
     {% endif %}
-    {%- assign _ext_pos = _post_img | size | minus: 4 -%}
-    {%- assign _post_base = _post_img | slice: 0, _ext_pos -%}
-    {%- assign _post_ext = _post_img | slice: _ext_pos, 4 | downcase -%}
+    {%- assign _post_parts = _post_img | split: '.' -%}
+    {%- assign _post_ext = _post_parts | last | downcase -%}
+    {%- assign _post_ext_size = _post_ext | size | plus: 1 -%}
+    {%- assign _post_base_size = _post_img | size | minus: _post_ext_size -%}
+    {%- assign _post_base = _post_img | slice: 0, _post_base_size -%}
+    {%- assign _post_webp_path = _post_base | append: '.webp' | remove_first: site.baseurl -%}
+    {%- assign _post_has_webp = false -%}
+    {%- if _post_ext == "jpg" or _post_ext == "jpeg" or _post_ext == "png" -%}
+      {%- for f in site.static_files -%}
+        {%- if f.path == _post_webp_path -%}
+          {%- assign _post_has_webp = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
     <picture>
-      {%- if _post_ext == ".jpg" or _post_ext == ".png" or _post_ext == "jpeg" -%}
+      {%- if _post_has_webp -%}
       <source srcset="{{ _post_base }}.webp" type="image/webp">
       {%- endif -%}
       <img src="{{ _post_img }}"
@@ -117,7 +129,7 @@ layout: default
            loading="eager"
            fetchpriority="high"
            decoding="async"
-           onerror="this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('post-featured-fallback')">
+           onerror="if(this.dataset.fallen)return;this.dataset.fallen=1;this.src='{{ site.baseurl }}/assets/icons/gt-newstech-icon.png';this.classList.add('post-featured-fallback')">
     </picture>
     {% if page.image_caption %}
     <p class="image-caption">{{ page.image_caption }}</p>

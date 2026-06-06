@@ -1,0 +1,51 @@
+name: Generate WebP companions
+
+# لأي صورة JPG/PNG جديدة بلا webp companion، يولّد .webp تلقائياً
+# يحفظ المستخدم من تشغيل scripts/optimize-images.js يدوياً بعد كل رفع
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/images/ar/**.jpg'
+      - 'assets/images/ar/**.jpeg'
+      - 'assets/images/ar/**.png'
+      - 'assets/images/en/**.jpg'
+      - 'assets/images/en/**.jpeg'
+      - 'assets/images/en/**.png'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-webp
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Install sharp
+        working-directory: scripts
+        run: npm ci || npm install --no-audit --no-fund
+
+      - name: Generate webp companions for new images
+        run: node scripts/optimize-images.js --new
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet assets/images/; then
+            echo "✓ لا webp جديدة"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/images/
+          git commit -m "chore: تحديث WebP companions تلقائياً [skip ci]"
+          git push
