@@ -40,46 +40,50 @@ async function buildImageToArticleDate(env, lang) {
 
 async function getImages(env, lang) {
   const imgToArticleDate = await buildImageToArticleDate(env, lang);
-  const idx = await getImagesIndex(env);
 
-  if (idx && idx[lang]) {
-    const list = idx[lang];
-    // أخفِ .webp companions
-    const nameSet = new Set(list.map(im => im.name));
-    const isCompanion = name => {
-      if (!name.toLowerCase().endsWith('.webp')) return false;
-      const base = name.slice(0, -5);
-      return nameSet.has(base + '.jpg') || nameSet.has(base + '.jpeg') ||
-             nameSet.has(base + '.png') || nameSet.has(base + '.JPG') ||
-             nameSet.has(base + '.JPEG') || nameSet.has(base + '.PNG');
-    };
-    // ترتيب بتاريخ المقال (لو متاح)، fallback git log
-    return list
-      .filter(img => !isCompanion(img.name))
-      .map(img => {
-        const articleDate = imgToArticleDate.get(img.name);
-        const sortTs = articleDate ? Math.floor(articleDate / 1000) : img.last_modified_ts;
-        return { ...img, _sortTs: sortTs };
-      })
-      .sort((a, b) => b._sortTs - a._sortTs)
-      .map(img => ({
-        name: img.name,
-        size: img.size,
-        lang,
-        url: `https://raw.githubusercontent.com/${env.GITHUB_REPO}/${env.GITHUB_BRANCH}/assets/images/${lang}/${img.name}`,
-      }));
+  // (1) listDir من GitHub Contents API = مصدر الحقيقة لأي ملفات موجودة
+  // (يلتقط الصور المرفوعة حديثاً قبل تحديث index)
+  const items = await listDir(env, `assets/images/${lang}`);
+  const fileMap = new Map();
+  for (const x of items) {
+    if (x.type !== 'file' || !EXT_OK.test(x.name)) continue;
+    fileMap.set(x.name, { name: x.name, size: x.size, mtime: 0, path: x.path });
   }
 
-  // fallback: listDir (alphabetical)
-  const items = await listDir(env, `assets/images/${lang}`);
-  return items
-    .filter(x => x.type === 'file' && EXT_OK.test(x.name))
-    .map(x => ({
-      name: x.name,
-      size: x.size,
-      lang,
-      url: `https://raw.githubusercontent.com/${env.GITHUB_REPO}/${env.GITHUB_BRANCH}/${x.path}`,
-    }));
+  // (2) الـindex يكمل بـts دقيقة من git log
+  const idx = await getImagesIndex(env);
+  if (idx && idx[lang]) {
+    for (const im of idx[lang]) {
+      if (!fileMap.has(im.name)) continue;
+      fileMap.get(im.name).mtime = im.last_modified_ts * 1000;
+    }
+  }
+
+  // (3) فلتر companions
+  const nameSet = new Set(fileMap.keys());
+  const isCompanion = name => {
+    if (!name.toLowerCase().endsWith('.webp')) return false;
+    const base = name.slice(0, -5);
+    return nameSet.has(base + '.jpg') || nameSet.has(base + '.jpeg') ||
+           nameSet.has(base + '.png') || nameSet.has(base + '.JPG') ||
+           nameSet.has(base + '.JPEG') || nameSet.has(base + '.PNG');
+  };
+
+  // (4) ترتيب: تاريخ المقال > git log > 0 (للملفات الجديدة جداً)
+  return Array.from(fileMap.values())
+    .filter(im => !isCompanion(im.name))
+    .map(im => {
+      const articleDate = imgToArticleDate.get(im.name);
+      return {
+        name: im.name,
+        size: im.size,
+        lang,
+        url: `https://raw.githubusercontent.com/${env.GITHUB_REPO}/${env.GITHUB_BRANCH}/${im.path}`,
+        _sortTs: articleDate || im.mtime,
+      };
+    })
+    .sort((a, b) => b._sortTs - a._sortTs)
+    .map(({ _sortTs, ...rest }) => rest);
 }
 
 // GET /api/images?lang=

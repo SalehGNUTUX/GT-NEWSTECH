@@ -358,52 +358,51 @@ function getImages(lang) {
 
   const imgToArticleDate = buildImageToArticleDate(lang);
 
-  // المسار المُفضَّل: _data/images-index.json (يستعمل git log عبر workflow)
+  // (1) القرص مصدر الحقيقة لـ"أي ملفات موجودة"
+  // (يلتقط الصور المرفوعة حديثاً قبل تحديث الـ index)
+  const fileMap = new Map();
+  for (const f of fs.readdirSync(dir)) {
+    if (!IMG_EXTS.test(f)) continue;
+    try {
+      const stat = fs.statSync(path.join(dir, f));
+      fileMap.set(f, { name: f, mtime: stat.mtimeMs, size: stat.size });
+    } catch (_) {}
+  }
+
+  // (2) الـ index يُكمل بـts دقيقة من git log (يطغى على fs.mtime لو متاح)
   const indexPath = path.join(ROOT, '_data', 'images-index.json');
   if (fs.existsSync(indexPath)) {
     try {
       const idx = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
-      const list = idx[lang] || [];
-      // أخفِ .webp companions (الـmaster .jpg/.png مرفوع مع .webp شقيق)
-      // المستخدم يختار master؛ الـcompanion يخدمه القالب تلقائياً عبر <picture>
-      const nameSet = new Set(list.map(im => im.name));
-      const isCompanion = name => {
-        if (!name.toLowerCase().endsWith('.webp')) return false;
-        const base = name.slice(0, -5);
-        return nameSet.has(base + '.jpg') || nameSet.has(base + '.jpeg') ||
-               nameSet.has(base + '.png') || nameSet.has(base + '.JPG') ||
-               nameSet.has(base + '.JPEG') || nameSet.has(base + '.PNG');
-      };
-      return list
-        .filter(im => !isCompanion(im.name))
-        .filter(im => fs.existsSync(path.join(dir, im.name)))
-        .map(im => {
-          // تاريخ الترتيب: تاريخ المقال لو الصورة مُستعملة، وإلا git log
-          const articleDate = imgToArticleDate.get(im.name);
-          const sortTs = articleDate || (im.last_modified_ts * 1000);
-          return {
-            name: im.name, lang,
-            url: `/site-images/${lang}/${im.name}`,
-            size: im.size,
-            mtime: sortTs,
-            usedInArticle: !!articleDate,
-          };
-        })
-        .sort((a, b) => b.mtime - a.mtime); // الأحدث أولاً
-    } catch (_) { /* fallback */ }
+      for (const im of (idx[lang] || [])) {
+        if (!fileMap.has(im.name)) continue;
+        const entry = fileMap.get(im.name);
+        entry.mtime = im.last_modified_ts * 1000;
+        entry.size = im.size;
+      }
+    } catch (_) {}
   }
 
-  // Fallback: fs.mtime + map المقالات
-  return fs.readdirSync(dir)
-    .filter(f => IMG_EXTS.test(f))
-    .map(f => {
-      const stat = fs.statSync(path.join(dir, f));
-      const articleDate = imgToArticleDate.get(f);
+  // (3) فلتر .webp companions
+  const nameSet = new Set(fileMap.keys());
+  const isCompanion = name => {
+    if (!name.toLowerCase().endsWith('.webp')) return false;
+    const base = name.slice(0, -5);
+    return nameSet.has(base + '.jpg') || nameSet.has(base + '.jpeg') ||
+           nameSet.has(base + '.png') || nameSet.has(base + '.JPG') ||
+           nameSet.has(base + '.JPEG') || nameSet.has(base + '.PNG');
+  };
+
+  // (4) ترتيب: تاريخ المقال (لو مستعملة) → git log → fs.mtime
+  return Array.from(fileMap.values())
+    .filter(im => !isCompanion(im.name))
+    .map(im => {
+      const articleDate = imgToArticleDate.get(im.name);
       return {
-        name: f, lang,
-        url: `/site-images/${lang}/${f}`,
-        size: stat.size,
-        mtime: articleDate || stat.mtimeMs,
+        name: im.name, lang,
+        url: `/site-images/${lang}/${im.name}`,
+        size: im.size,
+        mtime: articleDate || im.mtime,
         usedInArticle: !!articleDate,
       };
     })
