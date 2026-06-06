@@ -223,16 +223,18 @@ GET  /api/config
 - **WebP companion auto-generated** alongside every JPG/PNG (`image.jpg` + `image.webp`)
 - Non-web formats (heic, heif, tiff, bmp) → converted to JPEG **and** WebP
 - **Only writes if output smaller than input** (avoids inflating already-tiny images)
-- `_layouts/post.html` and `_includes/article-card.html` use `<picture>` element:
-  ```html
-  <picture>
-    <source srcset="image.webp" type="image/webp">
-    <img src="image.jpg" alt="..." loading="lazy" decoding="async">
-  </picture>
-  ```
-  Modern browsers (95%+) get WebP, older ones fall back to original. Hero image in post.html adds `fetchpriority="high"`.
+- `_layouts/post.html` and `_includes/article-card.html` use `<picture>` element. **Critical: each template iterates `site.static_files` to verify the `.webp` companion exists before emitting `<source>`** — prevents 404 console floods + layout flicker when an image lacks a companion. Extension extraction uses Liquid `split: '.'` (supports `.jpg`, `.jpeg`, `.png`, any length). `<img>` has `onerror` guarded by `data-fallen=1` to prevent infinite loop if the fallback icon also fails. Hero image in post.html adds `fetchpriority="high"`.
 - **Batch script** for existing images: `cd scripts && npm run optimize` (or `:dry` / `:new`). First full run on the library (96 images): **40 MB → 26 MB (-45%)**, plus 94 WebP companions totaling 3.92 MB. Heavy screenshots reduced 70-78% via resize to 1600px. Two corrupt files (`claudevscodex.png`, `ubuntu-2604-noble-numbat.avif`) failed with `heif: Invalid input` and were skipped — re-encode them if you need them in the build.
-- **The Worker cannot compress** (no native sharp binaries on Cloudflare Workers) — for now, remote uploads bypass compression. Options: reject uploads > 2MB at the Worker, browser-side compression via `browser-image-compression`, or Cloudflare Images (paid).
+- **`.github/workflows/generate-webp.yml`** automatically runs `optimize-images.js --new` on every push that touches `assets/images/**.{jpg,jpeg,png}` and commits any new `.webp` companions. No manual `npm run optimize` needed after uploads from the remote panel.
+- **The Worker cannot compress** (no native sharp binaries on Cloudflare Workers) — uploads bypass compression. The workflow generates WebP companions ~30s after each push. Options for stricter handling: reject uploads > 2MB at the Worker, browser-side compression via `browser-image-compression`, or Cloudflare Images (paid).
+
+**Image picker / list ordering (both panels):**
+- Local `getImages()` and Worker `getImages()` follow the same logic:
+  1. **Disk / Contents API = source of truth for "which files exist"** — captures freshly uploaded files before the index workflow runs.
+  2. **`_data/images-index.json` supplements timestamps** from `git log` (more accurate than `fs.statSync` mtime which is unreliable when files come from backup with same mtime).
+  3. **`buildImageToArticleDate()` builds a map** `name → max(article.date for articles using this image)` from `_data/articles-index.json`. Used as primary sort key — an image referenced by a 2026-06-05 article sorts above one referenced by 2026-04-01.
+  4. **`isCompanion(name)`** hides `.webp` files that have a `.jpg/.jpeg/.png` master with the same base name — these are auto-generated companions served only by the template, not user-selectable.
+- Final sort: `articleDate (if image is used) || git-log ts || fs.mtime || 0`, descending.
 
 **Categories are dynamic:**
 - `getCatIds()` reads `_data/categories.yml` + scans `_ar/` subfolders
@@ -269,7 +271,7 @@ GET  /api/config
 
 **Cross-language save reminder:** After successfully saving a new article (POST /api/article), the editor checks `/api/articles?lang=<other>` for an article with the same `slug`. If none → shows a dialog with "Edit other-lang version" + "Later" buttons. Choosing edit opens the editor pre-filled with shared fields (slug, category, image, tags, date, author, also_in) so the user only writes title + content in the other language. Implemented in `promptCrossLang()` after `$('saveArticle')` click handler.
 
-**Behind-N-commits badge:** topbar shows a pulsing blue badge "خلف بـ N" when the local panel is behind origin/main. `updateBehindBadge()` calls `/api/git/status` (which performs `git fetch origin main` server-side) on boot + every 90s + after pushes. Hidden in remote mode (no concept of "behind" via GitHub API). Click navigates to Git tab for pull.
+**Behind-N-commits badge:** topbar shows a pulsing blue badge "خلف بـ N" when the local panel is behind origin/main. `updateBehindBadge()` calls `/api/git/status` (which performs `git fetch origin main` server-side) on boot + every 90s + after pushes. Hidden in remote mode (no concept of "behind" via GitHub API). Click navigates to Git tab for pull. The Git page's "تحديث" button calls `window.refreshGitPanel(btn)` which runs `renderGit` + `updateBehindBadge` in parallel, spins the icon (`fa-spin`) for visual feedback, and shows a "تم التحديث ✓" toast.
 
 **sha/mtime conflict detection on save:** when an existing article is opened for editing, `openEditor()` snapshots `{_sha, _mtime}` (Worker returns `_sha`; local `server.js readArticle` returns `_mtime` from `fs.statSync`). Before PUT, the editor re-fetches `/api/article` and compares — if either field differs from the snapshot, a `confirm()` appears: "edited from another panel — overwrite OR cancel?". Prevents silent overwrite of changes made via remote panel / Decap CMS / another machine.
 
