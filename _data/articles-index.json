@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-06-07T11:14:56.691Z",
-  "count": 108,
+  "generated_at": "2026-06-07T11:53:17.024Z",
+  "count": 110,
   "by_lang": {
-    "ar": 54,
-    "en": 54
+    "ar": 55,
+    "en": 55
   },
   "articles": [
+    {
+      "title": "Armbian Imager 2.0: Revolution in Flashing Linux Images for Single Board Computers",
+      "slug": "armbian-imager-2-release",
+      "date": "2026-06-07T11:52:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "The Armbian project has released version 2.0 of the Imager tool, a complete rewrite of the interface and burning engine. The most important feature is the ability to preconfigure a first-boot profile including username, password, SSH key, WiFi settings, timezone, locale, and shell before flashing. The board starts fully configured on first boot.",
+      "image": "armbian-gnutux.png",
+      "tags": [
+        "Armbian",
+        "Imager",
+        "SBC",
+        "Raspberry Pi",
+        "Flashing Tool",
+        "Linux",
+        "ARM"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-07-armbian-imager-2-release.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "Armbian Imager 2.0: ثورة في حرق صور لينكس للحواسيب ذات اللوحة الواحدة",
+      "slug": "armbian-imager-2-release",
+      "date": "2026-06-07T11:51:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "أصدر مشروع Armbian الإصدار 2.0 من أداة Imager، الذي يعيد كتابة الواجهة ومحرك الحرق بالكامل. الميزة الأهم: إعداد ملف تعريف أولي يتضمن اسم المستخدم، كلمة المرور، مفتاح SSH، إعدادات WiFi، المنطقة الزمنية، والإعدادات الإقليمية قبل حرق الصورة. اللوحة تبدأ مباشرة مهيأة بالكامل.",
+      "image": "armbian-gnutux.png",
+      "tags": [
+        "Armbian",
+        "Imager",
+        "SBC",
+        "Raspberry Pi",
+        "أداة حرق",
+        "لينكس",
+        "ARM"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-07-armbian-imager-2-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "نور: تطبيق سطح مكتب إسلامي مفتوح المصدر يجمع مواقيت الصلاة والأذكار والقرآن",
       "slug": "noor-islamic-desktop-app",
