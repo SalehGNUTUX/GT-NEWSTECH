@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'Noor: Open Source Islamic Desktop App with Prayer Times, Dhikr, and Quran'
+slug: noor-islamic-desktop-app
+lang: en
 category: foss
+date: 2026-06-07T11:00:00.000Z
 author: GNUTUX
 excerpt: >-
   Noor is an open source desktop application offering a complete Islamic
@@ -17,9 +20,6 @@ tags:
   - Quran
   - Electron
   - React
-date: 2026-06-07T11:00:00.000Z
-lang: en
-slug: noor-islamic-desktop-app
 ---
 
 ## The Need for an Islamic Desktop Application
@@ -56,13 +56,13 @@ The application contains a collection of dhikr divided into sections: morning dh
 
 The application includes a built-in audio player that allows you to listen to the Holy Quran. It supports multiple reciters that you can choose from. The player interface is simple with play, pause, next, previous, and a progress bar. You can browse between surahs or select a specific surah from a list. The images below show the Quran player interface and the reciter list:
 
-![Noor Quran Player Interface](https://raw.githubusercontent.com/haith2m/noor-app/main/screenshots/quran.png)
+![Noor Quran Player Interface](https://raw.githubusercontent.com/haith2m/noor-app/refs/heads/master/screenshots/quran-reciter.png)
 
 ### Hijri Calendar
 
 The application displays the current Hijri date according to the Umm al-Qura or lunar calendar depending on settings, with the corresponding Gregorian date. You can navigate between months to view any date in the past or future. The calendar interface is simple and elegant.
 
-![Noor Hijri Calendar](https://raw.githubusercontent.com/haith2m/noor-app/main/screenshots/hijri.png)
+![Noor Hijri Calendar](https://raw.githubusercontent.com/haith2m/noor-app/refs/heads/master/screenshots/calendar.png)
 
 ### Settings
 
@@ -77,7 +77,7 @@ From the settings screen, you can adjust several options:
 
 The image below shows the settings interface:
 
-![Noor Settings Interface](https://raw.githubusercontent.com/haith2m/noor-app/main/screenshots/settings.png)
+![Noor Settings Interface](https://raw.githubusercontent.com/haith2m/noor-app/refs/heads/master/screenshots/settings.png)
 
 ## Installation
 

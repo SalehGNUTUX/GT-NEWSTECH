@@ -57,13 +57,13 @@ tags:
 
 التطبيق يحتوي على مشغل صوتي مدمج يتيح لك الاستماع للقرآن الكريم. يدعم **عدة قراء** يمكن الاختيار بينهم. واجهة المشغل بسيطة: زر تشغيل، إيقاف، التالي، السابق، وشريط تقدم. يمكن التصفح بين السور أو اختيار سورة محددة من قائمة. الصور أدناه توضح واجهة المشغل وقائمة القراء:
 
-![واجهة مشغل القرآن في نور](https://raw.githubusercontent.com/haith2m/noor-app/main/screenshots/quran.png)
+![واجهة مشغل القرآن في نور](https://raw.githubusercontent.com/haith2m/noor-app/refs/heads/master/screenshots/quran-reciter.png)
 
 ### التقويم الهجري
 
 يعرض التاريخ الهجري الحالي (بالتقويم أم القرى أو التقويم الهلالي حسب الإعدادات)، مع التاريخ الميلادي المقابل، ويمكن التنقل بين الأشهر لعرض أي تاريخ في الماضي أو المستقبل. واجهة التقويم بسيطة وأنيقة.
 
-![التقويم الهجري في نور](https://raw.githubusercontent.com/haith2m/noor-app/main/screenshots/hijri.png)
+![التقويم الهجري في نور](https://raw.githubusercontent.com/haith2m/noor-app/refs/heads/master/screenshots/calendar.png)
 
 ### الإعدادات
 
@@ -78,7 +78,7 @@ tags:
 
 الصورة أدناه توضح واجهة الإعدادات:
 
-![واجهة إعدادات نور](https://raw.githubusercontent.com/haith2m/noor-app/main/screenshots/settings.png)
+![واجهة إعدادات نور](https://raw.githubusercontent.com/haith2m/noor-app/refs/heads/master/screenshots/settings.png)
 
 ## التثبيت
 
