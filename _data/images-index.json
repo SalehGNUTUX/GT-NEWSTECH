@@ -1,6 +1,48 @@
 {
-  "generated_at": "2026-06-06T20:04:49.926Z",
+  "generated_at": "2026-06-10T09:23:44.720Z",
   "ar": [
+    {
+      "name": "hyprland-gnutux.png",
+      "size": 435822,
+      "last_modified_ts": 1781083409,
+      "path": "assets/images/ar/hyprland-gnutux.png"
+    },
+    {
+      "name": "hyprland-gnutux.webp",
+      "size": 57486,
+      "last_modified_ts": 1781083409,
+      "path": "assets/images/ar/hyprland-gnutux.webp"
+    },
+    {
+      "name": "wayland-protocols-gnutux.webp",
+      "size": 26868,
+      "last_modified_ts": 1781079201,
+      "path": "assets/images/ar/wayland-protocols-gnutux.webp"
+    },
+    {
+      "name": "armbian-gnutux.png",
+      "size": 106753,
+      "last_modified_ts": 1780833181,
+      "path": "assets/images/ar/armbian-gnutux.png"
+    },
+    {
+      "name": "armbian-gnutux.webp",
+      "size": 47636,
+      "last_modified_ts": 1780833181,
+      "path": "assets/images/ar/armbian-gnutux.webp"
+    },
+    {
+      "name": "home.png",
+      "size": 25808,
+      "last_modified_ts": 1780830105,
+      "path": "assets/images/ar/home.png"
+    },
+    {
+      "name": "home.webp",
+      "size": 21630,
+      "last_modified_ts": 1780830105,
+      "path": "assets/images/ar/home.webp"
+    },
     {
       "name": "boxedtux-ar.png",
       "size": 553563,
@@ -592,6 +634,48 @@
   ],
   "en": [
     {
+      "name": "hyprland-gnutux.png",
+      "size": 435822,
+      "last_modified_ts": 1781083409,
+      "path": "assets/images/en/hyprland-gnutux.png"
+    },
+    {
+      "name": "hyprland-gnutux.webp",
+      "size": 57486,
+      "last_modified_ts": 1781083409,
+      "path": "assets/images/en/hyprland-gnutux.webp"
+    },
+    {
+      "name": "wayland-protocols-gnutux.webp",
+      "size": 26868,
+      "last_modified_ts": 1781079201,
+      "path": "assets/images/en/wayland-protocols-gnutux.webp"
+    },
+    {
+      "name": "armbian-gnutux.png",
+      "size": 106753,
+      "last_modified_ts": 1780833181,
+      "path": "assets/images/en/armbian-gnutux.png"
+    },
+    {
+      "name": "armbian-gnutux.webp",
+      "size": 47636,
+      "last_modified_ts": 1780833181,
+      "path": "assets/images/en/armbian-gnutux.webp"
+    },
+    {
+      "name": "home.png",
+      "size": 25808,
+      "last_modified_ts": 1780830105,
+      "path": "assets/images/en/home.png"
+    },
+    {
+      "name": "home.webp",
+      "size": 21630,
+      "last_modified_ts": 1780830105,
+      "path": "assets/images/en/home.webp"
+    },
+    {
       "name": "boxedtux-en.png",
       "size": 72972,
       "last_modified_ts": 1780776277,
@@ -1180,6 +1264,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 98,
-  "count_en": 98
+  "count_ar": 105,
+  "count_en": 105
 }
