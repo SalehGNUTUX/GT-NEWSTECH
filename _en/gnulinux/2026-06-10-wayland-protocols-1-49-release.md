@@ -48,7 +48,7 @@ The `linux-dmabuf-v1` protocol adds a new capability: a list of graphics devices
 
 The image below illustrates the difference between the old and new methods for handling multiple graphics cards:
 
-![Multi-GPU handling comparison before and after Wayland update](https://forum.armbian.com/uploads/monthly_2026_06/multigpu.png)
+![Multi-GPU handling comparison before and after Wayland update](https://i.postimg.cc/tTJFyDVt/before-after-Wayland-1-49-en.png)
 
 ## Windows BT.2100 HDR Support via color-management-v1
 

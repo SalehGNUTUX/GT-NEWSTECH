@@ -48,7 +48,7 @@ also_in:
 
 الصورة أدناه توضح الفرق بين الطريقة القديمة والجديدة في التعامل مع البطاقات المتعددة:
 
-![مقارنة طريقة التعامل مع البطاقات المتعددة قبل وبعد تحديث Wayland](https://forum.armbian.com/uploads/monthly_2026_06/multigpu.png)
+![مقارنة طريقة التعامل مع البطاقات المتعددة قبل وبعد تحديث Wayland](https://i.postimg.cc/zBvT5pRk/before-after-Wayland-1-49-er.png)
 
 ## دعم Windows BT.2100 HDR عبر color-management-v1
 
