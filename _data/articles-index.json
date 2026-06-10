@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T08:13:38.908Z",
+  "generated_at": "2026-06-10T08:25:13.778Z",
   "count": 112,
   "by_lang": {
     "ar": 56,
@@ -11,7 +11,9 @@
       "slug": "wayland-protocols-1-49-release",
       "date": "2026-06-10T08:13:00.000Z",
       "category": "gnulinux",
-      "also_in": [],
+      "also_in": [
+        "foss"
+      ],
       "author": "GNUTUX",
       "excerpt": "The Wayland community has released version 1.49 of its protocols, featuring three contributions from KDE developer Xaver Hugl: improved multi-GPU support via linux-dmabuf-v1, Windows BT.2100 HDR support via color-management-v1, and an experimental second version of fractional-scale-v2.",
       "image": "wayland-protocols-gnutux.webp",
@@ -35,7 +37,9 @@
       "slug": "wayland-protocols-1-49-release",
       "date": "2026-06-10T08:12:00.000Z",
       "category": "gnulinux",
-      "also_in": [],
+      "also_in": [
+        "foss"
+      ],
       "author": "GNUTUX",
       "excerpt": "أصدر مجتمع Wayland الإصدار 1.49 من بروتوكولاته، ويأتي بثلاث إضافات من تطوير مطور KDE Xaver Hugl: تحسين دعم الأنظمة متعددة البطاقات الرسومية عبر linux-dmabuf-v1، ودعم Windows BT.2100 HDR عبر color-management-v1، وإصدار تجريبي من fractional-scale-v2.",
       "image": "wayland-protocols-gnutux.webp",
