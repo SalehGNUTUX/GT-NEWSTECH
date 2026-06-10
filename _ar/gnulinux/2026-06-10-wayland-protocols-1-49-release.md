@@ -1,7 +1,10 @@
 ---
 layout: post
 title: Wayland Protocols 1.49 يحسّن دعم البطاقات المتعددة ويدعم Windows BT.2100
+slug: wayland-protocols-1-49-release
+lang: ar
 category: gnulinux
+date: 2026-06-10T08:12:00.000Z
 author: GNUTUX
 excerpt: >-
   أصدر مجتمع Wayland الإصدار 1.49 من بروتوكولاته، ويأتي بثلاث إضافات من تطوير
@@ -17,9 +20,8 @@ tags:
   - HDR
   - color-management
   - Linux Graphics
-date: 2026-06-10T08:12:00.000Z
-lang: ar
-slug: wayland-protocols-1-49-release
+also_in:
+  - foss
 ---
 
 ## Wayland يستمر في التطور

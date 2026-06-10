@@ -1,7 +1,10 @@
 ---
 layout: post
 title: Wayland Protocols 1.49 Improves Multi-GPU Support and Adds Windows BT.2100 HDR
+slug: wayland-protocols-1-49-release
+lang: en
 category: gnulinux
+date: 2026-06-10T08:13:00.000Z
 author: GNUTUX
 excerpt: >-
   The Wayland community has released version 1.49 of its protocols, featuring
@@ -17,9 +20,8 @@ tags:
   - HDR
   - color-management
   - Linux Graphics
-date: 2026-06-10T08:13:00.000Z
-lang: en
-slug: wayland-protocols-1-49-release
+also_in:
+  - foss
 ---
 
 ## Wayland Continues to Evolve
