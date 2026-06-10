@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-10T09:23:44.720Z",
+  "generated_at": "2026-06-10T10:27:31.896Z",
   "ar": [
+    {
+      "name": "av2-video-codec-gnutux.jpg",
+      "size": 84116,
+      "last_modified_ts": 1781087235,
+      "path": "assets/images/ar/av2-video-codec-gnutux.jpg"
+    },
+    {
+      "name": "av2-video-codec-gnutux.webp",
+      "size": 46358,
+      "last_modified_ts": 1781087235,
+      "path": "assets/images/ar/av2-video-codec-gnutux.webp"
+    },
     {
       "name": "hyprland-gnutux.png",
       "size": 435822,
@@ -634,6 +646,18 @@
   ],
   "en": [
     {
+      "name": "av2-video-codec-gnutux.jpg",
+      "size": 84116,
+      "last_modified_ts": 1781087235,
+      "path": "assets/images/en/av2-video-codec-gnutux.jpg"
+    },
+    {
+      "name": "av2-video-codec-gnutux.webp",
+      "size": 46358,
+      "last_modified_ts": 1781087235,
+      "path": "assets/images/en/av2-video-codec-gnutux.webp"
+    },
+    {
       "name": "hyprland-gnutux.png",
       "size": 435822,
       "last_modified_ts": 1781083409,
@@ -1264,6 +1288,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 105,
-  "count_en": 105
+  "count_ar": 107,
+  "count_en": 107
 }
