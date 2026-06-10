@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-10T08:25:13.778Z",
-  "count": 112,
+  "generated_at": "2026-06-10T10:06:46.337Z",
+  "count": 114,
   "by_lang": {
-    "ar": 56,
-    "en": 56
+    "ar": 57,
+    "en": 57
   },
   "articles": [
     {
@@ -154,6 +154,58 @@
       "_file": "2026-06-07-noor-islamic-desktop-app.md",
       "_lang": "en",
       "_cat": "foss"
+    },
+    {
+      "title": "Hyprland 0.55.3: Stability Update with Over 45 Bug Fixes and Improved Reliability",
+      "slug": "hyprland-0-55-3-stability-release",
+      "date": "2026-06-07T09:23:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The Hyprland project has released version 0.55.3, a stability update that backports over 45 fixes from the main branch to the 0.55 branch. It includes fixes for full config reloads, rendering improvements, monitor fixes, XWayland patches, and overall system stability enhancements.",
+      "image": "hyprland-gnutux.png",
+      "tags": [
+        "Hyprland",
+        "Wayland",
+        "Compositor",
+        "Tiling",
+        "Linux",
+        "Update",
+        "Stability"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-07-hyprland-0-55-3-stability-release.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Hyprland 0.55.3: تحديث ثباتي يعالج أكثر من 45 خطأ واستقرارية محسّنة",
+      "slug": "hyprland-0-55-3-stability-release",
+      "date": "2026-06-07T09:22:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدر مشروع Hyprland الإصدار 0.55.3، وهو تحديث ثباتي يعيد توجيه أكثر من 45 إصلاحاً من الفرع الرئيسي إلى فرع 0.55. يتضمن إصلاحات لإعادة تحميل الإعدادات بالكامل، وتصحيحات للعرض والشاشات الإضافية و XWayland، وتحسينات في استقرار النظام بشكل عام.",
+      "image": "hyprland-gnutux.png",
+      "tags": [
+        "Hyprland",
+        "Wayland",
+        "Compositor",
+        "تiling",
+        "لينكس",
+        "تحديث",
+        "استقرار"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-07-hyprland-0-55-3-stability-release.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
     },
     {
       "title": "BoxedTux: خوادم لينكس افتراضية مجانية للطلاب والمعلمين بدعم من المجتمع",
