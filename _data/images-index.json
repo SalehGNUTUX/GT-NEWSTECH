@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-10T10:27:31.896Z",
+  "generated_at": "2026-06-11T22:08:41.986Z",
   "ar": [
+    {
+      "name": "doclang-gnutux.jpg",
+      "size": 81591,
+      "last_modified_ts": 1781215707,
+      "path": "assets/images/ar/doclang-gnutux.jpg"
+    },
+    {
+      "name": "doclang-gnutux.webp",
+      "size": 46360,
+      "last_modified_ts": 1781215707,
+      "path": "assets/images/ar/doclang-gnutux.webp"
+    },
     {
       "name": "av2-video-codec-gnutux.jpg",
       "size": 84116,
@@ -646,6 +658,18 @@
   ],
   "en": [
     {
+      "name": "doclang-gnutux.jpg",
+      "size": 81591,
+      "last_modified_ts": 1781215707,
+      "path": "assets/images/en/doclang-gnutux.jpg"
+    },
+    {
+      "name": "doclang-gnutux.webp",
+      "size": 46360,
+      "last_modified_ts": 1781215707,
+      "path": "assets/images/en/doclang-gnutux.webp"
+    },
+    {
       "name": "av2-video-codec-gnutux.jpg",
       "size": 84116,
       "last_modified_ts": 1781087235,
@@ -1288,6 +1312,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 107,
-  "count_en": 107
+  "count_ar": 109,
+  "count_en": 109
 }
