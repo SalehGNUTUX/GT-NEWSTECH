@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-11T22:08:41.986Z",
+  "generated_at": "2026-06-11T22:39:09.780Z",
   "ar": [
+    {
+      "name": "gcc-bootstrap-gnutux.jpg",
+      "size": 51809,
+      "last_modified_ts": 1781217537,
+      "path": "assets/images/ar/gcc-bootstrap-gnutux.jpg"
+    },
+    {
+      "name": "gcc-bootstrap-gnutux.webp",
+      "size": 36858,
+      "last_modified_ts": 1781217537,
+      "path": "assets/images/ar/gcc-bootstrap-gnutux.webp"
+    },
     {
       "name": "doclang-gnutux.jpg",
       "size": 81591,
@@ -658,6 +670,18 @@
   ],
   "en": [
     {
+      "name": "gcc-bootstrap-gnutux.jpg",
+      "size": 51809,
+      "last_modified_ts": 1781217537,
+      "path": "assets/images/en/gcc-bootstrap-gnutux.jpg"
+    },
+    {
+      "name": "gcc-bootstrap-gnutux.webp",
+      "size": 36858,
+      "last_modified_ts": 1781217537,
+      "path": "assets/images/en/gcc-bootstrap-gnutux.webp"
+    },
+    {
       "name": "doclang-gnutux.jpg",
       "size": 81591,
       "last_modified_ts": 1781215707,
@@ -1312,6 +1336,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 109,
-  "count_en": 109
+  "count_ar": 111,
+  "count_en": 111
 }
