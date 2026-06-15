@@ -1,11 +1,218 @@
 {
-  "generated_at": "2026-06-10T10:06:46.337Z",
-  "count": 114,
+  "generated_at": "2026-06-15T12:16:04.467Z",
+  "count": 122,
   "by_lang": {
-    "ar": 57,
-    "en": 57
+    "ar": 61,
+    "en": 61
   },
   "articles": [
+    {
+      "title": "Linux 7.1 Released: New NTFS Driver and Major Improvements for Intel and AMD Processors",
+      "slug": "linux-7-1-kernel-release",
+      "date": "2026-06-15T12:15:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Linus Torvalds announced the stable release of Linux kernel 7.1, which arrived after a development cycle challenged by unprecedented AI-generated bug reports. The new kernel features a completely rewritten NTFS driver, default activation of Intel FRED, significant improvements for older AMD cards, and the final removal of i486 processor support.",
+      "image": "linux-7.1-gnutux.webp",
+      "tags": [
+        "Linux Kernel",
+        "NTFS",
+        "Intel FRED",
+        "AMDGPU",
+        "i486"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-15-linux-7-1-kernel-release.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Linux 7.1 يصدر رسمياً: محرك NTFS جديد وتحسينات كبيرة لمعالجات Intel و AMD",
+      "slug": "linux-7-1-kernel-release",
+      "date": "2026-06-15T12:14:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أعلن لينوس تورفالدس عن الإصدار المستقر لنواة Linux 7.1، التي تأتي بعد دورة تطوير شهدت تحديات غير مسبوقة بسبب تقارير الذكاء الاصطناعي. النواة الجديدة تقدم محرك NTFS معاد كتابته بالكامل، وتفعيل تقنية FRED من Intel، وتحسينات كبيرة لبطاقات AMD القديمة، والتخلص النهائي من دعم معالجات i486.",
+      "image": "linux-7.1-gnutux.webp",
+      "tags": [
+        "Linux Kernel",
+        "نواة لينكس",
+        "NTFS",
+        "Intel FRED",
+        "AMDGPU",
+        "i486"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-15-linux-7-1-kernel-release.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "مهندس NVIDIA يقترح تعديلاً يخفض وقت بناء GCC بنسبة 15% عبر تخزين نتائج Configure مؤقتاً",
+      "slug": "nvidia-patch-reduces-gcc-bootstrap-time",
+      "date": "2026-06-11T22:38:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux",
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "اقترح مهندس NVIDIA Kyrylo Tkachov تعديلاً لمترجم GCC يخفض وقت تشغيل نصوص Configure بنسبة 43% والوقت الإجمالي للبناء بـ 15%، عبر تخزين نتائج الفحص مؤقتاً وإعادة استخدامها عبر مراحل البناء الثلاث، مع تحسين استغلال المعالجات متعددة الأنوية.",
+      "image": "gcc-bootstrap-gnutux.jpg",
+      "tags": [
+        "GCC",
+        "مترجم",
+        "NVIDIA",
+        "أدوات تطوير",
+        "برمجيات حرة",
+        "تحسين أداء"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-11-nvidia-patch-reduces-gcc-bootstrap-time.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "NVIDIA Engineer Proposes Patch to Reduce GCC Build Time by 15% via Cached Configure Results",
+      "slug": "nvidia-patch-reduces-gcc-bootstrap-time",
+      "date": "2026-06-11T22:38:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux",
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "NVIDIA engineer Kyrylo Tkachov proposed a patch for the GCC compiler that reduces configure script runtime by 43 percent and total bootstrap time by 15 percent by caching probe results across the three build stages, with improved multi-core utilization.",
+      "image": "gcc-bootstrap-gnutux.jpg",
+      "tags": [
+        "GCC",
+        "Compiler",
+        "NVIDIA",
+        "Development Tools",
+        "Free Software",
+        "Performance Optimization"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-11-nvidia-patch-reduces-gcc-bootstrap-time.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "DocLang: An Open Standard for AI-Friendly Documents Backed by IBM, NVIDIA, and Red Hat",
+      "slug": "doclang-ai-native-document-standard",
+      "date": "2026-06-11T22:08:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The LF AI & Data Foundation has announced the formation of a working group to develop DocLang, an open and neutral standard for AI-friendly document formats, backed by IBM, NVIDIA, Red Hat, and ABBYY. The standard aims to solve the incompatibility of traditional documents with AI models.",
+      "image": "doclang-gnutux.jpg",
+      "tags": [
+        "DocLang",
+        "Artificial Intelligence",
+        "Open Standards",
+        "Documents",
+        "LF AI",
+        "IBM",
+        "NVIDIA",
+        "Red Hat"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-11-doclang-ai-native-document-standard.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "DocLang: معيار مفتوح للمستندات صديقة الذكاء الاصطناعي بدعم من IBM وNVIDIA وRed Hat",
+      "slug": "doclang-ai-native-document-standard",
+      "date": "2026-06-11T22:07:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أعلنت مؤسسة LF AI & Data عن تشكيل مجموعة عمل لتطوير DocLang، وهو معيار مفتوح ومحايد للتنسيقات الصديقة للذكاء الاصطناعي، بدعم من IBM وNVIDIA وRed Hat وABBYY. يهدف المعيار إلى حل مشكلة عدم توافق المستندات التقليدية مع نماذج الذكاء الاصطناعي.",
+      "image": "doclang-gnutux.jpg",
+      "tags": [
+        "DocLang",
+        "ذكاء اصطناعي",
+        "معايير مفتوحة",
+        "مستندات",
+        "LF AI",
+        "IBM",
+        "NVIDIA",
+        "Red Hat"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-11-doclang-ai-native-document-standard.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
+    {
+      "title": "AOMedia تُصدر AV2 v1.0 رسمياً: الجيل القادم من ترميز الفيديو المفتوح بتحسين 30% في الضغط",
+      "slug": "aomedia-av2-codec-release",
+      "date": "2026-06-10T10:26:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أعلن تحالف الوسائط المفتوحة (AOMedia) عن الإصدار الرسمي لمواصفات AV2 v1.0.0، الجيل التالي من معايير ترميز الفيديو مفتوحة المصدر، الذي يوفر تحسيناً في كفاءة الضغط بنسبة 30% مقارنة بـ AV1 مع دعم محسن لواقعي الافتراضي والمعزز.",
+      "image": "av2-video-codec-gnutux.jpg",
+      "tags": [
+        "AV2",
+        "AOMedia",
+        "ترميز فيديو",
+        "AV1",
+        "برمجيات حرة",
+        "فيديو",
+        "ضغط بيانات"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-10-aomedia-av2-codec-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "AOMedia Officially Releases AV2 v1.0: Next-Gen Open Video Codec with 30% Compression Improvement",
+      "slug": "aomedia-av2-codec-release",
+      "date": "2026-06-10T10:26:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The Alliance for Open Media has announced the official release of the AV2 v1.0.0 specification, the next generation of open source video coding standard, delivering approximately 30% compression efficiency improvement over AV1 with enhanced support for virtual and augmented reality.",
+      "image": "av2-video-codec-gnutux.jpg",
+      "tags": [
+        "AV2",
+        "AOMedia",
+        "Video Codec",
+        "AV1",
+        "Free Software",
+        "Video",
+        "Data Compression"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-10-aomedia-av2-codec-release.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Wayland Protocols 1.49 Improves Multi-GPU Support and Adds Windows BT.2100 HDR",
       "slug": "wayland-protocols-1-49-release",
