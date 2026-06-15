@@ -1,6 +1,12 @@
 {
-  "generated_at": "2026-06-15T17:28:18.235Z",
+  "generated_at": "2026-06-15T18:56:18.590Z",
   "ar": [
+    {
+      "name": "firefox-152-gnutux.webp",
+      "size": 45526,
+      "last_modified_ts": 1781549760,
+      "path": "assets/images/ar/firefox-152-gnutux.webp"
+    },
     {
       "name": "aur-arch-malware-gnutux.avif",
       "size": 84601,
@@ -682,6 +688,12 @@
   ],
   "en": [
     {
+      "name": "firefox-152-gnutux.webp",
+      "size": 45526,
+      "last_modified_ts": 1781549760,
+      "path": "assets/images/en/firefox-152-gnutux.webp"
+    },
+    {
       "name": "aur-arch-malware-gnutux.avif",
       "size": 84601,
       "last_modified_ts": 1781544472,
@@ -1360,6 +1372,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 113,
-  "count_en": 113
+  "count_ar": 114,
+  "count_en": 114
 }
