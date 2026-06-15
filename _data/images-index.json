@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-11T22:39:09.780Z",
+  "generated_at": "2026-06-15T17:28:18.235Z",
   "ar": [
+    {
+      "name": "aur-arch-malware-gnutux.avif",
+      "size": 84601,
+      "last_modified_ts": 1781544472,
+      "path": "assets/images/ar/aur-arch-malware-gnutux.avif"
+    },
+    {
+      "name": "linux-7.1-gnutux.webp",
+      "size": 37024,
+      "last_modified_ts": 1781525747,
+      "path": "assets/images/ar/linux-7.1-gnutux.webp"
+    },
     {
       "name": "gcc-bootstrap-gnutux.jpg",
       "size": 51809,
@@ -670,6 +682,18 @@
   ],
   "en": [
     {
+      "name": "aur-arch-malware-gnutux.avif",
+      "size": 84601,
+      "last_modified_ts": 1781544472,
+      "path": "assets/images/en/aur-arch-malware-gnutux.avif"
+    },
+    {
+      "name": "linux-7.1-gnutux.webp",
+      "size": 37024,
+      "last_modified_ts": 1781525747,
+      "path": "assets/images/en/linux-7.1-gnutux.webp"
+    },
+    {
       "name": "gcc-bootstrap-gnutux.jpg",
       "size": 51809,
       "last_modified_ts": 1781217537,
@@ -1336,6 +1360,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 111,
-  "count_en": 111
+  "count_ar": 113,
+  "count_en": 113
 }
