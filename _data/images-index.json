@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-17T17:01:54.698Z",
+  "generated_at": "2026-06-17T18:56:50.059Z",
   "ar": [
+    {
+      "name": "circletosearch-gnutux.jpg",
+      "size": 51191,
+      "last_modified_ts": 1781722591,
+      "path": "assets/images/ar/circletosearch-gnutux.jpg"
+    },
+    {
+      "name": "circletosearch-gnutux.webp",
+      "size": 35784,
+      "last_modified_ts": 1781722591,
+      "path": "assets/images/ar/circletosearch-gnutux.webp"
+    },
     {
       "name": "spoofdpi-gnutux.jpg",
       "size": 166914,
@@ -712,6 +724,18 @@
   ],
   "en": [
     {
+      "name": "circletosearch-gnutux.jpg",
+      "size": 51191,
+      "last_modified_ts": 1781722591,
+      "path": "assets/images/en/circletosearch-gnutux.jpg"
+    },
+    {
+      "name": "circletosearch-gnutux.webp",
+      "size": 35784,
+      "last_modified_ts": 1781722591,
+      "path": "assets/images/en/circletosearch-gnutux.webp"
+    },
+    {
       "name": "spoofdpi-gnutux.jpg",
       "size": 166914,
       "last_modified_ts": 1781715696,
@@ -1420,6 +1444,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 118,
-  "count_en": 118
+  "count_ar": 120,
+  "count_en": 120
 }
