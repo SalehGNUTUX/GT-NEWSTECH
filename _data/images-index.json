@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-06-17T18:56:50.059Z",
+  "generated_at": "2026-06-21T19:39:35.911Z",
   "ar": [
+    {
+      "name": "www.openhomefoundation-gnutux.jpg",
+      "size": 114355,
+      "last_modified_ts": 1782070761,
+      "path": "assets/images/ar/www.openhomefoundation-gnutux.jpg"
+    },
+    {
+      "name": "www.openhomefoundation-gnutux.webp",
+      "size": 77166,
+      "last_modified_ts": 1782070761,
+      "path": "assets/images/ar/www.openhomefoundation-gnutux.webp"
+    },
     {
       "name": "circletosearch-gnutux.jpg",
       "size": 51191,
@@ -724,6 +736,18 @@
   ],
   "en": [
     {
+      "name": "www.openhomefoundation-gnutux.jpg",
+      "size": 114355,
+      "last_modified_ts": 1782070761,
+      "path": "assets/images/en/www.openhomefoundation-gnutux.jpg"
+    },
+    {
+      "name": "www.openhomefoundation-gnutux.webp",
+      "size": 77166,
+      "last_modified_ts": 1782070761,
+      "path": "assets/images/en/www.openhomefoundation-gnutux.webp"
+    },
+    {
       "name": "circletosearch-gnutux.jpg",
       "size": 51191,
       "last_modified_ts": 1781722591,
@@ -1444,6 +1468,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 120,
-  "count_en": 120
+  "count_ar": 122,
+  "count_en": 122
 }
