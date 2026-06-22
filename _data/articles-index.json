@@ -1,11 +1,373 @@
 {
-  "generated_at": "2026-06-15T12:16:04.467Z",
-  "count": 122,
+  "generated_at": "2026-06-22T18:19:20.275Z",
+  "count": 136,
   "by_lang": {
-    "ar": 61,
-    "en": 61
+    "ar": 68,
+    "en": 68
   },
   "articles": [
+    {
+      "title": "GT-MISHKATKIDS v1.0: Educational App for Kids with a Child-as-Teacher, Robot-as-Learner Concept",
+      "slug": "gt-mishkatkids-release",
+      "date": "2026-06-23T18:18:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "GT-MISHKATKIDS (Mishkat) is an open source educational application for children aged 4 to 10, built on the concept that the child is the teacher and the robot is the learner. It includes Arabic letters, numbers, Quran, stories, and puzzles, works offline, and is available for Linux and Android.",
+      "image": "screenshot_20260622_184416.jpg",
+      "tags": [
+        "GT-MISHKATKIDS",
+        "Education",
+        "Kids",
+        "Islamic",
+        "Apps",
+        "Linux",
+        "Android",
+        "PWA"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-23-gt-mishkatkids-release.md",
+      "_lang": "en",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "GT-MISHKATKIDS v1.0: تطبيق تعليمي للأطفال بفكرة الطفل معلم والروبوت متعلم",
+      "slug": "gt-mishkatkids-release",
+      "date": "2026-06-22T18:17:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "GT-MISHKATKIDS (مِشكاةُ الطفلِ والآليّ) هو تطبيق تعليمي مفتوح المصدر للأطفال من 4 إلى 10 سنوات، يعتمد فكرة أن الطفل هو المعلم والروبوت هو المتعلم. يشمل الحروف العربية والأرقام والقرآن الكريم والقصص والألغاز، ويعمل محلياً دون إنترنت. متاح لأنظمة لينكس (AppImage، DEB، RPM) وأندرويد (APK).",
+      "image": "screenshot_20260622_184416.jpg",
+      "tags": [
+        "GT-MISHKATKIDS",
+        "تعليم",
+        "أطفال",
+        "إسلامي",
+        "تطبيقات",
+        "Linux",
+        "Android",
+        "PWA"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-22-gt-mishkatkids-release.md",
+      "_lang": "ar",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "Open Home Foundation: المؤسسة التي تحمي خصوصية المنازل الذكية وتدعم Home Assistant",
+      "slug": "open-home-foundation",
+      "date": "2026-06-21T19:39:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Open Home Foundation هي مؤسسة غير ربحية تدافع عن الخصوصية والاختيار والاستدامة في المنازل الذكية، وتدعم تطوير أكثر من 250 مشروعاً مفتوح المصدر، بينها Home Assistant و ESPHome و Music Assistant و HACS، وتعمل على تعزيز المعايير المفتوحة والتوافق بين الأجهزة.",
+      "image": "www.openhomefoundation-gnutux.jpg",
+      "tags": [
+        "Open Home Foundation",
+        "Home Assistant",
+        "ESPHome",
+        "Music Assistant",
+        "HACS",
+        "برمجيات حرة",
+        "أتمتة المنزل"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-18-open-home-foundation.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Open Home Foundation: The Organization Protecting Smart Home Privacy and Supporting Home Assistant",
+      "slug": "open-home-foundation",
+      "date": "2026-06-21T19:38:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The Open Home Foundation is a non-profit organization that fights for privacy, choice, and sustainability in smart homes. It supports the development of over 250 open source projects, including Home Assistant, ESPHome, Music Assistant, and HACS, and advocates for open standards and interoperability between devices.",
+      "image": "www.openhomefoundation-gnutux.jpg",
+      "tags": [
+        "Open Home Foundation",
+        "Home Assistant",
+        "ESPHome",
+        "Music Assistant",
+        "HACS",
+        "Free Software",
+        "Home Automation"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-21-open-home-foundation.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "CircleToSearch: Open Source Alternative to Google's Circle to Search with Full Control and Privacy",
+      "slug": "circletosearch-open-source-alternative",
+      "date": "2026-06-17T18:54:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "CircleToSearch is an open source Android application that offers the popular Circle to Search experience to all devices, with support for multiple search engines (Google, Bing, Yandex, TinEye, ChatGPT) and offline OCR, while maintaining privacy with no tracking.",
+      "image": "circletosearch-gnutux.jpg",
+      "tags": [
+        "CircleToSearch",
+        "Circle to Search",
+        "Reverse Image Search",
+        "OCR",
+        "Android",
+        "Open Source",
+        "Privacy"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-17-circletosearch-open-source-alternative.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "CircleToSearch: بديل مفتوح المصدر لميزة Circle to Search من Google بتحكم كامل وخصوصية",
+      "slug": "circletosearch-open-source-alternative",
+      "date": "2026-06-17T18:53:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "CircleToSearch هو تطبيق أندرويد مفتوح المصدر يقدم تجربة Circle to Search الشهيرة لجميع الأجهزة، مع دعم محركات بحث متعددة (Google وBing وYandex وTinEye وChatGPT) وميزة OCR محلية تعمل دون اتصال بالإنترنت، مع الحفاظ على الخصوصية وعدم التتبع.",
+      "image": "circletosearch-gnutux.jpg",
+      "tags": [
+        "CircleToSearch",
+        "Circle to Search",
+        "بحث عكسي",
+        "OCR",
+        "أندرويد",
+        "مفتوح المصدر",
+        "خصوصية"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-17-circletosearch-open-source-alternative.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "SpoofDPI: Open Source Tool to Bypass Censorship by Fragmented TLS Packets Without Slowdown",
+      "slug": "spoofdpi-anti-censorship-tool",
+      "date": "2026-06-17T17:01:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "SpoofDPI is a simple, fast proxy tool, written in Go, that neutralizes Deep Packet Inspection (DPI) systems by fragmenting TLS ClientHello packets. Unlike VPNs, it works locally without external servers and maintains full internet speed. Inspired by Green Tunnel and GoodbyeDPI, it is available on GitHub and package managers.",
+      "image": "spoofdpi-gnutux.jpg",
+      "tags": [
+        "SpoofDPI",
+        "Bypass Censorship",
+        "DPI",
+        "Network Tool",
+        "Open Source",
+        "Go",
+        "Free Software"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-17-spoofdpi-anti-censorship-tool.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "SpoofDPI: أداة مفتوحة المصدر لتجاوز الرقابة بتفتيت حزم TLS دون إبطاء الإنترنت",
+      "slug": "spoofdpi-anti-censorship-tool",
+      "date": "2026-06-17T16:55:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "SpoofDPI هي أداة وكيل بسيطة وسريعة، مكتوبة بلغة Go، تعمل على تعمية أنظمة فحص الحزم العميقة (DPI) بتفتيت حزم TLS ClientHello دون الحاجة إلى VPN أو خوادم خارجية، وتحافظ على سرعة الإنترنت. مستوحاة من Green Tunnel وGoodbyeDPI، ومتوفرة عبر GitHub ومديري الحزم.",
+      "image": "spoofdpi-gnutux.jpg",
+      "tags": [
+        "SpoofDPI",
+        "تجاوز الحجب",
+        "DPI",
+        "أداة شبكات",
+        "مفتوح المصدر",
+        "Go",
+        "برمجيات حرة"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-17-spoofdpi-anti-censorship-tool.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Linux 7.2 Adds OPENAT2_REGULAR to Prevent Programs from Opening Special Files by Mistake",
+      "slug": "linux-7-2-openat2-regular-security",
+      "date": "2026-06-17T12:05:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The upcoming Linux 7.2 kernel introduces a new flag called OPENAT2_REGULAR within the Virtual File System (VFS). Its purpose is to prevent applications from accidentally opening special files like pipes and devices, thereby protecting the system from hangs and security vulnerabilities.",
+      "image": "linux-vfs-gnutux.jpg",
+      "tags": [
+        "Linux Kernel",
+        "Security",
+        "Filesystem",
+        "VFS",
+        "Special Files",
+        "Programming"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-17-linux-7-2-openat2-regular-security.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Linux 7.2 يضيف OPENAT2_REGULAR لحماية التطبيقات من فتح الملفات الخاصة عن طريق الخطأ",
+      "slug": "linux-7-2-openat2-regular-security",
+      "date": "2026-06-17T12:04:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "في الإصدار المرتقب 7.2 من نواة لينكس، سيُضاف علم (flag) جديد باسم OPENAT2_REGULAR إلى نظام الملفات الافتراضي VFS. الهدف منه منع التطبيقات من فتح الملفات الخاصة (مثل الأنابيب والأجهزة) عن طريق الخطأ، مما يحمي النظام من الأعطال والثغرات الأمنية.",
+      "image": "linux-vfs-gnutux.jpg",
+      "tags": [
+        "Linux Kernel",
+        "أمن",
+        "نظام ملفات",
+        "VFS",
+        "ملفات خاصة",
+        "برمجة"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-17-linux-7-2-openat2-regular-security.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Firefox 152 يصدر رسمياً: دعم JPEG-XL وواجهة إعدادات حديثة وتحكم كامل بالفيديو",
+      "slug": "firefox-152-release",
+      "date": "2026-06-15T18:55:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدرت موزيلا الإصدار المستقر 152 من متصفح Firefox، الذي يقدم دعم JPEG-XL مبنيًا في النواة، وواجهة إعدادات معاد تصميمها بالكامل، ودعم فيديو HDR على ويندوز، وإسكات المتصفح من شريط العنوان، وتحكم كامل بعناصر التحكم في الفيديو عبر قائمة النقر الأيمن.",
+      "image": "firefox-152-gnutux.webp",
+      "tags": [
+        "Firefox",
+        "موزيلا",
+        "متصفح",
+        "JPEG-XL",
+        "HDR",
+        "أمان",
+        "خصوصية"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-15-firefox-152-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Firefox 152 Released: JPEG-XL Support, Modern Settings Interface, and Full Video Controls",
+      "slug": "firefox-152-release",
+      "date": "2026-06-15T18:55:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Mozilla has released stable version 152 of the Firefox browser, featuring built-in JPEG-XL support, a completely redesigned settings interface, HDR video support on Windows, browser muting from the address bar, and full video controls via the right-click menu.",
+      "image": "firefox-152-gnutux.webp",
+      "tags": [
+        "Firefox",
+        "Mozilla",
+        "Browser",
+        "JPEG-XL",
+        "HDR",
+        "Security",
+        "Privacy"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-15-firefox-152-release.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "Arch Linux AUR Recovers from Three-Wave Attack Targeting Over 1,500 Packages",
+      "slug": "arch-aur-malware-attack-2026",
+      "date": "2026-06-15T17:27:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "After days of an intensive attack targeting the Arch Linux AUR repository, the development team announced the crisis had been contained, with over 1,500 compromised packages removed. The attack evolved through three waves, using advanced techniques such as obfuscation and an eBPF rootkit to steal credentials and sensitive data from developer environments.",
+      "image": "aur-arch-malware-gnutux.avif",
+      "tags": [
+        "Arch Linux",
+        "AUR",
+        "Security",
+        "Malware",
+        "Supply Chain Attack",
+        "Linux"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-15-arch-aur-malware-attack-2026.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Arch Linux AUR تتعافى من هجوم بثلاث موجات استهدف أكثر من 1500 حزمة",
+      "slug": "arch-aur-malware-attack-2026",
+      "date": "2026-06-15T17:26:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "بعد أيام من الهجوم المكثف الذي استهدف مستودع AUR بتوزيعة Arch Linux، أعلن فريق التطوير عن السيطرة على الأزمة وإزالة أكثر من 1500 حزمة مخترقة. الهجوم تطور عبر ثلاث موجات، واستخدم تقنيات متقدمة مثل التعتيم (obfuscation) و eBPF rootkit لسرقة الشهادات والبيانات الحساسة من بيئات المطورين.",
+      "image": "aur-arch-malware-gnutux.avif",
+      "tags": [
+        "Arch Linux",
+        "AUR",
+        "أمن",
+        "برمجيات خبيثة",
+        "هجوم سلسلة توريد",
+        "Linux"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-15-arch-aur-malware-attack-2026.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "Linux 7.1 Released: New NTFS Driver and Major Improvements for Intel and AMD Processors",
       "slug": "linux-7-1-kernel-release",
