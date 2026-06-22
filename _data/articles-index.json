@@ -1,59 +1,11 @@
 {
-  "generated_at": "2026-06-22T20:25:17.423Z",
+  "generated_at": "2026-06-22T20:39:08.321Z",
   "count": 138,
   "by_lang": {
     "ar": 69,
     "en": 69
   },
   "articles": [
-    {
-      "title": "KaOS 2026.06 RC: The Independent Distro Drops systemd for Dinit and Niri",
-      "slug": "kaos-dinit-2026-rc",
-      "date": "2026-06-23T20:24:00.000Z",
-      "category": "gnulinux",
-      "also_in": [],
-      "author": "GNUTUX",
-      "excerpt": "KaOS has released the 2026.06 Release Candidate, marking a radical shift in the distribution's path. It drops systemd as its init and service manager in favor of Dinit, replaces KDE Plasma with Niri and Noctalia on the system image, adopts greetd and Limine, while retaining some systemd components like udev and tmpfiles.",
-      "image": "dinit.webp",
-      "tags": [
-        "KaOS",
-        "Dinit",
-        "systemd",
-        "Linux Distributions",
-        "KDE Plasma",
-        "Niri",
-        "Noctalia"
-      ],
-      "layout": "post",
-      "affiliate": null,
-      "_file": "2026-06-23-kaos-dinit-2026-rc.md",
-      "_lang": "en",
-      "_cat": "gnulinux"
-    },
-    {
-      "title": "KaOS 2026.06 RC: التوزيعة المستقلة تتخلى عن systemd وتتبنى Dinit و Niri",
-      "slug": "kaos-dinit-2026-rc",
-      "date": "2026-06-23T20:23:00.000Z",
-      "category": "gnulinux",
-      "also_in": [],
-      "author": "GNUTUX",
-      "excerpt": "أصدرت KaOS الإصدار التجريبي 2026.06 RC، الذي يمثل خطوة جذرية في مسار التوزيعة. تتخلى عن systemd كمدير تهيئة وخدمات، وتستبدله بـ Dinit، مع استبدال KDE Plasma بـ Niri/Noctalia في صورة النظام، واعتماد greetd و Limine، مع الحفاظ على بعض مكونات systemd مثل udev و tmpfiles.",
-      "image": "dinit.webp",
-      "tags": [
-        "KaOS",
-        "Dinit",
-        "systemd",
-        "توزيعات لينكس",
-        "KDE Plasma",
-        "Niri",
-        "Noctalia"
-      ],
-      "layout": "post",
-      "affiliate": null,
-      "_file": "2026-06-23-kaos-dinit-2026-rc.md",
-      "_lang": "ar",
-      "_cat": "gnulinux"
-    },
     {
       "title": "GT-MISHKATKIDS v1.0: Educational App for Kids with a Child-as-Teacher, Robot-as-Learner Concept",
       "slug": "gt-mishkatkids-release",
@@ -80,6 +32,54 @@
       "_file": "2026-06-23-gt-mishkatkids-release.md",
       "_lang": "en",
       "_cat": "gnutux-projects"
+    },
+    {
+      "title": "KaOS 2026.06 RC: التوزيعة المستقلة تتخلى عن systemd وتتبنى Dinit و Niri",
+      "slug": "kaos-dinit-2026-rc",
+      "date": "2026-06-22T20:38:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "أصدرت KaOS الإصدار التجريبي 2026.06 RC، الذي يمثل خطوة جذرية في مسار التوزيعة. تتخلى عن systemd كمدير تهيئة وخدمات، وتستبدله بـ Dinit، مع استبدال KDE Plasma بـ Niri/Noctalia في صورة النظام، واعتماد greetd و Limine، مع الحفاظ على بعض مكونات systemd مثل udev و tmpfiles.",
+      "image": "dinit.webp",
+      "tags": [
+        "KaOS",
+        "Dinit",
+        "systemd",
+        "توزيعات لينكس",
+        "KDE Plasma",
+        "Niri",
+        "Noctalia"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-23-kaos-dinit-2026-rc.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "KaOS 2026.06 RC: The Independent Distro Drops systemd for Dinit and Niri",
+      "slug": "kaos-dinit-2026-rc",
+      "date": "2026-06-22T20:38:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "KaOS has released the 2026.06 Release Candidate, marking a radical shift in the distribution's path. It drops systemd as its init and service manager in favor of Dinit, replaces KDE Plasma with Niri and Noctalia on the system image, adopts greetd and Limine, while retaining some systemd components like udev and tmpfiles.",
+      "image": "dinit.webp",
+      "tags": [
+        "KaOS",
+        "Dinit",
+        "systemd",
+        "Linux Distributions",
+        "KDE Plasma",
+        "Niri",
+        "Noctalia"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-23-kaos-dinit-2026-rc.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
     },
     {
       "title": "GT-MISHKATKIDS v1.0: تطبيق تعليمي للأطفال بفكرة الطفل معلم والروبوت متعلم",
