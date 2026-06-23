@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-22T20:39:08.321Z",
-  "count": 138,
+  "generated_at": "2026-06-23T11:14:57.089Z",
+  "count": 142,
   "by_lang": {
-    "ar": 69,
-    "en": 69
+    "ar": 71,
+    "en": 71
   },
   "articles": [
     {
@@ -32,6 +32,102 @@
       "_file": "2026-06-23-gt-mishkatkids-release.md",
       "_lang": "en",
       "_cat": "gnutux-projects"
+    },
+    {
+      "title": "RefreshOS 3.0: A Fully Ready Linux Distribution for Everyday Users with KDE Plasma 6",
+      "slug": "refreshos-3-release",
+      "date": "2026-06-23T11:13:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "The RefreshOS team has released version 3.0 of the distribution, built on Debian 13, KDE Plasma 6, and Linux kernel 6.12, with all drivers, codecs, and settings pre-configured. It comes with the Brave browser and a curated selection of applications, featuring a new design and Reload Menu.",
+      "image": "refreshos-gnutux.jpg",
+      "tags": [
+        "RefreshOS",
+        "Linux Distributions",
+        "KDE Plasma",
+        "Debian 13",
+        "Lightweight",
+        "Casual User"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-23-refreshos-3-release.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "RefreshOS 3.0: توزيعة لينكس جاهزة بالكامل للمستخدم العادي مع KDE Plasma 6",
+      "slug": "refreshos-3-release",
+      "date": "2026-06-23T11:12:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "أصدر فريق RefreshOS الإصدار 3.0 من التوزيعة، المبني على Debian 13 و KDE Plasma 6 ونواة Linux 6.12، مع توفير جميع البرامج التشغيل وبرامج الترميز والإعدادات المسبقة، ويأتي مع متصفح Brave ومجموعة من التطبيقات المختارة، ويتميز بتصميم جديد وقائمة Reload Menu.",
+      "image": "refreshos-gnutux.jpg",
+      "tags": [
+        "RefreshOS",
+        "توزيعات لينكس",
+        "KDE Plasma",
+        "Debian 13",
+        "خفيف",
+        "مستخدم عادي"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-23-refreshos-3-release.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Alpine Linux 3.24.1: إصدار صيانة يركز على إصلاح ثغرات OpenSSL الخطيرة",
+      "slug": "alpine-linux-3-24-1-released",
+      "date": "2026-06-23T10:47:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "أعلن مشروع Alpine Linux عن إصدار 3.24.1، وهو تحديث صيانة للسلسلة 3.24، يتضمن إصلاحات أمنية حاسمة لمكتبة OpenSSL تعالج ثغرات في تحليل الشهادات، التحقق من PKCS، ومكدس QUIC، بالإضافة إلى تحديثات أمنية لمكونات أساسية أخرى.",
+      "image": "alpinelinux-gnutux.webp",
+      "tags": [
+        "Alpine Linux",
+        "توزيعات لينكس",
+        "أمن",
+        "OpenSSL",
+        "حاويات",
+        "خوادم",
+        "musl",
+        "busybox"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-23-alpine-linux-3-24-1-released.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Alpine Linux 3.24.1: Maintenance Release Focused on Critical OpenSSL Security Fixes",
+      "slug": "alpine-linux-3-24-1-released",
+      "date": "2026-06-23T10:47:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "The Alpine Linux project has announced the release of version 3.24.1, a maintenance update for the 3.24 series, including critical security fixes for the OpenSSL library addressing certificate parsing, PKCS validation, and QUIC stack vulnerabilities, along with security updates for other core components.",
+      "image": "alpinelinux-gnutux.webp",
+      "tags": [
+        "Alpine Linux",
+        "Linux Distributions",
+        "Security",
+        "OpenSSL",
+        "Containers",
+        "Servers",
+        "musl",
+        "busybox"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-23-alpine-linux-3-24-1-released.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
     },
     {
       "title": "KaOS 2026.06 RC: التوزيعة المستقلة تتخلى عن systemd وتتبنى Dinit و Niri",
