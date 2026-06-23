@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-06-21T19:39:35.911Z",
+  "generated_at": "2026-06-23T10:48:35.227Z",
   "ar": [
+    {
+      "name": "alpinelinux-gnutux.webp",
+      "size": 29190,
+      "last_modified_ts": 1782211698,
+      "path": "assets/images/ar/alpinelinux-gnutux.webp"
+    },
+    {
+      "name": "dinit.webp",
+      "size": 86862,
+      "last_modified_ts": 1782159899,
+      "path": "assets/images/ar/dinit.webp"
+    },
+    {
+      "name": "screenshot_20260622_184416.jpg",
+      "size": 70188,
+      "last_modified_ts": 1782152344,
+      "path": "assets/images/ar/screenshot_20260622_184416.jpg"
+    },
+    {
+      "name": "screenshot_20260622_184416.webp",
+      "size": 41312,
+      "last_modified_ts": 1782152344,
+      "path": "assets/images/ar/screenshot_20260622_184416.webp"
+    },
     {
       "name": "www.openhomefoundation-gnutux.jpg",
       "size": 114355,
@@ -736,6 +760,30 @@
   ],
   "en": [
     {
+      "name": "alpinelinux-gnutux.webp",
+      "size": 29190,
+      "last_modified_ts": 1782211698,
+      "path": "assets/images/en/alpinelinux-gnutux.webp"
+    },
+    {
+      "name": "dinit.webp",
+      "size": 86862,
+      "last_modified_ts": 1782159899,
+      "path": "assets/images/en/dinit.webp"
+    },
+    {
+      "name": "screenshot_20260622_184416.jpg",
+      "size": 70188,
+      "last_modified_ts": 1782152344,
+      "path": "assets/images/en/screenshot_20260622_184416.jpg"
+    },
+    {
+      "name": "screenshot_20260622_184416.webp",
+      "size": 41312,
+      "last_modified_ts": 1782152344,
+      "path": "assets/images/en/screenshot_20260622_184416.webp"
+    },
+    {
       "name": "www.openhomefoundation-gnutux.jpg",
       "size": 114355,
       "last_modified_ts": 1782070761,
@@ -1468,6 +1516,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 122,
-  "count_en": 122
+  "count_ar": 126,
+  "count_en": 126
 }
