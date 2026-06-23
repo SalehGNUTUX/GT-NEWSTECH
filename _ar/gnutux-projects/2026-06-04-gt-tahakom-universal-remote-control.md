@@ -3,7 +3,10 @@ layout: post
 title: >-
   GT-TAHAKOM v1.0.0: تطبيق تحكم موحد للتلفزيون والأجهزة المنزلية عبر WiFi
   والأشعة تحت الحمراء
+slug: gt-tahakom-universal-remote-control
+lang: ar
 category: gnutux-projects
+date: 2026-06-04T19:29:00.000Z
 author: GNUTUX
 excerpt: >-
   GT-TAHAKOM هو تطبيق أندرويد مفتوح المصدر يجمع التحكم بالتلفزيونات الذكية
@@ -24,9 +27,6 @@ tags:
   - Roku
 also_in:
   - foss
-date: 2026-06-04T19:29:00.000Z
-lang: ar
-slug: gt-tahakom-universal-remote-control
 ---
 
 ## فوضى أجهزة التحكم
@@ -35,7 +35,7 @@ slug: gt-tahakom-universal-remote-control
 
 GT-TAHAKOM هو محاولة لإنهاء هذه الفوضى. تطبيق أندرويد واحد، يجمع التحكم بثلاثة أنواع من الأجهزة عبر ثلاث وسائط إرسال مختلفة. كل ذلك في تطبيق واحد مفتوح المصدر، يعمل بدون إنترنت، ولا يحتوي على إعلانات أو تتبع.
 
-🔗 **الموقع الرسمي:** [salehgnutux.github.io/GT-TAHAKOM](https://salehgnutux.github.io/GT-THAHAKOM)
+🔗 **الموقع الرسمي:** [salehgnutux.github.io/GT-TAHAKOM](https://salehgnutux.github.io/GT-TAHAKOM/)
 🔗 **مستودع GitHub:** [github.com/SalehGNUTUX/GT-TAHAKOM](https://github.com/SalehGNUTUX/GT-TAHAKOM)
 
 ## ثلاث وسائط للتحكم في تطبيق واحد
