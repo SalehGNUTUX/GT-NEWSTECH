@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-06-23T11:23:51.708Z",
+  "generated_at": "2026-06-25T21:00:08.636Z",
   "ar": [
+    {
+      "name": "plasma67-gnutux.jpg",
+      "size": 38714,
+      "last_modified_ts": 1782421190,
+      "path": "assets/images/ar/plasma67-gnutux.jpg"
+    },
+    {
+      "name": "plasma67-gnutux.webp",
+      "size": 20498,
+      "last_modified_ts": 1782421190,
+      "path": "assets/images/ar/plasma67-gnutux.webp"
+    },
+    {
+      "name": "cutefish-gnutux.jpg",
+      "size": 49922,
+      "last_modified_ts": 1782214494,
+      "path": "assets/images/ar/cutefish-gnutux.jpg"
+    },
+    {
+      "name": "cutefish-gnutux.webp",
+      "size": 19742,
+      "last_modified_ts": 1782214494,
+      "path": "assets/images/ar/cutefish-gnutux.webp"
+    },
     {
       "name": "onlyoffice-gnutux.jpg",
       "size": 85461,
@@ -784,6 +808,30 @@
   ],
   "en": [
     {
+      "name": "plasma67-gnutux.jpg",
+      "size": 38714,
+      "last_modified_ts": 1782421190,
+      "path": "assets/images/en/plasma67-gnutux.jpg"
+    },
+    {
+      "name": "plasma67-gnutux.webp",
+      "size": 20498,
+      "last_modified_ts": 1782421190,
+      "path": "assets/images/en/plasma67-gnutux.webp"
+    },
+    {
+      "name": "cutefish-gnutux.jpg",
+      "size": 49922,
+      "last_modified_ts": 1782214494,
+      "path": "assets/images/en/cutefish-gnutux.jpg"
+    },
+    {
+      "name": "cutefish-gnutux.webp",
+      "size": 19742,
+      "last_modified_ts": 1782214494,
+      "path": "assets/images/en/cutefish-gnutux.webp"
+    },
+    {
       "name": "onlyoffice-gnutux.jpg",
       "size": 85461,
       "last_modified_ts": 1782213817,
@@ -1564,6 +1612,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 130,
-  "count_en": 130
+  "count_ar": 134,
+  "count_en": 134
 }
