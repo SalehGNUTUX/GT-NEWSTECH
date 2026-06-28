@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-06-28T18:20:30.555Z",
-  "count": 150,
+  "generated_at": "2026-06-28T18:53:25.582Z",
+  "count": 152,
   "by_lang": {
-    "ar": 75,
-    "en": 75
+    "ar": 76,
+    "en": 76
   },
   "articles": [
+    {
+      "title": "Ventoy 1.1.14: أداة الإقلاع متعددة ISO تحل مشكلة UEFI CA 2023 بشهادة جديدة",
+      "slug": "ventoy-1-1-14-release",
+      "date": "2026-06-28T18:52:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدر مشروع Ventoy الإصدار 1.1.14 من الأداة الشهيرة التي تحول أي قرص تخزين إلى قرص إقلاع متعدد ISO. هذا الإصدار يحل مشكلة UEFI CA 2023 بتحديث شهادة التمهيد الآمن، مع تحديثات لـ VentoyPlugson وخيار جديد للتحكم بسياسة التمهيد الآمن.",
+      "image": "ventoy-gnutux.webp",
+      "tags": [
+        "Ventoy",
+        "أدوات لينكس",
+        "أقراص حية",
+        "تثبيت أنظمة",
+        "متعدد ISO",
+        "UEFI"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-28-ventoy-1-1-14-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Ventoy 1.1.14: Multi-ISO Boot Tool Fixes UEFI CA 2023 Issue with New Certificate",
+      "slug": "ventoy-1-1-14-release",
+      "date": "2026-06-28T18:52:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The Ventoy project has released version 1.1.14 of its popular tool that turns any storage device into a multi-ISO boot drive. This release fixes the UEFI CA 2023 issue by updating the Secure Boot shim certificate, along with updates to VentoyPlugson and a new option for controlling Secure Boot policy.",
+      "image": "ventoy-gnutux.webp",
+      "tags": [
+        "Ventoy",
+        "Linux Tools",
+        "Live USB",
+        "OS Installation",
+        "Multi-ISO",
+        "UEFI"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-28-ventoy-1-1-14-release.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "TuxMate: أداة لتثبيت مئات التطبيقات دفعة واحدة على لينكس",
       "slug": "tuxmate-bulk-app-installer",
