@@ -1,11 +1,113 @@
 {
-  "generated_at": "2026-06-23T11:39:53.303Z",
-  "count": 146,
+  "generated_at": "2026-06-28T18:20:30.555Z",
+  "count": 150,
   "by_lang": {
-    "ar": 73,
-    "en": 73
+    "ar": 75,
+    "en": 75
   },
   "articles": [
+    {
+      "title": "TuxMate: أداة لتثبيت مئات التطبيقات دفعة واحدة على لينكس",
+      "slug": "tuxmate-bulk-app-installer",
+      "date": "2026-06-28T18:20:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "TuxMate هو تطبيق ويب مفتوح المصدر يسمح لمستخدمي لينكس بتثبيت مئات التطبيقات الشائعة دفعة واحدة، عبر واجهة بسيطة تعتمد على الاختيار من قائمة وتوليد أوامر التثبيت المناسبة للتوزيعة المستخدمة.",
+      "image": "tuxmate-gnutux.webp",
+      "tags": [
+        "TuxMate",
+        "تثبيت تطبيقات",
+        "أدوات لينكس",
+        "إنتاجية",
+        "مفتوح المصدر"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-28-tuxmate-bulk-app-installer.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "TuxMate: Install Hundreds of Applications at Once on Linux",
+      "slug": "tuxmate-bulk-app-installer",
+      "date": "2026-06-28T18:19:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "TuxMate is an open source web application that allows Linux users to install hundreds of popular applications at once through a simple interface that generates the appropriate installation commands for your distribution.",
+      "image": "tuxmate-gnutux.webp",
+      "tags": [
+        "TuxMate",
+        "App Installation",
+        "Linux Tools",
+        "Productivity",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-28-tuxmate-bulk-app-installer.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "KDE Plasma 6.7 يصدر رسمياً: شاشات افتراضية لكل شاشة وعودة Oxygen وUnion Theming",
+      "slug": "kde-plasma-6-7-release",
+      "date": "2026-06-25T20:59:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدر مجتمع KDE الإصدار 6.7 من بيئة سطح المكتب Plasma، والذي يحمل مجموعة من الميزات الجديدة التي طال انتظارها، أبرزها دعم الشاشات الافتراضية لكل شاشة على حدة، وعودة موضوعي Oxygen وAir من عصر KDE 4، وطرح Union كأول نموذج تجريبي لنظام تسميم جديد قائم على CSS، وعودة Plasma BigScreen لواجهة التلفاز، إلى جانب تحسينات في الأداء واكتشاف الطابعات وإدارة الصوت.",
+      "image": "plasma67-gnutux.jpg",
+      "tags": [
+        "KDE Plasma",
+        "سطح مكتب",
+        "Wayland",
+        "Linux",
+        "Qt",
+        "Oxygen",
+        "Union",
+        "BigScreen"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-25-kde-plasma-6-7-release.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "KDE Plasma 6.7 Released: BigScreen, Union Theming, and a Monster Update",
+      "slug": "kde-plasma-6-7-release",
+      "date": "2026-06-25T20:59:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The KDE community has released Plasma 6.7, a feature-packed update bringing long-awaited per-screen virtual desktops, the return of the classic Oxygen and Air themes from the KDE 4 era, a tech preview of the new Union CSS-based theming system, the revival of the Plasma BigScreen TV interface, and numerous performance and usability improvements.",
+      "image": "plasma67-gnutux.jpg",
+      "tags": [
+        "KDE Plasma",
+        "Desktop",
+        "Wayland",
+        "Linux",
+        "Qt",
+        "Oxygen",
+        "Union",
+        "BigScreen"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-25-kde-plasma-6-7-release.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
     {
       "title": "GT-MISHKATKIDS v1.0: Educational App for Kids with a Child-as-Teacher, Robot-as-Learner Concept",
       "slug": "gt-mishkatkids-release",
