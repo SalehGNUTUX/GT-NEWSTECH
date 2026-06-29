@@ -1,11 +1,62 @@
 {
-  "generated_at": "2026-06-28T18:53:25.582Z",
-  "count": 152,
+  "generated_at": "2026-06-29T19:46:51.944Z",
+  "count": 154,
   "by_lang": {
-    "ar": 76,
-    "en": 76
+    "ar": 77,
+    "en": 77
   },
   "articles": [
+    {
+      "title": "AMD Ryzen AI Halo: Mini PC Ends NVIDIA's Dominance with 128GB Unified Memory",
+      "slug": "amd-ryzen-ai-halo-mini-pc",
+      "date": "2026-06-29T19:45:00.000Z",
+      "category": "tech-news",
+      "also_in": [
+        "ai"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "AMD unveiled a Mini PC powered by the Ryzen AI Halo processor, featuring up to 128GB of unified LPDDR5X memory, enabling local execution of AI models with 235 billion parameters, surpassing the VRAM limitations of NVIDIA RTX 4090 and 5090 cards.",
+      "image": "amd-ryzen-ai-halo-2-gnutux.jpg",
+      "tags": [
+        "AMD",
+        "Ryzen AI Halo",
+        "Artificial Intelligence",
+        "Mini PC",
+        "Unified Memory",
+        "NVIDIA"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-29-amd-ryzen-ai-halo-mini-pc.md",
+      "_lang": "en",
+      "_cat": "tech-news"
+    },
+    {
+      "title": "AMD Ryzen AI Halo: حاسوب صغير يُنهي هيمنة NVIDIA بذاكرة موحدة 128 جيجابايت",
+      "slug": "amd-ryzen-ai-halo-mini-pc",
+      "date": "2026-06-29T19:41:00.000Z",
+      "category": "tech-news",
+      "also_in": [
+        "ai"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "كشفت AMD عن حاسوب Mini PC يعمل بمعالج Ryzen AI Halo، مزود بذاكرة موحدة LPDDR5X تصل إلى 128 جيجابايت، مما يسمح بتشغيل نماذج ذكاء اصطناعي بحجم 235 مليار معامل محلياً، متجاوزاً بذلك قيود ذاكرة VRAM في بطاقات NVIDIA RTX 4090 و 5090.",
+      "image": "amd-ryzen-ai-halo-2-gnutux.jpg",
+      "tags": [
+        "AMD",
+        "Ryzen AI Halo",
+        "ذكاء اصطناعي",
+        "حاسوب مصغر",
+        "ذاكرة موحدة",
+        "Unified Memory",
+        "NVIDIA"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-06-29-amd-ryzen-ai-halo-mini-pc.md",
+      "_lang": "ar",
+      "_cat": "tech-news"
+    },
     {
       "title": "Ventoy 1.1.14: أداة الإقلاع متعددة ISO تحل مشكلة UEFI CA 2023 بشهادة جديدة",
       "slug": "ventoy-1-1-14-release",
