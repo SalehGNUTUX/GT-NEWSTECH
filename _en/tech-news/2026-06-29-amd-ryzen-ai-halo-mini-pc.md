@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'AMD Ryzen AI Halo: Mini PC Ends NVIDIA''s Dominance with 128GB Unified Memory'
+slug: amd-ryzen-ai-halo-mini-pc
+lang: en
 category: tech-news
+date: 2026-06-29T19:45:00.000Z
 author: GNUTUX
 excerpt: >-
   AMD unveiled a Mini PC powered by the Ryzen AI Halo processor, featuring up to
@@ -18,9 +21,6 @@ tags:
   - NVIDIA
 also_in:
   - ai
-date: 2026-06-29T19:45:00.000Z
-lang: en
-slug: amd-ryzen-ai-halo-mini-pc
 ---
 
 ## An Announcement That Shook the Foundations of Local Computing
@@ -68,7 +68,7 @@ With this device, the battle moves from data centers to developers' desks, from 
 You can watch AMD's full announcement about the Ryzen AI Halo Mini PC in the official press conference:
 
 <video controls width="100%">
-  <source src="/assets/videos/en/mini-pc-ai-gnutux.mp4" type="video/mp4">
+  <source src="assets/videos/en/mini-pc-ai-gnutux.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 

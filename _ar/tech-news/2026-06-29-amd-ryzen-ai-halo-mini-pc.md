@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'AMD Ryzen AI Halo: حاسوب صغير يُنهي هيمنة NVIDIA بذاكرة موحدة 128 جيجابايت'
+slug: amd-ryzen-ai-halo-mini-pc
+lang: ar
 category: tech-news
+date: 2026-06-29T19:41:00.000Z
 author: GNUTUX
 excerpt: >-
   كشفت AMD عن حاسوب Mini PC يعمل بمعالج Ryzen AI Halo، مزود بذاكرة موحدة LPDDR5X
@@ -18,9 +21,6 @@ tags:
   - NVIDIA
 also_in:
   - ai
-date: 2026-06-29T19:41:00.000Z
-lang: ar
-slug: amd-ryzen-ai-halo-mini-pc
 ---
 
 ## إعلان هز أسس الحوسبة المحلية
@@ -68,7 +68,7 @@ slug: amd-ryzen-ai-halo-mini-pc
 يمكنك مشاهدة إعلان AMD الكامل حول Ryzen AI Halo Mini PC في المؤتمر الصحفي الرسمي:
 
 <video controls width="100%">
-  <source src="/mnt/81d4e25b-45b1-43fd-917c-assets/videos/ar/mini-pc-ai-gnutux.mp4" type="video/mp4">
+  <source src="assets/videos/ar/mini-pc-ai-gnutux.mp4" type="video/mp4">
   متصفحك لا يدعم تشغيل الفيديو.
 </video>
 
