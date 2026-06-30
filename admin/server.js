@@ -21,6 +21,8 @@ const TRASH_DIR     = path.join(__dirname, '.trash');           // legacy، تُ
 const LANGS      = ['ar', 'en'];
 const CATS_FILE  = path.join(ROOT, '_data', 'categories.yml');
 const IMG_EXTS   = /\.(jpg|jpeg|png|gif|webp|svg|avif)$/i;
+const VIDEO_EXTS = /\.(mp4|webm|ogv|mov|m4v)$/i;
+const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
 
 // ── Categories helpers ─────────────────────────────────────────
 function readCatsData() {
@@ -146,6 +148,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve Jekyll project images/icons for preview
 app.use('/site-images', express.static(path.join(ROOT, 'assets', 'images')));
+app.use('/site-videos', express.static(path.join(ROOT, 'assets', 'videos')));
 app.use('/site-icons',  express.static(path.join(ROOT, 'assets', 'icons')));
 
 // ── Image format sets ──────────────────────────────────────────
@@ -808,6 +811,73 @@ app.post('/api/images/:lang', handleUpload, async (req, res) => {
     }
   }
   res.json({ ok: true, uploaded });
+});
+
+/* ─── Videos API ─────────────────────────────────────────────── */
+function getVideos(lang) {
+  const dir = path.join(ROOT, 'assets', 'videos', lang);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir)
+    .filter(f => VIDEO_EXTS.test(f))
+    .map(f => {
+      const stat = fs.statSync(path.join(dir, f));
+      return {
+        name: f, lang,
+        url: `/site-videos/${lang}/${f}`,
+        size: stat.size,
+        mtime: stat.mtimeMs,
+      };
+    })
+    .sort((a, b) => b.mtime - a.mtime);
+}
+
+app.get('/api/videos', (req, res) => {
+  const lang = req.query.lang;
+  if (lang) return res.json(getVideos(lang));
+  res.json([...getVideos('ar'), ...getVideos('en')]);
+});
+
+/* رفع فيديوهات (multiple) — لا ضغط، نحفظ كما هي */
+app.post('/api/videos/:lang', handleUpload, async (req, res) => {
+  const lang = req.params.lang;
+  if (!['ar', 'en'].includes(lang)) return res.status(400).json({ error: 'lang غير صحيح' });
+  const destDir = path.join(ROOT, 'assets', 'videos', lang);
+  fs.mkdirSync(destDir, { recursive: true });
+  const uploaded = [];
+
+  for (const file of req.files || []) {
+    if (file.size > MAX_VIDEO_SIZE) {
+      uploaded.push({ name: file.originalname, error: `حجم > ${MAX_VIDEO_SIZE/1048576}MB` });
+      continue;
+    }
+    if (!VIDEO_EXTS.test(file.originalname)) {
+      uploaded.push({ name: file.originalname, error: 'صيغة غير مدعومة (mp4/webm/ogv/mov/m4v)' });
+      continue;
+    }
+    try {
+      const { base, ext } = sanitizeFilename(file.originalname);
+      const filename = base + ext;
+      fs.writeFileSync(path.join(destDir, filename), file.buffer);
+      uploaded.push({
+        name: filename, lang,
+        url: `/site-videos/${lang}/${filename}`,
+        size: file.buffer.length,
+      });
+    } catch (err) {
+      uploaded.push({ name: file.originalname, error: err.message });
+    }
+  }
+  res.json({ ok: true, uploaded });
+});
+
+app.delete('/api/videos/:lang/:name', (req, res) => {
+  const { lang, name } = req.params;
+  if (!['ar', 'en'].includes(lang)) return res.status(400).json({ error: 'lang غير صحيح' });
+  if (!VIDEO_EXTS.test(name) || name.includes('/')) return res.status(400).json({ error: 'اسم غير صحيح' });
+  const fp = path.join(ROOT, 'assets', 'videos', lang, name);
+  if (!fs.existsSync(fp)) return res.status(404).json({ error: 'غير موجود' });
+  fs.unlinkSync(fp);
+  res.json({ ok: true });
 });
 
 /* Config */

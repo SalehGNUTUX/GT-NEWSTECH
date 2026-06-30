@@ -1647,6 +1647,40 @@ document.querySelectorAll('.tb-btn').forEach(btn => {
       chSave();
       ta.focus();
       return;
+    } else if (btn.dataset.action === 'img-local') {
+      /* اختيار صورة من المحفوظات → إدراج Markdown مع مسار {{ site.baseurl }} */
+      openMediaPicker('image', (name, lang) => {
+        const alt = sel || prompt('وصف الصورة (alt):', '') || '';
+        const md = `![${alt}]({{ site.baseurl }}/assets/images/${lang}/${name})`;
+        chSave();
+        ta.setRangeText(md, s, e, 'end');
+        updateWordCount();
+        chSave();
+        ta.focus();
+      });
+      return;
+    } else if (btn.dataset.action === 'video-local') {
+      /* اختيار/رفع فيديو محلي → إدراج <video> HTML block */
+      openMediaPicker('video', (name, lang) => {
+        const md = `\n<video controls width="100%">\n  <source src="{{ site.baseurl }}/assets/videos/${lang}/${name}" type="video/${name.split('.').pop().toLowerCase()}">\n  متصفحك لا يدعم تشغيل الفيديو.\n</video>\n`;
+        chSave();
+        ta.setRangeText(md, s, e, 'end');
+        updateWordCount();
+        chSave();
+        ta.focus();
+      });
+      return;
+    } else if (btn.dataset.action === 'video-url') {
+      const url = prompt('رابط الفيديو (mp4/webm/...):', 'https://');
+      if (!url || url === 'https://') { ta.focus(); return; }
+      const ext = (url.split('.').pop() || 'mp4').split('?')[0].toLowerCase();
+      const block = `\n<video controls width="100%">\n  <source src="${url}" type="video/${ext}">\n  متصفحك لا يدعم تشغيل الفيديو.\n</video>\n`;
+      chSave();
+      ta.setRangeText(block, s, e, 'end');
+      updateWordCount();
+      chSave();
+      ta.focus();
+      return;
     } else if (btn.dataset.action === 'clear') {
       if (!ta.value || confirm('مسح كامل محتوى المقال؟')) {
         chSave(); ta.value = ''; updateWordCount(); chSave();
@@ -1972,6 +2006,151 @@ function openUrlImportModal() {
     close();
   };
 }
+
+/* ── Media Picker موحَّد (image | video) لإدراج في محتوى المقال ─────
+   onPick(name, lang) يُستدعى عند اختيار وسيلة من القائمة
+   يدعم تبويبات AR/EN + رفع ملفات جديدة + قائمة مرتّبة بالأحدث */
+window.openMediaPicker = async function(kind, onPick) {
+  const isVid = kind === 'video';
+  const apiBase = isVid ? '/api/videos' : '/api/images';
+  const lang0 = document.querySelector('[name=fLang]:checked')?.value || S.langFilter || 'ar';
+  const wrap = document.createElement('div');
+  wrap.className = 'modal-overlay';
+  wrap.style.display = 'flex';
+  wrap.innerHTML = `
+    <div class="modal-box" style="max-width:760px">
+      <div class="modal-header">
+        <h2><i class="fa-solid ${isVid?'fa-film':'fa-image'}" style="color:var(--gold)"></i>
+          إدراج ${isVid?'فيديو':'صورة'} محلي
+        </h2>
+        <button class="btn-icon" id="mpClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" style="padding:1rem 1.25rem">
+        <!-- رفع جديد -->
+        <div class="import-section" style="margin-bottom:.75rem">
+          <div class="import-title"><i class="fa-solid fa-upload" style="color:var(--gold)"></i> رفع ${isVid?'فيديو':'صورة'} جديد</div>
+          <div class="import-row">
+            <input type="file" id="mpFileInput" ${isVid?'accept="video/*"':'accept="image/*"'} hidden>
+            <button class="btn btn-sm" id="mpBrowseBtn"><i class="fa-solid fa-folder-open"></i> اختر ملف</button>
+            <span id="mpFileName" style="margin:0 .5rem;color:var(--muted);font-size:.85rem">لم يُختر ملف</span>
+          </div>
+          <div class="import-dest-row">
+            <span class="import-dest-label">الحفظ إلى:</span>
+            <label class="radio-label"><input type="radio" name="mpDest" value="ar" ${lang0==='ar'?'checked':''}> AR فقط</label>
+            <label class="radio-label"><input type="radio" name="mpDest" value="en" ${lang0==='en'?'checked':''}> EN فقط</label>
+            <label class="radio-label"><input type="radio" name="mpDest" value="both"> AR + EN</label>
+          </div>
+          <button class="btn btn-gold btn-sm" id="mpUploadBtn" disabled style="margin-top:.5rem">
+            <i class="fa-solid fa-cloud-arrow-up"></i> رفع
+          </button>
+          <div id="mpStatus" style="margin-top:.5rem;font-size:.85rem"></div>
+        </div>
+
+        <div class="picker-divider">— أو اختر من المحفوظات —</div>
+
+        <div class="picker-lang-tabs" style="margin-bottom:.6rem">
+          <button class="ptab ${lang0==='ar'?'active':''}" data-mp-lang="ar">AR ${isVid?'فيديو':'صور'}</button>
+          <button class="ptab ${lang0==='en'?'active':''}" data-mp-lang="en">EN ${isVid?'Videos':'Images'}</button>
+        </div>
+        <div class="image-picker-grid" id="mpGrid" style="max-height:340px"></div>
+      </div>
+    </div>`;
+  document.body.appendChild(wrap);
+  const close = () => wrap.remove();
+  wrap.querySelector('#mpClose').onclick = close;
+  wrap.addEventListener('click', e => { if (e.target === wrap) close(); });
+
+  let curLang = lang0;
+  let pickedFile = null;
+
+  async function loadList() {
+    const grid = wrap.querySelector('#mpGrid');
+    grid.innerHTML = '<div class="loading-wrap"><i class="fa-solid fa-spinner fa-spin"></i></div>';
+    try {
+      const items = await api(`${apiBase}?lang=${curLang}`);
+      const list = Array.isArray(items) ? items : (items.images || items.videos || []);
+      if (!list.length) {
+        grid.innerHTML = `<p style="color:var(--muted);grid-column:1/-1;padding:20px;text-align:center">لا ${isVid?'فيديوهات':'صور'}</p>`;
+        return;
+      }
+      grid.innerHTML = list.map(item => {
+        const safeName = item.name.replace(/'/g, '\\\'');
+        if (isVid) {
+          return `<div class="picker-img" onclick="window._mpPick('${safeName}','${item.lang}')" style="cursor:pointer">
+            <video src="${item.url}" preload="metadata" style="width:100%;height:75px;object-fit:cover;display:block;background:#000"></video>
+            <div class="picker-img-name">${item.name}</div>
+          </div>`;
+        }
+        return `<div class="picker-img" onclick="window._mpPick('${safeName}','${item.lang}')">
+          <img src="${item.url}" alt="${item.name}" loading="lazy">
+          <div class="picker-img-name">${item.name}</div>
+        </div>`;
+      }).join('');
+    } catch (e) {
+      grid.innerHTML = `<p style="color:#e05252">${e.message}</p>`;
+    }
+  }
+
+  window._mpPick = (name, lang) => { close(); onPick(name, lang); };
+
+  /* تبويبات اللغة */
+  wrap.querySelectorAll('[data-mp-lang]').forEach(t => {
+    t.onclick = () => {
+      wrap.querySelectorAll('[data-mp-lang]').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      curLang = t.dataset.mpLang;
+      loadList();
+    };
+  });
+
+  /* رفع */
+  const fileInput = wrap.querySelector('#mpFileInput');
+  const uploadBtn = wrap.querySelector('#mpUploadBtn');
+  wrap.querySelector('#mpBrowseBtn').onclick = () => fileInput.click();
+  fileInput.onchange = e => {
+    pickedFile = e.target.files[0];
+    wrap.querySelector('#mpFileName').textContent = pickedFile ? pickedFile.name : 'لم يُختر ملف';
+    uploadBtn.disabled = !pickedFile;
+  };
+  uploadBtn.onclick = async () => {
+    if (!pickedFile) return;
+    const dest = wrap.querySelector('[name=mpDest]:checked').value;
+    const langs = dest === 'both' ? ['ar', 'en'] : [dest];
+    const status = wrap.querySelector('#mpStatus');
+    status.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الرفع إلى ${langs.join('+').toUpperCase()}...`;
+    uploadBtn.disabled = true;
+    let lastName = null;
+    for (const lang of langs) {
+      const fd = new FormData();
+      fd.append('files', pickedFile);
+      try {
+        const r = await fetch(`${apiBase}/${lang}`, {
+          method: 'POST',
+          headers: { 'x-admin-token': getToken() },
+          body: fd,
+        });
+        const d = await r.json();
+        if (!d.ok) throw new Error(d.error || 'فشل');
+        const u = (d.uploaded || [])[0];
+        if (u?.error) throw new Error(u.error);
+        lastName = u?.name || pickedFile.name;
+      } catch (e) {
+        status.innerHTML = `<span style="color:#e05252">فشل ${lang}: ${e.message}</span>`;
+        uploadBtn.disabled = false;
+        return;
+      }
+    }
+    status.innerHTML = `<span style="color:var(--success)">✓ رُفع: ${lastName}</span>`;
+    /* أدرج في المحتوى للغة المقال الحالي إن وُجد، وإلا للغة الأولى من langs */
+    setTimeout(() => {
+      const articleLang = document.querySelector('[name=fLang]:checked')?.value;
+      const useLang = langs.includes(articleLang) ? articleLang : langs[0];
+      window._mpPick(lastName, useLang);
+    }, 400);
+  };
+
+  loadList();
+};
 
 async function openImagePicker() {
   /* اللغة الحالية من حقل المقال (تتغيّر مع radio "اللغة" في البيانات).

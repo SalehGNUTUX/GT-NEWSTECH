@@ -68,7 +68,7 @@ With this device, the battle moves from data centers to developers' desks, from 
 You can watch AMD's full announcement about the Ryzen AI Halo Mini PC in the official press conference:
 
 <video controls width="100%">
-  <source src="assets/videos/en/mini-pc-ai-gnutux.mp4" type="video/mp4">
+  <source src="{{ site.baseurl }}/assets/videos/en/mini-pc-ai-gnutux.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 

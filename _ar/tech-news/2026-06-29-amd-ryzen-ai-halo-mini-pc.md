@@ -68,7 +68,7 @@ also_in:
 يمكنك مشاهدة إعلان AMD الكامل حول Ryzen AI Halo Mini PC في المؤتمر الصحفي الرسمي:
 
 <video controls width="100%">
-  <source src="assets/videos/ar/mini-pc-ai-gnutux.mp4" type="video/mp4">
+  <source src="{{ site.baseurl }}/assets/videos/ar/mini-pc-ai-gnutux.mp4" type="video/mp4">
   متصفحك لا يدعم تشغيل الفيديو.
 </video>
 
