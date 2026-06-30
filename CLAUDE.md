@@ -179,6 +179,9 @@ GET  /api/images?lang=
 POST /api/images/:lang               ← multer memoryStorage, sharp, max 20MB. Form field: "files" (multi). Response: { ok, uploaded: [{name, size, url, converted}] }. The remote Worker mirrors the same contract (accepts both "files" and "image" field names).
 POST /api/images/import              ← copy from filesystem path
 DELETE /api/images/:lang/:name
+GET  /api/videos?lang=               ← list videos (mp4/webm/ogv/mov/m4v), newest-first by fs.mtime
+POST /api/videos/:lang               ← upload one or more videos (multipart, max 100MB each). Form field: "files". No compression (raw save). **Local panel only — Worker has no /api/videos.**
+DELETE /api/videos/:lang/:name       ← delete video
 GET  /api/categories                 ← dynamic from _data/categories.yml + disk scan
 POST /api/categories                 ← create category (dirs + pages + YAML)
 GET  /api/git/status                 ← includes ahead/behind count via git fetch
@@ -293,10 +296,17 @@ Option 4 stays useful for stable hosts (GitHub raw, Wikimedia, CDNs). Options 1-
 - Actions: reply, hide (with classification), unhide, delete, lock/unlock discussion
 
 **Article editor toolbar (`#new-article` → tab "محتوى المقال"):**
-- Undo/Redo/Cut/Paste/Clear • Bold/Italic/H2/H3 • Lists/Quote • Code block/inline • Link/Image-by-URL/Table/AFF
+- Undo/Redo/Cut/Paste/Clear • Bold/Italic/H2/H3 • Lists/Quote • Code block/inline • Link • Image-by-URL • **Image-local** • **Video-by-URL** • **Video-local** • Table/AFF
 - **Cut** copies selection to clipboard + deletes it; needs HTTPS or localhost for clipboard API
 - **Image by URL** prompts for URL + alt text (uses selection as default alt) → inserts `![alt](url)` Markdown
+- **Image-local** opens `openMediaPicker('image', cb)` → inserts `![alt]({{ site.baseurl }}/assets/images/<lang>/<file>)` so the path resolves correctly under the GitHub Pages baseurl
+- **Video-by-URL** prompts for URL → wraps it in a `<video controls><source src="..." type="video/<ext>"></video>` block
+- **Video-local** opens `openMediaPicker('video', cb)` → same `<video>` block but with `{{ site.baseurl }}/assets/videos/<lang>/<file>` source
 - Toolbar HTML in `admin/public/index.html`; handlers in `admin/public/js/admin.js` (`document.querySelectorAll('.tb-btn')` block)
+
+**`openMediaPicker(kind, onPick)`** is a unified picker for both images and videos (`kind: 'image' | 'video'`). It shows the existing library with AR/EN tabs (videos render as `<video preload="metadata">` thumbnails), plus an upload form within the modal supporting AR / EN / AR+EN destinations. After upload it auto-inserts the new file into the editor via `onPick(name, lang)`. Reuses the image picker CSS (`.image-picker-grid`, `.ptab`, `.import-section`).
+
+**Video paths must use `{{ site.baseurl }}`** in article content, never relative (`assets/videos/...` would resolve against the current article URL and 404). The toolbar buttons emit the correct prefix automatically — if you hand-write a `<video>` tag, include `{{ site.baseurl }}` in the `<source src>`.
 
 **Articles page:** toolbar rendered once (`if (!$('articlesTable'))`), only `<tbody>` updated on search/filter to preserve input focus.
 
