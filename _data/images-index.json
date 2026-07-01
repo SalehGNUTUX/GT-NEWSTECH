@@ -1,6 +1,42 @@
 {
-  "generated_at": "2026-06-25T21:00:08.636Z",
+  "generated_at": "2026-07-01T18:53:18.240Z",
   "ar": [
+    {
+      "name": "caveman-gnutux.jpg",
+      "size": 141707,
+      "last_modified_ts": 1782931980,
+      "path": "assets/images/ar/caveman-gnutux.jpg"
+    },
+    {
+      "name": "caveman-gnutux.webp",
+      "size": 119744,
+      "last_modified_ts": 1782931980,
+      "path": "assets/images/ar/caveman-gnutux.webp"
+    },
+    {
+      "name": "amd-ryzen-ai-halo-2-gnutux.jpg",
+      "size": 122825,
+      "last_modified_ts": 1782762394,
+      "path": "assets/images/ar/amd-ryzen-ai-halo-2-gnutux.jpg"
+    },
+    {
+      "name": "amd-ryzen-ai-halo-2-gnutux.webp",
+      "size": 80040,
+      "last_modified_ts": 1782762394,
+      "path": "assets/images/ar/amd-ryzen-ai-halo-2-gnutux.webp"
+    },
+    {
+      "name": "ventoy-gnutux.webp",
+      "size": 24906,
+      "last_modified_ts": 1782672782,
+      "path": "assets/images/ar/ventoy-gnutux.webp"
+    },
+    {
+      "name": "tuxmate-gnutux.webp",
+      "size": 34988,
+      "last_modified_ts": 1782670813,
+      "path": "assets/images/ar/tuxmate-gnutux.webp"
+    },
     {
       "name": "plasma67-gnutux.jpg",
       "size": 38714,
@@ -808,6 +844,42 @@
   ],
   "en": [
     {
+      "name": "caveman-gnutux.jpg",
+      "size": 141707,
+      "last_modified_ts": 1782931980,
+      "path": "assets/images/en/caveman-gnutux.jpg"
+    },
+    {
+      "name": "caveman-gnutux.webp",
+      "size": 119744,
+      "last_modified_ts": 1782931980,
+      "path": "assets/images/en/caveman-gnutux.webp"
+    },
+    {
+      "name": "amd-ryzen-ai-halo-2-gnutux.jpg",
+      "size": 122825,
+      "last_modified_ts": 1782762394,
+      "path": "assets/images/en/amd-ryzen-ai-halo-2-gnutux.jpg"
+    },
+    {
+      "name": "amd-ryzen-ai-halo-2-gnutux.webp",
+      "size": 80040,
+      "last_modified_ts": 1782762394,
+      "path": "assets/images/en/amd-ryzen-ai-halo-2-gnutux.webp"
+    },
+    {
+      "name": "ventoy-gnutux.webp",
+      "size": 24906,
+      "last_modified_ts": 1782672782,
+      "path": "assets/images/en/ventoy-gnutux.webp"
+    },
+    {
+      "name": "tuxmate-gnutux.webp",
+      "size": 34988,
+      "last_modified_ts": 1782670813,
+      "path": "assets/images/en/tuxmate-gnutux.webp"
+    },
+    {
       "name": "plasma67-gnutux.jpg",
       "size": 38714,
       "last_modified_ts": 1782421190,
@@ -1612,6 +1684,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 134,
-  "count_en": 134
+  "count_ar": 140,
+  "count_en": 140
 }
