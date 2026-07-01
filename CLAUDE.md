@@ -150,7 +150,22 @@ git add . && git commit -m "message" && git push origin main
 - Tags rendered as hashtags: **spaces, dots, AND hyphens** are all replaced by `_` (e.g., `Tailwind v3.4` → `#Tailwind_v3_4`, `open-source` → `#open_source`). Done in `_layouts/post.html` via Liquid `replace` chain. Cross-platform-safe (no hashtag breaks on `.` or `-`). Decap CMS shows a `hint` on tags field warning the user.
 - **Permanent `#gnutux` hashtag** appended to every article's `_share_tags` in `_layouts/post.html` — site identity. Authors who put "gnutux" in their per-article tags will see it twice; they can remove it manually if needed.
 - **X (Twitter) share text** includes the URL **inline** between excerpt and tags (not via `&url=` parameter) so the tweet reads: title → excerpt → URL → tags. `buildShortText()` budgets for ~270 chars.
-- **Floating action buttons (FABs)** on post pages, stacked right-side bottom-up: `back-to-top` (always) → `fab-share` (opens modal with cloned `.share-btn`s — clicks dispatched to the originals) → `fab-lang` (only if `translation` Liquid var is set — links to other-lang version by slug). Defined in `_layouts/post.html` after `</article>`. CSS uses `bottom: 1.5rem / 5rem / 8.5rem`.
+- **Floating action buttons (FABs)** on post pages, stacked right-side bottom-up: `back-to-top` (always, `1.5rem`) → `fab-share` (opens modal with cloned `.share-btn`s — clicks dispatched to the originals, `5rem`) → `fab-comments` (anchor to `#giscus-container`, `8.5rem`) → `fab-lang` (only if `translation` Liquid var is set — links to other-lang version by slug, `12rem`). Defined in `_layouts/post.html` after `</article>`. Mobile bottoms compress to `1.5rem / 4.5rem / 7.5rem / 10.5rem`.
+
+**Article cards — inline share button (`.card-share-btn`):**
+- Emitted by `_includes/article-card.html` **outside** the `<a class="card-link">` so clicking it doesn't navigate to the article
+- Data on the button: `data-share-url` (absolute URL), `data-share-title`, `data-share-excerpt` (truncated to 200), `data-share-tags` (with permanent `#gnutux` appended)
+- CSS: absolute-positioned **centered horizontally at the bottom of the card** (`left: 50%; transform: translateX(-50%); bottom: 14px`) — sits in the empty space between `<time>` and `.card-read-more` in the footer, RTL/LTR safe via translateX. `opacity: 0`, revealed on `.article-card:hover` — requires `.article-card { overflow: visible; position: relative; }`. Hover does **not** override transform (would break the centering); border/color change is enough.
+- **`.card-share-menu`** built in `main.js` on click: `position: fixed` anchored via `getBoundingClientRect()`, auto-flips above the button if there's no room below. 3×3 grid: **X · Facebook · LinkedIn · Telegram · WhatsApp · Mastodon · Copy** (Copy uses `grid-column: 1 / -1` to span the last row).
+- **Mastodon reuses the article-page picker** via `window.__gntShare.getInstance('mastodon', shiftKey)`. Exposed by the post-share IIFE **before** its early-return so the helpers exist on pages without `.post-share` too (home, category, archive). localStorage keys `gnt-mastodon-instance` / `gnt-mastodon-customs` are shared between card and post flows — pick once, reuse everywhere. Falls back to `mastodon.social` if `window.__gntShare` is missing (older cached JS).
+- Event delegation on `document` with `stopPropagation()` + `preventDefault()`. Closes on Escape, outside click, or scroll.
+
+**Full archive pages (`/ar/archive/` and `/en/archive/`):**
+- Standalone pages `ar/archive.html` + `en/archive.html` (permalinks set, `layout: archive`) — reached from the home `Full archive` link (`_layouts/home.html` line ~41 → `/{{ lang }}/archive/`)
+- `_layouts/archive.html` renders a **flat grid sorted by date desc** across the language (`site[page.lang] | sort: "date" | reverse`) — ignores category grouping
+- **Filter buttons are dynamic** from `site.data.categories` (loop builds one button per category + "All"). Filter reads `data-category` AND `data-also-in` on each card, so a post that appears via `also_in` still shows under that category filter
+- **Sort toggle** (`#archiveSortBtn`) reverses DOM order in place (`Array.slice().reverse()` + re-append). Works with any active filter. Visible label swaps between `⬇ Newest first` / `⬆ Oldest first` via a `[data-sort]` `<span>` pair with `hidden` attribute
+- **Header layout fix:** `.archive-header` uses `flex + justify-content: space-between` with `padding: 1rem 0 1.25rem` and `border-bottom` to create clearance from the fixed site header. Title uses `text-align: start` for correct RTL/LTR alignment; `.lang-switch` has `flex-shrink: 0; white-space: nowrap`. `.archive-page` also has `padding-top: 2.5rem` to prevent overlap with the fixed nav bar.
 
 **Critical `exclude` rule:**
 `admin/` directory must stay in `_config.yml`'s `exclude` list. Jekyll crashes on `admin/node_modules/` (Liquid syntax errors).
@@ -370,6 +385,7 @@ Hosted static SPA at `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`.
 - **Trash** lives in `_trash/` directory + `_data/trash-index.json` index (both committed via git). Jekyll ignores `_trash/` via `_config.yml` exclude. `DELETE /api/article` moves to trash; restore moves back; purge deletes permanently
 - **Categories creation** writes 3 files in one atomic commit via Git Trees API: updated `_data/categories.yml`, `ar/category/<id>.html`, `en/category/<id>.html` (Worker also writes `cms/config.yml` — see above)
 - **Comments management** via GitHub GraphQL API for Discussions — same endpoints as local panel (list/reply/hide/unhide/delete + lock/unlock discussion)
+- **Videos** (`src/routes/videos.js`) — Worker now mirrors `/api/videos` from the local panel: `GET /api/videos?lang=`, `POST /api/videos/:lang` (multipart, field `files`, one or many), `DELETE /api/videos/:lang/:name`. Uses Contents API (`putBinaryFile`). Formats: `mp4/webm/ogv/mov/m4v`, cap 100MB. Same shape as local `getVideos()`; the editor's `openMediaPicker('video', cb)` works transparently against either backend. Note that Cloudflare Workers have a 100MB request-body limit — larger videos need a different path (direct upload to R2, etc.).
 
 **Run locally:**
 ```bash

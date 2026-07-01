@@ -652,22 +652,25 @@ body { padding-top: var(--header-height, 64px); }
   position: relative;
 }
 
-/* ── زر المشاركة على البطاقة ─────────────────────────── */
+/* ── زر المشاركة على البطاقة ─────────────────────────────
+   موقعه: أسفل البطاقة، **بين "الوقت" و "اقرأ المزيد"**
+   (الفراغ الأوسط في الـfooter). يعمل RTL/LTR بواسطة translateX(-50%). */
 .card-share-btn {
   position: absolute;
-  bottom: 10px;
-  inset-inline-start: 10px;
-  width: 32px;
-  height: 32px;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: rgba(0,0,0,.55);
   color: var(--gold);
-  border: 1px solid transparent;
+  border: 1px solid var(--gold-dim);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition);
+  transition: opacity var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
   z-index: 5;
   opacity: 0;
 }
@@ -678,11 +681,12 @@ body { padding-top: var(--header-height, 64px); }
 .card-share-btn:hover {
   background: var(--gold);
   color: #000;
-  transform: scale(1.1);
+  border-color: var(--gold);
+  /* لا نغيّر transform حتى لا نفقد translateX(-50%) */
 }
 @media (hover: none) {
   /* على الموبايل يبقى الزر ظاهراً دائماً */
-  .card-share-btn { opacity: .8; }
+  .card-share-btn { opacity: .85; }
 }
 
 /* ── قائمة منبثقة للمشاركة ───────────────────────────── */
@@ -697,8 +701,10 @@ body { padding-top: var(--header-height, 64px); }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: .35rem;
-  min-width: 200px;
+  min-width: 210px;
 }
+/* الزر السابع (copy) يمتد على العرض الكامل للصف الأخير */
+.card-share-menu button[data-p="copy"] { grid-column: 1 / -1; }
 .card-share-menu button {
   background: transparent;
   border: 1px solid var(--border);

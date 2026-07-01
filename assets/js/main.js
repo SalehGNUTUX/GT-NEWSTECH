@@ -324,13 +324,13 @@
   /* ── نظام مشاركة المقالات (8 منصات + نسخ النص الكامل) ──── */
   (function () {
     var shareWrap = document.querySelector('.post-share');
-    if (!shareWrap) return;
+    /* الـ early-return أُجِّل حتى بعد تعريف getInstance ليُعرَض على window لبطاقات المقالات */
 
-    /* بيانات المشاركة من data-attributes */
-    var url     = shareWrap.dataset.shareUrl     || window.location.href;
-    var title   = shareWrap.dataset.shareTitle   || document.title;
-    var excerpt = shareWrap.dataset.shareExcerpt || '';
-    var tags    = shareWrap.dataset.shareTags    || '';
+    /* بيانات المشاركة من data-attributes (null-safe: الصفحة الرئيسية لا تحوي .post-share) */
+    var url     = shareWrap ? (shareWrap.dataset.shareUrl     || window.location.href) : window.location.href;
+    var title   = shareWrap ? (shareWrap.dataset.shareTitle   || document.title)       : document.title;
+    var excerpt = shareWrap ? (shareWrap.dataset.shareExcerpt || '')                   : '';
+    var tags    = shareWrap ? (shareWrap.dataset.shareTags    || '')                   : '';
     var isEn    = (document.documentElement.lang || '').startsWith('en');
 
     /* النص الكامل (للنسخ، Mastodon، Telegram، Instagram، Discord) */
@@ -555,6 +555,10 @@
       if (saved && saved.remember && !forceAsk) return saved.domain;
       return await pickInstanceDialog(platform);
     }
+
+    /* عرض helpers لِـ card share menu (خارج .post-share) — يشارك localStorage نفسه */
+    window.__gntShare = { getInstance: getInstance, PLATFORMS: PLATFORMS, pickInstanceDialog: pickInstanceDialog };
+    if (!shareWrap) return;
 
     /* نسخ للحافظة مع تغذية بصرية على الزر */
     function copyToClipboard(text, btn, msg) {
@@ -921,6 +925,7 @@
       '<button data-p="li" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i>LI</button>' +
       '<button data-p="tg" title="Telegram"><i class="fa-brands fa-telegram"></i>TG</button>' +
       '<button data-p="ws" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i>WA</button>' +
+      '<button data-p="ma" title="Mastodon ' + (isEn ? '(Shift+Click to change server)' : '(Shift+Click لتغيير الخادم)') + '"><i class="fa-brands fa-mastodon"></i>Mas</button>' +
       '<button data-p="copy" title="' + (isEn ? 'Copy link' : 'نسخ الرابط') + '"><i class="fa-solid fa-copy"></i>' + (isEn ? 'Copy' : 'نسخ') + '</button>';
     document.body.appendChild(menu);
     openCardMenu = menu;
@@ -936,7 +941,7 @@
     menu.style.top  = top  + 'px';
     menu.style.left = left + 'px';
 
-    menu.addEventListener('click', function (ev) {
+    menu.addEventListener('click', async function (ev) {
       var b = ev.target.closest('button');
       if (!b) return;
       ev.preventDefault(); ev.stopPropagation();
@@ -952,6 +957,17 @@
         window.open('https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(buildCardShareText(title, excerpt, url, tags)), '_blank', 'noopener');
       } else if (p === 'ws') {
         window.open('https://wa.me/?text=' + encodeURIComponent(buildCardShareText(title, excerpt, url, tags)), '_blank', 'noopener');
+      } else if (p === 'ma') {
+        /* Mastodon — نستخدم نفس picker الخاص بصفحة المقال (localStorage مشترك) */
+        closeCardMenu();
+        if (!window.__gntShare || !window.__gntShare.getInstance) {
+          window.open('https://mastodon.social/share?text=' + encodeURIComponent(buildCardShareText(title, excerpt, url, tags)), '_blank', 'noopener');
+          return;
+        }
+        var inst = await window.__gntShare.getInstance('mastodon', ev.shiftKey);
+        if (!inst) return;
+        window.open('https://' + inst + '/share?text=' + encodeURIComponent(buildCardShareText(title, excerpt, url, tags)), '_blank', 'noopener');
+        return;
       } else if (p === 'copy') {
         var textToCopy = buildCardShareText(title, excerpt, url, tags);
         if (navigator.clipboard) navigator.clipboard.writeText(textToCopy);
