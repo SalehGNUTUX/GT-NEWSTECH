@@ -1379,18 +1379,31 @@ body { padding-top: var(--header-height, 64px); }
 }
 
 /* ── Archive Page ───────────────────────────────────────────── */
+.archive-page {
+  /* دفع المحتوى تحت الشريط العلوي الثابت + شريط الأقسام */
+  padding-top: 2.5rem;
+}
+
 .archive-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
   gap: 1rem;
+  padding: 1rem 0 1.25rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .archive-title {
-  font-size: 1.75rem;
+  font-size: clamp(1.4rem, 3vw, 2rem);
   font-weight: 900;
+  color: var(--gold);
+  line-height: 1.2;
+  margin: 0;
+  /* التنبيه: text-align يعمل نسبياً مع dir: rtl على المحتوى */
+  text-align: start;
+  flex: 1 1 auto;
 }
 
 .lang-switch {
@@ -1400,9 +1413,11 @@ body { padding-top: var(--header-height, 64px); }
   font-size: 0.85rem;
   color: var(--gold);
   border: 1px solid var(--gold-dim);
-  padding: 0.35rem 0.9rem;
+  padding: 0.4rem 1rem;
   border-radius: 100px;
   transition: all var(--transition);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .lang-switch:hover {
