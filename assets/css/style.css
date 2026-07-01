@@ -645,11 +645,82 @@ body { padding-top: var(--header-height, 64px); }
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: hidden;
+  overflow: visible;   /* لعرض قائمة المشاركة خارج البطاقة */
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
+/* ── زر المشاركة على البطاقة ─────────────────────────── */
+.card-share-btn {
+  position: absolute;
+  bottom: 10px;
+  inset-inline-start: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.55);
+  color: var(--gold);
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  z-index: 5;
+  opacity: 0;
+}
+.article-card:hover .card-share-btn,
+.card-share-btn:focus-visible {
+  opacity: 1;
+}
+.card-share-btn:hover {
+  background: var(--gold);
+  color: #000;
+  transform: scale(1.1);
+}
+@media (hover: none) {
+  /* على الموبايل يبقى الزر ظاهراً دائماً */
+  .card-share-btn { opacity: .8; }
+}
+
+/* ── قائمة منبثقة للمشاركة ───────────────────────────── */
+.card-share-menu {
+  position: fixed;
+  z-index: 500;
+  background: var(--bg-card, #1a1a1a);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem;
+  box-shadow: 0 12px 32px rgba(0,0,0,.5);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .35rem;
+  min-width: 200px;
+}
+.card-share-menu button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: .5rem;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  font-size: .72rem;
+  font-family: inherit;
+}
+.card-share-menu button:hover {
+  background: var(--gold);
+  color: #000;
+  border-color: var(--gold);
+}
+.card-share-menu button svg { width: 14px; height: 14px; }
+.card-share-menu button i { font-size: .8rem; }
 
 .article-card:hover {
   transform: translateY(-4px);

@@ -889,4 +889,94 @@
     });
   }
 
+  /* ── قائمة مشاركة على بطاقات المقالات ───────────────────
+     زر صغير على البطاقة → popup بـ5 منصات + نسخ الرابط.
+     يمنع تفعيل رابط المقال (stopPropagation + preventDefault). */
+  var openCardMenu = null;
+  function closeCardMenu() {
+    if (openCardMenu) { openCardMenu.remove(); openCardMenu = null; }
+  }
+
+  function buildCardShareText(title, excerpt, url, tags) {
+    var parts = [title];
+    if (excerpt) parts.push(excerpt);
+    parts.push('🔗 ' + url);
+    if (tags) parts.push(tags);
+    return parts.join('\n\n');
+  }
+
+  function openCardShareMenu(btn) {
+    closeCardMenu();
+    var url     = btn.dataset.shareUrl;
+    var title   = btn.dataset.shareTitle   || document.title;
+    var excerpt = btn.dataset.shareExcerpt || '';
+    var tags    = btn.dataset.shareTags    || '';
+    var isEn    = (document.documentElement.lang || '').startsWith('en');
+
+    var menu = document.createElement('div');
+    menu.className = 'card-share-menu';
+    menu.innerHTML =
+      '<button data-p="x" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i>X</button>' +
+      '<button data-p="fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i>FB</button>' +
+      '<button data-p="li" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i>LI</button>' +
+      '<button data-p="tg" title="Telegram"><i class="fa-brands fa-telegram"></i>TG</button>' +
+      '<button data-p="ws" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i>WA</button>' +
+      '<button data-p="copy" title="' + (isEn ? 'Copy link' : 'نسخ الرابط') + '"><i class="fa-solid fa-copy"></i>' + (isEn ? 'Copy' : 'نسخ') + '</button>';
+    document.body.appendChild(menu);
+    openCardMenu = menu;
+
+    /* موضع القائمة قريباً من الزر */
+    var r = btn.getBoundingClientRect();
+    var mw = menu.offsetWidth, mh = menu.offsetHeight;
+    var top = r.top - mh - 8;
+    if (top < 8) top = r.bottom + 8;
+    var left = r.left + (r.width / 2) - (mw / 2);
+    if (left < 8) left = 8;
+    if (left + mw > innerWidth - 8) left = innerWidth - mw - 8;
+    menu.style.top  = top  + 'px';
+    menu.style.left = left + 'px';
+
+    menu.addEventListener('click', function (ev) {
+      var b = ev.target.closest('button');
+      if (!b) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var p = b.dataset.p;
+      var short = title + (excerpt ? '\n\n' + excerpt : '') + '\n\n' + url + (tags ? '\n\n' + tags : '');
+      if (p === 'x') {
+        window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(short), '_blank', 'noopener');
+      } else if (p === 'fb') {
+        window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'noopener');
+      } else if (p === 'li') {
+        window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url), '_blank', 'noopener');
+      } else if (p === 'tg') {
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(buildCardShareText(title, excerpt, url, tags)), '_blank', 'noopener');
+      } else if (p === 'ws') {
+        window.open('https://wa.me/?text=' + encodeURIComponent(buildCardShareText(title, excerpt, url, tags)), '_blank', 'noopener');
+      } else if (p === 'copy') {
+        var textToCopy = buildCardShareText(title, excerpt, url, tags);
+        if (navigator.clipboard) navigator.clipboard.writeText(textToCopy);
+        var t = document.createElement('div');
+        t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:10px 18px;border-radius:6px;z-index:1000;font-size:.85rem;box-shadow:0 4px 12px rgba(0,0,0,.4)';
+        t.textContent = isEn ? '✓ Link copied' : '✓ نُسخ الرابط';
+        document.body.appendChild(t);
+        setTimeout(function(){ t.remove(); }, 2000);
+      }
+      closeCardMenu();
+    });
+  }
+
+  document.addEventListener('click', function (ev) {
+    var btn = ev.target.closest('.card-share-btn');
+    if (btn) {
+      ev.preventDefault(); ev.stopPropagation();
+      openCardShareMenu(btn);
+      return;
+    }
+    if (openCardMenu && !ev.target.closest('.card-share-menu')) closeCardMenu();
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') closeCardMenu();
+  });
+  window.addEventListener('scroll', closeCardMenu, { passive: true });
+
 })();

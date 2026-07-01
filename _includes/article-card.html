@@ -119,4 +119,24 @@
       </div>
     </div>
   </a>
+
+  {%- comment -%}
+    زر مشاركة على بطاقة المقال — يفتح قائمة منبثقة بمنصات المشاركة
+    بدون الحاجة للدخول للمقال. خارج الـ<a> ليمنع تفعيل رابط المقال.
+  {%- endcomment -%}
+  {%- assign _card_share_url = post.url | absolute_url -%}
+  {%- assign _card_share_excerpt = post.excerpt | default: post.description | strip_html | strip | truncate: 200 -%}
+  {%- capture _card_share_tags -%}{% for t in post.tags %}#{{ t | replace: ' ', '_' | replace: '-', '_' | replace: '.', '_' | replace: '__', '_' }} {% endfor %}#gnutux{%- endcapture -%}
+  <button class="card-share-btn"
+          data-share-url="{{ _card_share_url }}"
+          data-share-title="{{ post.title | escape }}"
+          data-share-excerpt="{{ _card_share_excerpt | escape }}"
+          data-share-tags="{{ _card_share_tags | strip | escape }}"
+          aria-label="{% if post.lang == 'en' %}Share this article{% else %}شارك هذا المقال{% endif %}"
+          title="{% if post.lang == 'en' %}Share{% else %}مشاركة{% endif %}">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="11.49"/>
+    </svg>
+  </button>
 </article>
