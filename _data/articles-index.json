@@ -1,11 +1,117 @@
 {
-  "generated_at": "2026-06-30T23:16:15.491Z",
-  "count": 154,
+  "generated_at": "2026-07-01T19:25:47.243Z",
+  "count": 158,
   "by_lang": {
-    "ar": 77,
-    "en": 77
+    "ar": 79,
+    "en": 79
   },
   "articles": [
+    {
+      "title": "Odysseus: Self-Hosted AI Workspace for Chat, Agents, Research, and More",
+      "slug": "odysseus-self-hosted-ai-workspace",
+      "date": "2026-07-01T19:24:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Odysseus is an open source (AGPLv3) project providing a self-hosted AI workspace that includes chat, agents, tools, email, deep research, model comparison, and memory, with a strong focus on privacy and local control.",
+      "image": "odysseus-ai-gnutux.jpg",
+      "tags": [
+        "Odysseus",
+        "AI",
+        "Open Source",
+        "AGPLv3",
+        "Agents",
+        "Deep Research",
+        "Local Models"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-01-odysseus-self-hosted-ai-workspace.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "Odysseus: مساحة عمل ذكاء اصطناعي مستضافة ذاتياً للدردشة والوكلاء والأبحاث",
+      "slug": "odysseus-self-hosted-ai-workspace",
+      "date": "2026-07-01T19:20:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Odysseus هو مشروع مفتوح المصدر (AGPLv3) يوفر مساحة عمل ذكاء اصطناعي مستضافة ذاتياً، تشمل الدردشة والوكلاء والأدوات والبريد الإلكتروني والبحث العميق ومقارنة النماذج والذاكرة، مع تركيز كامل على الخصوصية والتحكم المحلي.",
+      "image": "odysseus-ai-gnutux.jpg",
+      "tags": [
+        "Odysseus",
+        "ذكاء اصطناعي",
+        "مفتوح المصدر",
+        "AGPLv3",
+        "وكلاء",
+        "بحث عميق",
+        "نماذج محلية"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-01-odysseus-self-hosted-ai-workspace.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
+    {
+      "title": "كيف يوفّر مطورو الذكاء الاصطناعي الملايين بأسلوب 'إنسان الكهف'؟",
+      "slug": "caveman-prompt-ai-cost-reduction",
+      "date": "2026-07-01T18:52:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "يستخدم مطورو كبار التقنية إضافة Caveman لتقليل تكلفة تشغيل نماذج الذكاء الاصطناعي مثل Claude Code و Codex، عبر إجبارها على الرد بأسلوب مختصر يشبه إنسان الكهف، مما يخفض استهلاك التوكنات بنسبة تصل إلى 75%.",
+      "image": "caveman-gnutux.jpg",
+      "tags": [
+        "Caveman",
+        "ذكاء اصطناعي",
+        "تكلفة",
+        "Tokens",
+        "Codex",
+        "Claude Code",
+        "Gemini",
+        "مهندس"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-01-caveman-prompt-ai-cost-reduction.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
+    {
+      "title": "How AI Developers Are Saving Millions with the 'Caveman' Approach",
+      "slug": "caveman-prompt-ai-cost-reduction",
+      "date": "2026-07-01T18:52:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Major tech companies and developers are using the Caveman plugin to reduce the cost of running AI models like Claude Code and Codex, forcing them to respond in a terse style that cuts token consumption by up to 75%.",
+      "image": "caveman-gnutux.jpg",
+      "tags": [
+        "Caveman",
+        "AI",
+        "Cost",
+        "Tokens",
+        "Codex",
+        "Claude Code",
+        "Gemini",
+        "Engineer"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-01-caveman-prompt-ai-cost-reduction.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
     {
       "title": "AMD Ryzen AI Halo: Mini PC Ends NVIDIA's Dominance with 128GB Unified Memory",
       "slug": "amd-ryzen-ai-halo-mini-pc",
