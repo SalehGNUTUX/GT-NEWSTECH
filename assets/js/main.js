@@ -846,12 +846,15 @@
     }, 60000);
   }
 
-  /* ── Archive Filter (flat list) ────────────────────────────
-     الأرشيف قائمة مسطّحة مرتّبة بالتاريخ من الأحدث للأقدم.
-     الفلترة تخفي/تُظهر البطاقات فرداً فرداً بناءً على data-category. */
-  var filterBtns  = document.querySelectorAll('.filter-btn');
-  var archiveCards = document.querySelectorAll('#archiveGrid .article-card');
+  /* ── Archive Filter + Sort Toggle ──────────────────────────
+     قائمة مسطّحة مرتَّبة بالتاريخ. الفلترة تخفي/تُظهر البطاقات،
+     والترتيب يعكس ترتيب DOM (Newest ↔ Oldest). */
+  var filterBtns   = document.querySelectorAll('.filter-btn:not(.sort-toggle)');
+  var archiveGrid  = document.getElementById('archiveGrid');
+  var archiveCards = archiveGrid ? Array.from(archiveGrid.querySelectorAll('.article-card')) : [];
   var archiveEmpty = document.getElementById('archiveEmpty');
+  var sortBtn      = document.getElementById('archiveSortBtn');
+
   filterBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
       filterBtns.forEach(function (b) { b.classList.remove('active'); });
@@ -868,5 +871,22 @@
       if (archiveEmpty) archiveEmpty.hidden = visible > 0;
     });
   });
+
+  if (sortBtn && archiveGrid) {
+    var isDesc = true;
+    var descLbl = sortBtn.querySelector('[data-sort="desc"]');
+    var ascLbl  = sortBtn.querySelector('[data-sort="asc"]');
+    sortBtn.addEventListener('click', function () {
+      isDesc = !isDesc;
+      /* عكس ترتيب DOM — يُطبّق على كل البطاقات بغضّ النظر عن الفلتر */
+      var reordered = archiveCards.slice().reverse();
+      archiveCards = reordered;
+      var frag = document.createDocumentFragment();
+      reordered.forEach(function (c) { frag.appendChild(c); });
+      archiveGrid.appendChild(frag);
+      if (descLbl) descLbl.hidden = !isDesc;
+      if (ascLbl)  ascLbl.hidden  =  isDesc;
+    });
+  }
 
 })();

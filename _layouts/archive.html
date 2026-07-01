@@ -24,6 +24,16 @@ layout: default
       {% if page.lang == 'en' %}{{ cat.name_en }}{% else %}{{ cat.name_ar }}{% endif %}
     </button>
     {% endfor %}
+
+    <button class="filter-btn sort-toggle" id="archiveSortBtn"
+            title="{% if page.lang == 'en' %}Toggle sort order{% else %}عكس ترتيب المقالات{% endif %}">
+      <span data-sort="desc">
+        {% if page.lang == 'en' %}⬇ Newest first{% else %}⬇ الأحدث أولاً{% endif %}
+      </span>
+      <span data-sort="asc" hidden>
+        {% if page.lang == 'en' %}⬆ Oldest first{% else %}⬆ الأقدم أولاً{% endif %}
+      </span>
+    </button>
   </div>
 
   {%- comment -%}
