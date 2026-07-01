@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-07-01T19:25:47.243Z",
-  "count": 158,
+  "generated_at": "2026-07-01T22:25:20.370Z",
+  "count": 160,
   "by_lang": {
-    "ar": 79,
-    "en": 79
+    "ar": 80,
+    "en": 80
   },
   "articles": [
+    {
+      "title": "Nostr: بروتوكول مفتوح لمقاومة الرقابة وتطبيقات لا مركزية",
+      "slug": "nostr-protocol-overview",
+      "date": "2026-07-01T22:24:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Nostr هو بروتوكول مفتوح وبسيط لمقاومة الرقابة، يعتمد على مفاتيح عامة/خاصة ومرحلات (Relays) لنقل الرسائل. صُمم في البداية للتواصل الاجتماعي اللامركزي، لكنه توسع ليشمل تطبيقات متعددة مثل المراسلة المشفرة، والألعاب، والمدفوعات عبر Lightning Network، والأسواق اللامركزية.",
+      "image": "nostr-gnutux.jpg",
+      "tags": [
+        "Nostr",
+        "بروتوكول",
+        "لامركزي",
+        "مقام",
+        "شبكات اجتماعية",
+        "بيتكوين",
+        "Lightning Network"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-01-nostr-protocol-overview.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Nostr: An Open Protocol for Censorship-Resistant Applications and Decentralized Communication",
+      "slug": "nostr-protocol-overview",
+      "date": "2026-07-01T22:24:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Nostr is an open, minimalist protocol for censorship-resistant communication, based on public/private keys and relays for message propagation. Initially designed for decentralized social networking, it has expanded to include encrypted messaging, games, Lightning Network payments, and decentralized marketplaces.",
+      "image": "nostr-gnutux.jpg",
+      "tags": [
+        "Nostr",
+        "Protocol",
+        "Decentralized",
+        "Censorship Resistance",
+        "Social Networks",
+        "Bitcoin",
+        "Lightning Network"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-01-nostr-protocol-overview.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Odysseus: Self-Hosted AI Workspace for Chat, Agents, Research, and More",
       "slug": "odysseus-self-hosted-ai-workspace",
