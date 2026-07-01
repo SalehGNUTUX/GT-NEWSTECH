@@ -12,7 +12,9 @@
 {% assign _is_scheduled = false %}
 {% if _post_ts > _now_ts %}{% assign _is_scheduled = true %}{% endif %}
 
-<article class="article-card article-card--{{ size }} {% if _is_scheduled %}article-card--scheduled{% endif %}" data-category="{{ post.category }}">
+<article class="article-card article-card--{{ size }} {% if _is_scheduled %}article-card--scheduled{% endif %}"
+         data-category="{{ post.category }}"
+         data-also-in="{% for c in post.also_in %}{{ c }} {% endfor %}">
   <a href="{{ post.url | relative_url }}" class="card-link">
     <div class="card-image">
       {% if post.image %}

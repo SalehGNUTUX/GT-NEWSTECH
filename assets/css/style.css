@@ -1797,8 +1797,8 @@ body { padding-top: var(--header-height, 64px); }
 }
 
 /* ── Floating Action Buttons (FAB) — ترتيب رأسي على نفس الجانب ──
-   من الأسفل للأعلى: back-to-top → fab-share → fab-lang */
-.fab-share, .fab-lang {
+   من الأسفل للأعلى: back-to-top → fab-share → fab-comments → fab-lang */
+.fab-share, .fab-lang, .fab-comments {
   position: fixed;
   inset-inline-end: 1.5rem;
   width: 44px;
@@ -1816,10 +1816,11 @@ body { padding-top: var(--header-height, 64px); }
   z-index: 50;
   text-decoration: none;
 }
-.fab-share { bottom: 5rem; }   /* فوق زر التمرير */
-.fab-lang  { bottom: 8.5rem; } /* فوق زر المشاركة */
+.fab-share    { bottom: 5rem; }    /* فوق زر التمرير */
+.fab-comments { bottom: 8.5rem; }  /* فوق زر المشاركة */
+.fab-lang     { bottom: 12rem; }   /* فوق زر التعليقات */
 
-.fab-share:hover, .fab-lang:hover {
+.fab-share:hover, .fab-lang:hover, .fab-comments:hover {
   background: var(--gold);
   color: #000;
   transform: translateY(-3px);
@@ -1888,9 +1889,10 @@ body { padding-top: var(--header-height, 64px); }
 .post-share--in-modal .share-label { display: none; }
 
 @media (max-width: 600px) {
-  .fab-share, .fab-lang { inset-inline-end: 1rem; width: 40px; height: 40px; }
-  .fab-share { bottom: 4.5rem; }
-  .fab-lang  { bottom: 7.5rem; }
+  .fab-share, .fab-lang, .fab-comments { inset-inline-end: 1rem; width: 40px; height: 40px; }
+  .fab-share    { bottom: 4.5rem; }
+  .fab-comments { bottom: 7.5rem; }
+  .fab-lang     { bottom: 10.5rem; }
 }
 
 /* ── Utilities ──────────────────────────────────────────────── */

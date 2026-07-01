@@ -382,3 +382,13 @@ layout: default
     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="11.49"/>
   </svg>
 </button>
+
+{%- comment -%} زر التنقل للتعليقات — يظهر فقط لو Giscus مُفعّل {%- endcomment -%}
+<a href="#giscus-container"
+   class="fab-comments" id="fabComments"
+   aria-label="{% if page.lang == 'en' %}Jump to comments{% else %}الانتقال للتعليقات{% endif %}"
+   title="{% if page.lang == 'en' %}Jump to comments{% else %}الانتقال للتعليقات{% endif %}">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+</a>

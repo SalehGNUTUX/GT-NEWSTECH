@@ -7,6 +7,7 @@ import { getStats } from './routes/stats.js';
 import { getCategories, createCategory } from './routes/categories.js';
 import { listArticles, getArticle, createArticle, updateArticle, removeArticle } from './routes/articles.js';
 import { listImages, uploadImage, removeImage, importFromUrl } from './routes/images.js';
+import { listVideos, uploadVideo, removeVideo } from './routes/videos.js';
 import { listTrash, restoreFromTrash, purgeTrashItem, emptyTrash } from './routes/trash.js';
 import { listComments, replyToDiscussion, hideComment, unhideComment, deleteComment, lockDiscussion, unlockDiscussion } from './routes/comments.js';
 
@@ -110,6 +111,7 @@ async function route(req, env, url) {
   if (p === '/api/articles'   && m === 'GET') return listArticles(env, params);
   if (p === '/api/article'    && m === 'GET') return getArticle(env, params);
   if (p === '/api/images'     && m === 'GET') return listImages(env, params);
+  if (p === '/api/videos'     && m === 'GET') return listVideos(env, params);
   if (p === '/api/config'     && m === 'GET') return json({ remote: true, phase: 2, repo: env.GITHUB_REPO });
 
   // كتابة (المرحلة 2) ─────────────────────────────────────
@@ -127,6 +129,14 @@ async function route(req, env, url) {
     const [, ilang, iname] = imgMatch;
     if (m === 'POST' && !iname) return uploadImage(env, req, ilang);
     if (m === 'DELETE' && iname) return removeImage(env, ilang, decodeURIComponent(iname));
+  }
+
+  // رفع الفيديو: POST /api/videos/:lang  |  حذف: DELETE /api/videos/:lang/:name
+  const vidMatch = p.match(/^\/api\/videos\/(ar|en)(?:\/(.+))?$/);
+  if (vidMatch) {
+    const [, vlang, vname] = vidMatch;
+    if (m === 'POST' && !vname) return uploadVideo(env, req, vlang);
+    if (m === 'DELETE' && vname) return removeVideo(env, vlang, decodeURIComponent(vname));
   }
 
   // ─── stubs آمنة (UI يتعامل معها بدون أخطاء) ──────────

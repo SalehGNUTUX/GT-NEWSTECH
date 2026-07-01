@@ -12,52 +12,32 @@ layout: default
     </a>
   </div>
 
-  <!-- Category filter -->
+  {%- comment -%}
+    ديناميكية أزرار الفلترة من _data/categories.yml — لا تكرار عند إضافة قسم.
+  {%- endcomment -%}
   <div class="filter-bar">
     <button class="filter-btn active" data-filter="all">
       {% if page.lang == 'en' %}All{% else %}الكل{% endif %}
     </button>
-    <button class="filter-btn" data-filter="gnutux-projects">
-      {% if page.lang == 'en' %}GNUTUX Projects{% else %}مشاريع GNUTUX{% endif %}
+    {% for cat in site.data.categories %}
+    <button class="filter-btn" data-filter="{{ cat.id }}">
+      {% if page.lang == 'en' %}{{ cat.name_en }}{% else %}{{ cat.name_ar }}{% endif %}
     </button>
-    <button class="filter-btn" data-filter="foss">
-      {% if page.lang == 'en' %}FOSS{% else %}البرمجيات الحرة{% endif %}
-    </button>
-    <button class="filter-btn" data-filter="gnulinux">GNU/Linux</button>
-    <button class="filter-btn" data-filter="tech-news">
-      {% if page.lang == 'en' %}Tech News{% else %}التقنية{% endif %}
-    </button>
-    <button class="filter-btn" data-filter="ai">AI</button>
+    {% endfor %}
   </div>
 
-  {% assign lang_posts = site[page.lang] | sort: "date" | reverse %}
-  {% assign grouped = lang_posts | group_by: "category" %}
+  {%- comment -%}
+    عرض مسطّح مرتَّب بالتاريخ من الأحدث للأقدم.
+    الفلترة عبر data-category على كل بطاقة (article-card.html يضيفها تلقائياً).
+  {%- endcomment -%}
+  {% assign all_posts = site[page.lang] | sort: "date" | reverse %}
+  <div class="articles-grid" id="archiveGrid">
+    {% for post in all_posts %}
+      {% include article-card.html post=post size="normal" %}
+    {% endfor %}
+  </div>
 
-  {% for group in grouped %}
-  <section class="archive-group" data-category="{{ group.name }}">
-    <h2 class="archive-group-title">
-      {% if page.lang == 'en' %}
-        {% if group.name == 'gnutux-projects' %}GNUTUX Projects
-        {% elsif group.name == 'foss' %}Free &amp; Open Source
-        {% elsif group.name == 'gnulinux' %}GNU/Linux
-        {% elsif group.name == 'tech-news' %}Tech News
-        {% elsif group.name == 'ai' %}AI News
-        {% endif %}
-      {% else %}
-        {% if group.name == 'gnutux-projects' %}مشاريع GNUTUX
-        {% elsif group.name == 'foss' %}البرمجيات الحرة
-        {% elsif group.name == 'gnulinux' %}غنو/لينكس
-        {% elsif group.name == 'tech-news' %}أخبار التقنية
-        {% elsif group.name == 'ai' %}الذكاء الاصطناعي
-        {% endif %}
-      {% endif %}
-      <span class="group-count">({{ group.items.size }})</span>
-    </h2>
-    <div class="articles-grid">
-      {% for post in group.items %}
-        {% include article-card.html post=post size="normal" %}
-      {% endfor %}
-    </div>
-  </section>
-  {% endfor %}
+  <div class="archive-empty" id="archiveEmpty" hidden>
+    {% if page.lang == 'en' %}No articles in this category.{% else %}لا مقالات في هذا القسم.{% endif %}
+  </div>
 </div>

@@ -846,17 +846,26 @@
     }, 60000);
   }
 
-  /* ── Archive Filter ───────────────────────────────────────── */
+  /* ── Archive Filter (flat list) ────────────────────────────
+     الأرشيف قائمة مسطّحة مرتّبة بالتاريخ من الأحدث للأقدم.
+     الفلترة تخفي/تُظهر البطاقات فرداً فرداً بناءً على data-category. */
   var filterBtns  = document.querySelectorAll('.filter-btn');
-  var archiveGrps = document.querySelectorAll('.archive-group');
+  var archiveCards = document.querySelectorAll('#archiveGrid .article-card');
+  var archiveEmpty = document.getElementById('archiveEmpty');
   filterBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
       filterBtns.forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
       var f = btn.dataset.filter;
-      archiveGrps.forEach(function (g) {
-        g.style.display = (f === 'all' || g.dataset.category === f) ? '' : 'none';
+      var visible = 0;
+      archiveCards.forEach(function (card) {
+        var cat = card.dataset.category;
+        var alsoIn = (card.dataset.alsoIn || '').split(' ').filter(Boolean);
+        var show = f === 'all' || cat === f || alsoIn.indexOf(f) >= 0;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
       });
+      if (archiveEmpty) archiveEmpty.hidden = visible > 0;
     });
   });
 
