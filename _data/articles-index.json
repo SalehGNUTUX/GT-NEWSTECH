@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-02T11:51:09.160Z",
+  "generated_at": "2026-07-02T11:58:06.503Z",
   "count": 160,
   "by_lang": {
     "ar": 80,
@@ -9,7 +9,7 @@
     {
       "title": "Nostr: An Open Protocol for Censorship-Resistant Applications and Decentralized Communication",
       "slug": "nostr-protocol-overview",
-      "date": "2026-07-02T11:50:00.000Z",
+      "date": "2026-07-02T11:57:00.000Z",
       "category": "foss",
       "also_in": [
         "tech-news"
@@ -35,7 +35,7 @@
     {
       "title": "Nostr: بروتوكول مفتوح لمقاومة الرقابة وتطبيقات لا مركزية",
       "slug": "nostr-protocol-overview",
-      "date": "2026-07-02T11:49:00.000Z",
+      "date": "2026-07-02T11:56:00.000Z",
       "category": "foss",
       "also_in": [
         "tech-news"
