@@ -1,11 +1,123 @@
 {
-  "generated_at": "2026-07-02T11:58:06.503Z",
-  "count": 160,
+  "generated_at": "2026-07-02T21:43:11.992Z",
+  "count": 164,
   "by_lang": {
-    "ar": 80,
-    "en": 80
+    "ar": 82,
+    "en": 82
   },
   "articles": [
+    {
+      "title": "نماذج ذكاء اصطناعي حرة مفتوحة المصدر: دليل شامل لأبرز النماذج المتاحة في 2026",
+      "slug": "open-source-llms-guide-2026",
+      "date": "2026-07-02T21:42:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "استعراض شامل لأبرز نماذج الذكاء الاصطناعي مفتوحة المصدر والمفتوحة الوزن في 2026، مع توضيح الفرق بين الترخيصين، وقائمة بأقوى النماذج في البرمجة والاستدلال والاستخدام المحلي، وطرق تشغيلها على أجهزتك الخاصة.",
+      "image": "open-source-llms-guide-2026-gnutux.webp",
+      "tags": [
+        "LLM",
+        "مفتوح المصدر",
+        "ذكاء اصطناعي",
+        "DeepSeek",
+        "Qwen",
+        "Llama",
+        "Gemma",
+        "Mistral",
+        "Apache 2.0",
+        "MIT"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-02-open-source-llms-guide-2026.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
+    {
+      "title": "Open Source AI Models: A Comprehensive Guide to the Leading Models in 2026",
+      "slug": "open-source-llms-guide-2026",
+      "date": "2026-07-02T21:42:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "A comprehensive overview of the most prominent open source and open-weight AI models in 2026, explaining the difference between licenses, and listing the most powerful models for coding, reasoning, and local use, as well as how to run them on your own hardware.",
+      "image": "open-source-llms-guide-2026-gnutux.webp",
+      "tags": [
+        "LLM",
+        "Open Source",
+        "AI",
+        "DeepSeek",
+        "Qwen",
+        "Llama",
+        "Gemma",
+        "Mistral",
+        "Apache 2.0",
+        "MIT"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-02-open-source-llms-guide-2026.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "GT-MISHKATKIDS: Open Source Educational App Where the Child Teaches and the Robot Learns",
+      "slug": "gt-mishkatkids-educational-app",
+      "date": "2026-07-02T18:49:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Mishkat is an open source educational application for children aged 4 to 10, built on the concept that the child is the teacher and the robot is the learner. It includes Arabic letters, numbers, Quran, stories, puzzles, and competitive games, works offline, and is available for Linux, Android, and the web.",
+      "image": "gt-mishkat-kids-gnutux.jpg",
+      "tags": [
+        "GT-MISHKATKIDS",
+        "Education",
+        "Kids",
+        "Islamic",
+        "Apps",
+        "Linux",
+        "Android",
+        "PWA"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-02-gt-mishkatkids-educational-app.md",
+      "_lang": "en",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "GT-MISHKATKIDS: تطبيق تعليمي مفتوح المصدر يجعل الطفل معلماً والروبوت متعلماً",
+      "slug": "gt-mishkatkids-educational-app",
+      "date": "2026-07-02T18:47:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "مِشكاةُ الطفلِ والآليّ هو تطبيق تعليمي مفتوح المصدر للأطفال من 4 إلى 10 سنوات، يعتمد فكرة أن الطفل هو المعلم والروبوت هو المتعلم. يشمل الحروف العربية والأرقام والقرآن الكريم والقصص والألغاز والألعاب التنافسية، ويعمل محلياً دون إنترنت. متاح لأنظمة لينكس وأندرويد والويب.",
+      "image": "gt-mishkat-kids-gnutux.jpg",
+      "tags": [
+        "GT-MISHKATKIDS",
+        "تعليم",
+        "أطفال",
+        "إسلامي",
+        "تطبيقات",
+        "Linux",
+        "Android",
+        "PWA"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-02-gt-mishkatkids-educational-app.md",
+      "_lang": "ar",
+      "_cat": "gnutux-projects"
+    },
     {
       "title": "Nostr: An Open Protocol for Censorship-Resistant Applications and Decentralized Communication",
       "slug": "nostr-protocol-overview",
