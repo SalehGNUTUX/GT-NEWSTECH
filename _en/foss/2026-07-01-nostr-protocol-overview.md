@@ -3,7 +3,10 @@ layout: post
 title: >-
   Nostr: An Open Protocol for Censorship-Resistant Applications and
   Decentralized Communication
+slug: nostr-protocol-overview
+lang: en
 category: foss
+date: 2026-07-02T11:50:00.000Z
 author: GNUTUX
 excerpt: >-
   Nostr is an open, minimalist protocol for censorship-resistant communication,
@@ -22,111 +25,104 @@ tags:
   - Lightning Network
 also_in:
   - tech-news
-date: 2026-07-01T22:24:00.000Z
-lang: en
-slug: nostr-protocol-overview
 ---
 
-## The Problem of Centralized Platforms
+## The Problem with Centralized Platforms
 
-Centralized platforms have dominated the internet for decades. These platforms own user data, control content visibility, and can ban accounts or change rules at any moment. Many times, we have seen major platforms suddenly change policies or close accounts without clear explanation, threatening freedom of expression and user privacy.
+In an era dominated by centralized social media platforms, users pay a heavy price for the free service: their data, their privacy, and their freedom of expression. Algorithms control what they see, their accounts can be deleted at any moment without warning, and the larger the platform grows, the more power it has to impose its rules and policies.
 
-In 2019, an anonymous developer known as @fiatjaf began work on a new protocol called Nostr, an acronym for "Notes and Other Stuff Transmitted by Relays". The goal was to build a decentralized, censorship-resistant network not owned by any single entity.
+These issues have driven a search for alternatives, but most simply reproduced the same centralized model. This is where Nostr comes in.
 
-🔗 **Official Repository:** [github.com/nostr-protocol](https://github.com/nostr-protocol)
+🔗 **Official Protocol Repository:** [github.com/nostr-protocol/nostr](https://github.com/nostr-protocol/nostr)
+🔗 **NIPs Repository:** [github.com/nostr-protocol/nips](https://github.com/nostr-protocol/nips)
 
 ## What Is Nostr?
 
-Nostr is a decentralized, open-source communication protocol [citation:3]. It is not a single platform but a standard on which anyone can build applications called Clients. It relies on three main components:
+Nostr is an open, simple, censorship-resistant protocol designed to be a decentralized alternative to social networks, without relying on any trusted central server . It uses public-key cryptography to ensure content integrity and non-repudiation.
 
-- **Keys:** A user's identity on Nostr is simply a pair of keys: a public key that acts like a username, and a private key that acts like a password [citation:2][citation:3]. There is no central server with accounts. You own your identity completely.
-- **Events:** Every piece of content on Nostr, such as a post, message, like, or profile update, is a cryptographically signed event [citation:1][citation:2].
-- **Relays:** These are simple servers that receive events from users and publish them to subscribers [citation:1][citation:2]. Anyone can run their own relay, and applications can connect to multiple relays simultaneously [citation:3]. This structure makes it nearly impossible to impose censorship or ban a user, as there is no single point of control.
+The core idea of Nostr is surprisingly simple. Anyone publishes their notes to several relays, which are simple servers. Followers can connect to these relays to retrieve notes. The protocol only defines the messages that can be exchanged between clients and relays to publish and fetch content.
 
-A client application connects to one or more relays, sending and receiving events [citation:1]. The user chooses which relays to trust and decides which to read from and write to.
+## Core Components
 
-## The Smart Client, Dumb Server Model
+### Events and Keys
 
-Nostr inverts the traditional client-server architecture. In most applications, the server acts as the brain, authenticating users, storing data, and enforcing business logic [citation:2]. Nostr, however, uses a "smart client, dumb server" model [citation:2].
+The basic unit in Nostr is the "Event," a JSON object containing the following fields:
 
-Relays are intentionally simple. They accept events, store them, and forward them to subscribers [citation:2]. They do not resolve conflicts between data versions or decide what a client should see [citation:2]. The client, by contrast, does all the heavy lifting: it generates keys, decides which relays to connect to, reconciles data from multiple relays, and manages the user's social graph locally [citation:2].
+`id`: A unique SHA-256 hash identifier for the event.
+`pubkey`: The user's public key (32 bytes in hex format).
+`created_at`: A Unix timestamp.
+`kind`: The event type (an integer), which determines how the content is interpreted.
+`tags`: An array of tags (e.g., referencing another event or user).
+`content`: The event content (free text).
+`sig`: A 64-byte hex signature proving ownership of the event.
 
-## Major Platforms and Applications (Clients)
+The `id` is calculated by taking the SHA-256 of a JSON representation of the event, and it is signed using the Schnorr signature algorithm on the `secp256k1` curve, which is the same curve used by Bitcoin.
 
-Because Nostr is an open protocol, the number of applications built on it is constantly growing. Here are some of the most prominent:
+### Relays
 
-### Social Media Clients
+Relays are WebSocket servers that receive events from clients, store them, and send them to other subscribed clients. Anyone can run their own relay, and each relay has its own internal policies. Relays do not need to trust each other or coordinate with each other .
 
-**Damus** is the most well-known iOS app, featuring an elegant design similar to Twitter with full support for basic features.
+### Clients
 
-**Amethyst** is the most advanced client for Android, offering full control over features and relays, with support for communities and DMs.
+These are the applications users use to interact with the network. Clients manage user keys, create and sign events, connect to relays, and display content. Clients do not need to trust relays, as signatures are verified locally.
 
-**Primal** is available on iOS, Android, and the web, with built-in caching for faster browsing and an integrated Bitcoin wallet.
+## How It Works
 
-**Snort** is a fast, modern web client that supports Lightning Zaps (small payments).
+1.  The user generates a key pair on a client.
+2.  The client signs events with the user's private key.
+3.  The client publishes the signed event to one or more chosen relays.
+4.  The relay verifies the signature, stores the event, and sends it to any other client that has subscribed to that type of event.
+5.  To follow another user, you only need to follow their public key. The client will fetch events from the relays that user publishes to.
 
-**Gossip** is a desktop client for Windows, macOS, and Linux, written in Rust, focusing on performance and privacy.
+The user's private key never leaves their device, granting them full ownership of their identity. No relay or platform can suspend their account.
 
-### Specialized Applications
+## Protocol Extensions (NIPs)
 
-**White Noise** is an end-to-end encrypted messaging application [citation:4].
+Nostr evolves through a set of proposals called NIPs (Nostr Implementation Possibilities), which document implementable features and additions. Some of the most important extensions include:
 
-**Habla** is a platform for long-form publishing (articles) on Nostr.
+**NIP-01**: Defines the basic protocol flow.
+**NIP-05**: Maps public keys to DNS addresses for easy identification (e.g., `@username@example.com`).
+**NIP-19**: Provides human-readable encoding for entities (e.g., `npub1...` and `nsec1...`).
+**NIP-44**: Provides updated payload encryption.
+**NIP-57**: Adds support for Lightning Network micropayments (Zaps).
+**NIP-59**: Introduces the "Gift Wrap" concept to hide metadata of encrypted messages, enhancing privacy.
+**NIP-17**: Defines a system for encrypted private messages.
 
-**zap.stream** is a Twitch-like platform for live streaming with Zap functionality.
+## Platforms and Applications Built on Nostr
 
-**Jester** is a chess game that works over the Nostr protocol.
+There is a growing ecosystem of applications and platforms using Nostr. Among the most prominent are:
 
-**Stemstr** is a decentralized music platform.
+### Ditto
 
-**Shopstr** is a decentralized e-commerce platform.
+An open-source, highly customizable social platform launched by Soapbox. It allows users to follow and interact with users from Nostr, Bluesky, and Mastodon networks from a single interface.
 
-**Citrine** is an Android app that allows you to run your own Nostr relay on your phone.
+**Ditto Features:**
+- **Full customization:** Users can change themes, colors, fonts, and layouts, reviving the creative spirit of profile design from the MySpace era.
+- **Identity ownership:** Based on Nostr, users own their cryptographic keys, and no platform can suspend or confiscate their identity.
+- **Built-in payments:** Supports sending Lightning Zaps directly to creators.
+- **Entertainment features:** Includes encrypted letters and virtual pets.
+- **Available on:** Web, Android, and iOS (coming soon).
 
-## Relay Ecosystem
+### Other Platforms and Services
 
-Relays are the backbone of the Nostr network. There are several known implementations for running relays:
-
-**nostr-rs-relay** is a lightweight relay written in Rust, using an SQLite database.
-
-**nostream** is a relay written in TypeScript, using PostgreSQL and advanced databases, designed for load balancing and fault tolerance.
-
-**strfry** is a high-performance relay written in C++, using LMDB for storage and featuring an advanced synchronization mechanism.
-
-**khatru** is a framework for building relays in Go.
-
-A list of well-known public relays includes: `wss://relay.damus.io`, `wss://nos.lol`, `wss://relay.nostr.band`, and `wss://relay.primal.net`.
-
-## Bitcoin and Lightning Network Integration
-
-What truly sets Nostr apart is its deep integration with Bitcoin and the Lightning Network. This opens the door to decentralized, censorship-resistant financial applications:
-
-**Mostro** is a peer-to-peer Bitcoin exchange platform over Lightning, using Nostr as a communication layer to manage trades without revealing user identities.
-
-**Joinstr** provides a decentralized CoinJoin feature to enhance Bitcoin transaction privacy, relying on Nostr to coordinate between participants.
-
-**Munstr** uses Nostr to coordinate multi-signature wallets for secure and shared Bitcoin management.
-
-**Smart Vaults** is a protocol for shared custody of Bitcoin, using Nostr for signer discovery and signature coordination.
-
-**Civkit** is a decentralized marketplace built on Nostr and Lightning Network, allowing the trade of goods and services without an intermediary.
-
-**Primal**, **Amethyst**, and **Damus** all support "Zaps," small Lightning Network payments to reward content creators.
-
-## How Privacy and Security Work
-
-Security in Nostr is based on public-key cryptography [citation:1]. Private messages are encrypted so that only the sender and receiver can read them [citation:2]. However, some research has highlighted security challenges, as the protocol's popularity makes it a target for potential attacks [citation:5][citation:6]. The open design philosophy allows the community to constantly review code and patch vulnerabilities.
+**Primal**: A web and mobile client focused on performance and user experience.
+**Coracle**: A web client focused on simplicity and privacy.
+**Damus**: An iOS client (one of the first).
+**Amethyst**: An Android client.
+**Nostr Wallet Connect (NWC)**: A protocol for linking wallets to Nostr applications.
 
 ## Summary
 
-Nostr is not just an alternative to Twitter. It is a platform for a variety of decentralized applications. As the ecosystem grows, we are seeing the emergence of applications ranging from encrypted messaging to decentralized marketplaces, games, and digital payments [citation:2][citation:6]. By giving users complete control over their identity and data, Nostr offers a vision of a freer and more resilient internet.
+Nostr represents a paradigm shift in the concept of social communication, giving users complete control over their identity and data. By adopting a decentralized architecture based on independent relays and cryptographic keys, Nostr offers a genuine, censorship-resistant alternative to traditional centralized platforms. With the growing number of clients and relays, and the diversity of applications built on it, Nostr appears to be a strong candidate to become the foundation of the next generation of an open internet.
 
 ## Quick Links
-
-[https://github.com/nostr-protocol](https://github.com/nostr-protocol)
 
 [https://github.com/nostr-protocol/nostr](https://github.com/nostr-protocol/nostr)
 
 [https://github.com/nostr-protocol/nips](https://github.com/nostr-protocol/nips)
 
-Published in the Free and Open Source Software section – Decentralized Protocols
+[https://nostr.net](https://nostr.net)
+
+[https://ditto.pub](https://ditto.pub)
+
+Published in the Free and Open Source Software section – Protocols and Communication
