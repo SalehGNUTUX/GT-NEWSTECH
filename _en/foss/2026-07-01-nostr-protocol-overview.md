@@ -6,7 +6,7 @@ title: >-
 slug: nostr-protocol-overview
 lang: en
 category: foss
-date: 2026-07-02T11:50:00.000Z
+date: 2026-07-02T11:57:00.000Z
 author: GNUTUX
 excerpt: >-
   Nostr is an open, minimalist protocol for censorship-resistant communication,
@@ -95,6 +95,8 @@ There is a growing ecosystem of applications and platforms using Nostr. Among th
 ### Ditto
 
 An open-source, highly customizable social platform launched by Soapbox. It allows users to follow and interact with users from Nostr, Bluesky, and Mastodon networks from a single interface.
+
+## [GNUTUX](https://ditto.pub/follow/npub1e0k4mh2zfvcrug7gay73vj9k9jq0qdfau7822xt4sh7skcp4xf0sesj96c)
 
 **Ditto Features:**
 - **Full customization:** Users can change themes, colors, fonts, and layouts, reviving the creative spirit of profile design from the MySpace era.

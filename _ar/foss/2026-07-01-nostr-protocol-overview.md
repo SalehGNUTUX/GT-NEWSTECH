@@ -4,7 +4,7 @@ title: 'Nostr: بروتوكول مفتوح لمقاومة الرقابة وتط�
 slug: nostr-protocol-overview
 lang: ar
 category: foss
-date: 2026-07-02T11:49:00.000Z
+date: 2026-07-02T11:56:00.000Z
 author: GNUTUX
 excerpt: >-
   Nostr هو بروتوكول مفتوح وبسيط لمقاومة الرقابة، يعتمد على مفاتيح عامة/خاصة
@@ -92,7 +92,7 @@ Nostr (اختصار لـ Notes and Other Stuff Transmitted by Relays) هو بر�
 ### Ditto
 
 منصة اجتماعية مفتوحة المصدر وقابلة للتخصيص، أطلقتها شركة Soapbox، تتيح للمستخدمين متابعة والتفاعل مع مستخدمي شبكات Nostr وBluesky وMastodon من واجهة واحدة [citation:2][citation:9].
-
+## [GNUTUX](https://ditto.pub/follow/npub1e0k4mh2zfvcrug7gay73vj9k9jq0qdfau7822xt4sh7skcp4xf0sesj96c)
 **مميزات Ditto:**
 - **التخصيص الكامل:** يمكن للمستخدمين تغيير السمات والألوان والخطوط والتخطيطات، مما يعيد إحياء روح الإبداع في تصميم الملفات الشخصية مثل أيام ماي سبيس [citation:2].
 - **ملكية الهوية:** تعتمد على Nostr، حيث يمتلك المستخدمون مفاتيحهم المشفرة، ولا يمكن لأي منصة تعليق هويتهم أو مصادرتهم [citation:9].
