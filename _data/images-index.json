@@ -1,6 +1,42 @@
 {
-  "generated_at": "2026-07-01T18:53:18.240Z",
+  "generated_at": "2026-07-02T18:50:19.927Z",
   "ar": [
+    {
+      "name": "gt-mishkat-kids-gnutux.jpg",
+      "size": 86668,
+      "last_modified_ts": 1783018204,
+      "path": "assets/images/ar/gt-mishkat-kids-gnutux.jpg"
+    },
+    {
+      "name": "gt-mishkat-kids-gnutux.webp",
+      "size": 58822,
+      "last_modified_ts": 1783018204,
+      "path": "assets/images/ar/gt-mishkat-kids-gnutux.webp"
+    },
+    {
+      "name": "nostr-gnutux.jpg",
+      "size": 109102,
+      "last_modified_ts": 1782944704,
+      "path": "assets/images/ar/nostr-gnutux.jpg"
+    },
+    {
+      "name": "nostr-gnutux.webp",
+      "size": 63606,
+      "last_modified_ts": 1782944704,
+      "path": "assets/images/ar/nostr-gnutux.webp"
+    },
+    {
+      "name": "odysseus-ai-gnutux.jpg",
+      "size": 149717,
+      "last_modified_ts": 1782933931,
+      "path": "assets/images/ar/odysseus-ai-gnutux.jpg"
+    },
+    {
+      "name": "odysseus-ai-gnutux.webp",
+      "size": 95902,
+      "last_modified_ts": 1782933931,
+      "path": "assets/images/ar/odysseus-ai-gnutux.webp"
+    },
     {
       "name": "caveman-gnutux.jpg",
       "size": 141707,
@@ -844,6 +880,42 @@
   ],
   "en": [
     {
+      "name": "gt-mishkat-kids-gnutux.jpg",
+      "size": 86668,
+      "last_modified_ts": 1783018204,
+      "path": "assets/images/en/gt-mishkat-kids-gnutux.jpg"
+    },
+    {
+      "name": "gt-mishkat-kids-gnutux.webp",
+      "size": 58822,
+      "last_modified_ts": 1783018204,
+      "path": "assets/images/en/gt-mishkat-kids-gnutux.webp"
+    },
+    {
+      "name": "nostr-gnutux.jpg",
+      "size": 109102,
+      "last_modified_ts": 1782944704,
+      "path": "assets/images/en/nostr-gnutux.jpg"
+    },
+    {
+      "name": "nostr-gnutux.webp",
+      "size": 63606,
+      "last_modified_ts": 1782944704,
+      "path": "assets/images/en/nostr-gnutux.webp"
+    },
+    {
+      "name": "odysseus-ai-gnutux.jpg",
+      "size": 149717,
+      "last_modified_ts": 1782933931,
+      "path": "assets/images/en/odysseus-ai-gnutux.jpg"
+    },
+    {
+      "name": "odysseus-ai-gnutux.webp",
+      "size": 95902,
+      "last_modified_ts": 1782933931,
+      "path": "assets/images/en/odysseus-ai-gnutux.webp"
+    },
+    {
       "name": "caveman-gnutux.jpg",
       "size": 141707,
       "last_modified_ts": 1782931980,
@@ -1684,6 +1756,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 140,
-  "count_en": 140
+  "count_ar": 146,
+  "count_en": 146
 }
