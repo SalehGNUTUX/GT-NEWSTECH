@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-07-02T21:43:11.992Z",
-  "count": 164,
+  "generated_at": "2026-07-04T22:33:10.773Z",
+  "count": 166,
   "by_lang": {
-    "ar": 82,
-    "en": 82
+    "ar": 83,
+    "en": 83
   },
   "articles": [
+    {
+      "title": "EtchDroid: Create a Bootable USB Drive Directly from Your Android Phone",
+      "slug": "etchdroid-bootable-usb-android",
+      "date": "2026-07-04T22:32:00.000Z",
+      "category": "phone",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "EtchDroid is an open source Android application (GPLv3+) that allows you to write operating system images to USB drives directly from your phone, without requiring root access. Perfect for creating a GNU/Linux bootable USB when you don't have another computer available.",
+      "image": "etchdroid-gnutux.jpg",
+      "tags": [
+        "EtchDroid",
+        "Android",
+        "Bootable USB",
+        "Tools",
+        "Open Source",
+        "GPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-04-etchdroid-bootable-usb-android.md",
+      "_lang": "en",
+      "_cat": "phone"
+    },
+    {
+      "title": "EtchDroid: اصنع فلاشة إقلاع لنظام التشغيل مباشرة من هاتفك الأندرويد",
+      "slug": "etchdroid-bootable-usb-android",
+      "date": "2026-07-04T22:31:00.000Z",
+      "category": "phone",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "EtchDroid هو تطبيق أندرويد مفتوح المصدر (GPLv3+) يسمح لك بكتابة صور أنظمة التشغيل على وحدات USB مباشرة من هاتفك، دون الحاجة إلى صلاحيات الجذر. مثالي لإنشاء فلاشة إقلاع لنظام GNU/Linux عندما لا يتوفر لديك حاسوب آخر.",
+      "image": "etchdroid-gnutux.jpg",
+      "tags": [
+        "EtchDroid",
+        "أندرويد",
+        "Bootable USB",
+        "أدوات",
+        "مفتوح المصدر",
+        "GPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-04-etchdroid-bootable-usb-android.md",
+      "_lang": "ar",
+      "_cat": "phone"
+    },
     {
       "title": "نماذج ذكاء اصطناعي حرة مفتوحة المصدر: دليل شامل لأبرز النماذج المتاحة في 2026",
       "slug": "open-source-llms-guide-2026",
