@@ -78,6 +78,7 @@ collections:
           - { label: "أخبار التقنية",        value: tech-news }
           - { label: "الذكاء الاصطناعي",    value: ai }
           - { label: "ألعاب لينكس",          value: gaming }
+          - { label: "الهاتف", value: phone }
 
       - name: also_in
         label: "أقسام إضافية (also_in)"
@@ -95,6 +96,7 @@ collections:
             - { label: "أخبار التقنية",    value: tech-news }
             - { label: "الذكاء الاصطناعي",value: ai }
             - { label: "ألعاب لينكس",      value: gaming }
+            - { label: "الهاتف", value: phone }
 
       - name: author
         label: "الكاتب"
@@ -174,6 +176,7 @@ collections:
           - { label: "Tech News",          value: tech-news }
           - { label: "AI News",            value: ai }
           - { label: "Linux Gaming",       value: gaming }
+          - { label: "phone", value: phone }
 
       - name: also_in
         label: "Additional Categories"
@@ -190,6 +193,7 @@ collections:
             - { label: "Tech News",          value: tech-news }
             - { label: "AI News",            value: ai }
             - { label: "Linux Gaming",       value: gaming }
+            - { label: "phone", value: phone }
 
       - name: author
         label: "Author"

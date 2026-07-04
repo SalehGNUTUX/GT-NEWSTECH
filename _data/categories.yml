@@ -1,35 +1,35 @@
 - id: gnutux-projects
-  name_ar: "مشاريع GNUTUX"
-  name_en: "GNUTUX Projects"
-  icon: "fa-solid fa-terminal"
-  color: "#d4a017"
-
+  name_ar: مشاريع GNUTUX
+  name_en: GNUTUX Projects
+  icon: fa-solid fa-terminal
+  color: '#d4a017'
 - id: foss
-  name_ar: "البرمجيات الحرة"
-  name_en: "Free & Open Source"
-  icon: "fa-solid fa-code"
-  color: "#2ea043"
-
+  name_ar: البرمجيات الحرة
+  name_en: Free & Open Source
+  icon: fa-solid fa-code
+  color: '#2ea043'
 - id: gnulinux
-  name_ar: "غنو/لينكس"
-  name_en: "GNU/Linux"
-  icon: "fa-brands fa-linux"
-  color: "#e95420"
-
+  name_ar: غنو/لينكس
+  name_en: GNU/Linux
+  icon: fa-brands fa-linux
+  color: '#e95420'
 - id: tech-news
-  name_ar: "أخبار التقنية"
-  name_en: "Tech News"
-  icon: "fa-solid fa-microchip"
-  color: "#0969da"
-
+  name_ar: أخبار التقنية
+  name_en: Tech News
+  icon: fa-solid fa-microchip
+  color: '#0969da'
 - id: ai
-  name_ar: "الذكاء الاصطناعي"
-  name_en: "AI News"
-  icon: "fa-solid fa-robot"
-  color: "#8957e5"
-
+  name_ar: الذكاء الاصطناعي
+  name_en: AI News
+  icon: fa-solid fa-robot
+  color: '#8957e5'
 - id: gaming
-  name_ar: "ألعاب لينكس"
-  name_en: "Linux Gaming"
-  icon: "fa-solid fa-gamepad"
-  color: "#7c3aed"
+  name_ar: ألعاب لينكس
+  name_en: Linux Gaming
+  icon: fa-solid fa-gamepad
+  color: '#7c3aed'
+- id: phone
+  name_ar: الهاتف
+  name_en: phone
+  icon: fa-solid fa-mobile-screen
+  color: '#0ea5e9'
