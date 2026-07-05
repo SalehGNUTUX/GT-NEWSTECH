@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-07-05T12:47:41.651Z",
+  "generated_at": "2026-07-05T22:22:05.731Z",
   "ar": [
+    {
+      "name": "bassam-social-gnutux-ar.png",
+      "size": 587998,
+      "last_modified_ts": 1783290111,
+      "path": "assets/images/ar/bassam-social-gnutux-ar.png"
+    },
+    {
+      "name": "bassam-social-gnutux-ar.webp",
+      "size": 105844,
+      "last_modified_ts": 1783290111,
+      "path": "assets/images/ar/bassam-social-gnutux-ar.webp"
+    },
     {
       "name": "google-labs-gnutux.webp",
       "size": 196008,
@@ -904,6 +916,18 @@
   ],
   "en": [
     {
+      "name": "bassam-social-gnutux-en.png",
+      "size": 602115,
+      "last_modified_ts": 1783290111,
+      "path": "assets/images/en/bassam-social-gnutux-en.png"
+    },
+    {
+      "name": "bassam-social-gnutux-en.webp",
+      "size": 132982,
+      "last_modified_ts": 1783290111,
+      "path": "assets/images/en/bassam-social-gnutux-en.webp"
+    },
+    {
       "name": "google-labs-gnutux.webp",
       "size": 196008,
       "last_modified_ts": 1783255647,
@@ -1804,6 +1828,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 150,
-  "count_en": 150
+  "count_ar": 152,
+  "count_en": 152
 }
