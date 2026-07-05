@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-07-02T18:50:19.927Z",
+  "generated_at": "2026-07-05T12:47:41.651Z",
   "ar": [
+    {
+      "name": "google-labs-gnutux.webp",
+      "size": 196008,
+      "last_modified_ts": 1783255647,
+      "path": "assets/images/ar/google-labs-gnutux.webp"
+    },
+    {
+      "name": "etchdroid-gnutux.jpg",
+      "size": 124634,
+      "last_modified_ts": 1783204374,
+      "path": "assets/images/ar/etchdroid-gnutux.jpg"
+    },
+    {
+      "name": "etchdroid-gnutux.webp",
+      "size": 92078,
+      "last_modified_ts": 1783204374,
+      "path": "assets/images/ar/etchdroid-gnutux.webp"
+    },
+    {
+      "name": "open-source-llms-guide-2026-gnutux.webp",
+      "size": 51956,
+      "last_modified_ts": 1783028575,
+      "path": "assets/images/ar/open-source-llms-guide-2026-gnutux.webp"
+    },
     {
       "name": "gt-mishkat-kids-gnutux.jpg",
       "size": 86668,
@@ -880,6 +904,30 @@
   ],
   "en": [
     {
+      "name": "google-labs-gnutux.webp",
+      "size": 196008,
+      "last_modified_ts": 1783255647,
+      "path": "assets/images/en/google-labs-gnutux.webp"
+    },
+    {
+      "name": "etchdroid-gnutux.jpg",
+      "size": 124634,
+      "last_modified_ts": 1783204374,
+      "path": "assets/images/en/etchdroid-gnutux.jpg"
+    },
+    {
+      "name": "etchdroid-gnutux.webp",
+      "size": 92078,
+      "last_modified_ts": 1783204374,
+      "path": "assets/images/en/etchdroid-gnutux.webp"
+    },
+    {
+      "name": "open-source-llms-guide-2026-gnutux.webp",
+      "size": 51956,
+      "last_modified_ts": 1783028575,
+      "path": "assets/images/en/open-source-llms-guide-2026-gnutux.webp"
+    },
+    {
       "name": "gt-mishkat-kids-gnutux.jpg",
       "size": 86668,
       "last_modified_ts": 1783018204,
@@ -1756,6 +1804,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 146,
-  "count_en": 146
+  "count_ar": 150,
+  "count_en": 150
 }
