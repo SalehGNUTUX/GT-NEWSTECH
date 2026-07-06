@@ -3,7 +3,10 @@ layout: post
 title: >-
   Bassam Social: A Decentralized Arabic Social Platform Built on HybridSocial
   and ActivityPub
+slug: bassam-social-hybridsocial-activitypub
+lang: en
 category: foss
+date: 2026-07-06T13:21:00.000Z
 author: GNUTUX
 excerpt: >-
   Bassam Social is a decentralized Arabic social networking platform, built on
@@ -22,9 +25,6 @@ tags:
   - SvelteKit
 also_in:
   - tech-news
-date: 2026-07-05T22:21:00.000Z
-lang: en
-slug: bassam-social-hybridsocial-activitypub
 ---
 
 ## The Search for an Arabic Alternative to Social Media

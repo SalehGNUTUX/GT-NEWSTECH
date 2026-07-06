@@ -3,7 +3,10 @@ layout: post
 title: >-
   بسام.سوشيال: منصة تواصل اجتماعي لامركزي مبنية على HybridSocial وبروتوكول
   ActivityPub
+slug: bassam-social-hybridsocial-activitypub
+lang: ar
 category: foss
+date: 2026-07-06T13:20:00.000Z
 author: GNUTUX
 excerpt: >-
   بسام.سوشيال هي منصة تواصل اجتماعي عربية لامركزية، مبنية على البرمجية مفتوحة
@@ -22,9 +25,6 @@ tags:
   - SvelteKit
 also_in:
   - tech-news
-date: 2026-07-05T22:20:00.000Z
-lang: ar
-slug: bassam-social-hybridsocial-activitypub
 ---
 
 ## البحث عن بديل عربي للتواصل الاجتماعي
