@@ -1,17 +1,29 @@
 {
-  "generated_at": "2026-07-05T22:22:05.731Z",
+  "generated_at": "2026-07-06T13:21:58.676Z",
   "ar": [
     {
       "name": "bassam-social-gnutux-ar.png",
-      "size": 587998,
-      "last_modified_ts": 1783290111,
+      "size": 569994,
+      "last_modified_ts": 1783344103,
       "path": "assets/images/ar/bassam-social-gnutux-ar.png"
     },
     {
       "name": "bassam-social-gnutux-ar.webp",
-      "size": 105844,
-      "last_modified_ts": 1783290111,
+      "size": 108226,
+      "last_modified_ts": 1783344103,
       "path": "assets/images/ar/bassam-social-gnutux-ar.webp"
+    },
+    {
+      "name": "fluxer-discord-gnutux-ar.jpg",
+      "size": 76591,
+      "last_modified_ts": 1783339511,
+      "path": "assets/images/ar/fluxer-discord-gnutux-ar.jpg"
+    },
+    {
+      "name": "fluxer-discord-gnutux-ar.webp",
+      "size": 48214,
+      "last_modified_ts": 1783339511,
+      "path": "assets/images/ar/fluxer-discord-gnutux-ar.webp"
     },
     {
       "name": "google-labs-gnutux.webp",
@@ -917,15 +929,27 @@
   "en": [
     {
       "name": "bassam-social-gnutux-en.png",
-      "size": 602115,
-      "last_modified_ts": 1783290111,
+      "size": 595141,
+      "last_modified_ts": 1783344103,
       "path": "assets/images/en/bassam-social-gnutux-en.png"
     },
     {
       "name": "bassam-social-gnutux-en.webp",
-      "size": 132982,
-      "last_modified_ts": 1783290111,
+      "size": 133344,
+      "last_modified_ts": 1783344103,
       "path": "assets/images/en/bassam-social-gnutux-en.webp"
+    },
+    {
+      "name": "fluxer-discord-gnutux-en.jpg",
+      "size": 76664,
+      "last_modified_ts": 1783339511,
+      "path": "assets/images/en/fluxer-discord-gnutux-en.jpg"
+    },
+    {
+      "name": "fluxer-discord-gnutux-en.webp",
+      "size": 49612,
+      "last_modified_ts": 1783339511,
+      "path": "assets/images/en/fluxer-discord-gnutux-en.webp"
     },
     {
       "name": "google-labs-gnutux.webp",
@@ -1828,6 +1852,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 152,
-  "count_en": 152
+  "count_ar": 154,
+  "count_en": 154
 }
