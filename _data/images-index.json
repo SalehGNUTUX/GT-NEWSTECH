@@ -1,6 +1,24 @@
 {
-  "generated_at": "2026-07-06T13:21:58.676Z",
+  "generated_at": "2026-07-06T20:52:31.059Z",
   "ar": [
+    {
+      "name": "openreel-video-gnutux.png",
+      "size": 159957,
+      "last_modified_ts": 1783371118,
+      "path": "assets/images/ar/openreel-video-gnutux.png"
+    },
+    {
+      "name": "repowise-gnutux.png",
+      "size": 434333,
+      "last_modified_ts": 1783368857,
+      "path": "assets/images/ar/repowise-gnutux.png"
+    },
+    {
+      "name": "repowise-gnutux.webp",
+      "size": 83224,
+      "last_modified_ts": 1783368857,
+      "path": "assets/images/ar/repowise-gnutux.webp"
+    },
     {
       "name": "bassam-social-gnutux-ar.png",
       "size": 569994,
@@ -928,6 +946,24 @@
   ],
   "en": [
     {
+      "name": "openreel-video-gnutux.png",
+      "size": 159957,
+      "last_modified_ts": 1783371121,
+      "path": "assets/images/en/openreel-video-gnutux.png"
+    },
+    {
+      "name": "repowise-gnutux.png",
+      "size": 434333,
+      "last_modified_ts": 1783368857,
+      "path": "assets/images/en/repowise-gnutux.png"
+    },
+    {
+      "name": "repowise-gnutux.webp",
+      "size": 83224,
+      "last_modified_ts": 1783368857,
+      "path": "assets/images/en/repowise-gnutux.webp"
+    },
+    {
       "name": "bassam-social-gnutux-en.png",
       "size": 595141,
       "last_modified_ts": 1783344103,
@@ -1852,6 +1888,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 154,
-  "count_en": 154
+  "count_ar": 157,
+  "count_en": 157
 }
