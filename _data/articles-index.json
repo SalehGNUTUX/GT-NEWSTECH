@@ -1,11 +1,117 @@
 {
-  "generated_at": "2026-07-06T12:05:30.226Z",
-  "count": 172,
+  "generated_at": "2026-07-06T20:14:33.911Z",
+  "count": 174,
   "by_lang": {
-    "ar": 86,
-    "en": 86
+    "ar": 87,
+    "en": 87
   },
   "articles": [
+    {
+      "title": "Repowise: Solving the Token Consumption Problem in Coding Agents with Smart Repository Indexing",
+      "slug": "repowise-mcp-codebase-intelligence",
+      "date": "2026-07-06T20:14:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Repowise is an open source project (AGPL-3.0) that solves the problem of repeated repository exploration that consumes the budgets of coding agents. By indexing the repository once and providing multiple intelligence layers via the MCP protocol, it reduces token consumption by up to 96% while maintaining answer quality.",
+      "image": "https://opengraph.githubassets.com/1/repowise-dev/repowise",
+      "tags": [
+        "Repowise",
+        "MCP",
+        "Coding Agent",
+        "Tokens",
+        "Efficiency",
+        "AI",
+        "AGPL"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-06-repowise-mcp-codebase-intelligence.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "Repowise: حل مشكلة استهلاك التوكنات في وكلاء البرمجة بفهرسة ذكية للمستودع",
+      "slug": "repowise-mcp-codebase-intelligence",
+      "date": "2026-07-06T20:13:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Repowise هو مشروع مفتوح المصدر (AGPL-3.0) يحل مشكلة الاستكشاف المتكرر للمستودع الذي يستهلك ميزانية وكلاء البرمجة، عبر فهرسة المستودع مرة واحدة وتوفير طبقات ذكاء متعددة عبر بروتوكول MCP، مما يخفض استهلاك التوكنات بنسبة تصل إلى 96%.",
+      "image": "repowise-gnutux.png",
+      "tags": [
+        "Repowise",
+        "MCP",
+        "وكيل برمجة",
+        "توكنات",
+        "كفاءة",
+        "ذكاء اصطناعي",
+        "AGPL"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-06-repowise-mcp-codebase-intelligence.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
+    {
+      "title": "Bassam Social: A Decentralized Arabic Social Platform Built on HybridSocial and ActivityPub",
+      "slug": "bassam-social-hybridsocial-activitypub",
+      "date": "2026-07-06T13:21:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Bassam Social is a decentralized Arabic social networking platform, built on the open source HybridSocial software, which in turn is based on the ActivityPub protocol. The platform offers advanced features such as seven reaction types, groups, vertical video streams, and enterprise-grade security.",
+      "image": "bassam-social-gnutux-en.png",
+      "tags": [
+        "Bassam",
+        "HybridSocial",
+        "ActivityPub",
+        "Decentralized",
+        "Fediverse",
+        "Elixir",
+        "Phoenix",
+        "SvelteKit"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-05-bassam-social-hybridsocial-activitypub.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "بسام.سوشيال: منصة تواصل اجتماعي لامركزي مبنية على HybridSocial وبروتوكول ActivityPub",
+      "slug": "bassam-social-hybridsocial-activitypub",
+      "date": "2026-07-06T13:20:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "بسام.سوشيال هي منصة تواصل اجتماعي عربية لامركزية، مبنية على البرمجية مفتوحة المصدر HybridSocial، والتي تعتمد بدورها على بروتوكول ActivityPub القياسي. تقدم المنصة ميزات متقدمة مثل التفاعلات السبعة، والمجموعات، والفيديو العمودي، والأمان المتقدم.",
+      "image": "bassam-social-gnutux-ar.png",
+      "tags": [
+        "بسام",
+        "HybridSocial",
+        "ActivityPub",
+        "لامركزي",
+        "فيديفرس",
+        "Elixir",
+        "Phoenix",
+        "SvelteKit"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-05-bassam-social-hybridsocial-activitypub.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "Fluxer: بديل مفتوح المصدر لديسكورد مع دعم ذاتي وتركيز على المستخدم",
       "slug": "fluxer-open-source-discord-alternative",
@@ -56,60 +162,6 @@
       "affiliate": null,
       "_file": "2026-07-06-fluxer-open-source-discord-alternative.md",
       "_lang": "en",
-      "_cat": "foss"
-    },
-    {
-      "title": "Bassam Social: A Decentralized Arabic Social Platform Built on HybridSocial and ActivityPub",
-      "slug": "bassam-social-hybridsocial-activitypub",
-      "date": "2026-07-05T22:21:00.000Z",
-      "category": "foss",
-      "also_in": [
-        "tech-news"
-      ],
-      "author": "GNUTUX",
-      "excerpt": "Bassam Social is a decentralized Arabic social networking platform, built on the open source HybridSocial software, which in turn is based on the ActivityPub protocol. The platform offers advanced features such as seven reaction types, groups, vertical video streams, and enterprise-grade security.",
-      "image": "bassam-social-gnutux-en.png",
-      "tags": [
-        "Bassam",
-        "HybridSocial",
-        "ActivityPub",
-        "Decentralized",
-        "Fediverse",
-        "Elixir",
-        "Phoenix",
-        "SvelteKit"
-      ],
-      "layout": "post",
-      "affiliate": null,
-      "_file": "2026-07-05-bassam-social-hybridsocial-activitypub.md",
-      "_lang": "en",
-      "_cat": "foss"
-    },
-    {
-      "title": "بسام.سوشيال: منصة تواصل اجتماعي لامركزي مبنية على HybridSocial وبروتوكول ActivityPub",
-      "slug": "bassam-social-hybridsocial-activitypub",
-      "date": "2026-07-05T22:20:00.000Z",
-      "category": "foss",
-      "also_in": [
-        "tech-news"
-      ],
-      "author": "GNUTUX",
-      "excerpt": "بسام.سوشيال هي منصة تواصل اجتماعي عربية لامركزية، مبنية على البرمجية مفتوحة المصدر HybridSocial، والتي تعتمد بدورها على بروتوكول ActivityPub القياسي. تقدم المنصة ميزات متقدمة مثل التفاعلات السبعة، والمجموعات، والفيديو العمودي، والأمان المتقدم.",
-      "image": "bassam-social-gnutux-ar.png",
-      "tags": [
-        "بسام",
-        "HybridSocial",
-        "ActivityPub",
-        "لامركزي",
-        "فيديفرس",
-        "Elixir",
-        "Phoenix",
-        "SvelteKit"
-      ],
-      "layout": "post",
-      "affiliate": null,
-      "_file": "2026-07-05-bassam-social-hybridsocial-activitypub.md",
-      "_lang": "ar",
       "_cat": "foss"
     },
     {
