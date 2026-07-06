@@ -1,11 +1,35 @@
 {
-  "generated_at": "2026-07-06T20:53:52.631Z",
-  "count": 175,
+  "generated_at": "2026-07-06T20:55:44.919Z",
+  "count": 176,
   "by_lang": {
     "ar": 88,
-    "en": 87
+    "en": 88
   },
   "articles": [
+    {
+      "title": "OpenReel Video: An Open Source CapCut Alternative with Local AI and Pro Editing",
+      "slug": "openreel-video-open-source-editor",
+      "date": "2026-07-06T21:55:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "OpenReel Video is an open source (MIT) video editor that runs locally in the browser with WebGPU and WebCodecs acceleration. It offers professional features such as AI-powered auto-captions, color grading, multi-track audio mixing, and runs on the web and mobile (iOS/Android), completely free with no subscriptions.",
+      "image": "openreel-video-gnutux.png",
+      "tags": [
+        "OpenReel Video",
+        "Video Editor",
+        "Open Source",
+        "MIT",
+        "CapCut Alternative",
+        "WebGPU",
+        "AI"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-06-openreel-video-open-source-editor.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "OpenReel Video: بديل مفتوح المصدر لـ CapCut مع ذكاء اصطناعي محلي وتعديل احترافي",
       "slug": "openreel-video-open-source-editor",
