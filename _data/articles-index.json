@@ -1,11 +1,35 @@
 {
-  "generated_at": "2026-07-06T20:14:33.911Z",
-  "count": 174,
+  "generated_at": "2026-07-06T20:53:52.631Z",
+  "count": 175,
   "by_lang": {
-    "ar": 87,
+    "ar": 88,
     "en": 87
   },
   "articles": [
+    {
+      "title": "OpenReel Video: بديل مفتوح المصدر لـ CapCut مع ذكاء اصطناعي محلي وتعديل احترافي",
+      "slug": "openreel-video-open-source-editor",
+      "date": "2026-07-06T21:53:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "OpenReel Video هو محرر فيديو مفتوح المصدر (MIT) يعمل في المتصفح محلياً، مع تسريع WebGPU و WebCodecs. يقدم ميزات احترافية مثل الترجمة التلقائية بالذكاء الاصطناعي، وتحرير الألوان، ومزج الصوت متعدد المسارات، ويعمل على الويب والهواتف (iOS/Android)، مجاناً تماماً دون اشتراكات.",
+      "image": "openreel-video-gnutux.png",
+      "tags": [
+        "OpenReel Video",
+        "محرر فيديو",
+        "مفتوح المصدر",
+        "MIT",
+        "CapCut بديل",
+        "WebGPU",
+        "ذكاء اصطناعي"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-06-openreel-video-open-source-editor.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "Repowise: Solving the Token Consumption Problem in Coding Agents with Smart Repository Indexing",
       "slug": "repowise-mcp-codebase-intelligence",
