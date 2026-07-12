@@ -1,11 +1,65 @@
 {
-  "generated_at": "2026-07-06T20:55:44.919Z",
-  "count": 176,
+  "generated_at": "2026-07-12T21:21:57.670Z",
+  "count": 178,
   "by_lang": {
-    "ar": 88,
-    "en": 88
+    "ar": 89,
+    "en": 89
   },
   "articles": [
+    {
+      "title": "GT-STACER 26.07: A New Stable Release for the GNU/Linux System Monitor and Optimizer",
+      "slug": "gt-stacer-26-07-release",
+      "date": "2026-07-12T21:20:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss",
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The GT-STACER project has released stable version 26.07, an updated fork of the popular Stacer system monitor and optimization tool, built with C++17 and Qt6. The release introduces two new tools (System Relief and Power Timer), fixes for autostart management, a rebuilt light theme, and detection of externally installed applications.",
+      "image": "gt-stacer-en-gnutux.png",
+      "tags": [
+        "GT-STACER",
+        "System Monitoring",
+        "Performance Optimization",
+        "Tools",
+        "Linux",
+        "Qt6",
+        "C++17"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-12-gt-stacer-26-07-release.md",
+      "_lang": "en",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "GT-STACER 26.07: تحديث جديد لمحسن ومراقب نظام غنو/لينكس",
+      "slug": "gt-stacer-26-07-release",
+      "date": "2026-07-12T21:06:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss",
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدر مشروع GT-STACER الإصدار المستقر 26.07، وهو نسخة مطورة من أداة مراقبة وتحسين النظام الشهيرة Stacer، مبنية بلغة C++17 و Qt6. يتضمن التحديث أداتين جديدتين (إنعاش النظام ومؤقت الطاقة)، وإصلاح برامج بدء التشغيل، وإعادة بناء الوضع الفاتح، وكشف البرامج المثبتة خارجياً.",
+      "image": "gt-stacer-ar-gnutux.png",
+      "tags": [
+        "GT-STACER",
+        "مراقبة النظام",
+        "تحسين الأداء",
+        "أدوات",
+        "لينكس",
+        "Qt6",
+        "C++17"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-12-gt-stacer-26-07-release.md",
+      "_lang": "ar",
+      "_cat": "gnutux-projects"
+    },
     {
       "title": "OpenReel Video: An Open Source CapCut Alternative with Local AI and Pro Editing",
       "slug": "openreel-video-open-source-editor",
