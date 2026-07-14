@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-14T18:25:54.613Z",
+  "generated_at": "2026-07-14T18:32:45.649Z",
   "ar": [
     {
       "name": "gt-sirm-1.2-gnutux.jpeg",
-      "size": 33522,
-      "last_modified_ts": 1784053538,
+      "size": 46309,
+      "last_modified_ts": 1784053949,
       "path": "assets/images/ar/gt-sirm-1.2-gnutux.jpeg"
     },
     {
       "name": "gt-sirm-1.2-gnutux.webp",
-      "size": 20318,
-      "last_modified_ts": 1784053538,
+      "size": 31322,
+      "last_modified_ts": 1784053949,
       "path": "assets/images/ar/gt-sirm-1.2-gnutux.webp"
     },
     {
@@ -983,14 +983,14 @@
   "en": [
     {
       "name": "gt-sirm-1.2-gnutux.jpeg",
-      "size": 33522,
-      "last_modified_ts": 1784053538,
+      "size": 46309,
+      "last_modified_ts": 1784053949,
       "path": "assets/images/en/gt-sirm-1.2-gnutux.jpeg"
     },
     {
       "name": "gt-sirm-1.2-gnutux.webp",
-      "size": 20318,
-      "last_modified_ts": 1784053538,
+      "size": 31322,
+      "last_modified_ts": 1784053949,
       "path": "assets/images/en/gt-sirm-1.2-gnutux.webp"
     },
     {
