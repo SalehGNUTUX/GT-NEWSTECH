@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-07-14T16:50:15.804Z",
+  "generated_at": "2026-07-14T18:25:54.613Z",
   "ar": [
+    {
+      "name": "gt-sirm-1.2-gnutux.jpeg",
+      "size": 33522,
+      "last_modified_ts": 1784053538,
+      "path": "assets/images/ar/gt-sirm-1.2-gnutux.jpeg"
+    },
+    {
+      "name": "gt-sirm-1.2-gnutux.webp",
+      "size": 20318,
+      "last_modified_ts": 1784053538,
+      "path": "assets/images/ar/gt-sirm-1.2-gnutux.webp"
+    },
     {
       "name": "blender-5.2lts-gnutux.jpeg",
       "size": 152553,
@@ -970,6 +982,18 @@
   ],
   "en": [
     {
+      "name": "gt-sirm-1.2-gnutux.jpeg",
+      "size": 33522,
+      "last_modified_ts": 1784053538,
+      "path": "assets/images/en/gt-sirm-1.2-gnutux.jpeg"
+    },
+    {
+      "name": "gt-sirm-1.2-gnutux.webp",
+      "size": 20318,
+      "last_modified_ts": 1784053538,
+      "path": "assets/images/en/gt-sirm-1.2-gnutux.webp"
+    },
+    {
       "name": "blender-5.2lts-gnutux.jpeg",
       "size": 152553,
       "last_modified_ts": 1784047799,
@@ -1936,6 +1960,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 161,
-  "count_en": 161
+  "count_ar": 163,
+  "count_en": 163
 }
