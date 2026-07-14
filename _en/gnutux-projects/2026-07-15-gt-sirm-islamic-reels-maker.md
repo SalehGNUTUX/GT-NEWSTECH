@@ -3,7 +3,10 @@ layout: post
 title: >-
   GT-SIRM v1.2.0: Complete Islamic Reels Maker with 6 Content Modules and
   Advanced Clip Controls
+slug: gt-sirm-islamic-reels-maker
+lang: en
 category: gnutux-projects
+date: 2026-07-14T18:32:00.000Z
 author: GNUTUX
 excerpt: >-
   GT-SIRM is an open source (GPLv3) application for creating professional
@@ -22,9 +25,6 @@ tags:
   - Open Source
 also_in:
   - foss
-date: 2026-07-15T18:25:00.000Z
-lang: en
-slug: gt-sirm-islamic-reels-maker
 ---
 
 ## A Complete Open Source Islamic Content Creator

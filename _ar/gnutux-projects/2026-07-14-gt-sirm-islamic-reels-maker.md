@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'GT-SIRM v1.2.0: صانع ريلز إسلامية متكامل مع 6 وحدات محتوى وتحكم متقدم بالمقاطع'
+slug: gt-sirm-islamic-reels-maker
+lang: ar
 category: gnutux-projects
+date: 2026-07-14T18:31:00.000Z
 author: GNUTUX
 excerpt: >-
   GT-SIRM هو تطبيق مفتوح المصدر (GPLv3) لصنع ريلز إسلامية احترافية، يضم 6 وحدات
@@ -19,9 +22,6 @@ tags:
   - مفتوح المصدر
 also_in:
   - foss
-date: 2026-07-14T18:24:00.000Z
-lang: ar
-slug: gt-sirm-islamic-reels-maker
 ---
 
 ```markdown
