@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-07-06T20:52:31.059Z",
+  "generated_at": "2026-07-14T16:50:15.804Z",
   "ar": [
+    {
+      "name": "blender-5.2lts-gnutux.jpeg",
+      "size": 152553,
+      "last_modified_ts": 1784047799,
+      "path": "assets/images/ar/blender-5.2lts-gnutux.jpeg"
+    },
+    {
+      "name": "blender-5.2lts-gnutux.webp",
+      "size": 108882,
+      "last_modified_ts": 1784047799,
+      "path": "assets/images/ar/blender-5.2lts-gnutux.webp"
+    },
+    {
+      "name": "gt-stacer-ar-gnutux.png",
+      "size": 207650,
+      "last_modified_ts": 1783891300,
+      "path": "assets/images/ar/gt-stacer-ar-gnutux.png"
+    },
+    {
+      "name": "gt-stacer-ar-gnutux.webp",
+      "size": 57994,
+      "last_modified_ts": 1783891300,
+      "path": "assets/images/ar/gt-stacer-ar-gnutux.webp"
+    },
     {
       "name": "openreel-video-gnutux.png",
       "size": 159957,
@@ -946,6 +970,30 @@
   ],
   "en": [
     {
+      "name": "blender-5.2lts-gnutux.jpeg",
+      "size": 152553,
+      "last_modified_ts": 1784047799,
+      "path": "assets/images/en/blender-5.2lts-gnutux.jpeg"
+    },
+    {
+      "name": "blender-5.2lts-gnutux.webp",
+      "size": 108882,
+      "last_modified_ts": 1784047799,
+      "path": "assets/images/en/blender-5.2lts-gnutux.webp"
+    },
+    {
+      "name": "gt-stacer-en-gnutux.png",
+      "size": 202616,
+      "last_modified_ts": 1783891300,
+      "path": "assets/images/en/gt-stacer-en-gnutux.png"
+    },
+    {
+      "name": "gt-stacer-en-gnutux.webp",
+      "size": 59442,
+      "last_modified_ts": 1783891300,
+      "path": "assets/images/en/gt-stacer-en-gnutux.webp"
+    },
+    {
       "name": "openreel-video-gnutux.png",
       "size": 159957,
       "last_modified_ts": 1783371121,
@@ -1888,6 +1936,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 157,
-  "count_en": 157
+  "count_ar": 161,
+  "count_en": 161
 }
