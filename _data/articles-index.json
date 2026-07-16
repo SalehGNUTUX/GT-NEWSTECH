@@ -1,11 +1,169 @@
 {
-  "generated_at": "2026-07-12T21:21:57.670Z",
-  "count": 178,
+  "generated_at": "2026-07-16T16:16:43.840Z",
+  "count": 184,
   "by_lang": {
-    "ar": 89,
-    "en": 89
+    "ar": 92,
+    "en": 92
   },
   "articles": [
+    {
+      "title": "OpenAuth: An Open Source, Flexible Alternative to Auth0 and Clerk with OAuth 2.0 Support",
+      "slug": "openauth-auth-provider",
+      "date": "2026-07-16T16:16:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "OpenAuth is an open source, standards-based authentication provider built on OAuth 2.0, usable with web apps, mobile apps, APIs, and third-party clients. It supports self-hosting and runs on Node.js, Bun, AWS Lambda, and Cloudflare Workers.",
+      "image": "openauth-gnutux.jpg",
+      "tags": [
+        "OpenAuth",
+        "Authentication",
+        "OAuth 2.0",
+        "Open Source",
+        "Self-Hosting",
+        "Web Apps",
+        "Node.js",
+        "Bun",
+        "Cloudflare"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-16-openauth-auth-provider.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "OpenAuth: بديل مفتوح المصدر ومرن لـ Auth0 و Clerk مع دعم OAuth 2.0",
+      "slug": "openauth-auth-provider",
+      "date": "2026-07-16T16:15:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "OpenAuth هو مزود مصادقة (Authentication Provider) مفتوح المصدر ومبني على معايير OAuth 2.0، يمكن استخدامه مع تطبيقات الويب والجوال وواجهات API وتطبيقات الطرف الثالث. يدعم الاستضافة الذاتية ويعمل مع Node.js وBun وAWS Lambda وCloudflare Workers.",
+      "image": "openauth-gnutux.jpg",
+      "tags": [
+        "OpenAuth",
+        "مصادقة",
+        "OAuth 2.0",
+        "مفتوح المصدر",
+        "استضافة ذاتية",
+        "تطبيقات ويب",
+        "Node.js",
+        "Bun",
+        "Cloudflare"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-16-openauth-auth-provider.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "GT-SIRM v1.2.0: Complete Islamic Reels Maker with 6 Content Modules and Advanced Clip Controls",
+      "slug": "gt-sirm-islamic-reels-maker",
+      "date": "2026-07-14T18:32:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "GT-SIRM is an open source (GPLv3) application for creating professional Islamic reels, featuring 6 content modules (Quran, Hadith, Dhikr, Allah's Names, Supplications, Wisdom) with a deterministic rendering engine, multi-background clips, and a comprehensive Undo/Redo system. Available on Linux (AppImage, DEB, RPM), Web (PWA), and Android (APK).",
+      "image": "gt-sirm-1.2-gnutux.jpeg",
+      "tags": [
+        "GT-SIRM",
+        "Islamic Reels",
+        "Dawah Tools",
+        "Islamic Content",
+        "Linux",
+        "PWA",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-15-gt-sirm-islamic-reels-maker.md",
+      "_lang": "en",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "GT-SIRM v1.2.0: صانع ريلز إسلامية متكامل مع 6 وحدات محتوى وتحكم متقدم بالمقاطع",
+      "slug": "gt-sirm-islamic-reels-maker",
+      "date": "2026-07-14T18:31:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "GT-SIRM هو تطبيق مفتوح المصدر (GPLv3) لصنع ريلز إسلامية احترافية، يضم 6 وحدات محتوى (القرآن، الحديث، الأذكار، أسماء الله الحسنى، الأدعية، الحِكَم) مع محرك تصدير حتمي، ومقاطع خلفية متعددة، ونظام Undo/Redo شامل. يعمل على لينكس (AppImage، DEB، RPM) والويب (PWA) وأندرويد (APK).",
+      "image": "gt-sirm-1.2-gnutux.jpeg",
+      "tags": [
+        "GT-SIRM",
+        "ريلز إسلامية",
+        "أدوات دعوية",
+        "محتوى إسلامي",
+        "Linux",
+        "PWA",
+        "مفتوح المصدر"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-14-gt-sirm-islamic-reels-maker.md",
+      "_lang": "ar",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "Blender 5.2 LTS Officially Released: EEVEE Overhaul, Online Asset Libraries, and More",
+      "slug": "blender-5-2-lts-release",
+      "date": "2026-07-14T16:49:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The Blender Foundation has released version 5.2 LTS, the new long-term support release featuring significant improvements in EEVEE performance and lighting, a major compositor overhaul with new nodes, support for online asset libraries, and enhanced modeling and sculpting tools.",
+      "image": "blender-5.2lts-gnutux.jpeg",
+      "tags": [
+        "Blender",
+        "LTS",
+        "Free Software",
+        "3D Modeling",
+        "EEVEE",
+        "Graphics"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-14-blender-5-2-lts-release.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "Blender 5.2 LTS يصدر رسمياً: تحسينات في الإضاءة والمؤثرات البصرية والمكتبات السحابية",
+      "slug": "blender-5-2-lts-release",
+      "date": "2026-07-14T16:48:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدر مشروع Blender الإصدار 5.2 LTS، وهو إصدار الدعم طويل الأجل الجديد الذي يقدم تحسينات كبيرة في أداء الإضاءة، ومؤثرات compositor متقدمة، ودعم مكتبات الأصول السحابية، وأدوات نمذجة محسّنة، مع دعم لمدة عامين.",
+      "image": "blender-5.2lts-gnutux.jpeg",
+      "tags": [
+        "Blender",
+        "LTS",
+        "برمجيات حرة",
+        "نمذجة ثلاثية الأبعاد",
+        "EEVEE",
+        "رسوميات"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-14-blender-5-2-lts-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "GT-STACER 26.07: A New Stable Release for the GNU/Linux System Monitor and Optimizer",
       "slug": "gt-stacer-26-07-release",
