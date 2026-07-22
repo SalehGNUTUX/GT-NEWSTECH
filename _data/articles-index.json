@@ -1,11 +1,64 @@
 {
-  "generated_at": "2026-07-16T16:16:43.840Z",
-  "count": 184,
+  "generated_at": "2026-07-22T06:57:21.484Z",
+  "count": 186,
   "by_lang": {
-    "ar": 92,
-    "en": 92
+    "ar": 93,
+    "en": 93
   },
   "articles": [
+    {
+      "title": "Lucide: مكتبة أيقونات SVG حديثة ومفتوحة المصدر للمطورين والمصممين",
+      "slug": "lucide-open-source-svg-icon-library",
+      "date": "2026-07-22T06:56:00.000Z",
+      "category": "tech-news",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Lucide هي مكتبة أيقونات SVG مجانية ومفتوحة المصدر توفر أكثر من 1700 أيقونة عصرية ومتناسقة، مع دعم واسع لأطر العمل الحديثة مثل React وVue وSvelte وAngular، وتصميم خفيف وقابل للتخصيص.",
+      "image": "lucide-icons-gnutux.jpg",
+      "tags": [
+        "Lucide",
+        "أيقونات",
+        "SVG",
+        "تطوير الويب",
+        "React",
+        "Vue",
+        "مفتوح_المصدر"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-22-lucide-open-source-svg-icon-library.md",
+      "_lang": "ar",
+      "_cat": "tech-news"
+    },
+    {
+      "title": "Lucide: A Modern Open-Source SVG Icon Library for Developers and Designers",
+      "slug": "lucide-open-source-svg-icon-library",
+      "date": "2026-07-22T06:55:00.000Z",
+      "category": "tech-news",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Lucide is a modern open-source icon library providing over 1,700 beautifully designed and consistent SVG icons. It supports React, Vue, Svelte, Angular, Astro, React Native, and many other frameworks while remaining lightweight, customizable, and tree-shakeable.",
+      "image": "lucide-icons-gnutux.jpg",
+      "tags": [
+        "Lucide",
+        "Icons",
+        "SVG",
+        "Web Development",
+        "React",
+        "Vue",
+        "Svelte",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-07-22-lucide-open-source-svg-icon-library.md",
+      "_lang": "en",
+      "_cat": "tech-news"
+    },
     {
       "title": "OpenAuth: An Open Source, Flexible Alternative to Auth0 and Clerk with OAuth 2.0 Support",
       "slug": "openauth-auth-provider",
