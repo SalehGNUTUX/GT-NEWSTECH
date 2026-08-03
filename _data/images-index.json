@@ -1,6 +1,42 @@
 {
-  "generated_at": "2026-07-14T18:32:45.649Z",
+  "generated_at": "2026-08-03T10:58:27.777Z",
   "ar": [
+    {
+      "name": "pkg2appimage-gnutux-ar.png",
+      "size": 494668,
+      "last_modified_ts": 1785754690,
+      "path": "assets/images/ar/pkg2appimage-gnutux-ar.png"
+    },
+    {
+      "name": "pkg2appimage-gnutux-ar.webp",
+      "size": 117728,
+      "last_modified_ts": 1785754690,
+      "path": "assets/images/ar/pkg2appimage-gnutux-ar.webp"
+    },
+    {
+      "name": "lucide-icons-gnutux.jpg",
+      "size": 81837,
+      "last_modified_ts": 1784703424,
+      "path": "assets/images/ar/lucide-icons-gnutux.jpg"
+    },
+    {
+      "name": "lucide-icons-gnutux.webp",
+      "size": 65544,
+      "last_modified_ts": 1784703424,
+      "path": "assets/images/ar/lucide-icons-gnutux.webp"
+    },
+    {
+      "name": "openauth-gnutux.jpg",
+      "size": 43721,
+      "last_modified_ts": 1784218584,
+      "path": "assets/images/ar/openauth-gnutux.jpg"
+    },
+    {
+      "name": "openauth-gnutux.webp",
+      "size": 32464,
+      "last_modified_ts": 1784218584,
+      "path": "assets/images/ar/openauth-gnutux.webp"
+    },
     {
       "name": "gt-sirm-1.2-gnutux.jpeg",
       "size": 46309,
@@ -982,6 +1018,42 @@
   ],
   "en": [
     {
+      "name": "pkg2appimage-gnutux-en.png",
+      "size": 569109,
+      "last_modified_ts": 1785754690,
+      "path": "assets/images/en/pkg2appimage-gnutux-en.png"
+    },
+    {
+      "name": "pkg2appimage-gnutux-en.webp",
+      "size": 145786,
+      "last_modified_ts": 1785754690,
+      "path": "assets/images/en/pkg2appimage-gnutux-en.webp"
+    },
+    {
+      "name": "lucide-icons-gnutux.jpg",
+      "size": 81837,
+      "last_modified_ts": 1784703424,
+      "path": "assets/images/en/lucide-icons-gnutux.jpg"
+    },
+    {
+      "name": "lucide-icons-gnutux.webp",
+      "size": 65544,
+      "last_modified_ts": 1784703424,
+      "path": "assets/images/en/lucide-icons-gnutux.webp"
+    },
+    {
+      "name": "openauth-gnutux.jpg",
+      "size": 43721,
+      "last_modified_ts": 1784218584,
+      "path": "assets/images/en/openauth-gnutux.jpg"
+    },
+    {
+      "name": "openauth-gnutux.webp",
+      "size": 32464,
+      "last_modified_ts": 1784218584,
+      "path": "assets/images/en/openauth-gnutux.webp"
+    },
+    {
       "name": "gt-sirm-1.2-gnutux.jpeg",
       "size": 46309,
       "last_modified_ts": 1784053949,
@@ -1960,6 +2032,6 @@
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
     }
   ],
-  "count_ar": 163,
-  "count_en": 163
+  "count_ar": 169,
+  "count_en": 169
 }
