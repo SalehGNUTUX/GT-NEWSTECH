@@ -48,4 +48,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add _data/images-index.json
           git commit -m "chore: تحديث images-index.json تلقائياً [skip ci]"
-          git push
+          # دفعة واحدة قد تُشغّل هذا الـworkflow و build-articles-index معاً،
+          # فيخسر الثاني السباق على main برفض fetch first. نُعيد المحاولة
+          # بعد rebase — الملفان مختلفان فلا تعارض فعلي بينهما.
+          for i in 1 2 3 4 5; do
+            git push && exit 0
+            echo "⟳ دفع مرفوض — إعادة المحاولة $i"
+            git pull --rebase origin main || exit 1
+          done
+          exit 1

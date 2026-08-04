@@ -47,4 +47,11 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add _data/articles-index.json
           git commit -m "chore: تحديث articles-index.json تلقائياً [skip ci]"
-          git push
+          # انظر التعليق نفسه في build-images-index.yml — سباق على main
+          # حين تُشغّل دفعةٌ واحدة أكثر من workflow يكتب في المستودع.
+          for i in 1 2 3 4 5; do
+            git push && exit 0
+            echo "⟳ دفع مرفوض — إعادة المحاولة $i"
+            git pull --rebase origin main || exit 1
+          done
+          exit 1
