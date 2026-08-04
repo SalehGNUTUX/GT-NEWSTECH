@@ -168,7 +168,7 @@ git add . && git commit -m "message" && git push origin main
 - **Header layout fix:** `.archive-header` uses `flex + justify-content: space-between` with `padding: 1rem 0 1.25rem` and `border-bottom` to create clearance from the fixed site header. Title uses `text-align: start` for correct RTL/LTR alignment; `.lang-switch` has `flex-shrink: 0; white-space: nowrap`. `.archive-page` also has `padding-top: 2.5rem` to prevent overlap with the fixed nav bar.
 
 **Critical `exclude` rule:**
-`admin/` directory must stay in `_config.yml`'s `exclude` list. Jekyll crashes on `admin/node_modules/` (Liquid syntax errors).
+`admin/` **and `scripts/`** must stay in `_config.yml`'s `exclude` list. Jekyll crashes on any `node_modules/` it walks into — a README in a dependency containing `{%= name %}` aborts the build with a Liquid syntax error. `scripts/node_modules/` appears as soon as anyone runs `npm install` there (e.g. for `npm run optimize`), so the exclude is what keeps local builds working.
 
 **Do NOT use `--livereload`** — causes `chrome-error://chromewebdata/` errors. Use `--watch --force_polling` and manual F5.
 
@@ -430,6 +430,19 @@ Single file `assets/css/style.css`. Theming via CSS custom properties:
 - `inset-inline: 0` (not `left:0; right:0;`) for RTL/LTR support
 - `backdrop-filter: blur(8px)` for glass effect on scroll
 - `html { scroll-padding-top: 80px; }` ensures TOC anchor jumps land below the fixed header
+
+**Horizontal overflow — the `min-width: 0` rule (critical):**
+- `.post-layout` is a grid (`1fr 260px`). Grid/flex items default to `min-width: auto`, meaning they refuse to shrink below their widest content. A single long line inside `<pre>` (a 300-char shell command) stretched the article column to ~1700px inside a 1160px container: text was clipped by `overflow-x: hidden` on `html`/`body`, and the TOC sidebar was pushed off-screen entirely.
+- Fix: `.post-layout > *, .post-content-wrap, .articles-grid > *, .featured-grid > * { min-width: 0; }` — the column then respects the container and `<pre>`/tables scroll internally.
+- **`min-width` beats `max-width` in CSS**, so the mobile `* { max-width: 100% }` safety net could not fix this. Any new grid/flex container that can hold article content needs `min-width: 0` on its items.
+- For the same reason `.post-body table` must not carry a `min-width` — it would prevent the table from fitting narrow screens.
+
+**Bi-directional text (Arabic + Latin) — see the BiDi block in `style.css`:**
+- Arabic pages are `dir="rtl"`, and that direction was inherited by code, which the Unicode BiDi algorithm then reordered: `./cmd` rendered as `cmd/.`, a trailing `)` jumped to the start of the line, and inline `` `.yml` `` displayed as `yml.`. **Code is always LTR:** `.post-body pre, .post-body code, .static-page-body pre, .static-page-body code, kbd, samp, var { direction: ltr; text-align: left; unicode-bidi: isolate; }`
+- Inline elements that may carry opposite-direction text (`a`, `strong`, `em`, `b`, `i`, `abbr`) get `unicode-bidi: isolate` so neutral characters (punctuation, parentheses, slashes) don't resolve across their boundary and jump position.
+- Use `isolate`, **never `plaintext`**, on titles/excerpts: `plaintext` picks the base direction from the first strong character, which would make an Arabic title starting with a Latin product name (`pkg2appimage: أداة…`) read left-to-right — backwards for an Arabic reader.
+- Never use `word-break: break-all` on anything holding Arabic — it chops connected Arabic script mid-word. Use `overflow-wrap: anywhere` + `word-break: normal`, which breaks only when a word genuinely can't fit.
+- **Share text direction:** third-party apps (Telegram, X, Mastodon, WhatsApp) infer direction from the first strong character, so Arabic titles beginning with a Latin term were rendered left-aligned and scrambled. `rtlMark()` in `main.js` prefixes each Arabic share paragraph with RLM (U+200F); `_layouts/default.html` does the same for `og:title`/`og:description`/`twitter:*` so link-preview cards match. The mark is defined once in `_data/bidi.yml` as `rlm: "\u200F"` — YAML's `\uXXXX` escape keeps it visible in source instead of an invisible character that edits would silently drop. English pages get no mark.
 
 ---
 

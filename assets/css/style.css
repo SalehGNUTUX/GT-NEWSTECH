@@ -1036,6 +1036,23 @@ body { padding-top: var(--header-height, 64px); }
   align-items: start;
 }
 
+/* ── منع «انفجار الشبكة» (grid blow-out) ─────────────────────────
+   عناصر الـgrid/flex قيمتها الافتراضية min-width:auto، أي أنها ترفض
+   أن تصغر تحت عرض أعرض محتوى بداخلها. سطر أوامر طويل داخل <pre>
+   (أو جدول عريض) كان يمدّد عمود المقال إلى 1700px داخل حاوية 1160px،
+   فيخرج النص خارج حدود الشاشة ويُقصّ بسبب overflow-x:hidden على body،
+   ويُدفع الشريط الجانبي خارج العرض. min-width:0 يعيد العمود لعرض
+   الحاوية ويترك التمرير الأفقي داخل <pre>/الجدول نفسه.
+   يلزم على الحاسوب والهاتف معاً (min-width يتغلّب على max-width). */
+.post-layout > *,
+.post-content-wrap,
+.articles-grid > *,
+.featured-grid > * {
+  min-width: 0;
+}
+
+.post-content-wrap { max-width: 100%; }
+
 /* Translation Banner */
 .translation-banner {
   display: flex;
@@ -1089,9 +1106,9 @@ body { padding-top: var(--header-height, 64px); }
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 3px;
-  /* الروابط الطويلة لا تكسر التخطيط */
-  overflow-wrap: break-word;
-  word-break: break-all;
+  /* الروابط الطويلة لا تكسر التخطيط — دون قطع الكلمات العربية */
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .post-body a:hover { text-decoration-style: solid; }
@@ -1115,9 +1132,9 @@ body { padding-top: var(--header-height, 64px); }
   padding: 0.1em 0.4em;
   border-radius: 3px;
   color: var(--gold);
-  /* كود مضمّن: يكسر عند الضرورة */
-  overflow-wrap: break-word;
-  word-break: break-all;
+  /* كود مضمّن: يكسر عند الضرورة فقط (break-all كان يقطع في أي موضع) */
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 /* كتلة الكود: قابلة للتمرير أفقياً (لا تكسر الكود) */
@@ -1144,6 +1161,63 @@ body { padding-top: var(--header-height, 64px); }
   word-break: normal;
   overflow-wrap: normal;
   white-space: pre;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   اتجاه النص في المحتوى ثنائي اللغة (BiDi)
+   ──────────────────────────────────────────────────────────────
+   الصفحة العربية اتجاهها rtl، وهذا الاتجاه كان يورَّث إلى الكود
+   والروابط والمصطلحات اللاتينية فيختلّ ترتيبها:
+     • أوامر الطرفية تُحاذى يميناً وتُعاد ترتيب مقاطعها، فيقفز
+       القوس الأخير ")" إلى أول السطر و "./" إلى آخره → أمر غير صالح.
+     • الكود المضمّن `‎.yml` كان يظهر "yml." (النقطة محايدة فتلتحق
+       بالاتجاه العام بدل الالتصاق بالكلمة اللاتينية).
+     • المصطلحات اللاتينية وسط جملة عربية كانت تتفاعل مع علامات
+       الترقيم المحايدة حولها فتنتقل من موضعها.
+   الحل: فرض LTR على الكود، وعزل (isolate) كل عنصر مضمّن قد يحمل
+   نصاً معاكس الاتجاه حتى لا "تتسرّب" المحارف المحايدة عبر حدوده.
+   ══════════════════════════════════════════════════════════════ */
+
+/* الكود دائماً LTR — بأي لغة كانت الصفحة */
+.post-body pre,
+.post-body pre code,
+.post-body code,
+.static-page-body pre,
+.static-page-body pre code,
+.static-page-body code,
+kbd, samp, var {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+/* عزل العناصر المضمّنة: تُعامَل كوحدة واحدة في خوارزمية BiDi */
+.post-body a,
+.post-body strong,
+.post-body b,
+.post-body em,
+.post-body i,
+.post-body abbr,
+.static-page-body a,
+.static-page-body strong,
+.static-page-body em {
+  unicode-bidi: isolate;
+}
+
+/* عناوين ونصوص مختصرة قد تخلط اللغتين — تُعزل عن سياقها المحيط
+   مع الإبقاء على اتجاه الصفحة كاتجاه أساسي (isolate لا plaintext:
+   plaintext كان سيجعل عنواناً عربياً يبدأ بكلمة لاتينية يُقرأ
+   من اليسار لليمين وهو عكس المطلوب). */
+.post-title,
+.card-title,
+.card-excerpt,
+.cat-page-title,
+.bc-current,
+.toc a,
+.tag,
+.search-result-title,
+.post-scheduled h2 {
+  unicode-bidi: isolate;
 }
 
 .post-body ul, .post-body ol {
@@ -1179,8 +1253,12 @@ body { padding-top: var(--header-height, 64px); }
   border-collapse: collapse;
   margin: 1.5rem 0;
   font-size: 0.9rem;
-  /* حد أدنى لعرض الجدول حتى يكون قابلاً للقراءة */
-  min-width: 400px;
+  /* لا min-width هنا: مع display:block فإن الحد الأدنى يمنع الجدول من
+     الانكماش داخل حاويته على الشاشات الضيقة (min-width يتغلّب على
+     max-width) فيخرج خارج الشاشة. صندوق الجدول الداخلي يتمدّد لعرض
+     محتواه على أي حال، والتمرير الأفقي هنا يتكفّل بالباقي. */
+  min-width: 0;
+  max-width: 100%;
 }
 
 .post-body th {
@@ -1795,7 +1873,8 @@ body { padding-top: var(--header-height, 64px); }
   padding: 0.1em 0.4em;
   border-radius: 3px;
   color: var(--gold);
-  word-break: break-all;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .static-page-body pre {
@@ -2323,8 +2402,9 @@ body { padding-top: var(--header-height, 64px); }
   /* العربية: هايفن غير مدعوم، break-word يكفي */
   [lang="ar"] p, [lang="ar"] li { hyphens: none; }
 
-  /* الروابط الطويلة */
-  a { word-break: break-all; overflow-wrap: anywhere; }
+  /* الروابط الطويلة: تُكسر عند الضرورة فقط.
+     break-all كان يقطع نص الروابط العربية في منتصف الكلمة دائماً. */
+  a { word-break: normal; overflow-wrap: anywhere; }
   /* إلا روابط الأزرار والشارات */
   .btn, .strip-link, .mlang, .see-all, .nav-link,
   .card-cat-badge, .tag, .post-cat-badge { word-break: normal; }

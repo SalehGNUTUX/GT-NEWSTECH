@@ -6,6 +6,24 @@
   /* ── Language preference ──────────────────────────────────── */
   var currentLang = document.body.getAttribute('data-lang') || 'ar';
 
+  /* ── اتجاه نصوص المشاركة (BiDi) ───────────────────────────────
+     تطبيقات المشاركة (تيليجرام، إكس، ماستودون، واتساب…) تستنتج اتجاه
+     النص من أول حرف "قوي" فيه. عنوان عربي يبدأ بمصطلح لاتيني مثل
+     "pkg2appimage: أداة مفتوحة المصدر…" يُقرأ عندها كنص إنجليزي،
+     فيُحاذى لليسار ويختلّ ترتيب مقاطعه العربية عند العرض.
+     الحل: تصدير كل فقرة عربية بعلامة RLM (U+200F) غير المرئية،
+     فتُحسم قاعدة الاتجاه لصالح RTL مهما كان أول حرف. */
+  var RLM = '\u200F';
+  var ARABIC_RE = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+
+  function rtlMark(text, isEn) {
+    if (isEn || !text) return text;
+    /* لا نضاعف العلامة إن كانت موجودة، ولا نضيفها لنص لاتيني خالص */
+    if (text.charAt(0) === RLM) return text;
+    if (!ARABIC_RE.test(text)) return text;
+    return RLM + text;
+  }
+
   /* Save language when user clicks a language link */
   document.querySelectorAll('[data-lang-link]').forEach(function (a) {
     a.addEventListener('click', function () {
@@ -333,12 +351,14 @@
     var tags    = shareWrap ? (shareWrap.dataset.shareTags    || '')                   : '';
     var isEn    = (document.documentElement.lang || '').startsWith('en');
 
-    /* النص الكامل (للنسخ، Mastodon، Telegram، Instagram، Discord) */
+    /* النص الكامل (للنسخ، Mastodon، Telegram، Instagram، Discord).
+       rtlMark تضيف U+200F لكل فقرة عربية حتى لا يقلب التطبيق المستقبِل
+       اتجاهها لمجرد أنها تبدأ بمصطلح لاتيني (سطر الرابط يبقى LTR). */
     function buildFullText() {
-      var parts = [title];
-      if (excerpt) parts.push(excerpt);
+      var parts = [rtlMark(title, isEn)];
+      if (excerpt) parts.push(rtlMark(excerpt, isEn));
       parts.push('🔗 ' + url);
-      if (tags) parts.push(tags);
+      if (tags) parts.push(rtlMark(tags, isEn));
       return parts.join('\n\n');
     }
 
@@ -348,15 +368,15 @@
     function buildShortText() {
       var urlLen = url.length + 4; // \n\n + URL
       var maxLen = 270;
-      var t = title;
+      var t = rtlMark(title, isEn);
       var room = maxLen - t.length - urlLen;
       if (excerpt && excerpt.length + 2 < room) {
-        t += '\n\n' + excerpt;
+        t += '\n\n' + rtlMark(excerpt, isEn);
         room -= excerpt.length + 2;
       }
       t += '\n\n' + url;
       if (tags && tags.length + 2 < (maxLen - t.length + 20)) {
-        t += '\n\n' + tags;
+        t += '\n\n' + rtlMark(tags, isEn);
       }
       return t;
     }
@@ -902,10 +922,11 @@
   }
 
   function buildCardShareText(title, excerpt, url, tags) {
-    var parts = [title];
-    if (excerpt) parts.push(excerpt);
+    var isEn = (document.documentElement.lang || '').startsWith('en');
+    var parts = [rtlMark(title, isEn)];
+    if (excerpt) parts.push(rtlMark(excerpt, isEn));
     parts.push('🔗 ' + url);
-    if (tags) parts.push(tags);
+    if (tags) parts.push(rtlMark(tags, isEn));
     return parts.join('\n\n');
   }
 

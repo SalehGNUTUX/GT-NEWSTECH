@@ -82,6 +82,7 @@ exclude:
   - node_modules/
   - admin/
   - admin-worker/
+  - scripts/
   - _trash/
   - assets/images/_originals/
   - serve.sh

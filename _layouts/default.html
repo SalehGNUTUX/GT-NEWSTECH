@@ -38,10 +38,21 @@
     {% assign _og_image = site.url | append: site.baseurl | append: '/assets/icons/gt-newstech-icon.png' %}
   {% endif %}
 
+  {% comment %} ── اتجاه نصوص المعاينة (BiDi) ───────────────────────
+     بطاقة المعاينة في تيليجرام/واتساب/ماستودون تُبنى من وسوم OG،
+     وهذه التطبيقات تستنتج اتجاه النص من أول حرف "قوي" فيه. عنوان
+     عربي يبدأ بمصطلح لاتيني ("pkg2appimage: أداة…") كان يُعرَض
+     كأنه إنجليزي: بمحاذاة يسار وبترتيب مقاطع مختلّ. نُسبقه بعلامة
+     RLM غير المرئية (معرَّفة في _data/bidi.yml) فيُحسم الاتجاه RTL.
+     الصفحات الإنجليزية تبقى بلا علامة. {% endcomment %}
+  {% if page.lang == 'en' %}{% assign _rlm = '' %}{% else %}{% assign _rlm = site.data.bidi.rlm %}{% endif %}
+  {% capture _share_title %}{{ _rlm }}{{ page.title | default: site.title }}{% endcapture %}
+  {% capture _share_desc %}{{ _rlm }}{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}{% endcapture %}
+
   <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram, ...) -->
   <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
-  <meta property="og:title" content="{{ page.title | default: site.title }}">
-  <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
+  <meta property="og:title" content="{{ _share_title }}">
+  <meta property="og:description" content="{{ _share_desc }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <meta property="og:image" content="{{ _og_image }}">
   <meta property="og:image:secure_url" content="{{ _og_image }}">
@@ -60,8 +71,8 @@
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ page.title | default: site.title }}">
-  <meta name="twitter:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
+  <meta name="twitter:title" content="{{ _share_title }}">
+  <meta name="twitter:description" content="{{ _share_desc }}">
   <meta name="twitter:image" content="{{ _og_image }}">
   <meta name="twitter:image:alt" content="{{ page.title | default: site.title }}">
 
