@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-07-22T06:57:21.484Z",
-  "count": 186,
+  "generated_at": "2026-08-04T11:54:35.654Z",
+  "count": 188,
   "by_lang": {
-    "ar": 93,
-    "en": 93
+    "ar": 94,
+    "en": 94
   },
   "articles": [
+    {
+      "title": "pkg2appimage: أداة مفتوحة المصدر لتحويل حزم DEB إلى تطبيقات AppImage محمولة",
+      "slug": "pkg2appimage-tool",
+      "date": "2026-08-03T10:57:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "pkg2appimage هي أداة مفتوحة المصدر من مجتمع AppImage، تسمح للمطورين والمستخدمين بتحويل حزم DEB وملفات الأرشيف الثنائية إلى تطبيقات AppImage محمولة تعمل على أي توزيعة لينكس، من خلال وصفات YAML بسيطة.",
+      "image": "pkg2appimage-gnutux-ar.png",
+      "tags": [
+        "pkg2appimage",
+        "AppImage",
+        "حزم لينكس",
+        "برمجيات محمولة",
+        "Debian",
+        "Ubuntu",
+        "مفتوح المصدر"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-08-03-pkg2appimage-tool.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "pkg2appimage: An Open Source Tool to Convert DEB Packages into Portable AppImages",
+      "slug": "pkg2appimage-tool",
+      "date": "2026-08-03T10:57:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "pkg2appimage is an open source tool from the AppImage community that allows developers and users to convert DEB packages and binary archives into portable AppImages that run on any Linux distribution, using simple YAML recipes.",
+      "image": "pkg2appimage-gnutux-en.png",
+      "tags": [
+        "pkg2appimage",
+        "AppImage",
+        "Linux Packages",
+        "Portable Software",
+        "Debian",
+        "Ubuntu",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-08-03-pkg2appimage-tool.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Lucide: مكتبة أيقونات SVG حديثة ومفتوحة المصدر للمطورين والمصممين",
       "slug": "lucide-open-source-svg-icon-library",
@@ -3272,7 +3324,7 @@
       "also_in": [],
       "author": "GNUTUX",
       "excerpt": "Claude Code leads in depth and code quality with 80.9% on SWE-bench, while Codex leads in speed and efficiency with 77.3% on Terminal-Bench consuming 2-4x fewer tokens. A complete comparison of the most powerful AI coding tools in 2026.",
-      "image": "claudevscodex.png",
+      "image": "claudevscodex.avif",
       "tags": [
         "Claude Code",
         "OpenAI Codex",
@@ -3294,7 +3346,7 @@
       "also_in": [],
       "author": "GNUTUX",
       "excerpt": "Claude Code يتفوق في العمق والجودة وجودة الكود بـ 80.9% على SWE-bench، بينما يتفوق Codex في السرعة والكفاءة والفعالية من حيث التكلفة بـ 77.3% في Terminal-Bench مع استهلاك أقل بمقدار 2-4x من التوكنات. إليك مقارنة كاملة بين أقوى أدوات البرمجة بالذكاء الاصطناعي في 2026.",
-      "image": "claudevscodex.png",
+      "image": "claudevscodex.avif",
       "tags": [
         "Claude Code",
         "OpenAI Codex",
