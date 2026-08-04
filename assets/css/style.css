@@ -28,6 +28,10 @@
   --border:        #e2d9c8;
   --border-strong: #c8b88a;
 
+  /* خلفية إطار الصورة — تظهر كشريط جانبي/علوي حين تختلف نسبة الصورة
+     عن نسبة الإطار. الصورة تُعرض كاملة (contain) بدل أن تُقصّ (cover). */
+  --img-bg:        #ece7dc;
+
   --shadow-sm:     0 1px 4px rgba(0,0,0,.06);
   --shadow-md:     0 4px 16px rgba(0,0,0,.1);
   --shadow-lg:     0 12px 40px rgba(0,0,0,.14);
@@ -69,6 +73,7 @@
 
   --border:        #2a2520;
   --border-strong: #3a3020;
+  --img-bg:        #0d0d0d;
 
   --shadow-sm:     0 1px 4px rgba(0,0,0,.4);
   --shadow-md:     0 4px 16px rgba(0,0,0,.5);
@@ -742,25 +747,37 @@ body { padding-top: var(--header-height, 64px); }
   text-decoration: none;
 }
 
+/* ── صورة البطاقة المصغّرة ────────────────────────────────────────
+   إطار ثابت النسبة (16:9) حتى تبقى الشبكة منتظمة، والصورة بداخله
+   بـ object-fit:contain فتظهر كاملة مهما كانت نسبتها.
+   كان الإطار height:190px + object-fit:cover، فيُقصّ من الصور غير
+   الـ16:9 جزءٌ كبير (مكتبة الموقع فيها نسب من 1.2 إلى أعرض من 1.9). */
 .card-image {
   position: relative;
   overflow: hidden;
-  background: #111;
+  background: var(--img-bg);
 }
+
+/* <picture> عنصر inline افتراضياً — نجعله block ليملأ الإطار */
+.card-image picture { display: block; }
 
 .card-image img {
+  display: block;
   width: 100%;
-  height: 190px;
-  object-fit: cover;
-  transition: transform 0.4s ease;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: contain;
+  transition: filter 0.35s ease, opacity 0.35s ease;
 }
 
+/* التحويم: لا scale — التكبير مع overflow:hidden يقصّ حواف الصورة،
+   وهو بالضبط ما نتجنّبه. إضاءة خفيفة بدلاً منه. */
 .article-card:hover .card-image img {
-  transform: scale(1.04);
+  filter: brightness(1.07);
 }
 
 .card-image-placeholder {
-  height: 190px;
+  aspect-ratio: 16 / 9;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -992,12 +1009,27 @@ body { padding-top: var(--header-height, 64px); }
   overflow: hidden;
   margin-bottom: 2rem;
   box-shadow: var(--shadow-md);
+  background: var(--img-bg);
 }
 
+.post-featured-wrap picture { display: block; }
+
+/* ── ترويسة المقال ───────────────────────────────────────────────
+   height:auto ⇒ الارتفاع يتبع نسبة الصورة نفسها، فتظهر كاملة بلا قص
+   ولا أشرطة جانبية. كان max-height:480px + object-fit:cover يقصّ نحو
+   ثُلث ارتفاع أي صورة نسبتها أضيق من نسبة الحاوية.
+
+   max-height مقصود أن يكون عالياً: أي حدّ بوحدة vh يقصّ… لا، بل يُحيط
+   الصور العرضية العادية بأشرطة جانبية (لأن contain يحتويها داخل صندوق
+   أعرض من نسبتها). عند 1160px عرضاً، الحدّ 1200px لا يمسّ أي صورة
+   عرضية أو مربّعة — يتدخّل فقط مع الصور الطولية الشاذّة. */
 .post-featured-image {
+  display: block;
   width: 100%;
-  max-height: 480px;
-  object-fit: cover;
+  height: auto;
+  max-height: 1200px;
+  object-fit: contain;
+  background: var(--img-bg);
 }
 
 .image-caption {
@@ -2230,8 +2262,7 @@ kbd, samp, var {
   .section              { margin-bottom: 2rem; }
 
   /* ── Article card ── */
-  .card-image img       { height: 160px; }
-  .card-image-placeholder { height: 160px; }
+  /* النسبة تتكفّل بالارتفاع — لا ارتفاع ثابت (كان 160px + cover يقصّ) */
   .card-body            { padding: 0.85rem; }
   .card-title           { font-size: 0.9rem; }
   .card-excerpt         { display: none; } /* يُخفى على موبايل لتوفير المساحة */
@@ -2310,11 +2341,20 @@ kbd, samp, var {
     flex-shrink: 0;
   }
 
+  /* البطاقة الأفقية: الصورة تملأ ارتفاع البطاقة، وتُحتوى داخله كاملة */
+  .article-card--normal .card-image picture,
   .article-card--normal .card-image img,
   .article-card--normal .card-image-placeholder {
     height: 100%;
     min-height: 100px;
   }
+
+  .article-card--normal .card-image img {
+    aspect-ratio: auto;   /* الإطار هنا يحدّده ارتفاع البطاقة لا النسبة */
+    object-fit: contain;
+  }
+
+  .article-card--normal .card-image-placeholder { aspect-ratio: auto; }
 
   .article-card--normal .card-body {
     padding: 0.75rem 0.875rem;
@@ -2326,8 +2366,11 @@ kbd, samp, var {
     line-height: 1.35;
   }
 
-  /* Featured card يبقى رأسياً */
-  .article-card--featured .card-image img { height: 190px; }
+  /* Featured card يبقى رأسياً — النسبة 16:9 تحدّد ارتفاعه */
+  .article-card--featured .card-image img {
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
 
   /* Post */
   .post-title           { font-size: 1.3rem; }
@@ -2432,7 +2475,16 @@ kbd, samp, var {
   .icon-picker,
   .cats-grid          { max-width: none; }
 
-  img[width] { width: 100% !important; height: auto !important; }
+  /* صور داخل نص المقال تحمل وسم width من المحرّر: لا تتجاوز العرض.
+     ملاحظة: القوالب صارت تكتب width/height على كل صورة (لحجز المساحة
+     ومنع قفزات التخطيط)، فالقاعدة مقصورة على محتوى المقال فقط —
+     نسخة !important العامة كانت تكسر إطارات البطاقات والترويسة. */
+  .post-body img[width],
+  .static-page-body img[width] {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+  }
 }
 
 /* ── Print ───────────────────────────────────────────────────── */

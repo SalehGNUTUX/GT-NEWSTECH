@@ -10,7 +10,7 @@ excerpt: >-
   يتفوق Codex في السرعة والكفاءة والفعالية من حيث التكلفة بـ 77.3% في
   Terminal-Bench مع استهلاك أقل بمقدار 2-4x من التوكنات. إليك مقارنة كاملة بين
   أقوى أدوات البرمجة بالذكاء الاصطناعي في 2026.
-image: claudevscodex.png
+image: claudevscodex.avif
 tags:
   - Claude Code
   - OpenAI Codex

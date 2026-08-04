@@ -10,7 +10,7 @@ excerpt: >-
   Codex leads in speed and efficiency with 77.3% on Terminal-Bench consuming
   2-4x fewer tokens. A complete comparison of the most powerful AI coding tools
   in 2026.
-image: claudevscodex.png
+image: claudevscodex.avif
 tags:
   - Claude Code
   - OpenAI Codex

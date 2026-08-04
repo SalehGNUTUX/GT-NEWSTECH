@@ -30,6 +30,11 @@ jobs:
         with:
           node-version: '20'
 
+      # الـ script يستعمل sharp لقراءة أبعاد كل صورة (width/height)
+      - name: Install dependencies
+        working-directory: scripts
+        run: npm ci || npm install --no-audit --no-fund
+
       - name: Build index
         run: node scripts/build-images-index.js
 

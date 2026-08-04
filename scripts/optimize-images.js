@@ -31,6 +31,13 @@ const EXTS = /\.(jpg|jpeg|png|webp|avif)$/i;
 const args = process.argv.slice(2);
 const NEW_ONLY = args.includes('--new');
 const DRY = args.includes('--dry');
+// --avif: يولّد مرافق .avif إضافةً إلى .webp لكل صورة jpg/jpeg/png.
+// القوالب تفضّله على webp تلقائياً حين يوجد (انظر responsive-image.html).
+const WITH_AVIF = args.includes('--avif');
+
+// الصيغ التي نُولّد لها مرافقات. AVIF و WebP هما بالفعل الصيغتان
+// الأكفأ — الملف المرفوع بإحداهما لا يحتاج مرافقاً.
+const MASTER_EXTS = ['.jpg', '.jpeg', '.png'];
 
 function fmt(bytes) {
   if (bytes < 1024) return `${bytes} B`;
@@ -46,11 +53,23 @@ async function processImage(srcPath, lang, name) {
   // SVG/GIF — تخطّي
   if (ext === '.svg' || ext === '.gif') return null;
 
+  const isMaster = MASTER_EXTS.includes(ext);
+
+  // ── فحص --new ───────────────────────────────────────────────
+  // كان الشرط «تخطَّ لو وُجد base.webp» فقط. الصور المرفوعة بصيغة
+  // avif/webp لا يُولَّد لها مرافق webp أبداً، فكان الشرط لا يتحقّق لها
+  // مطلقاً: كل تشغيل لـ--new (وهو يعمل في CI عند كل رفع صورة) يُعيد
+  // ترميزها بفقدٍ من جديد — تدهور تراكمي في جودتها.
+  // الصيغ المضغوطة أصلاً لا شيء يُولَّد لها، فتُتخطّى في وضع --new.
+  if (NEW_ONLY) {
+    if (!isMaster) return null;
+    const webpDone = existsSync(join(dir, `${base}.webp`));
+    const avifDone = !WITH_AVIF || existsSync(join(dir, `${base}.avif`));
+    if (webpDone && avifDone) return null;
+  }
+
   const buffer = await readFile(srcPath);
   const beforeSize = buffer.length;
-
-  // فحص --new: تخطّي لو webp موجود
-  if (NEW_ONLY && existsSync(join(dir, `${base}.webp`))) return null;
 
   // نسخ احتياطية
   if (!DRY) {
@@ -77,24 +96,37 @@ async function processImage(srcPath, lang, name) {
     mainBuffer = await pipeline.avif({ quality: 70 }).toBuffer();
   }
 
-  // WebP companion لـJPG/PNG
+  // مرافقات WebP (و AVIF مع --avif) لصور jpg/jpeg/png
   let webpBuffer = null;
-  if (ext === '.jpg' || ext === '.jpeg' || ext === '.png') {
+  let avifBuffer = null;
+  if (isMaster) {
     let webpPipe = sharp(buffer, { failOn: 'none' });
     if (willResize) webpPipe = webpPipe.resize({ width: MAX_WIDTH, withoutEnlargement: true });
     webpBuffer = await webpPipe.webp({ quality: 82 }).toBuffer();
+
+    if (WITH_AVIF) {
+      let avifPipe = sharp(buffer, { failOn: 'none' });
+      if (willResize) avifPipe = avifPipe.resize({ width: MAX_WIDTH, withoutEnlargement: true });
+      // effort:4 توازن معقول بين الحجم وزمن الترميز (AVIF بطيء)
+      avifBuffer = await avifPipe.avif({ quality: 60, effort: 4 }).toBuffer();
+      // لا فائدة من مرافق أكبر من الـwebp — المتصفح يفضّله لأنه أول
+      // <source> في القالب، فنتخلّص منه إن لم يكن أصغر فعلاً
+      if (avifBuffer.length >= webpBuffer.length) avifBuffer = null;
+    }
   }
 
   // فقط حفظ لو الجديد أصغر (تجنّب توسيع صور صغيرة بالفعل)
   const savedMain = mainBuffer.length < beforeSize;
   if (!DRY && savedMain) await writeFile(srcPath, mainBuffer);
   if (!DRY && webpBuffer) await writeFile(join(dir, `${base}.webp`), webpBuffer);
+  if (!DRY && avifBuffer) await writeFile(join(dir, `${base}.avif`), avifBuffer);
 
   return {
     name,
     before: beforeSize,
     after: savedMain ? mainBuffer.length : beforeSize,
     webp: webpBuffer ? webpBuffer.length : 0,
+    avif: avifBuffer ? avifBuffer.length : 0,
     saved: savedMain,
     resized: willResize,
   };
@@ -102,7 +134,7 @@ async function processImage(srcPath, lang, name) {
 
 async function run() {
   console.log(DRY ? '🧪 وضع المحاكاة (لا كتابة)\n' : '🚀 ضغط الصور...\n');
-  let totalBefore = 0, totalAfter = 0, totalWebp = 0, processed = 0, skipped = 0;
+  let totalBefore = 0, totalAfter = 0, totalWebp = 0, totalAvif = 0, processed = 0, skipped = 0;
 
   for (const lang of LANGS) {
     const dir = join(ROOT, 'assets', 'images', lang);
@@ -118,10 +150,12 @@ async function run() {
         const pct = result.saved ? Math.round((diff / result.before) * 100) : 0;
         const marker = result.saved ? `−${pct}%` : '⚪';
         const resz = result.resized ? ' [resized]' : '';
-        console.log(`  ${marker.padEnd(5)} ${f.padEnd(40)} ${fmt(result.before)} → ${fmt(result.after)} (+${fmt(result.webp)} webp)${resz}`);
+        const avifNote = result.avif ? ` +${fmt(result.avif)} avif` : '';
+        console.log(`  ${marker.padEnd(5)} ${f.padEnd(40)} ${fmt(result.before)} → ${fmt(result.after)} (+${fmt(result.webp)} webp${avifNote})${resz}`);
         totalBefore += result.before;
         totalAfter += result.after;
         totalWebp += result.webp;
+        totalAvif += result.avif;
         processed++;
       } catch (e) {
         console.error(`  ❌ ${f}: ${e.message}`);
@@ -137,7 +171,8 @@ async function run() {
   console.log(`  قبل:  ${fmt(totalBefore)}`);
   console.log(`  بعد:  ${fmt(totalAfter)} (وفر ${pctSaved}%)`);
   console.log(`  WebP: ${fmt(totalWebp)} (companions)`);
-  console.log(`  المجموع الجديد: ${fmt(totalAfter + totalWebp)}`);
+  if (WITH_AVIF) console.log(`  AVIF: ${fmt(totalAvif)} (companions)`);
+  console.log(`  المجموع الجديد: ${fmt(totalAfter + totalWebp + totalAvif)}`);
   console.log('════════════════════════════════════════════');
   if (!DRY && processed > 0) {
     console.log(`  نسخ احتياطية: ${BACKUP_DIR}`);

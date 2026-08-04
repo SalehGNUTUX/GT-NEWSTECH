@@ -59,14 +59,17 @@ async function getImages(env, lang) {
     }
   }
 
-  // (3) فلتر companions
+  // (3) فلتر المرافقات (.webp و .avif) — نسخة مطابقة لـadmin/server.js.
+  //     صورة .avif مرفوعة أصلاً (بلا ملف أصل بنفس الاسم) تبقى ظاهرة.
   const nameSet = new Set(fileMap.keys());
+  const COMPANION_EXTS = ['.webp', '.avif'];
+  const MASTER_EXTS = ['.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'];
   const isCompanion = name => {
-    if (!name.toLowerCase().endsWith('.webp')) return false;
-    const base = name.slice(0, -5);
-    return nameSet.has(base + '.jpg') || nameSet.has(base + '.jpeg') ||
-           nameSet.has(base + '.png') || nameSet.has(base + '.JPG') ||
-           nameSet.has(base + '.JPEG') || nameSet.has(base + '.PNG');
+    const lower = name.toLowerCase();
+    const ext = COMPANION_EXTS.find(e => lower.endsWith(e));
+    if (!ext) return false;
+    const base = name.slice(0, -ext.length);
+    return MASTER_EXTS.some(m => nameSet.has(base + m));
   };
 
   // (4) ترتيب: تاريخ المقال > git log > 0 (للملفات الجديدة جداً)

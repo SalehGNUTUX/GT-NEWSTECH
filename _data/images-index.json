@@ -1,2037 +1,4069 @@
 {
-  "generated_at": "2026-08-03T10:58:27.777Z",
+  "generated_at": "2026-08-04T11:49:15.226Z",
   "ar": [
     {
       "name": "pkg2appimage-gnutux-ar.png",
       "size": 494668,
+      "width": 1600,
+      "height": 800,
       "last_modified_ts": 1785754690,
       "path": "assets/images/ar/pkg2appimage-gnutux-ar.png"
     },
     {
       "name": "pkg2appimage-gnutux-ar.webp",
       "size": 117728,
+      "width": 1600,
+      "height": 800,
       "last_modified_ts": 1785754690,
       "path": "assets/images/ar/pkg2appimage-gnutux-ar.webp"
     },
     {
       "name": "lucide-icons-gnutux.jpg",
       "size": 81837,
+      "width": 1390,
+      "height": 788,
       "last_modified_ts": 1784703424,
       "path": "assets/images/ar/lucide-icons-gnutux.jpg"
     },
     {
       "name": "lucide-icons-gnutux.webp",
       "size": 65544,
+      "width": 1390,
+      "height": 788,
       "last_modified_ts": 1784703424,
       "path": "assets/images/ar/lucide-icons-gnutux.webp"
     },
     {
       "name": "openauth-gnutux.jpg",
       "size": 43721,
+      "width": 800,
+      "height": 476,
       "last_modified_ts": 1784218584,
       "path": "assets/images/ar/openauth-gnutux.jpg"
     },
     {
       "name": "openauth-gnutux.webp",
       "size": 32464,
+      "width": 800,
+      "height": 476,
       "last_modified_ts": 1784218584,
       "path": "assets/images/ar/openauth-gnutux.webp"
     },
     {
       "name": "gt-sirm-1.2-gnutux.jpeg",
       "size": 46309,
+      "width": 1034,
+      "height": 540,
       "last_modified_ts": 1784053949,
       "path": "assets/images/ar/gt-sirm-1.2-gnutux.jpeg"
     },
     {
       "name": "gt-sirm-1.2-gnutux.webp",
       "size": 31322,
+      "width": 1034,
+      "height": 540,
       "last_modified_ts": 1784053949,
       "path": "assets/images/ar/gt-sirm-1.2-gnutux.webp"
     },
     {
       "name": "blender-5.2lts-gnutux.jpeg",
       "size": 152553,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1784047799,
       "path": "assets/images/ar/blender-5.2lts-gnutux.jpeg"
     },
     {
       "name": "blender-5.2lts-gnutux.webp",
       "size": 108882,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1784047799,
       "path": "assets/images/ar/blender-5.2lts-gnutux.webp"
     },
     {
       "name": "gt-stacer-ar-gnutux.png",
       "size": 207650,
+      "width": 1389,
+      "height": 793,
       "last_modified_ts": 1783891300,
       "path": "assets/images/ar/gt-stacer-ar-gnutux.png"
     },
     {
       "name": "gt-stacer-ar-gnutux.webp",
       "size": 57994,
+      "width": 1389,
+      "height": 793,
       "last_modified_ts": 1783891300,
       "path": "assets/images/ar/gt-stacer-ar-gnutux.webp"
     },
     {
       "name": "openreel-video-gnutux.png",
       "size": 159957,
+      "width": 1402,
+      "height": 796,
       "last_modified_ts": 1783371118,
       "path": "assets/images/ar/openreel-video-gnutux.png"
     },
     {
       "name": "repowise-gnutux.png",
       "size": 434333,
+      "width": 1600,
+      "height": 743,
       "last_modified_ts": 1783368857,
       "path": "assets/images/ar/repowise-gnutux.png"
     },
     {
       "name": "repowise-gnutux.webp",
       "size": 83224,
+      "width": 1600,
+      "height": 743,
       "last_modified_ts": 1783368857,
       "path": "assets/images/ar/repowise-gnutux.webp"
     },
     {
       "name": "bassam-social-gnutux-ar.png",
       "size": 569994,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1783344103,
       "path": "assets/images/ar/bassam-social-gnutux-ar.png"
     },
     {
       "name": "bassam-social-gnutux-ar.webp",
       "size": 108226,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1783344103,
       "path": "assets/images/ar/bassam-social-gnutux-ar.webp"
     },
     {
       "name": "fluxer-discord-gnutux-ar.jpg",
       "size": 76591,
+      "width": 1200,
+      "height": 800,
       "last_modified_ts": 1783339511,
       "path": "assets/images/ar/fluxer-discord-gnutux-ar.jpg"
     },
     {
       "name": "fluxer-discord-gnutux-ar.webp",
       "size": 48214,
+      "width": 1200,
+      "height": 800,
       "last_modified_ts": 1783339511,
       "path": "assets/images/ar/fluxer-discord-gnutux-ar.webp"
     },
     {
       "name": "google-labs-gnutux.webp",
       "size": 196008,
+      "width": 1536,
+      "height": 878,
       "last_modified_ts": 1783255647,
       "path": "assets/images/ar/google-labs-gnutux.webp"
     },
     {
       "name": "etchdroid-gnutux.jpg",
       "size": 124634,
+      "width": 1280,
+      "height": 720,
       "last_modified_ts": 1783204374,
       "path": "assets/images/ar/etchdroid-gnutux.jpg"
     },
     {
       "name": "etchdroid-gnutux.webp",
       "size": 92078,
+      "width": 1280,
+      "height": 720,
       "last_modified_ts": 1783204374,
       "path": "assets/images/ar/etchdroid-gnutux.webp"
     },
     {
       "name": "open-source-llms-guide-2026-gnutux.webp",
       "size": 51956,
+      "width": 1024,
+      "height": 559,
       "last_modified_ts": 1783028575,
       "path": "assets/images/ar/open-source-llms-guide-2026-gnutux.webp"
     },
     {
       "name": "gt-mishkat-kids-gnutux.jpg",
       "size": 86668,
+      "width": 1390,
+      "height": 790,
       "last_modified_ts": 1783018204,
       "path": "assets/images/ar/gt-mishkat-kids-gnutux.jpg"
     },
     {
       "name": "gt-mishkat-kids-gnutux.webp",
       "size": 58822,
+      "width": 1390,
+      "height": 790,
       "last_modified_ts": 1783018204,
       "path": "assets/images/ar/gt-mishkat-kids-gnutux.webp"
     },
     {
       "name": "nostr-gnutux.jpg",
       "size": 109102,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1782944704,
       "path": "assets/images/ar/nostr-gnutux.jpg"
     },
     {
       "name": "nostr-gnutux.webp",
       "size": 63606,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1782944704,
       "path": "assets/images/ar/nostr-gnutux.webp"
     },
     {
       "name": "odysseus-ai-gnutux.jpg",
       "size": 149717,
+      "width": 1388,
+      "height": 776,
       "last_modified_ts": 1782933931,
       "path": "assets/images/ar/odysseus-ai-gnutux.jpg"
     },
     {
       "name": "odysseus-ai-gnutux.webp",
       "size": 95902,
+      "width": 1388,
+      "height": 776,
       "last_modified_ts": 1782933931,
       "path": "assets/images/ar/odysseus-ai-gnutux.webp"
     },
     {
       "name": "caveman-gnutux.jpg",
       "size": 141707,
+      "width": 1279,
+      "height": 720,
       "last_modified_ts": 1782931980,
       "path": "assets/images/ar/caveman-gnutux.jpg"
     },
     {
       "name": "caveman-gnutux.webp",
       "size": 119744,
+      "width": 1279,
+      "height": 720,
       "last_modified_ts": 1782931980,
       "path": "assets/images/ar/caveman-gnutux.webp"
     },
     {
       "name": "amd-ryzen-ai-halo-2-gnutux.jpg",
       "size": 122825,
+      "width": 1536,
+      "height": 813,
       "last_modified_ts": 1782762394,
       "path": "assets/images/ar/amd-ryzen-ai-halo-2-gnutux.jpg"
     },
     {
       "name": "amd-ryzen-ai-halo-2-gnutux.webp",
       "size": 80040,
+      "width": 1536,
+      "height": 813,
       "last_modified_ts": 1782762394,
       "path": "assets/images/ar/amd-ryzen-ai-halo-2-gnutux.webp"
     },
     {
       "name": "ventoy-gnutux.webp",
       "size": 24906,
+      "width": 800,
+      "height": 450,
       "last_modified_ts": 1782672782,
       "path": "assets/images/ar/ventoy-gnutux.webp"
     },
     {
       "name": "tuxmate-gnutux.webp",
       "size": 34988,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1782670813,
       "path": "assets/images/ar/tuxmate-gnutux.webp"
     },
     {
       "name": "plasma67-gnutux.jpg",
       "size": 38714,
+      "width": 768,
+      "height": 432,
       "last_modified_ts": 1782421190,
       "path": "assets/images/ar/plasma67-gnutux.jpg"
     },
     {
       "name": "plasma67-gnutux.webp",
       "size": 20498,
+      "width": 768,
+      "height": 432,
       "last_modified_ts": 1782421190,
       "path": "assets/images/ar/plasma67-gnutux.webp"
     },
     {
       "name": "cutefish-gnutux.jpg",
       "size": 49922,
+      "width": 1392,
+      "height": 793,
       "last_modified_ts": 1782214494,
       "path": "assets/images/ar/cutefish-gnutux.jpg"
     },
     {
       "name": "cutefish-gnutux.webp",
       "size": 19742,
+      "width": 1392,
+      "height": 793,
       "last_modified_ts": 1782214494,
       "path": "assets/images/ar/cutefish-gnutux.webp"
     },
     {
       "name": "onlyoffice-gnutux.jpg",
       "size": 85461,
+      "width": 1440,
+      "height": 900,
       "last_modified_ts": 1782213817,
       "path": "assets/images/ar/onlyoffice-gnutux.jpg"
     },
     {
       "name": "onlyoffice-gnutux.webp",
       "size": 46830,
+      "width": 1440,
+      "height": 900,
       "last_modified_ts": 1782213817,
       "path": "assets/images/ar/onlyoffice-gnutux.webp"
     },
     {
       "name": "refreshos-gnutux.jpg",
       "size": 90931,
+      "width": 1024,
+      "height": 640,
       "last_modified_ts": 1782213283,
       "path": "assets/images/ar/refreshos-gnutux.jpg"
     },
     {
       "name": "refreshos-gnutux.webp",
       "size": 69006,
+      "width": 1024,
+      "height": 640,
       "last_modified_ts": 1782213283,
       "path": "assets/images/ar/refreshos-gnutux.webp"
     },
     {
       "name": "alpinelinux-gnutux.webp",
       "size": 29190,
+      "width": 640,
+      "height": 360,
       "last_modified_ts": 1782211698,
       "path": "assets/images/ar/alpinelinux-gnutux.webp"
     },
     {
       "name": "dinit.webp",
       "size": 86862,
+      "width": 1600,
+      "height": 899,
       "last_modified_ts": 1782159899,
       "path": "assets/images/ar/dinit.webp"
     },
     {
       "name": "screenshot_20260622_184416.jpg",
       "size": 70188,
+      "width": 1379,
+      "height": 774,
       "last_modified_ts": 1782152344,
       "path": "assets/images/ar/screenshot_20260622_184416.jpg"
     },
     {
       "name": "screenshot_20260622_184416.webp",
       "size": 41312,
+      "width": 1379,
+      "height": 774,
       "last_modified_ts": 1782152344,
       "path": "assets/images/ar/screenshot_20260622_184416.webp"
     },
     {
       "name": "www.openhomefoundation-gnutux.jpg",
       "size": 114355,
+      "width": 1386,
+      "height": 790,
       "last_modified_ts": 1782070761,
       "path": "assets/images/ar/www.openhomefoundation-gnutux.jpg"
     },
     {
       "name": "www.openhomefoundation-gnutux.webp",
       "size": 77166,
+      "width": 1386,
+      "height": 790,
       "last_modified_ts": 1782070761,
       "path": "assets/images/ar/www.openhomefoundation-gnutux.webp"
     },
     {
       "name": "circletosearch-gnutux.jpg",
       "size": 51191,
+      "width": 900,
+      "height": 591,
       "last_modified_ts": 1781722591,
       "path": "assets/images/ar/circletosearch-gnutux.jpg"
     },
     {
       "name": "circletosearch-gnutux.webp",
       "size": 35784,
+      "width": 900,
+      "height": 591,
       "last_modified_ts": 1781722591,
       "path": "assets/images/ar/circletosearch-gnutux.webp"
     },
     {
       "name": "spoofdpi-gnutux.jpg",
       "size": 166914,
+      "width": 1168,
+      "height": 784,
       "last_modified_ts": 1781715696,
       "path": "assets/images/ar/spoofdpi-gnutux.jpg"
     },
     {
       "name": "spoofdpi-gnutux.webp",
       "size": 117558,
+      "width": 1168,
+      "height": 784,
       "last_modified_ts": 1781715696,
       "path": "assets/images/ar/spoofdpi-gnutux.webp"
     },
     {
       "name": "linux-vfs-gnutux.jpg",
       "size": 129279,
+      "width": 1168,
+      "height": 784,
       "last_modified_ts": 1781697958,
       "path": "assets/images/ar/linux-vfs-gnutux.jpg"
     },
     {
       "name": "linux-vfs-gnutux.webp",
       "size": 69718,
+      "width": 1168,
+      "height": 784,
       "last_modified_ts": 1781697958,
       "path": "assets/images/ar/linux-vfs-gnutux.webp"
     },
     {
       "name": "firefox-152-gnutux.webp",
       "size": 45526,
+      "width": 750,
+      "height": 422,
       "last_modified_ts": 1781549760,
       "path": "assets/images/ar/firefox-152-gnutux.webp"
     },
     {
       "name": "aur-arch-malware-gnutux.avif",
       "size": 84601,
+      "width": 1000,
+      "height": 671,
       "last_modified_ts": 1781544472,
       "path": "assets/images/ar/aur-arch-malware-gnutux.avif"
     },
     {
       "name": "linux-7.1-gnutux.webp",
       "size": 37024,
+      "width": 1200,
+      "height": 750,
       "last_modified_ts": 1781525747,
       "path": "assets/images/ar/linux-7.1-gnutux.webp"
     },
     {
       "name": "gcc-bootstrap-gnutux.jpg",
       "size": 51809,
+      "width": 960,
+      "height": 540,
       "last_modified_ts": 1781217537,
       "path": "assets/images/ar/gcc-bootstrap-gnutux.jpg"
     },
     {
       "name": "gcc-bootstrap-gnutux.webp",
       "size": 36858,
+      "width": 960,
+      "height": 540,
       "last_modified_ts": 1781217537,
       "path": "assets/images/ar/gcc-bootstrap-gnutux.webp"
     },
     {
       "name": "doclang-gnutux.jpg",
       "size": 81591,
+      "width": 1116,
+      "height": 628,
       "last_modified_ts": 1781215707,
       "path": "assets/images/ar/doclang-gnutux.jpg"
     },
     {
       "name": "doclang-gnutux.webp",
       "size": 46360,
+      "width": 1116,
+      "height": 628,
       "last_modified_ts": 1781215707,
       "path": "assets/images/ar/doclang-gnutux.webp"
     },
     {
       "name": "av2-video-codec-gnutux.jpg",
       "size": 84116,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1781087235,
       "path": "assets/images/ar/av2-video-codec-gnutux.jpg"
     },
     {
       "name": "av2-video-codec-gnutux.webp",
       "size": 46358,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1781087235,
       "path": "assets/images/ar/av2-video-codec-gnutux.webp"
     },
     {
       "name": "hyprland-gnutux.png",
       "size": 435822,
+      "width": 1200,
+      "height": 630,
       "last_modified_ts": 1781083409,
       "path": "assets/images/ar/hyprland-gnutux.png"
     },
     {
       "name": "hyprland-gnutux.webp",
       "size": 57486,
+      "width": 1200,
+      "height": 630,
       "last_modified_ts": 1781083409,
       "path": "assets/images/ar/hyprland-gnutux.webp"
     },
     {
       "name": "wayland-protocols-gnutux.webp",
       "size": 26868,
+      "width": 1200,
+      "height": 675,
       "last_modified_ts": 1781079201,
       "path": "assets/images/ar/wayland-protocols-gnutux.webp"
     },
     {
       "name": "armbian-gnutux.png",
       "size": 106753,
+      "width": 1345,
+      "height": 733,
       "last_modified_ts": 1780833181,
       "path": "assets/images/ar/armbian-gnutux.png"
     },
     {
       "name": "armbian-gnutux.webp",
       "size": 47636,
+      "width": 1345,
+      "height": 733,
       "last_modified_ts": 1780833181,
       "path": "assets/images/ar/armbian-gnutux.webp"
     },
     {
       "name": "home.png",
       "size": 25808,
+      "width": 920,
+      "height": 800,
       "last_modified_ts": 1780830105,
       "path": "assets/images/ar/home.png"
     },
     {
       "name": "home.webp",
       "size": 21630,
+      "width": 920,
+      "height": 800,
       "last_modified_ts": 1780830105,
       "path": "assets/images/ar/home.webp"
     },
     {
       "name": "boxedtux-ar.png",
       "size": 553563,
+      "width": 1600,
+      "height": 686,
       "last_modified_ts": 1780776277,
       "path": "assets/images/ar/boxedtux-ar.png"
     },
     {
       "name": "boxedtux-ar.webp",
       "size": 52286,
+      "width": 1600,
+      "height": 686,
       "last_modified_ts": 1780776277,
       "path": "assets/images/ar/boxedtux-ar.webp"
     },
     {
       "name": "ubuntu2610.jpg",
       "size": 119809,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780774661,
       "path": "assets/images/ar/ubuntu2610.jpg"
     },
     {
       "name": "ubuntu2610.webp",
       "size": 81366,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780774661,
       "path": "assets/images/ar/ubuntu2610.webp"
     },
     {
       "name": "from-url-1780773087202.jpg",
       "size": 101052,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1780773185,
       "path": "assets/images/ar/from-url-1780773087202.jpg"
     },
     {
       "name": "from-url-1780773087202.webp",
       "size": 82354,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1780773185,
       "path": "assets/images/ar/from-url-1780773087202.webp"
     },
     {
       "name": "vyxel-apps.png",
       "size": 211194,
+      "width": 698,
+      "height": 470,
       "last_modified_ts": 1780749936,
       "path": "assets/images/ar/vyxel-apps.png"
     },
     {
       "name": "vyxel-apps.webp",
       "size": 24906,
+      "width": 698,
+      "height": 470,
       "last_modified_ts": 1780749936,
       "path": "assets/images/ar/vyxel-apps.webp"
     },
     {
       "name": "html-video.png",
       "size": 527369,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780745518,
       "path": "assets/images/ar/html-video.png"
     },
     {
       "name": "html-video.webp",
       "size": 82394,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780745518,
       "path": "assets/images/ar/html-video.webp"
     },
     {
       "name": "0-ad-featured-800x450.jpeg",
       "size": 105365,
+      "width": 800,
+      "height": 450,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/0-ad-featured-800x450.jpeg"
     },
     {
       "name": "0-ad-featured-800x450.webp",
       "size": 102016,
+      "width": 800,
+      "height": 450,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/0-ad-featured-800x450.webp"
     },
     {
       "name": "69c66e7c22c7331dd6048ea3_2ff28e45.webp",
       "size": 70588,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/69c66e7c22c7331dd6048ea3_2ff28e45.webp"
     },
     {
       "name": "alphabet_google_ai.jpg",
       "size": 27756,
+      "width": 612,
+      "height": 394,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/alphabet_google_ai.jpg"
     },
     {
       "name": "alphabet_google_ai.webp",
       "size": 16226,
+      "width": 612,
+      "height": 394,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/alphabet_google_ai.webp"
     },
     {
       "name": "azure-linux-4-released-gnutux.jpg",
       "size": 35108,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/azure-linux-4-released-gnutux.jpg"
     },
     {
       "name": "azure-linux-4-released-gnutux.webp",
       "size": 21014,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/azure-linux-4-released-gnutux.webp"
     },
     {
       "name": "bazzite-linux-gaming.png",
       "size": 1149491,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/bazzite-linux-gaming.png"
     },
     {
       "name": "bazzite-linux-gaming.webp",
       "size": 24978,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/bazzite-linux-gaming.webp"
     },
     {
       "name": "bb7d98af-a85d-4d7b-a3bc-de48aa7a4f5d.png",
       "size": 447232,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/bb7d98af-a85d-4d7b-a3bc-de48aa7a4f5d.png"
     },
     {
       "name": "bb7d98af-a85d-4d7b-a3bc-de48aa7a4f5d.webp",
       "size": 84800,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/bb7d98af-a85d-4d7b-a3bc-de48aa7a4f5d.webp"
     },
     {
       "name": "cosmic_desktop.webp",
       "size": 23636,
+      "width": 640,
+      "height": 360,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/cosmic_desktop.webp"
     },
     {
       "name": "distrosea_gnutux.jpg",
       "size": 209970,
+      "width": 1280,
+      "height": 720,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/distrosea_gnutux.jpg"
     },
     {
       "name": "distrosea_gnutux.webp",
       "size": 158098,
+      "width": 1280,
+      "height": 720,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/distrosea_gnutux.webp"
     },
     {
       "name": "fb_img_1779708023074.webp",
       "size": 41210,
+      "width": 960,
+      "height": 1200,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/fb_img_1779708023074.webp"
     },
     {
       "name": "gnu-health.png",
       "size": 117563,
+      "width": 955,
+      "height": 520,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/gnu-health.png"
     },
     {
       "name": "gnu-health.webp",
       "size": 37330,
+      "width": 955,
+      "height": 520,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/gnu-health.webp"
     },
     {
       "name": "goldendictvsgoldendict-ng-ar.png",
       "size": 489768,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/goldendictvsgoldendict-ng-ar.png"
     },
     {
       "name": "goldendictvsgoldendict-ng-ar.webp",
       "size": 164508,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/goldendictvsgoldendict-ng-ar.webp"
     },
     {
       "name": "gt-tahakom-ar.png",
       "size": 95002,
+      "width": 1390,
+      "height": 721,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/gt-tahakom-ar.png"
     },
     {
       "name": "gt-tahakom-ar.webp",
       "size": 24316,
+      "width": 1390,
+      "height": 721,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/gt-tahakom-ar.webp"
     },
     {
       "name": "gt_clpm_gnutux_ar.png",
       "size": 136247,
+      "width": 1386,
+      "height": 672,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/gt_clpm_gnutux_ar.png"
     },
     {
       "name": "gt_clpm_gnutux_ar.webp",
       "size": 27888,
+      "width": 1386,
+      "height": 672,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/gt_clpm_gnutux_ar.webp"
     },
     {
       "name": "gt_quranreader.png",
       "size": 714132,
+      "width": 1386,
+      "height": 783,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/gt_quranreader.png"
     },
     {
       "name": "gt_quranreader.webp",
       "size": 51976,
+      "width": 1386,
+      "height": 783,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/gt_quranreader.webp"
     },
     {
       "name": "hodmod-video-editor.png",
       "size": 288637,
+      "width": 1600,
+      "height": 840,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/hodmod-video-editor.png"
     },
     {
       "name": "hodmod-video-editor.webp",
       "size": 35690,
+      "width": 1600,
+      "height": 840,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/hodmod-video-editor.webp"
     },
     {
       "name": "humanizer-ar.png",
       "size": 555272,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/humanizer-ar.png"
     },
     {
       "name": "humanizer-ar.webp",
       "size": 117162,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/humanizer-ar.webp"
     },
     {
       "name": "impactor.claration.dev.png",
       "size": 2272340,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/impactor.claration.dev.png"
     },
     {
       "name": "impactor.claration.dev.webp",
       "size": 114476,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/impactor.claration.dev.webp"
     },
     {
       "name": "internet-monitor-dashboard-ar.png",
       "size": 42783,
+      "width": 1600,
+      "height": 839,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/internet-monitor-dashboard-ar.png"
     },
     {
       "name": "internet-monitor-dashboard-ar.webp",
       "size": 23918,
+      "width": 1600,
+      "height": 839,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/internet-monitor-dashboard-ar.webp"
     },
     {
       "name": "joplinapp-gnutux.webp",
       "size": 43110,
+      "width": 1386,
+      "height": 652,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/joplinapp-gnutux.webp"
     },
     {
       "name": "kdenlive-26.04.jpg",
       "size": 75878,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/kdenlive-26.04.jpg"
     },
     {
       "name": "kdenlive-26.04.webp",
       "size": 49600,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/kdenlive-26.04.webp"
     },
     {
       "name": "libreoffice-2623-release.jpg",
       "size": 64460,
+      "width": 1200,
+      "height": 550,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/libreoffice-2623-release.jpg"
     },
     {
       "name": "libreoffice-2623-release.webp",
       "size": 36354,
+      "width": 1200,
+      "height": 550,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/libreoffice-2623-release.webp"
     },
     {
       "name": "linux-lite.jpg",
       "size": 60222,
+      "width": 800,
+      "height": 445,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/linux-lite.jpg"
     },
     {
       "name": "linux-lite.webp",
       "size": 41774,
+      "width": 800,
+      "height": 445,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/linux-lite.webp"
     },
     {
       "name": "markdawin-ar.jpg",
       "size": 27470,
+      "width": 990,
+      "height": 518,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/markdawin-ar.jpg"
     },
     {
       "name": "markdawin-ar.webp",
       "size": 17906,
+      "width": 990,
+      "height": 518,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/markdawin-ar.webp"
     },
     {
       "name": "mini-shai-hulud-worm-en.png",
       "size": 791422,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/mini-shai-hulud-worm-en.png"
     },
     {
       "name": "mini-shai-hulud-worm-en.webp",
       "size": 258764,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/mini-shai-hulud-worm-en.webp"
     },
     {
       "name": "nostr-mail-protocol.jpeg",
       "size": 16149,
+      "width": 680,
+      "height": 357,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/nostr-mail-protocol.jpeg"
     },
     {
       "name": "nostr-mail-protocol.webp",
       "size": 9888,
+      "width": 680,
+      "height": 357,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/nostr-mail-protocol.webp"
     },
     {
       "name": "notebooklm-claude.webp",
       "size": 20930,
+      "width": 1024,
+      "height": 692,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/notebooklm-claude.webp"
     },
     {
       "name": "organicmaps.webp",
       "size": 38916,
+      "width": 1024,
+      "height": 500,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/organicmaps.webp"
     },
     {
       "name": "pinokio-gnutux.png",
       "size": 97504,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/pinokio-gnutux.png"
     },
     {
       "name": "pinokio-gnutux.webp",
       "size": 37130,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/pinokio-gnutux.webp"
     },
     {
       "name": "prismdesktop.webp",
       "size": 21678,
+      "width": 656,
+      "height": 627,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/prismdesktop.webp"
     },
     {
       "name": "screenshot_.png",
       "size": 85204,
+      "width": 1406,
+      "height": 871,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/screenshot_.png"
     },
     {
       "name": "screenshot_.webp",
       "size": 46016,
+      "width": 1406,
+      "height": 871,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/screenshot_.webp"
     },
     {
       "name": "screenshot_gt-sqrm_v3.png",
       "size": 221780,
+      "width": 1406,
+      "height": 871,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/screenshot_gt-sqrm_v3.png"
     },
     {
       "name": "screenshot_gt-sqrm_v3.webp",
       "size": 35234,
+      "width": 1406,
+      "height": 871,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/screenshot_gt-sqrm_v3.webp"
     },
     {
       "name": "tenacityaudio.webp",
       "size": 45824,
+      "width": 1096,
+      "height": 697,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/tenacityaudio.webp"
     },
     {
       "name": "transmission_gnutux.png",
       "size": 133665,
+      "width": 1386,
+      "height": 598,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/transmission_gnutux.png"
     },
     {
       "name": "transmission_gnutux.webp",
       "size": 33264,
+      "width": 1386,
+      "height": 598,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/transmission_gnutux.webp"
     },
     {
       "name": "ubuntu-26.04lts.webp",
       "size": 16974,
+      "width": 640,
+      "height": 427,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/ubuntu-26.04lts.webp"
     },
     {
       "name": "ubuntu.jpg",
       "size": 42160,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/ubuntu.jpg"
     },
     {
       "name": "ubuntu.webp",
       "size": 25702,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/ubuntu.webp"
     },
     {
       "name": "vidko.ai.png",
       "size": 170709,
+      "width": 1391,
+      "height": 719,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/vidko.ai.png"
     },
     {
       "name": "vidko.ai.webp",
       "size": 27300,
+      "width": 1391,
+      "height": 719,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/vidko.ai.webp"
     },
     {
       "name": "vidkoai.png",
       "size": 109941,
+      "width": 1391,
+      "height": 719,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/vidkoai.png"
     },
     {
       "name": "vidkoai.webp",
       "size": 41246,
+      "width": 1391,
+      "height": 719,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/vidkoai.webp"
     },
     {
       "name": "wokwi-startp.png",
       "size": 53118,
+      "width": 639,
+      "height": 594,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/wokwi-startp.png"
     },
     {
       "name": "wokwi-startp.webp",
       "size": 32450,
+      "width": 639,
+      "height": 594,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/wokwi-startp.webp"
     },
     {
       "name": "xorgfix.webp",
       "size": 27006,
+      "width": 610,
+      "height": 343,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/xorgfix.webp"
     },
     {
       "name": "zperiod-app-ar.png",
       "size": 546305,
+      "width": 1402,
+      "height": 790,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/zperiod-app-ar.png"
     },
     {
       "name": "zperiod-app-ar.webp",
       "size": 41514,
+      "width": 1402,
+      "height": 790,
       "last_modified_ts": 1780686505,
       "path": "assets/images/ar/zperiod-app-ar.webp"
     },
     {
       "name": "prismdesktop.png",
       "size": 148146,
+      "width": 656,
+      "height": 627,
       "last_modified_ts": 1780610541,
       "path": "assets/images/ar/prismdesktop.png"
     },
     {
       "name": "cosmic_desktop.jpg",
       "size": 31486,
+      "width": 640,
+      "height": 360,
       "last_modified_ts": 1780518508,
       "path": "assets/images/ar/cosmic_desktop.jpg"
     },
     {
       "name": "xorgfix.jpeg",
       "size": 29897,
+      "width": 610,
+      "height": 343,
       "last_modified_ts": 1780490892,
       "path": "assets/images/ar/xorgfix.jpeg"
     },
     {
       "name": "organicmaps.png",
       "size": 409490,
+      "width": 1024,
+      "height": 500,
       "last_modified_ts": 1780335902,
       "path": "assets/images/ar/organicmaps.png"
     },
     {
       "name": "consigue-tu-dominio-gratis-en-domain.digitalplat.org_.webp",
       "size": 33278,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1780327192,
       "path": "assets/images/ar/consigue-tu-dominio-gratis-en-domain.digitalplat.org_.webp"
     },
     {
       "name": "fb_img_1779708023074.jpg",
       "size": 48908,
+      "width": 960,
+      "height": 1200,
       "last_modified_ts": 1780318290,
       "path": "assets/images/ar/fb_img_1779708023074.jpg"
     },
     {
       "name": "notebooklm-claude.png",
       "size": 219966,
+      "width": 1024,
+      "height": 692,
       "last_modified_ts": 1779388545,
       "path": "assets/images/ar/notebooklm-claude.png"
     },
     {
       "name": "top-chromium-based-browsers-with-outstanding-features.webp",
       "size": 32794,
+      "width": 1200,
+      "height": 800,
       "last_modified_ts": 1779358123,
       "path": "assets/images/ar/top-chromium-based-browsers-with-outstanding-features.webp"
     },
     {
       "name": "tenacityaudio.png",
       "size": 226382,
+      "width": 1096,
+      "height": 697,
       "last_modified_ts": 1779300394,
       "path": "assets/images/ar/tenacityaudio.png"
     },
     {
-      "name": "claudevscodex.png",
-      "size": 38808,
-      "last_modified_ts": 1779299241,
-      "path": "assets/images/ar/claudevscodex.png"
-    },
-    {
       "name": "24.04-vs-26.04.webp",
       "size": 26954,
+      "width": 860,
+      "height": 502,
       "last_modified_ts": 1779204545,
       "path": "assets/images/ar/24.04-vs-26.04.webp"
     },
     {
       "name": "joplinapp-gnutux.png",
       "size": 390820,
+      "width": 1386,
+      "height": 652,
       "last_modified_ts": 1779185708,
       "path": "assets/images/ar/joplinapp-gnutux.png"
     },
     {
       "name": "aicomicfactory.webp",
       "size": 52636,
+      "width": 1344,
+      "height": 768,
       "last_modified_ts": 1779048034,
       "path": "assets/images/ar/aicomicfactory.webp"
     },
     {
       "name": "cat-gatekeeper.webp",
       "size": 81640,
+      "width": 860,
+      "height": 484,
       "last_modified_ts": 1778790404,
       "path": "assets/images/ar/cat-gatekeeper.webp"
     },
     {
       "name": "claude-mem.avif",
       "size": 33671,
+      "width": 1200,
+      "height": 688,
       "last_modified_ts": 1778525001,
       "path": "assets/images/ar/claude-mem.avif"
     },
     {
       "name": "chatgpt-deepseek-gnutux.webp",
       "size": 79044,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1778415748,
       "path": "assets/images/ar/chatgpt-deepseek-gnutux.webp"
     },
     {
       "name": "arm-chips-dominate-laptop-market-with-35-share-in-2026.webp",
       "size": 56504,
+      "width": 1024,
+      "height": 682,
       "last_modified_ts": 1778415326,
       "path": "assets/images/ar/arm-chips-dominate-laptop-market-with-35-share-in-2026.webp"
     },
     {
       "name": "ubuntu-2604-noble-numbat.avif",
       "size": 22461,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1778361354,
       "path": "assets/images/ar/ubuntu-2604-noble-numbat.avif"
+    },
+    {
+      "name": "claudevscodex.avif",
+      "size": 38808,
+      "width": 564,
+      "height": 374,
+      "last_modified_ts": 0,
+      "path": "assets/images/ar/claudevscodex.avif"
     }
   ],
   "en": [
     {
       "name": "pkg2appimage-gnutux-en.png",
       "size": 569109,
+      "width": 1600,
+      "height": 800,
       "last_modified_ts": 1785754690,
       "path": "assets/images/en/pkg2appimage-gnutux-en.png"
     },
     {
       "name": "pkg2appimage-gnutux-en.webp",
       "size": 145786,
+      "width": 1600,
+      "height": 800,
       "last_modified_ts": 1785754690,
       "path": "assets/images/en/pkg2appimage-gnutux-en.webp"
     },
     {
       "name": "lucide-icons-gnutux.jpg",
       "size": 81837,
+      "width": 1390,
+      "height": 788,
       "last_modified_ts": 1784703424,
       "path": "assets/images/en/lucide-icons-gnutux.jpg"
     },
     {
       "name": "lucide-icons-gnutux.webp",
       "size": 65544,
+      "width": 1390,
+      "height": 788,
       "last_modified_ts": 1784703424,
       "path": "assets/images/en/lucide-icons-gnutux.webp"
     },
     {
       "name": "openauth-gnutux.jpg",
       "size": 43721,
+      "width": 800,
+      "height": 476,
       "last_modified_ts": 1784218584,
       "path": "assets/images/en/openauth-gnutux.jpg"
     },
     {
       "name": "openauth-gnutux.webp",
       "size": 32464,
+      "width": 800,
+      "height": 476,
       "last_modified_ts": 1784218584,
       "path": "assets/images/en/openauth-gnutux.webp"
     },
     {
       "name": "gt-sirm-1.2-gnutux.jpeg",
       "size": 46309,
+      "width": 1034,
+      "height": 540,
       "last_modified_ts": 1784053949,
       "path": "assets/images/en/gt-sirm-1.2-gnutux.jpeg"
     },
     {
       "name": "gt-sirm-1.2-gnutux.webp",
       "size": 31322,
+      "width": 1034,
+      "height": 540,
       "last_modified_ts": 1784053949,
       "path": "assets/images/en/gt-sirm-1.2-gnutux.webp"
     },
     {
       "name": "blender-5.2lts-gnutux.jpeg",
       "size": 152553,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1784047799,
       "path": "assets/images/en/blender-5.2lts-gnutux.jpeg"
     },
     {
       "name": "blender-5.2lts-gnutux.webp",
       "size": 108882,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1784047799,
       "path": "assets/images/en/blender-5.2lts-gnutux.webp"
     },
     {
       "name": "gt-stacer-en-gnutux.png",
       "size": 202616,
+      "width": 1389,
+      "height": 793,
       "last_modified_ts": 1783891300,
       "path": "assets/images/en/gt-stacer-en-gnutux.png"
     },
     {
       "name": "gt-stacer-en-gnutux.webp",
       "size": 59442,
+      "width": 1389,
+      "height": 793,
       "last_modified_ts": 1783891300,
       "path": "assets/images/en/gt-stacer-en-gnutux.webp"
     },
     {
       "name": "openreel-video-gnutux.png",
       "size": 159957,
+      "width": 1402,
+      "height": 796,
       "last_modified_ts": 1783371121,
       "path": "assets/images/en/openreel-video-gnutux.png"
     },
     {
       "name": "repowise-gnutux.png",
       "size": 434333,
+      "width": 1600,
+      "height": 743,
       "last_modified_ts": 1783368857,
       "path": "assets/images/en/repowise-gnutux.png"
     },
     {
       "name": "repowise-gnutux.webp",
       "size": 83224,
+      "width": 1600,
+      "height": 743,
       "last_modified_ts": 1783368857,
       "path": "assets/images/en/repowise-gnutux.webp"
     },
     {
       "name": "bassam-social-gnutux-en.png",
       "size": 595141,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1783344103,
       "path": "assets/images/en/bassam-social-gnutux-en.png"
     },
     {
       "name": "bassam-social-gnutux-en.webp",
       "size": 133344,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1783344103,
       "path": "assets/images/en/bassam-social-gnutux-en.webp"
     },
     {
       "name": "fluxer-discord-gnutux-en.jpg",
       "size": 76664,
+      "width": 1200,
+      "height": 800,
       "last_modified_ts": 1783339511,
       "path": "assets/images/en/fluxer-discord-gnutux-en.jpg"
     },
     {
       "name": "fluxer-discord-gnutux-en.webp",
       "size": 49612,
+      "width": 1200,
+      "height": 800,
       "last_modified_ts": 1783339511,
       "path": "assets/images/en/fluxer-discord-gnutux-en.webp"
     },
     {
       "name": "google-labs-gnutux.webp",
       "size": 196008,
+      "width": 1536,
+      "height": 878,
       "last_modified_ts": 1783255647,
       "path": "assets/images/en/google-labs-gnutux.webp"
     },
     {
       "name": "etchdroid-gnutux.jpg",
       "size": 124634,
+      "width": 1280,
+      "height": 720,
       "last_modified_ts": 1783204374,
       "path": "assets/images/en/etchdroid-gnutux.jpg"
     },
     {
       "name": "etchdroid-gnutux.webp",
       "size": 92078,
+      "width": 1280,
+      "height": 720,
       "last_modified_ts": 1783204374,
       "path": "assets/images/en/etchdroid-gnutux.webp"
     },
     {
       "name": "open-source-llms-guide-2026-gnutux.webp",
       "size": 51956,
+      "width": 1024,
+      "height": 559,
       "last_modified_ts": 1783028575,
       "path": "assets/images/en/open-source-llms-guide-2026-gnutux.webp"
     },
     {
       "name": "gt-mishkat-kids-gnutux.jpg",
       "size": 86668,
+      "width": 1390,
+      "height": 790,
       "last_modified_ts": 1783018204,
       "path": "assets/images/en/gt-mishkat-kids-gnutux.jpg"
     },
     {
       "name": "gt-mishkat-kids-gnutux.webp",
       "size": 58822,
+      "width": 1390,
+      "height": 790,
       "last_modified_ts": 1783018204,
       "path": "assets/images/en/gt-mishkat-kids-gnutux.webp"
     },
     {
       "name": "nostr-gnutux.jpg",
       "size": 109102,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1782944704,
       "path": "assets/images/en/nostr-gnutux.jpg"
     },
     {
       "name": "nostr-gnutux.webp",
       "size": 63606,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1782944704,
       "path": "assets/images/en/nostr-gnutux.webp"
     },
     {
       "name": "odysseus-ai-gnutux.jpg",
       "size": 149717,
+      "width": 1388,
+      "height": 776,
       "last_modified_ts": 1782933931,
       "path": "assets/images/en/odysseus-ai-gnutux.jpg"
     },
     {
       "name": "odysseus-ai-gnutux.webp",
       "size": 95902,
+      "width": 1388,
+      "height": 776,
       "last_modified_ts": 1782933931,
       "path": "assets/images/en/odysseus-ai-gnutux.webp"
     },
     {
       "name": "caveman-gnutux.jpg",
       "size": 141707,
+      "width": 1279,
+      "height": 720,
       "last_modified_ts": 1782931980,
       "path": "assets/images/en/caveman-gnutux.jpg"
     },
     {
       "name": "caveman-gnutux.webp",
       "size": 119744,
+      "width": 1279,
+      "height": 720,
       "last_modified_ts": 1782931980,
       "path": "assets/images/en/caveman-gnutux.webp"
     },
     {
       "name": "amd-ryzen-ai-halo-2-gnutux.jpg",
       "size": 122825,
+      "width": 1536,
+      "height": 813,
       "last_modified_ts": 1782762394,
       "path": "assets/images/en/amd-ryzen-ai-halo-2-gnutux.jpg"
     },
     {
       "name": "amd-ryzen-ai-halo-2-gnutux.webp",
       "size": 80040,
+      "width": 1536,
+      "height": 813,
       "last_modified_ts": 1782762394,
       "path": "assets/images/en/amd-ryzen-ai-halo-2-gnutux.webp"
     },
     {
       "name": "ventoy-gnutux.webp",
       "size": 24906,
+      "width": 800,
+      "height": 450,
       "last_modified_ts": 1782672782,
       "path": "assets/images/en/ventoy-gnutux.webp"
     },
     {
       "name": "tuxmate-gnutux.webp",
       "size": 34988,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1782670813,
       "path": "assets/images/en/tuxmate-gnutux.webp"
     },
     {
       "name": "plasma67-gnutux.jpg",
       "size": 38714,
+      "width": 768,
+      "height": 432,
       "last_modified_ts": 1782421190,
       "path": "assets/images/en/plasma67-gnutux.jpg"
     },
     {
       "name": "plasma67-gnutux.webp",
       "size": 20498,
+      "width": 768,
+      "height": 432,
       "last_modified_ts": 1782421190,
       "path": "assets/images/en/plasma67-gnutux.webp"
     },
     {
       "name": "cutefish-gnutux.jpg",
       "size": 49922,
+      "width": 1392,
+      "height": 793,
       "last_modified_ts": 1782214494,
       "path": "assets/images/en/cutefish-gnutux.jpg"
     },
     {
       "name": "cutefish-gnutux.webp",
       "size": 19742,
+      "width": 1392,
+      "height": 793,
       "last_modified_ts": 1782214494,
       "path": "assets/images/en/cutefish-gnutux.webp"
     },
     {
       "name": "onlyoffice-gnutux.jpg",
       "size": 85461,
+      "width": 1440,
+      "height": 900,
       "last_modified_ts": 1782213817,
       "path": "assets/images/en/onlyoffice-gnutux.jpg"
     },
     {
       "name": "onlyoffice-gnutux.webp",
       "size": 46830,
+      "width": 1440,
+      "height": 900,
       "last_modified_ts": 1782213817,
       "path": "assets/images/en/onlyoffice-gnutux.webp"
     },
     {
       "name": "refreshos-gnutux.jpg",
       "size": 90931,
+      "width": 1024,
+      "height": 640,
       "last_modified_ts": 1782213283,
       "path": "assets/images/en/refreshos-gnutux.jpg"
     },
     {
       "name": "refreshos-gnutux.webp",
       "size": 69006,
+      "width": 1024,
+      "height": 640,
       "last_modified_ts": 1782213283,
       "path": "assets/images/en/refreshos-gnutux.webp"
     },
     {
       "name": "alpinelinux-gnutux.webp",
       "size": 29190,
+      "width": 640,
+      "height": 360,
       "last_modified_ts": 1782211698,
       "path": "assets/images/en/alpinelinux-gnutux.webp"
     },
     {
       "name": "dinit.webp",
       "size": 86862,
+      "width": 1600,
+      "height": 899,
       "last_modified_ts": 1782159899,
       "path": "assets/images/en/dinit.webp"
     },
     {
       "name": "screenshot_20260622_184416.jpg",
       "size": 70188,
+      "width": 1379,
+      "height": 774,
       "last_modified_ts": 1782152344,
       "path": "assets/images/en/screenshot_20260622_184416.jpg"
     },
     {
       "name": "screenshot_20260622_184416.webp",
       "size": 41312,
+      "width": 1379,
+      "height": 774,
       "last_modified_ts": 1782152344,
       "path": "assets/images/en/screenshot_20260622_184416.webp"
     },
     {
       "name": "www.openhomefoundation-gnutux.jpg",
       "size": 114355,
+      "width": 1386,
+      "height": 790,
       "last_modified_ts": 1782070761,
       "path": "assets/images/en/www.openhomefoundation-gnutux.jpg"
     },
     {
       "name": "www.openhomefoundation-gnutux.webp",
       "size": 77166,
+      "width": 1386,
+      "height": 790,
       "last_modified_ts": 1782070761,
       "path": "assets/images/en/www.openhomefoundation-gnutux.webp"
     },
     {
       "name": "circletosearch-gnutux.jpg",
       "size": 51191,
+      "width": 900,
+      "height": 591,
       "last_modified_ts": 1781722591,
       "path": "assets/images/en/circletosearch-gnutux.jpg"
     },
     {
       "name": "circletosearch-gnutux.webp",
       "size": 35784,
+      "width": 900,
+      "height": 591,
       "last_modified_ts": 1781722591,
       "path": "assets/images/en/circletosearch-gnutux.webp"
     },
     {
       "name": "spoofdpi-gnutux.jpg",
       "size": 166914,
+      "width": 1168,
+      "height": 784,
       "last_modified_ts": 1781715696,
       "path": "assets/images/en/spoofdpi-gnutux.jpg"
     },
     {
       "name": "spoofdpi-gnutux.webp",
       "size": 117558,
+      "width": 1168,
+      "height": 784,
       "last_modified_ts": 1781715696,
       "path": "assets/images/en/spoofdpi-gnutux.webp"
     },
     {
       "name": "linux-vfs-gnutux.jpg",
       "size": 129279,
+      "width": 1168,
+      "height": 784,
       "last_modified_ts": 1781697958,
       "path": "assets/images/en/linux-vfs-gnutux.jpg"
     },
     {
       "name": "linux-vfs-gnutux.webp",
       "size": 69718,
+      "width": 1168,
+      "height": 784,
       "last_modified_ts": 1781697958,
       "path": "assets/images/en/linux-vfs-gnutux.webp"
     },
     {
       "name": "firefox-152-gnutux.webp",
       "size": 45526,
+      "width": 750,
+      "height": 422,
       "last_modified_ts": 1781549760,
       "path": "assets/images/en/firefox-152-gnutux.webp"
     },
     {
       "name": "aur-arch-malware-gnutux.avif",
       "size": 84601,
+      "width": 1000,
+      "height": 671,
       "last_modified_ts": 1781544472,
       "path": "assets/images/en/aur-arch-malware-gnutux.avif"
     },
     {
       "name": "linux-7.1-gnutux.webp",
       "size": 37024,
+      "width": 1200,
+      "height": 750,
       "last_modified_ts": 1781525747,
       "path": "assets/images/en/linux-7.1-gnutux.webp"
     },
     {
       "name": "gcc-bootstrap-gnutux.jpg",
       "size": 51809,
+      "width": 960,
+      "height": 540,
       "last_modified_ts": 1781217537,
       "path": "assets/images/en/gcc-bootstrap-gnutux.jpg"
     },
     {
       "name": "gcc-bootstrap-gnutux.webp",
       "size": 36858,
+      "width": 960,
+      "height": 540,
       "last_modified_ts": 1781217537,
       "path": "assets/images/en/gcc-bootstrap-gnutux.webp"
     },
     {
       "name": "doclang-gnutux.jpg",
       "size": 81591,
+      "width": 1116,
+      "height": 628,
       "last_modified_ts": 1781215707,
       "path": "assets/images/en/doclang-gnutux.jpg"
     },
     {
       "name": "doclang-gnutux.webp",
       "size": 46360,
+      "width": 1116,
+      "height": 628,
       "last_modified_ts": 1781215707,
       "path": "assets/images/en/doclang-gnutux.webp"
     },
     {
       "name": "av2-video-codec-gnutux.jpg",
       "size": 84116,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1781087235,
       "path": "assets/images/en/av2-video-codec-gnutux.jpg"
     },
     {
       "name": "av2-video-codec-gnutux.webp",
       "size": 46358,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1781087235,
       "path": "assets/images/en/av2-video-codec-gnutux.webp"
     },
     {
       "name": "hyprland-gnutux.png",
       "size": 435822,
+      "width": 1200,
+      "height": 630,
       "last_modified_ts": 1781083409,
       "path": "assets/images/en/hyprland-gnutux.png"
     },
     {
       "name": "hyprland-gnutux.webp",
       "size": 57486,
+      "width": 1200,
+      "height": 630,
       "last_modified_ts": 1781083409,
       "path": "assets/images/en/hyprland-gnutux.webp"
     },
     {
       "name": "wayland-protocols-gnutux.webp",
       "size": 26868,
+      "width": 1200,
+      "height": 675,
       "last_modified_ts": 1781079201,
       "path": "assets/images/en/wayland-protocols-gnutux.webp"
     },
     {
       "name": "armbian-gnutux.png",
       "size": 106753,
+      "width": 1345,
+      "height": 733,
       "last_modified_ts": 1780833181,
       "path": "assets/images/en/armbian-gnutux.png"
     },
     {
       "name": "armbian-gnutux.webp",
       "size": 47636,
+      "width": 1345,
+      "height": 733,
       "last_modified_ts": 1780833181,
       "path": "assets/images/en/armbian-gnutux.webp"
     },
     {
       "name": "home.png",
       "size": 25808,
+      "width": 920,
+      "height": 800,
       "last_modified_ts": 1780830105,
       "path": "assets/images/en/home.png"
     },
     {
       "name": "home.webp",
       "size": 21630,
+      "width": 920,
+      "height": 800,
       "last_modified_ts": 1780830105,
       "path": "assets/images/en/home.webp"
     },
     {
       "name": "boxedtux-en.png",
       "size": 72972,
+      "width": 1385,
+      "height": 594,
       "last_modified_ts": 1780776277,
       "path": "assets/images/en/boxedtux-en.png"
     },
     {
       "name": "boxedtux-en.webp",
       "size": 33062,
+      "width": 1385,
+      "height": 594,
       "last_modified_ts": 1780776277,
       "path": "assets/images/en/boxedtux-en.webp"
     },
     {
       "name": "ubuntu2610.jpg",
       "size": 119809,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780774661,
       "path": "assets/images/en/ubuntu2610.jpg"
     },
     {
       "name": "ubuntu2610.webp",
       "size": 81366,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780774661,
       "path": "assets/images/en/ubuntu2610.webp"
     },
     {
       "name": "from-url-1780773122115.jpg",
       "size": 101052,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1780773185,
       "path": "assets/images/en/from-url-1780773122115.jpg"
     },
     {
       "name": "from-url-1780773122115.webp",
       "size": 82354,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1780773185,
       "path": "assets/images/en/from-url-1780773122115.webp"
     },
     {
       "name": "vyxel-apps.png",
       "size": 211194,
+      "width": 698,
+      "height": 470,
       "last_modified_ts": 1780749936,
       "path": "assets/images/en/vyxel-apps.png"
     },
     {
       "name": "vyxel-apps.webp",
       "size": 24906,
+      "width": 698,
+      "height": 470,
       "last_modified_ts": 1780749936,
       "path": "assets/images/en/vyxel-apps.webp"
     },
     {
       "name": "html-video.png",
       "size": 527369,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780745518,
       "path": "assets/images/en/html-video.png"
     },
     {
       "name": "html-video.webp",
       "size": 82394,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780745518,
       "path": "assets/images/en/html-video.webp"
     },
     {
       "name": "0-ad-featured-800x450.jpeg",
       "size": 105365,
+      "width": 800,
+      "height": 450,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/0-ad-featured-800x450.jpeg"
     },
     {
       "name": "0-ad-featured-800x450.webp",
       "size": 102016,
+      "width": 800,
+      "height": 450,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/0-ad-featured-800x450.webp"
     },
     {
       "name": "50550bd1-822b-42b6-8426-2926636ae1ec.png",
       "size": 430917,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/50550bd1-822b-42b6-8426-2926636ae1ec.png"
     },
     {
       "name": "50550bd1-822b-42b6-8426-2926636ae1ec.webp",
       "size": 100016,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/50550bd1-822b-42b6-8426-2926636ae1ec.webp"
     },
     {
       "name": "69c66e7c22c7331dd6048ea3_2ff28e45.webp",
       "size": 70588,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/69c66e7c22c7331dd6048ea3_2ff28e45.webp"
     },
     {
       "name": "alphabet_google_ai.jpg",
       "size": 27756,
+      "width": 612,
+      "height": 394,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/alphabet_google_ai.jpg"
     },
     {
       "name": "alphabet_google_ai.webp",
       "size": 16226,
+      "width": 612,
+      "height": 394,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/alphabet_google_ai.webp"
     },
     {
       "name": "azure-linux-4-released-gnutux.jpg",
       "size": 35108,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/azure-linux-4-released-gnutux.jpg"
     },
     {
       "name": "azure-linux-4-released-gnutux.webp",
       "size": 21014,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/azure-linux-4-released-gnutux.webp"
     },
     {
       "name": "bazzite-linux-gaming.png",
       "size": 1149491,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/bazzite-linux-gaming.png"
     },
     {
       "name": "bazzite-linux-gaming.webp",
       "size": 24978,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/bazzite-linux-gaming.webp"
     },
     {
       "name": "cosmic_desktop.webp",
       "size": 23636,
+      "width": 640,
+      "height": 360,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/cosmic_desktop.webp"
     },
     {
       "name": "distrosea_gnutux.jpg",
       "size": 209970,
+      "width": 1280,
+      "height": 720,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/distrosea_gnutux.jpg"
     },
     {
       "name": "distrosea_gnutux.webp",
       "size": 158098,
+      "width": 1280,
+      "height": 720,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/distrosea_gnutux.webp"
     },
     {
       "name": "ffpnova.webp",
       "size": 91520,
+      "width": 1200,
+      "height": 683,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/ffpnova.webp"
     },
     {
       "name": "gnu-health.png",
       "size": 117563,
+      "width": 955,
+      "height": 520,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/gnu-health.png"
     },
     {
       "name": "gnu-health.webp",
       "size": 37330,
+      "width": 955,
+      "height": 520,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/gnu-health.webp"
     },
     {
       "name": "goldendictvsgoldendict-ng-en.png",
       "size": 494318,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/goldendictvsgoldendict-ng-en.png"
     },
     {
       "name": "goldendictvsgoldendict-ng-en.webp",
       "size": 187158,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/goldendictvsgoldendict-ng-en.webp"
     },
     {
       "name": "gt-tahakom-en.png",
       "size": 92446,
+      "width": 1390,
+      "height": 721,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/gt-tahakom-en.png"
     },
     {
       "name": "gt-tahakom-en.webp",
       "size": 25996,
+      "width": 1390,
+      "height": 721,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/gt-tahakom-en.webp"
     },
     {
       "name": "gt_clpm_gnutux_en.png",
       "size": 141823,
+      "width": 1386,
+      "height": 672,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/gt_clpm_gnutux_en.png"
     },
     {
       "name": "gt_clpm_gnutux_en.webp",
       "size": 31902,
+      "width": 1386,
+      "height": 672,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/gt_clpm_gnutux_en.webp"
     },
     {
       "name": "gt_quranreader.png",
       "size": 714132,
+      "width": 1386,
+      "height": 783,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/gt_quranreader.png"
     },
     {
       "name": "gt_quranreader.webp",
       "size": 51976,
+      "width": 1386,
+      "height": 783,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/gt_quranreader.webp"
     },
     {
       "name": "hodmod-video-editor.png",
       "size": 288637,
+      "width": 1600,
+      "height": 840,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/hodmod-video-editor.png"
     },
     {
       "name": "hodmod-video-editor.webp",
       "size": 35690,
+      "width": 1600,
+      "height": 840,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/hodmod-video-editor.webp"
     },
     {
       "name": "humanizer-en.png",
       "size": 529483,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/humanizer-en.png"
     },
     {
       "name": "humanizer-en.webp",
       "size": 115232,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/humanizer-en.webp"
     },
     {
       "name": "impactor.claration.dev.png",
       "size": 2272340,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/impactor.claration.dev.png"
     },
     {
       "name": "impactor.claration.dev.webp",
       "size": 114476,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/impactor.claration.dev.webp"
     },
     {
       "name": "internet-monitor-dashboard-en.png",
       "size": 44249,
+      "width": 1600,
+      "height": 839,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/internet-monitor-dashboard-en.png"
     },
     {
       "name": "internet-monitor-dashboard-en.webp",
       "size": 26084,
+      "width": 1600,
+      "height": 839,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/internet-monitor-dashboard-en.webp"
     },
     {
       "name": "joplinapp-gnutux.webp",
       "size": 43110,
+      "width": 1386,
+      "height": 652,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/joplinapp-gnutux.webp"
     },
     {
       "name": "kdenlive-26.04.jpg",
       "size": 75878,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/kdenlive-26.04.jpg"
     },
     {
       "name": "kdenlive-26.04.webp",
       "size": 49600,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/kdenlive-26.04.webp"
     },
     {
       "name": "libreoffice-2623-release.jpg",
       "size": 65550,
+      "width": 1200,
+      "height": 550,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/libreoffice-2623-release.jpg"
     },
     {
       "name": "libreoffice-2623-release.webp",
       "size": 34516,
+      "width": 1200,
+      "height": 550,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/libreoffice-2623-release.webp"
     },
     {
       "name": "linux-lite.jpg",
       "size": 60222,
+      "width": 800,
+      "height": 445,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/linux-lite.jpg"
     },
     {
       "name": "linux-lite.webp",
       "size": 41774,
+      "width": 800,
+      "height": 445,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/linux-lite.webp"
     },
     {
       "name": "markdawin-en.jpg",
       "size": 29668,
+      "width": 990,
+      "height": 518,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/markdawin-en.jpg"
     },
     {
       "name": "markdawin-en.webp",
       "size": 19828,
+      "width": 990,
+      "height": 518,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/markdawin-en.webp"
     },
     {
       "name": "mini-shai-hulud-worm-en.png",
       "size": 791422,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/mini-shai-hulud-worm-en.png"
     },
     {
       "name": "mini-shai-hulud-worm-en.webp",
       "size": 258764,
+      "width": 1536,
+      "height": 1024,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/mini-shai-hulud-worm-en.webp"
     },
     {
       "name": "nostr-mail-protocol.jpeg",
       "size": 16149,
+      "width": 680,
+      "height": 357,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/nostr-mail-protocol.jpeg"
     },
     {
       "name": "nostr-mail-protocol.webp",
       "size": 9888,
+      "width": 680,
+      "height": 357,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/nostr-mail-protocol.webp"
     },
     {
       "name": "notebooklm-claude.webp",
       "size": 20930,
+      "width": 1024,
+      "height": 692,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/notebooklm-claude.webp"
     },
     {
       "name": "organicmaps.webp",
       "size": 38916,
+      "width": 1024,
+      "height": 500,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/organicmaps.webp"
     },
     {
       "name": "pinokio-gnutux.png",
       "size": 97504,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/pinokio-gnutux.png"
     },
     {
       "name": "pinokio-gnutux.webp",
       "size": 37130,
+      "width": 1600,
+      "height": 900,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/pinokio-gnutux.webp"
     },
     {
       "name": "prismdesktop.webp",
       "size": 21678,
+      "width": 656,
+      "height": 627,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/prismdesktop.webp"
     },
     {
       "name": "screenshot_dashboard.png",
       "size": 88281,
+      "width": 1406,
+      "height": 871,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/screenshot_dashboard.png"
     },
     {
       "name": "screenshot_dashboard.webp",
       "size": 46370,
+      "width": 1406,
+      "height": 871,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/screenshot_dashboard.webp"
     },
     {
       "name": "screenshot_gt-sqrm_v3.png",
       "size": 221780,
+      "width": 1406,
+      "height": 871,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/screenshot_gt-sqrm_v3.png"
     },
     {
       "name": "screenshot_gt-sqrm_v3.webp",
       "size": 35234,
+      "width": 1406,
+      "height": 871,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/screenshot_gt-sqrm_v3.webp"
     },
     {
       "name": "tenacityaudio.webp",
       "size": 45824,
+      "width": 1096,
+      "height": 697,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/tenacityaudio.webp"
     },
     {
       "name": "transmission_gnutux.png",
       "size": 133665,
+      "width": 1386,
+      "height": 598,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/transmission_gnutux.png"
     },
     {
       "name": "transmission_gnutux.webp",
       "size": 33264,
+      "width": 1386,
+      "height": 598,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/transmission_gnutux.webp"
     },
     {
       "name": "ubuntu-26.04lts.webp",
       "size": 16974,
+      "width": 640,
+      "height": 427,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/ubuntu-26.04lts.webp"
     },
     {
       "name": "ubuntu.jpg",
       "size": 42160,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/ubuntu.jpg"
     },
     {
       "name": "ubuntu.webp",
       "size": 25702,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/ubuntu.webp"
     },
     {
       "name": "vidko.ai.png",
       "size": 170709,
+      "width": 1391,
+      "height": 719,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/vidko.ai.png"
     },
     {
       "name": "vidko.ai.webp",
       "size": 27300,
+      "width": 1391,
+      "height": 719,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/vidko.ai.webp"
     },
     {
       "name": "vidkoai.png",
       "size": 109941,
+      "width": 1391,
+      "height": 719,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/vidkoai.png"
     },
     {
       "name": "vidkoai.webp",
       "size": 41246,
+      "width": 1391,
+      "height": 719,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/vidkoai.webp"
     },
     {
       "name": "wokwi-startp.png",
       "size": 53118,
+      "width": 639,
+      "height": 594,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/wokwi-startp.png"
     },
     {
       "name": "wokwi-startp.webp",
       "size": 32450,
+      "width": 639,
+      "height": 594,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/wokwi-startp.webp"
     },
     {
       "name": "xorgfix.webp",
       "size": 27006,
+      "width": 610,
+      "height": 343,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/xorgfix.webp"
     },
     {
       "name": "zperiod-app-en.png",
       "size": 550741,
+      "width": 1402,
+      "height": 790,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/zperiod-app-en.png"
     },
     {
       "name": "zperiod-app-en.webp",
       "size": 51572,
+      "width": 1402,
+      "height": 790,
       "last_modified_ts": 1780686505,
       "path": "assets/images/en/zperiod-app-en.webp"
     },
     {
       "name": "prismdesktop.png",
       "size": 148146,
+      "width": 656,
+      "height": 627,
       "last_modified_ts": 1780610541,
       "path": "assets/images/en/prismdesktop.png"
     },
     {
       "name": "cosmic_desktop.jpg",
       "size": 31486,
+      "width": 640,
+      "height": 360,
       "last_modified_ts": 1780518508,
       "path": "assets/images/en/cosmic_desktop.jpg"
     },
     {
       "name": "xorgfix.jpeg",
       "size": 29897,
+      "width": 610,
+      "height": 343,
       "last_modified_ts": 1780490892,
       "path": "assets/images/en/xorgfix.jpeg"
     },
     {
       "name": "organicmaps.png",
       "size": 409490,
+      "width": 1024,
+      "height": 500,
       "last_modified_ts": 1780335902,
       "path": "assets/images/en/organicmaps.png"
     },
     {
       "name": "consigue-tu-dominio-gratis-en-domain.digitalplat.org_.webp",
       "size": 33278,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1780327192,
       "path": "assets/images/en/consigue-tu-dominio-gratis-en-domain.digitalplat.org_.webp"
     },
     {
       "name": "ffpnova.jpg",
       "size": 127970,
+      "width": 1200,
+      "height": 683,
       "last_modified_ts": 1780324154,
       "path": "assets/images/en/ffpnova.jpg"
     },
     {
       "name": "notebooklm-claude.png",
       "size": 219966,
+      "width": 1024,
+      "height": 692,
       "last_modified_ts": 1779388545,
       "path": "assets/images/en/notebooklm-claude.png"
     },
     {
       "name": "top-chromium-based-browsers-with-outstanding-features.webp",
       "size": 32794,
+      "width": 1200,
+      "height": 800,
       "last_modified_ts": 1779358123,
       "path": "assets/images/en/top-chromium-based-browsers-with-outstanding-features.webp"
     },
     {
       "name": "tenacityaudio.png",
       "size": 226382,
+      "width": 1096,
+      "height": 697,
       "last_modified_ts": 1779300394,
       "path": "assets/images/en/tenacityaudio.png"
     },
     {
-      "name": "claudevscodex.png",
-      "size": 38808,
-      "last_modified_ts": 1779299241,
-      "path": "assets/images/en/claudevscodex.png"
-    },
-    {
       "name": "24.04-vs-26.04.webp",
       "size": 26954,
+      "width": 860,
+      "height": 502,
       "last_modified_ts": 1779204545,
       "path": "assets/images/en/24.04-vs-26.04.webp"
     },
     {
       "name": "joplinapp-gnutux.png",
       "size": 390820,
+      "width": 1386,
+      "height": 652,
       "last_modified_ts": 1779185708,
       "path": "assets/images/en/joplinapp-gnutux.png"
     },
     {
       "name": "aicomicfactory.webp",
       "size": 52636,
+      "width": 1344,
+      "height": 768,
       "last_modified_ts": 1779048034,
       "path": "assets/images/en/aicomicfactory.webp"
     },
     {
       "name": "cat-gatekeeper.webp",
       "size": 81640,
+      "width": 860,
+      "height": 484,
       "last_modified_ts": 1778790404,
       "path": "assets/images/en/cat-gatekeeper.webp"
     },
     {
       "name": "claude-mem.avif",
       "size": 33671,
+      "width": 1200,
+      "height": 688,
       "last_modified_ts": 1778525001,
       "path": "assets/images/en/claude-mem.avif"
     },
     {
       "name": "chatgpt-deepseek-gnutux.webp",
       "size": 79044,
+      "width": 860,
+      "height": 573,
       "last_modified_ts": 1778415748,
       "path": "assets/images/en/chatgpt-deepseek-gnutux.webp"
     },
     {
       "name": "arm-chips-dominate-laptop-market-with-35-share-in-2026.webp",
       "size": 56504,
+      "width": 1024,
+      "height": 682,
       "last_modified_ts": 1778415326,
       "path": "assets/images/en/arm-chips-dominate-laptop-market-with-35-share-in-2026.webp"
     },
     {
       "name": "ubuntu-2604-noble-numbat.avif",
       "size": 22461,
+      "width": 1024,
+      "height": 576,
       "last_modified_ts": 1778361354,
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
+    },
+    {
+      "name": "claudevscodex.avif",
+      "size": 38808,
+      "width": 564,
+      "height": 374,
+      "last_modified_ts": 0,
+      "path": "assets/images/en/claudevscodex.avif"
     }
   ],
+  "ar_map": {
+    "pkg2appimage-gnutux-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "pkg2appimage-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
+    "lucide-icons-gnutux.jpg": {
+      "w": 1390,
+      "h": 788
+    },
+    "lucide-icons-gnutux.webp": {
+      "w": 1390,
+      "h": 788
+    },
+    "openauth-gnutux.jpg": {
+      "w": 800,
+      "h": 476
+    },
+    "openauth-gnutux.webp": {
+      "w": 800,
+      "h": 476
+    },
+    "gt-sirm-1.2-gnutux.jpeg": {
+      "w": 1034,
+      "h": 540
+    },
+    "gt-sirm-1.2-gnutux.webp": {
+      "w": 1034,
+      "h": 540
+    },
+    "blender-5.2lts-gnutux.jpeg": {
+      "w": 1600,
+      "h": 900
+    },
+    "blender-5.2lts-gnutux.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "gt-stacer-ar-gnutux.png": {
+      "w": 1389,
+      "h": 793
+    },
+    "gt-stacer-ar-gnutux.webp": {
+      "w": 1389,
+      "h": 793
+    },
+    "openreel-video-gnutux.png": {
+      "w": 1402,
+      "h": 796
+    },
+    "repowise-gnutux.png": {
+      "w": 1600,
+      "h": 743
+    },
+    "repowise-gnutux.webp": {
+      "w": 1600,
+      "h": 743
+    },
+    "bassam-social-gnutux-ar.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "bassam-social-gnutux-ar.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "fluxer-discord-gnutux-ar.jpg": {
+      "w": 1200,
+      "h": 800
+    },
+    "fluxer-discord-gnutux-ar.webp": {
+      "w": 1200,
+      "h": 800
+    },
+    "google-labs-gnutux.webp": {
+      "w": 1536,
+      "h": 878
+    },
+    "etchdroid-gnutux.jpg": {
+      "w": 1280,
+      "h": 720
+    },
+    "etchdroid-gnutux.webp": {
+      "w": 1280,
+      "h": 720
+    },
+    "open-source-llms-guide-2026-gnutux.webp": {
+      "w": 1024,
+      "h": 559
+    },
+    "gt-mishkat-kids-gnutux.jpg": {
+      "w": 1390,
+      "h": 790
+    },
+    "gt-mishkat-kids-gnutux.webp": {
+      "w": 1390,
+      "h": 790
+    },
+    "nostr-gnutux.jpg": {
+      "w": 1600,
+      "h": 900
+    },
+    "nostr-gnutux.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "odysseus-ai-gnutux.jpg": {
+      "w": 1388,
+      "h": 776
+    },
+    "odysseus-ai-gnutux.webp": {
+      "w": 1388,
+      "h": 776
+    },
+    "caveman-gnutux.jpg": {
+      "w": 1279,
+      "h": 720
+    },
+    "caveman-gnutux.webp": {
+      "w": 1279,
+      "h": 720
+    },
+    "amd-ryzen-ai-halo-2-gnutux.jpg": {
+      "w": 1536,
+      "h": 813
+    },
+    "amd-ryzen-ai-halo-2-gnutux.webp": {
+      "w": 1536,
+      "h": 813
+    },
+    "ventoy-gnutux.webp": {
+      "w": 800,
+      "h": 450
+    },
+    "tuxmate-gnutux.webp": {
+      "w": 860,
+      "h": 573
+    },
+    "plasma67-gnutux.jpg": {
+      "w": 768,
+      "h": 432
+    },
+    "plasma67-gnutux.webp": {
+      "w": 768,
+      "h": 432
+    },
+    "cutefish-gnutux.jpg": {
+      "w": 1392,
+      "h": 793
+    },
+    "cutefish-gnutux.webp": {
+      "w": 1392,
+      "h": 793
+    },
+    "onlyoffice-gnutux.jpg": {
+      "w": 1440,
+      "h": 900
+    },
+    "onlyoffice-gnutux.webp": {
+      "w": 1440,
+      "h": 900
+    },
+    "refreshos-gnutux.jpg": {
+      "w": 1024,
+      "h": 640
+    },
+    "refreshos-gnutux.webp": {
+      "w": 1024,
+      "h": 640
+    },
+    "alpinelinux-gnutux.webp": {
+      "w": 640,
+      "h": 360
+    },
+    "dinit.webp": {
+      "w": 1600,
+      "h": 899
+    },
+    "screenshot_20260622_184416.jpg": {
+      "w": 1379,
+      "h": 774
+    },
+    "screenshot_20260622_184416.webp": {
+      "w": 1379,
+      "h": 774
+    },
+    "www.openhomefoundation-gnutux.jpg": {
+      "w": 1386,
+      "h": 790
+    },
+    "www.openhomefoundation-gnutux.webp": {
+      "w": 1386,
+      "h": 790
+    },
+    "circletosearch-gnutux.jpg": {
+      "w": 900,
+      "h": 591
+    },
+    "circletosearch-gnutux.webp": {
+      "w": 900,
+      "h": 591
+    },
+    "spoofdpi-gnutux.jpg": {
+      "w": 1168,
+      "h": 784
+    },
+    "spoofdpi-gnutux.webp": {
+      "w": 1168,
+      "h": 784
+    },
+    "linux-vfs-gnutux.jpg": {
+      "w": 1168,
+      "h": 784
+    },
+    "linux-vfs-gnutux.webp": {
+      "w": 1168,
+      "h": 784
+    },
+    "firefox-152-gnutux.webp": {
+      "w": 750,
+      "h": 422
+    },
+    "aur-arch-malware-gnutux.avif": {
+      "w": 1000,
+      "h": 671
+    },
+    "linux-7.1-gnutux.webp": {
+      "w": 1200,
+      "h": 750
+    },
+    "gcc-bootstrap-gnutux.jpg": {
+      "w": 960,
+      "h": 540
+    },
+    "gcc-bootstrap-gnutux.webp": {
+      "w": 960,
+      "h": 540
+    },
+    "doclang-gnutux.jpg": {
+      "w": 1116,
+      "h": 628
+    },
+    "doclang-gnutux.webp": {
+      "w": 1116,
+      "h": 628
+    },
+    "av2-video-codec-gnutux.jpg": {
+      "w": 1600,
+      "h": 900
+    },
+    "av2-video-codec-gnutux.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "hyprland-gnutux.png": {
+      "w": 1200,
+      "h": 630
+    },
+    "hyprland-gnutux.webp": {
+      "w": 1200,
+      "h": 630
+    },
+    "wayland-protocols-gnutux.webp": {
+      "w": 1200,
+      "h": 675
+    },
+    "armbian-gnutux.png": {
+      "w": 1345,
+      "h": 733
+    },
+    "armbian-gnutux.webp": {
+      "w": 1345,
+      "h": 733
+    },
+    "home.png": {
+      "w": 920,
+      "h": 800
+    },
+    "home.webp": {
+      "w": 920,
+      "h": 800
+    },
+    "boxedtux-ar.png": {
+      "w": 1600,
+      "h": 686
+    },
+    "boxedtux-ar.webp": {
+      "w": 1600,
+      "h": 686
+    },
+    "ubuntu2610.jpg": {
+      "w": 1600,
+      "h": 900
+    },
+    "ubuntu2610.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "from-url-1780773087202.jpg": {
+      "w": 860,
+      "h": 573
+    },
+    "from-url-1780773087202.webp": {
+      "w": 860,
+      "h": 573
+    },
+    "vyxel-apps.png": {
+      "w": 698,
+      "h": 470
+    },
+    "vyxel-apps.webp": {
+      "w": 698,
+      "h": 470
+    },
+    "html-video.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "html-video.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "0-ad-featured-800x450.jpeg": {
+      "w": 800,
+      "h": 450
+    },
+    "0-ad-featured-800x450.webp": {
+      "w": 800,
+      "h": 450
+    },
+    "69c66e7c22c7331dd6048ea3_2ff28e45.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "alphabet_google_ai.jpg": {
+      "w": 612,
+      "h": 394
+    },
+    "alphabet_google_ai.webp": {
+      "w": 612,
+      "h": 394
+    },
+    "azure-linux-4-released-gnutux.jpg": {
+      "w": 1024,
+      "h": 576
+    },
+    "azure-linux-4-released-gnutux.webp": {
+      "w": 1024,
+      "h": 576
+    },
+    "bazzite-linux-gaming.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "bazzite-linux-gaming.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "bb7d98af-a85d-4d7b-a3bc-de48aa7a4f5d.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "bb7d98af-a85d-4d7b-a3bc-de48aa7a4f5d.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "cosmic_desktop.webp": {
+      "w": 640,
+      "h": 360
+    },
+    "distrosea_gnutux.jpg": {
+      "w": 1280,
+      "h": 720
+    },
+    "distrosea_gnutux.webp": {
+      "w": 1280,
+      "h": 720
+    },
+    "fb_img_1779708023074.webp": {
+      "w": 960,
+      "h": 1200
+    },
+    "gnu-health.png": {
+      "w": 955,
+      "h": 520
+    },
+    "gnu-health.webp": {
+      "w": 955,
+      "h": 520
+    },
+    "goldendictvsgoldendict-ng-ar.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "goldendictvsgoldendict-ng-ar.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "gt-tahakom-ar.png": {
+      "w": 1390,
+      "h": 721
+    },
+    "gt-tahakom-ar.webp": {
+      "w": 1390,
+      "h": 721
+    },
+    "gt_clpm_gnutux_ar.png": {
+      "w": 1386,
+      "h": 672
+    },
+    "gt_clpm_gnutux_ar.webp": {
+      "w": 1386,
+      "h": 672
+    },
+    "gt_quranreader.png": {
+      "w": 1386,
+      "h": 783
+    },
+    "gt_quranreader.webp": {
+      "w": 1386,
+      "h": 783
+    },
+    "hodmod-video-editor.png": {
+      "w": 1600,
+      "h": 840
+    },
+    "hodmod-video-editor.webp": {
+      "w": 1600,
+      "h": 840
+    },
+    "humanizer-ar.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "humanizer-ar.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "impactor.claration.dev.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "impactor.claration.dev.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "internet-monitor-dashboard-ar.png": {
+      "w": 1600,
+      "h": 839
+    },
+    "internet-monitor-dashboard-ar.webp": {
+      "w": 1600,
+      "h": 839
+    },
+    "joplinapp-gnutux.webp": {
+      "w": 1386,
+      "h": 652
+    },
+    "kdenlive-26.04.jpg": {
+      "w": 1024,
+      "h": 576
+    },
+    "kdenlive-26.04.webp": {
+      "w": 1024,
+      "h": 576
+    },
+    "libreoffice-2623-release.jpg": {
+      "w": 1200,
+      "h": 550
+    },
+    "libreoffice-2623-release.webp": {
+      "w": 1200,
+      "h": 550
+    },
+    "linux-lite.jpg": {
+      "w": 800,
+      "h": 445
+    },
+    "linux-lite.webp": {
+      "w": 800,
+      "h": 445
+    },
+    "markdawin-ar.jpg": {
+      "w": 990,
+      "h": 518
+    },
+    "markdawin-ar.webp": {
+      "w": 990,
+      "h": 518
+    },
+    "mini-shai-hulud-worm-en.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "mini-shai-hulud-worm-en.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "nostr-mail-protocol.jpeg": {
+      "w": 680,
+      "h": 357
+    },
+    "nostr-mail-protocol.webp": {
+      "w": 680,
+      "h": 357
+    },
+    "notebooklm-claude.webp": {
+      "w": 1024,
+      "h": 692
+    },
+    "organicmaps.webp": {
+      "w": 1024,
+      "h": 500
+    },
+    "pinokio-gnutux.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "pinokio-gnutux.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "prismdesktop.webp": {
+      "w": 656,
+      "h": 627
+    },
+    "screenshot_.png": {
+      "w": 1406,
+      "h": 871
+    },
+    "screenshot_.webp": {
+      "w": 1406,
+      "h": 871
+    },
+    "screenshot_gt-sqrm_v3.png": {
+      "w": 1406,
+      "h": 871
+    },
+    "screenshot_gt-sqrm_v3.webp": {
+      "w": 1406,
+      "h": 871
+    },
+    "tenacityaudio.webp": {
+      "w": 1096,
+      "h": 697
+    },
+    "transmission_gnutux.png": {
+      "w": 1386,
+      "h": 598
+    },
+    "transmission_gnutux.webp": {
+      "w": 1386,
+      "h": 598
+    },
+    "ubuntu-26.04lts.webp": {
+      "w": 640,
+      "h": 427
+    },
+    "ubuntu.jpg": {
+      "w": 1024,
+      "h": 576
+    },
+    "ubuntu.webp": {
+      "w": 1024,
+      "h": 576
+    },
+    "vidko.ai.png": {
+      "w": 1391,
+      "h": 719
+    },
+    "vidko.ai.webp": {
+      "w": 1391,
+      "h": 719
+    },
+    "vidkoai.png": {
+      "w": 1391,
+      "h": 719
+    },
+    "vidkoai.webp": {
+      "w": 1391,
+      "h": 719
+    },
+    "wokwi-startp.png": {
+      "w": 639,
+      "h": 594
+    },
+    "wokwi-startp.webp": {
+      "w": 639,
+      "h": 594
+    },
+    "xorgfix.webp": {
+      "w": 610,
+      "h": 343
+    },
+    "zperiod-app-ar.png": {
+      "w": 1402,
+      "h": 790
+    },
+    "zperiod-app-ar.webp": {
+      "w": 1402,
+      "h": 790
+    },
+    "prismdesktop.png": {
+      "w": 656,
+      "h": 627
+    },
+    "cosmic_desktop.jpg": {
+      "w": 640,
+      "h": 360
+    },
+    "xorgfix.jpeg": {
+      "w": 610,
+      "h": 343
+    },
+    "organicmaps.png": {
+      "w": 1024,
+      "h": 500
+    },
+    "consigue-tu-dominio-gratis-en-domain.digitalplat.org_.webp": {
+      "w": 860,
+      "h": 573
+    },
+    "fb_img_1779708023074.jpg": {
+      "w": 960,
+      "h": 1200
+    },
+    "notebooklm-claude.png": {
+      "w": 1024,
+      "h": 692
+    },
+    "top-chromium-based-browsers-with-outstanding-features.webp": {
+      "w": 1200,
+      "h": 800
+    },
+    "tenacityaudio.png": {
+      "w": 1096,
+      "h": 697
+    },
+    "24.04-vs-26.04.webp": {
+      "w": 860,
+      "h": 502
+    },
+    "joplinapp-gnutux.png": {
+      "w": 1386,
+      "h": 652
+    },
+    "aicomicfactory.webp": {
+      "w": 1344,
+      "h": 768
+    },
+    "cat-gatekeeper.webp": {
+      "w": 860,
+      "h": 484
+    },
+    "claude-mem.avif": {
+      "w": 1200,
+      "h": 688
+    },
+    "chatgpt-deepseek-gnutux.webp": {
+      "w": 860,
+      "h": 573
+    },
+    "arm-chips-dominate-laptop-market-with-35-share-in-2026.webp": {
+      "w": 1024,
+      "h": 682
+    },
+    "ubuntu-2604-noble-numbat.avif": {
+      "w": 1024,
+      "h": 576
+    },
+    "claudevscodex.avif": {
+      "w": 564,
+      "h": 374
+    }
+  },
+  "en_map": {
+    "pkg2appimage-gnutux-en.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "pkg2appimage-gnutux-en.webp": {
+      "w": 1600,
+      "h": 800
+    },
+    "lucide-icons-gnutux.jpg": {
+      "w": 1390,
+      "h": 788
+    },
+    "lucide-icons-gnutux.webp": {
+      "w": 1390,
+      "h": 788
+    },
+    "openauth-gnutux.jpg": {
+      "w": 800,
+      "h": 476
+    },
+    "openauth-gnutux.webp": {
+      "w": 800,
+      "h": 476
+    },
+    "gt-sirm-1.2-gnutux.jpeg": {
+      "w": 1034,
+      "h": 540
+    },
+    "gt-sirm-1.2-gnutux.webp": {
+      "w": 1034,
+      "h": 540
+    },
+    "blender-5.2lts-gnutux.jpeg": {
+      "w": 1600,
+      "h": 900
+    },
+    "blender-5.2lts-gnutux.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "gt-stacer-en-gnutux.png": {
+      "w": 1389,
+      "h": 793
+    },
+    "gt-stacer-en-gnutux.webp": {
+      "w": 1389,
+      "h": 793
+    },
+    "openreel-video-gnutux.png": {
+      "w": 1402,
+      "h": 796
+    },
+    "repowise-gnutux.png": {
+      "w": 1600,
+      "h": 743
+    },
+    "repowise-gnutux.webp": {
+      "w": 1600,
+      "h": 743
+    },
+    "bassam-social-gnutux-en.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "bassam-social-gnutux-en.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "fluxer-discord-gnutux-en.jpg": {
+      "w": 1200,
+      "h": 800
+    },
+    "fluxer-discord-gnutux-en.webp": {
+      "w": 1200,
+      "h": 800
+    },
+    "google-labs-gnutux.webp": {
+      "w": 1536,
+      "h": 878
+    },
+    "etchdroid-gnutux.jpg": {
+      "w": 1280,
+      "h": 720
+    },
+    "etchdroid-gnutux.webp": {
+      "w": 1280,
+      "h": 720
+    },
+    "open-source-llms-guide-2026-gnutux.webp": {
+      "w": 1024,
+      "h": 559
+    },
+    "gt-mishkat-kids-gnutux.jpg": {
+      "w": 1390,
+      "h": 790
+    },
+    "gt-mishkat-kids-gnutux.webp": {
+      "w": 1390,
+      "h": 790
+    },
+    "nostr-gnutux.jpg": {
+      "w": 1600,
+      "h": 900
+    },
+    "nostr-gnutux.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "odysseus-ai-gnutux.jpg": {
+      "w": 1388,
+      "h": 776
+    },
+    "odysseus-ai-gnutux.webp": {
+      "w": 1388,
+      "h": 776
+    },
+    "caveman-gnutux.jpg": {
+      "w": 1279,
+      "h": 720
+    },
+    "caveman-gnutux.webp": {
+      "w": 1279,
+      "h": 720
+    },
+    "amd-ryzen-ai-halo-2-gnutux.jpg": {
+      "w": 1536,
+      "h": 813
+    },
+    "amd-ryzen-ai-halo-2-gnutux.webp": {
+      "w": 1536,
+      "h": 813
+    },
+    "ventoy-gnutux.webp": {
+      "w": 800,
+      "h": 450
+    },
+    "tuxmate-gnutux.webp": {
+      "w": 860,
+      "h": 573
+    },
+    "plasma67-gnutux.jpg": {
+      "w": 768,
+      "h": 432
+    },
+    "plasma67-gnutux.webp": {
+      "w": 768,
+      "h": 432
+    },
+    "cutefish-gnutux.jpg": {
+      "w": 1392,
+      "h": 793
+    },
+    "cutefish-gnutux.webp": {
+      "w": 1392,
+      "h": 793
+    },
+    "onlyoffice-gnutux.jpg": {
+      "w": 1440,
+      "h": 900
+    },
+    "onlyoffice-gnutux.webp": {
+      "w": 1440,
+      "h": 900
+    },
+    "refreshos-gnutux.jpg": {
+      "w": 1024,
+      "h": 640
+    },
+    "refreshos-gnutux.webp": {
+      "w": 1024,
+      "h": 640
+    },
+    "alpinelinux-gnutux.webp": {
+      "w": 640,
+      "h": 360
+    },
+    "dinit.webp": {
+      "w": 1600,
+      "h": 899
+    },
+    "screenshot_20260622_184416.jpg": {
+      "w": 1379,
+      "h": 774
+    },
+    "screenshot_20260622_184416.webp": {
+      "w": 1379,
+      "h": 774
+    },
+    "www.openhomefoundation-gnutux.jpg": {
+      "w": 1386,
+      "h": 790
+    },
+    "www.openhomefoundation-gnutux.webp": {
+      "w": 1386,
+      "h": 790
+    },
+    "circletosearch-gnutux.jpg": {
+      "w": 900,
+      "h": 591
+    },
+    "circletosearch-gnutux.webp": {
+      "w": 900,
+      "h": 591
+    },
+    "spoofdpi-gnutux.jpg": {
+      "w": 1168,
+      "h": 784
+    },
+    "spoofdpi-gnutux.webp": {
+      "w": 1168,
+      "h": 784
+    },
+    "linux-vfs-gnutux.jpg": {
+      "w": 1168,
+      "h": 784
+    },
+    "linux-vfs-gnutux.webp": {
+      "w": 1168,
+      "h": 784
+    },
+    "firefox-152-gnutux.webp": {
+      "w": 750,
+      "h": 422
+    },
+    "aur-arch-malware-gnutux.avif": {
+      "w": 1000,
+      "h": 671
+    },
+    "linux-7.1-gnutux.webp": {
+      "w": 1200,
+      "h": 750
+    },
+    "gcc-bootstrap-gnutux.jpg": {
+      "w": 960,
+      "h": 540
+    },
+    "gcc-bootstrap-gnutux.webp": {
+      "w": 960,
+      "h": 540
+    },
+    "doclang-gnutux.jpg": {
+      "w": 1116,
+      "h": 628
+    },
+    "doclang-gnutux.webp": {
+      "w": 1116,
+      "h": 628
+    },
+    "av2-video-codec-gnutux.jpg": {
+      "w": 1600,
+      "h": 900
+    },
+    "av2-video-codec-gnutux.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "hyprland-gnutux.png": {
+      "w": 1200,
+      "h": 630
+    },
+    "hyprland-gnutux.webp": {
+      "w": 1200,
+      "h": 630
+    },
+    "wayland-protocols-gnutux.webp": {
+      "w": 1200,
+      "h": 675
+    },
+    "armbian-gnutux.png": {
+      "w": 1345,
+      "h": 733
+    },
+    "armbian-gnutux.webp": {
+      "w": 1345,
+      "h": 733
+    },
+    "home.png": {
+      "w": 920,
+      "h": 800
+    },
+    "home.webp": {
+      "w": 920,
+      "h": 800
+    },
+    "boxedtux-en.png": {
+      "w": 1385,
+      "h": 594
+    },
+    "boxedtux-en.webp": {
+      "w": 1385,
+      "h": 594
+    },
+    "ubuntu2610.jpg": {
+      "w": 1600,
+      "h": 900
+    },
+    "ubuntu2610.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "from-url-1780773122115.jpg": {
+      "w": 860,
+      "h": 573
+    },
+    "from-url-1780773122115.webp": {
+      "w": 860,
+      "h": 573
+    },
+    "vyxel-apps.png": {
+      "w": 698,
+      "h": 470
+    },
+    "vyxel-apps.webp": {
+      "w": 698,
+      "h": 470
+    },
+    "html-video.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "html-video.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "0-ad-featured-800x450.jpeg": {
+      "w": 800,
+      "h": 450
+    },
+    "0-ad-featured-800x450.webp": {
+      "w": 800,
+      "h": 450
+    },
+    "50550bd1-822b-42b6-8426-2926636ae1ec.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "50550bd1-822b-42b6-8426-2926636ae1ec.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "69c66e7c22c7331dd6048ea3_2ff28e45.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "alphabet_google_ai.jpg": {
+      "w": 612,
+      "h": 394
+    },
+    "alphabet_google_ai.webp": {
+      "w": 612,
+      "h": 394
+    },
+    "azure-linux-4-released-gnutux.jpg": {
+      "w": 1024,
+      "h": 576
+    },
+    "azure-linux-4-released-gnutux.webp": {
+      "w": 1024,
+      "h": 576
+    },
+    "bazzite-linux-gaming.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "bazzite-linux-gaming.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "cosmic_desktop.webp": {
+      "w": 640,
+      "h": 360
+    },
+    "distrosea_gnutux.jpg": {
+      "w": 1280,
+      "h": 720
+    },
+    "distrosea_gnutux.webp": {
+      "w": 1280,
+      "h": 720
+    },
+    "ffpnova.webp": {
+      "w": 1200,
+      "h": 683
+    },
+    "gnu-health.png": {
+      "w": 955,
+      "h": 520
+    },
+    "gnu-health.webp": {
+      "w": 955,
+      "h": 520
+    },
+    "goldendictvsgoldendict-ng-en.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "goldendictvsgoldendict-ng-en.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "gt-tahakom-en.png": {
+      "w": 1390,
+      "h": 721
+    },
+    "gt-tahakom-en.webp": {
+      "w": 1390,
+      "h": 721
+    },
+    "gt_clpm_gnutux_en.png": {
+      "w": 1386,
+      "h": 672
+    },
+    "gt_clpm_gnutux_en.webp": {
+      "w": 1386,
+      "h": 672
+    },
+    "gt_quranreader.png": {
+      "w": 1386,
+      "h": 783
+    },
+    "gt_quranreader.webp": {
+      "w": 1386,
+      "h": 783
+    },
+    "hodmod-video-editor.png": {
+      "w": 1600,
+      "h": 840
+    },
+    "hodmod-video-editor.webp": {
+      "w": 1600,
+      "h": 840
+    },
+    "humanizer-en.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "humanizer-en.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "impactor.claration.dev.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "impactor.claration.dev.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "internet-monitor-dashboard-en.png": {
+      "w": 1600,
+      "h": 839
+    },
+    "internet-monitor-dashboard-en.webp": {
+      "w": 1600,
+      "h": 839
+    },
+    "joplinapp-gnutux.webp": {
+      "w": 1386,
+      "h": 652
+    },
+    "kdenlive-26.04.jpg": {
+      "w": 1024,
+      "h": 576
+    },
+    "kdenlive-26.04.webp": {
+      "w": 1024,
+      "h": 576
+    },
+    "libreoffice-2623-release.jpg": {
+      "w": 1200,
+      "h": 550
+    },
+    "libreoffice-2623-release.webp": {
+      "w": 1200,
+      "h": 550
+    },
+    "linux-lite.jpg": {
+      "w": 800,
+      "h": 445
+    },
+    "linux-lite.webp": {
+      "w": 800,
+      "h": 445
+    },
+    "markdawin-en.jpg": {
+      "w": 990,
+      "h": 518
+    },
+    "markdawin-en.webp": {
+      "w": 990,
+      "h": 518
+    },
+    "mini-shai-hulud-worm-en.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "mini-shai-hulud-worm-en.webp": {
+      "w": 1536,
+      "h": 1024
+    },
+    "nostr-mail-protocol.jpeg": {
+      "w": 680,
+      "h": 357
+    },
+    "nostr-mail-protocol.webp": {
+      "w": 680,
+      "h": 357
+    },
+    "notebooklm-claude.webp": {
+      "w": 1024,
+      "h": 692
+    },
+    "organicmaps.webp": {
+      "w": 1024,
+      "h": 500
+    },
+    "pinokio-gnutux.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "pinokio-gnutux.webp": {
+      "w": 1600,
+      "h": 900
+    },
+    "prismdesktop.webp": {
+      "w": 656,
+      "h": 627
+    },
+    "screenshot_dashboard.png": {
+      "w": 1406,
+      "h": 871
+    },
+    "screenshot_dashboard.webp": {
+      "w": 1406,
+      "h": 871
+    },
+    "screenshot_gt-sqrm_v3.png": {
+      "w": 1406,
+      "h": 871
+    },
+    "screenshot_gt-sqrm_v3.webp": {
+      "w": 1406,
+      "h": 871
+    },
+    "tenacityaudio.webp": {
+      "w": 1096,
+      "h": 697
+    },
+    "transmission_gnutux.png": {
+      "w": 1386,
+      "h": 598
+    },
+    "transmission_gnutux.webp": {
+      "w": 1386,
+      "h": 598
+    },
+    "ubuntu-26.04lts.webp": {
+      "w": 640,
+      "h": 427
+    },
+    "ubuntu.jpg": {
+      "w": 1024,
+      "h": 576
+    },
+    "ubuntu.webp": {
+      "w": 1024,
+      "h": 576
+    },
+    "vidko.ai.png": {
+      "w": 1391,
+      "h": 719
+    },
+    "vidko.ai.webp": {
+      "w": 1391,
+      "h": 719
+    },
+    "vidkoai.png": {
+      "w": 1391,
+      "h": 719
+    },
+    "vidkoai.webp": {
+      "w": 1391,
+      "h": 719
+    },
+    "wokwi-startp.png": {
+      "w": 639,
+      "h": 594
+    },
+    "wokwi-startp.webp": {
+      "w": 639,
+      "h": 594
+    },
+    "xorgfix.webp": {
+      "w": 610,
+      "h": 343
+    },
+    "zperiod-app-en.png": {
+      "w": 1402,
+      "h": 790
+    },
+    "zperiod-app-en.webp": {
+      "w": 1402,
+      "h": 790
+    },
+    "prismdesktop.png": {
+      "w": 656,
+      "h": 627
+    },
+    "cosmic_desktop.jpg": {
+      "w": 640,
+      "h": 360
+    },
+    "xorgfix.jpeg": {
+      "w": 610,
+      "h": 343
+    },
+    "organicmaps.png": {
+      "w": 1024,
+      "h": 500
+    },
+    "consigue-tu-dominio-gratis-en-domain.digitalplat.org_.webp": {
+      "w": 860,
+      "h": 573
+    },
+    "ffpnova.jpg": {
+      "w": 1200,
+      "h": 683
+    },
+    "notebooklm-claude.png": {
+      "w": 1024,
+      "h": 692
+    },
+    "top-chromium-based-browsers-with-outstanding-features.webp": {
+      "w": 1200,
+      "h": 800
+    },
+    "tenacityaudio.png": {
+      "w": 1096,
+      "h": 697
+    },
+    "24.04-vs-26.04.webp": {
+      "w": 860,
+      "h": 502
+    },
+    "joplinapp-gnutux.png": {
+      "w": 1386,
+      "h": 652
+    },
+    "aicomicfactory.webp": {
+      "w": 1344,
+      "h": 768
+    },
+    "cat-gatekeeper.webp": {
+      "w": 860,
+      "h": 484
+    },
+    "claude-mem.avif": {
+      "w": 1200,
+      "h": 688
+    },
+    "chatgpt-deepseek-gnutux.webp": {
+      "w": 860,
+      "h": 573
+    },
+    "arm-chips-dominate-laptop-market-with-35-share-in-2026.webp": {
+      "w": 1024,
+      "h": 682
+    },
+    "ubuntu-2604-noble-numbat.avif": {
+      "w": 1024,
+      "h": 576
+    },
+    "claudevscodex.avif": {
+      "w": 564,
+      "h": 374
+    }
+  },
   "count_ar": 169,
   "count_en": 169
 }

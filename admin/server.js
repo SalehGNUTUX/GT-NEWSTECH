@@ -244,12 +244,39 @@ async function compressImage(buffer, ext) {
   return { main: mainBuffer, webp: webpBuffer };
 }
 
+// صيغة sharp الحقيقية → الامتداد الصحيح. sharp يبلّغ AVIF باسم 'heif'.
+const SHARP_FORMAT_EXT = {
+  jpeg: '.jpg', png: '.png', webp: '.webp', heif: '.avif',
+  gif: '.gif', svg: '.svg', tiff: '.tiff', avif: '.avif',
+};
+
+/**
+ * الامتداد الحقيقي مأخوذاً من بايتات الملف نفسه لا من اسمه.
+ * السبب: الامتداد يكذب أحياناً — ملف AVIF محفوظ باسم .png (يحدث مع
+ * التنزيل من روابط تُقدّم AVIF على مسار ينتهي بـ.png، أو مع إعادة
+ * تسمية يدوية). عندها كان الملف يُمرَّر لمسار PNG فيفشل الضغط ويبقى
+ * في المكتبة بامتداد مضلّل. نُعيد null لو تعذّر التعرّف فنبقي الأصلي.
+ */
+async function detectExt(buffer) {
+  try {
+    const meta = await sharp(buffer, { failOn: 'none' }).metadata();
+    return SHARP_FORMAT_EXT[meta.format] || null;
+  } catch {
+    return null;
+  }
+}
+
 async function saveImage(buffer, originalName, destDir) {
   fs.mkdirSync(destDir, { recursive: true });
-  const { base, ext } = sanitizeFilename(originalName);
+  const { base, ext: nameExt } = sanitizeFilename(originalName);
+
+  // الامتداد الحقيقي يفوز على امتداد الاسم عند الاختلاف
+  const realExt = await detectExt(buffer);
+  const ext = (realExt && WEB_FORMATS.test('x' + realExt)) ? realExt : nameExt;
+  const originalName2 = base + ext;
 
   // صيغة غير مدعومة لـsharp — تحويل لـJPEG ثم ضغط
-  if (!WEB_FORMATS.test(originalName)) {
+  if (!WEB_FORMATS.test(originalName2)) {
     const filename = base + '.jpg';
     const converted = await sharp(buffer).jpeg({ quality: 85, mozjpeg: true, progressive: true })
       .resize({ width: MAX_WIDTH, withoutEnlargement: true })
@@ -386,14 +413,18 @@ function getImages(lang) {
     } catch (_) {}
   }
 
-  // (3) فلتر .webp companions
+  // (3) فلتر المرافقات (.webp و .avif) — يولّدها optimize-images.js
+  //     ولا يختارها المستخدم بنفسه: القالب هو من يقدّمها عبر <picture>.
+  //     صورة .avif مرفوعة أصلاً (بلا ملف أصل بنفس الاسم) تبقى ظاهرة.
   const nameSet = new Set(fileMap.keys());
+  const COMPANION_EXTS = ['.webp', '.avif'];
+  const MASTER_EXTS = ['.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'];
   const isCompanion = name => {
-    if (!name.toLowerCase().endsWith('.webp')) return false;
-    const base = name.slice(0, -5);
-    return nameSet.has(base + '.jpg') || nameSet.has(base + '.jpeg') ||
-           nameSet.has(base + '.png') || nameSet.has(base + '.JPG') ||
-           nameSet.has(base + '.JPEG') || nameSet.has(base + '.PNG');
+    const lower = name.toLowerCase();
+    const ext = COMPANION_EXTS.find(e => lower.endsWith(e));
+    if (!ext) return false;
+    const base = name.slice(0, -ext.length);
+    return MASTER_EXTS.some(m => nameSet.has(base + m));
   };
 
   // (4) ترتيب: تاريخ المقال (لو مستعملة) → git log → fs.mtime
@@ -758,11 +789,20 @@ app.post('/api/images/from-url', async (req, res) => {
       return res.status(400).json({ error: 'الرابط لا يشير إلى صورة (' + contentType + ')' });
     }
 
+    // امتداد مشتقّ من Content-Type — يُستعمل حين لا يحمل الرابط امتداداً.
+    // بدونه كان كل رابط بلا امتداد يُحفظ .jpg، فتُعاد ترميز صور AVIF/WebP
+    // إلى JPEG بلا داع. (نفس الخريطة في admin-worker/src/routes/images.js)
+    const CT_EXT = {
+      'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp',
+      'image/avif': '.avif', 'image/gif': '.gif', 'image/svg+xml': '.svg',
+    };
+    const ctExt = CT_EXT[contentType.split(';')[0].trim().toLowerCase()] || '.jpg';
+
     let name = customName;
     if (!name) {
       const u = new URL(url);
       const last = path.basename(u.pathname).split('?')[0];
-      name = last && /\.\w+$/.test(last) ? last : `from-url-${Date.now()}.jpg`;
+      name = last && /\.\w+$/.test(last) ? last : `from-url-${Date.now()}${ctExt}`;
     }
     name = name.replace(/[^\w.-]/g, '_');
 

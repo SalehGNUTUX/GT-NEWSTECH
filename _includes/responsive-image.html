@@ -1,0 +1,105 @@
+{%- comment -%}
+  ════════════════════════════════════════════════════════════════
+  responsive-image.html — الصورة الوحيدة المستعملة في البطاقات وترويسة
+  المقال. تجمع في مكان واحد ما كان مكرَّراً في article-card.html
+  و post.html، وتضيف:
+    • تفاوض الصيغ: AVIF ← WebP ← الأصل (كل واحدة تُستعمل فقط إن وُجدت)
+    • وسمَي width/height من _data/images-index.json — يحجزان المساحة
+      الصحيحة قبل التحميل (لا قفزات تخطيط) ويُمكّنان CSS من عرض الصورة
+      كاملة بنسبتها الأصلية بدل قصّها
+    • دعم الروابط الخارجية (خيار «إدراج من رابط» في Decap CMS)
+    • شعار الموقع كصورة احتياطية عند فشل التحميل
+
+  المعاملات:
+    image           (إلزامي) قيمة حقل image كما هي في الـfront matter:
+                    اسم ملف، أو مسار كامل، أو رابط خارجي
+    lang            لغة المقال — تحدّد مجلد الصور حين يكون الحقل اسم ملف
+    alt             النص البديل
+    class           أصناف CSS على <img>
+    loading         lazy (افتراضي) أو eager
+    fetchpriority   high لترويسة المقال
+    fallback_class  صنف يُضاف عند فشل التحميل (شعار احتياطي)
+  ════════════════════════════════════════════════════════════════
+{%- endcomment -%}
+
+{%- assign _ri_lang     = include.lang | default: 'ar' -%}
+{%- assign _ri_loading  = include.loading | default: 'lazy' -%}
+{%- assign _ri_fbclass  = include.fallback_class | default: 'card-fallback-logo' -%}
+{%- assign _ri_icon     = site.baseurl | append: '/assets/icons/gt-newstech-icon.png' -%}
+{%- capture _ri_onerror -%}if(this.dataset.fallen)return;this.dataset.fallen=1;this.src='{{ _ri_icon }}';this.classList.add('{{ _ri_fbclass }}'){%- endcapture -%}
+
+{%- comment -%} رابط خارجي: لا مرافقات ولا أبعاد معروفة {%- endcomment -%}
+{%- if include.image contains '://' -%}
+  <img src="{{ include.image }}"
+       alt="{{ include.alt }}"
+       class="{{ include.class }}"
+       loading="{{ _ri_loading }}"
+       {% if include.fetchpriority %}fetchpriority="{{ include.fetchpriority }}"{% endif %}
+       decoding="async"
+       onerror="{{ _ri_onerror }}">
+
+{%- else -%}
+  {%- comment -%}
+    يدعم صيغتَين لحقل image: مسار كامل (Decap CMS) أو اسم ملف (اللوحة المحلية)
+  {%- endcomment -%}
+  {%- if include.image contains '/assets/images/' -%}
+    {%- assign _ri_src = include.image -%}
+  {%- else -%}
+    {%- assign _ri_src = site.baseurl | append: '/assets/images/' | append: _ri_lang | append: '/' | append: include.image -%}
+  {%- endif -%}
+
+  {%- comment -%} اسم الملف + مجلد اللغة الفعلي المستخرَجان من المسار {%- endcomment -%}
+  {%- assign _ri_file = _ri_src | split: '/' | last -%}
+  {%- if _ri_src contains '/assets/images/en/' -%}
+    {%- assign _ri_dir = 'en' -%}
+  {%- elsif _ri_src contains '/assets/images/ar/' -%}
+    {%- assign _ri_dir = 'ar' -%}
+  {%- else -%}
+    {%- assign _ri_dir = _ri_lang -%}
+  {%- endif -%}
+
+  {%- comment -%} الامتداد والاسم بدونه (split يدعم jpg/jpeg/png/webp/avif) {%- endcomment -%}
+  {%- assign _ri_ext      = _ri_file | split: '.' | last | downcase -%}
+  {%- assign _ri_cut      = _ri_ext | size | plus: 1 -%}
+  {%- assign _ri_base_len = _ri_src | size | minus: _ri_cut -%}
+  {%- assign _ri_base     = _ri_src | slice: 0, _ri_base_len -%}
+  {%- assign _ri_stem_len = _ri_file | size | minus: _ri_cut -%}
+  {%- assign _ri_stem     = _ri_file | slice: 0, _ri_stem_len -%}
+
+  {%- comment -%}
+    فهرس الصور مصدر الأبعاد ووجود المرافقات معاً. يُحدَّث تلقائياً عبر
+    .github/workflows/build-images-index.yml عند أي تغيير في الصور.
+    لو كانت الصورة أحدث من الفهرس: تُعرض بلا أبعاد وبلا مرافقات — تدهور
+    آمن، تظهر الصورة الأصلية على أي حال.
+  {%- endcomment -%}
+  {%- assign _ri_map_key = _ri_dir | append: '_map' -%}
+  {%- assign _ri_map = site.data["images-index"][_ri_map_key] -%}
+  {%- assign _ri_rec = _ri_map[_ri_file] -%}
+
+  {%- comment -%}
+    المرافقات تُولَّد فقط للصور الأصلية jpg/jpeg/png. صورة AVIF أو WebP
+    أصلاً هي بالفعل الصيغة الأكفأ — لا داعي لمرافق لها.
+  {%- endcomment -%}
+  {%- assign _ri_has_avif = false -%}
+  {%- assign _ri_has_webp = false -%}
+  {%- if _ri_ext == "jpg" or _ri_ext == "jpeg" or _ri_ext == "png" -%}
+    {%- assign _ri_avif_name = _ri_stem | append: '.avif' -%}
+    {%- assign _ri_webp_name = _ri_stem | append: '.webp' -%}
+    {%- if _ri_map[_ri_avif_name] -%}{%- assign _ri_has_avif = true -%}{%- endif -%}
+    {%- if _ri_map[_ri_webp_name] -%}{%- assign _ri_has_webp = true -%}{%- endif -%}
+  {%- endif -%}
+
+  <picture>
+    {%- comment -%} الترتيب مهم: المتصفح يأخذ أول صيغة يدعمها {%- endcomment -%}
+    {%- if _ri_has_avif %}<source srcset="{{ _ri_base }}.avif" type="image/avif">{% endif -%}
+    {%- if _ri_has_webp %}<source srcset="{{ _ri_base }}.webp" type="image/webp">{% endif -%}
+    <img src="{{ _ri_src }}"
+         alt="{{ include.alt }}"
+         class="{{ include.class }}"
+         {% if _ri_rec and _ri_rec.w > 0 %}width="{{ _ri_rec.w }}" height="{{ _ri_rec.h }}"{% endif %}
+         loading="{{ _ri_loading }}"
+         {% if include.fetchpriority %}fetchpriority="{{ include.fetchpriority }}"{% endif %}
+         decoding="async"
+         onerror="{{ _ri_onerror }}">
+  </picture>
+{%- endif -%}

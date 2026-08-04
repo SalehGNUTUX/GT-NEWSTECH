@@ -8,7 +8,8 @@
     "build-images-index": "node build-images-index.js",
     "optimize": "node optimize-images.js",
     "optimize:new": "node optimize-images.js --new",
-    "optimize:dry": "node optimize-images.js --dry"
+    "optimize:dry": "node optimize-images.js --dry",
+    "optimize:avif": "node optimize-images.js --new --avif"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
