@@ -1,6 +1,14 @@
 {
-  "generated_at": "2026-08-04T11:49:15.226Z",
+  "generated_at": "2026-08-04T12:32:56.346Z",
   "ar": [
+    {
+      "name": "claudevscodex.avif",
+      "size": 38808,
+      "width": 564,
+      "height": 374,
+      "last_modified_ts": 1785844449,
+      "path": "assets/images/ar/claudevscodex.avif"
+    },
     {
       "name": "pkg2appimage-gnutux-ar.png",
       "size": 494668,
@@ -1344,17 +1352,17 @@
       "height": 576,
       "last_modified_ts": 1778361354,
       "path": "assets/images/ar/ubuntu-2604-noble-numbat.avif"
-    },
+    }
+  ],
+  "en": [
     {
       "name": "claudevscodex.avif",
       "size": 38808,
       "width": 564,
       "height": 374,
-      "last_modified_ts": 0,
-      "path": "assets/images/ar/claudevscodex.avif"
-    }
-  ],
-  "en": [
+      "last_modified_ts": 1785844449,
+      "path": "assets/images/en/claudevscodex.avif"
+    },
     {
       "name": "pkg2appimage-gnutux-en.png",
       "size": 569109,
@@ -2698,17 +2706,13 @@
       "height": 576,
       "last_modified_ts": 1778361354,
       "path": "assets/images/en/ubuntu-2604-noble-numbat.avif"
-    },
-    {
-      "name": "claudevscodex.avif",
-      "size": 38808,
-      "width": 564,
-      "height": 374,
-      "last_modified_ts": 0,
-      "path": "assets/images/en/claudevscodex.avif"
     }
   ],
   "ar_map": {
+    "claudevscodex.avif": {
+      "w": 564,
+      "h": 374
+    },
     "pkg2appimage-gnutux-ar.png": {
       "w": 1600,
       "h": 800
@@ -3380,13 +3384,13 @@
     "ubuntu-2604-noble-numbat.avif": {
       "w": 1024,
       "h": 576
-    },
-    "claudevscodex.avif": {
-      "w": 564,
-      "h": 374
     }
   },
   "en_map": {
+    "claudevscodex.avif": {
+      "w": 564,
+      "h": 374
+    },
     "pkg2appimage-gnutux-en.png": {
       "w": 1600,
       "h": 800
@@ -4058,10 +4062,6 @@
     "ubuntu-2604-noble-numbat.avif": {
       "w": 1024,
       "h": 576
-    },
-    "claudevscodex.avif": {
-      "w": 564,
-      "h": 374
     }
   },
   "count_ar": 169,
