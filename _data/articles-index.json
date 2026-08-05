@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-08-04T11:54:35.654Z",
-  "count": 188,
+  "generated_at": "2026-08-05T11:51:28.126Z",
+  "count": 190,
   "by_lang": {
-    "ar": 94,
-    "en": 94
+    "ar": 95,
+    "en": 95
   },
   "articles": [
+    {
+      "title": "GT-SALAT 2.0: A Comprehensive Islamic Application for GNU/Linux with Prayer Times and Quran",
+      "slug": "gt-salat-islamic-app",
+      "date": "2026-08-05T11:50:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "GT-SALAT is a comprehensive open source Islamic application for GNU/Linux, combining prayer times with 22 calculation methods, adhan with adjustable notifications, dhikr, the Holy Quran with Tafsir, Hisn Al-Muslim, supplications, hadiths, and Quranic radio, along with an Android version.",
+      "image": "gt-salat-post-gnutux.png",
+      "tags": [
+        "GT-SALAT",
+        "Prayer Times",
+        "Adhan",
+        "Dhikr",
+        "Quran",
+        "Islamic Apps",
+        "Linux",
+        "Android"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-08-05-gt-salat-islamic-app.md",
+      "_lang": "en",
+      "_cat": "gnutux-projects"
+    },
+    {
+      "title": "GT-SALAT 2.0: تطبيق إسلامي شامل على غنو/لينكس مع مواقيت الصلاة والأذكار والقرآن",
+      "slug": "gt-salat-islamic-app",
+      "date": "2026-08-05T11:49:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "GT-SALAT هو تطبيق إسلامي شامل ومفتوح المصدر لأنظمة غنو/لينكس، يجمع مواقيت الصلاة بـ 22 طريقة حسابية، والأذان مع إشعارات قابلة للضبط، والأذكار، والقرآن الكريم مع التفسير، وحصن المسلم، والأدعية، والأحاديث، والإذاعات القرآنية، إلى جانب نسخة للأندرويد.",
+      "image": "gt-salat-post-gnutux.png",
+      "tags": [
+        "GT-SALAT",
+        "مواقيت الصلاة",
+        "أذان",
+        "أذكار",
+        "قرآن",
+        "تطبيقات إسلامية",
+        "لينكس",
+        "أندرويد"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-08-05-gt-salat-islamic-app.md",
+      "_lang": "ar",
+      "_cat": "gnutux-projects"
+    },
     {
       "title": "pkg2appimage: أداة مفتوحة المصدر لتحويل حزم DEB إلى تطبيقات AppImage محمولة",
       "slug": "pkg2appimage-tool",
