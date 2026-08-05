@@ -382,6 +382,22 @@ small { color:var(--muted); font-size:.7rem; }
   max-width:300px;
 }
 .toast.success { background:var(--success); color:#fff; }
+
+/* إشعار الحذف مع مهلة التراجع — يبقى حتى ينتهي العدّاد */
+.toast-undo {
+  display:flex; align-items:center; gap:.75rem;
+  max-width:360px; padding:10px 12px;
+}
+.toast-undo-text { flex:1; }
+.toast-undo-btn {
+  display:inline-flex; align-items:center; gap:.35rem;
+  background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.35);
+  color:#fff; border-radius:6px; padding:.3rem .6rem;
+  font-size:.78rem; font-weight:700; cursor:pointer; white-space:nowrap;
+  transition:background .15s;
+}
+.toast-undo-btn:hover { background:rgba(0,0,0,.45); }
+.toast-undo-count { opacity:.75; font-variant-numeric:tabular-nums; }
 .toast.error   { background:var(--danger);  color:#fff; }
 .toast.info    { background:var(--gold);    color:#000; }
 @keyframes slideInToast { from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:translateY(0); } }
@@ -509,6 +525,36 @@ small { color:var(--muted); font-size:.7rem; }
 .cat-card-id { font-family:'Fira Code',monospace; font-size:.78rem; color:var(--muted); }
 .cat-card-names { font-size:.88rem; font-weight:600; color:var(--text); margin:.2rem 0; }
 .cat-card-stats { font-size:.72rem; color:var(--muted); }
+.cat-card-info { min-width:0; flex:1; }
+
+/* أزرار تعديل/حذف القسم — تظهر باهتة وتتضح عند التحويم */
+.cat-card-actions { display:flex; gap:.35rem; flex-shrink:0; margin-inline-start:auto; }
+.cat-act {
+  width:32px; height:32px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  background:transparent; border:1px solid var(--border);
+  color:var(--muted); cursor:pointer; font-size:.8rem;
+  opacity:.55; transition:opacity .2s, color .2s, border-color .2s, background .2s;
+}
+.cat-card:hover .cat-act { opacity:1; }
+.cat-act:hover:not(:disabled) { color:var(--gold); border-color:var(--gold-dim); background:rgba(212,160,23,.08); }
+.cat-act-danger:hover:not(:disabled) { color:var(--danger); border-color:var(--danger); background:transparent; }
+.cat-act:disabled { opacity:.25; cursor:not-allowed; }
+
+/* ── إجراءات محمية دائماً (صفحة الأمان) ─────────────────── */
+.sec-always {
+  margin-top:1rem; padding:.9rem 1rem;
+  background:rgba(212,160,23,.05);
+  border:1px dashed var(--gold-dim); border-radius:var(--radius);
+}
+.sec-always-title { font-size:.85rem; font-weight:700; color:var(--text); display:flex; align-items:center; gap:.5rem; }
+.sec-always-item {
+  display:flex; align-items:center; gap:.6rem;
+  padding:.4rem 0; font-size:.82rem; color:var(--muted);
+  border-top:1px solid var(--border);
+}
+.sec-always-item:first-of-type { border-top:none; }
+.sec-always-lock { margin-inline-start:auto; font-size:.7rem; color:var(--gold-dim); }
 
 /* Icon picker */
 .icon-picker {

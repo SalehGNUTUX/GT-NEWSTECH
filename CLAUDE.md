@@ -198,7 +198,11 @@ GET  /api/videos?lang=               ← list videos (mp4/webm/ogv/mov/m4v), new
 POST /api/videos/:lang               ← upload one or more videos (multipart, max 100MB each). Form field: "files". No compression (raw save). **Local panel only — Worker has no /api/videos.**
 DELETE /api/videos/:lang/:name       ← delete video
 GET  /api/categories                 ← dynamic from _data/categories.yml + disk scan
-POST /api/categories                 ← create category (dirs + pages + YAML)
+POST /api/categories                 ← create category (dirs + pages + YAML). confirmRequired ALWAYS
+PUT  /api/categories/:id             ← edit name_ar/name_en/icon/color. confirmRequired ALWAYS. id is immutable
+DELETE /api/categories/:id           ← delete. confirmRequired ALWAYS. 409 while any article still uses it.
+                                       Returns { undoToken, undoWindowMs } — a 30s signed restore ticket
+POST /api/categories/undo            ← body { undoToken }. No confirm — the signed token IS the proof
 GET  /api/git/status                 ← includes ahead/behind count via git fetch
 POST /api/git/pull                   ← ff-only → rebase --autostash; 409 + needsResolution on conflict
 POST /api/git/push                   ← git add . && commit && push (single remote)
@@ -364,12 +368,19 @@ Hosted static SPA at `https://SalehGNUTUX.github.io/GT-NEWSTECH/cms/`.
 - Authentication via GitHub OAuth + Sveltia CMS Auth on Cloudflare Workers
 
 **Auto-sync of categories from local admin to Decap CMS:**
-- `updateCmsConfig(id, nameAr, nameEn)` in `server.js` (line-based YAML, preserves comments)
-- Called automatically from `POST /api/categories` after writing `_data/categories.yml`
-- Updates 4 locations in `cms/config.yml`: `category` options + `also_in` options × (AR + EN) collections
-- Detects duplicates via `value: ${id} }` substring check — skips if exists
-- Returns `{ ok, cmsSync: { ok | skipped | error } }` in API response
-- Removal/rename of categories still requires manual edit of `cms/config.yml`
+- `updateCmsConfig(id, nameAr, nameEn)` adds; `patchCmsConfig(id, patch|null)` edits or removes. Both are line-based so comments and alignment survive — a YAML round-trip would drop them.
+- Called automatically from POST / PUT / DELETE `/api/categories` after writing `_data/categories.yml`
+- Each touches 4 locations in `cms/config.yml`: `category` options + `also_in` options × (AR + EN) collections. `patchCmsConfig` returns the hit count, which should always be 4.
+- The option-line regex ends at `value: <id> \}`, so an id that is a prefix of another (`ai` vs `ai-news`) can't match the wrong line
+- Labels are per-language: the AR collection's blocks get `name_ar`, the EN collection's get `name_en`. The pass tracks which collection it is inside via `- name: ar_articles` / `- name: en_articles`.
+- Returns `{ ok, cmsSync: { ok, updated } | { skipped } | { error } }` in the API response
+
+**Category management — the rules that matter:**
+- **The `id` is immutable.** It is the article folder (`_ar/<id>/`), the permalink (`/ar/category/<id>/`), and the `category` / `also_in` value inside every article in it. Renaming it breaks every published URL for that section. The editor shows it disabled with that explanation; the supported path is to create a new category, move the articles, and keep redirects.
+- **Delete is refused while the category is in use** — as a primary category *or* inside any `also_in`. The response carries `inUse: { primary, also_in }` so the message can say what to move first. The UI additionally disables the button when the counts are non-zero, but the server check is the real one (another panel could add an article in between).
+- **Create / edit / delete always require password confirmation** — `confirmRequired(action, true)`, like `manage_security`. There is deliberately no toggle for these in the Security page: a category is site structure, not content. They appear there in the read-only "إجراءات محمية دائماً" list instead.
+- **Delete has a 30-second undo window.** The DELETE response carries a signed `undoToken` = `base64url(category JSON).expiry.hmac`, and `POST /api/categories/undo` re-creates the category from it. **The token is stateless on purpose** — server-side pending state would be lost on restart and cannot work in the Worker, where each request may hit a different isolate. HMAC covers the payload, so a forged category can't ride a valid signature; expiry is checked before the signature comparison; and a second use fails with 409 because the category already exists. The undo endpoint needs a valid session but no second password prompt — the token is itself proof that the holder just confirmed one.
+- The Worker mirrors all of this (`patchCmsConfigText`, `makeUndoToken` / `verifyUndoToken` in `lib/auth.js` signed with `AUTH_SECRET` instead of the password hash). `commitFiles` gained `{ path, delete: true }` entries — the Git Trees API removes a path when its tree entry has `sha: null` — so a delete commits `categories.yml` + `cms/config.yml` + both category pages atomically.
 
 **Conflict prevention between the two admin panels:**
 - `start.sh` runs `git pull --ff-only` then `--rebase --autostash` as fallback on startup

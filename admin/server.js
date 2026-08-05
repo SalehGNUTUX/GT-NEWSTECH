@@ -82,6 +82,8 @@ function verifyToken(token, hash) {
 function readSecCfg() {
   let cfg = {
     sessionMinutes: 1440,  // 24 ساعة
+    /* أقسام الموقع غير مذكورة هنا عمداً: إنشاؤها/تعديلها/حذفها محمي
+       دائماً بـalwaysRequire — كإعدادات الأمان — فلا معنى لمفتاح يعطّله. */
     confirmFor: { create_article: false, edit_article: false, delete_article: false, push: false }
   };
   if (fs.existsSync(SECURITY_FILE)) {
@@ -545,23 +547,97 @@ function updateCmsConfig(id, nameAr, nameEn) {
   }
 }
 
-app.post('/api/categories', (req, res) => {
-  const { id, name_ar, name_en, icon, color } = req.body;
+/* ── مهلة التراجع عن حذف قسم ─────────────────────────────────────
+   بدل الاحتفاظ بحالة في ذاكرة الخادم (تضيع عند إعادة التشغيل، ولا
+   تعمل أصلاً في الـWorker متعدّد الـisolates)، نوقّع بيانات القسم
+   المحذوف داخل رمز يحمل تاريخ انتهاء. من يملك الرمز — أي من نفّذ
+   الحذف للتوّ — وحده يستطيع الاسترجاع خلال المهلة.
+   الصيغة: base64(json).expiry.hmac   (نفس أسلوب makeToken) */
+const UNDO_WINDOW_MS = 30_000;
 
-  if (!id || !name_ar || !name_en)
-    return res.status(400).json({ error: 'id, name_ar, name_en مطلوبة' });
-  if (!/^[a-z0-9-]+$/.test(id))
-    return res.status(400).json({ error: 'id: أحرف لاتينية صغيرة وأرقام وشرطات فقط' });
+function makeUndoToken(cat) {
+  const payload = Buffer.from(JSON.stringify(cat), 'utf8').toString('base64url');
+  const exp = Date.now() + UNDO_WINDOW_MS;
+  const hash = getPassHash();
+  /* لا كلمة مرور ⇒ لا توقيع (الحماية معطّلة أصلاً على مستوى اللوحة) */
+  const sig = hash
+    ? crypto.createHmac('sha256', hash).update(`catundo-${payload}-${exp}`).digest('hex')
+    : 'nopass';
+  return { token: `${payload}.${exp}.${sig}`, expiresAt: exp };
+}
 
+function verifyUndoToken(token) {
+  if (!token) return null;
+  const parts = token.split('.');
+  if (parts.length !== 3) return null;
+  const [payload, expStr, sig] = parts;
+  const exp = parseInt(expStr, 10);
+  if (!exp || Date.now() > exp) return null;
+
+  const hash = getPassHash();
+  const expected = hash
+    ? crypto.createHmac('sha256', hash).update(`catundo-${payload}-${exp}`).digest('hex')
+    : 'nopass';
+  /* مقارنة ثابتة الزمن */
+  const a = Buffer.from(sig), b = Buffer.from(expected);
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
+
+  try { return JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')); }
+  catch { return null; }
+}
+
+/* ── تعديل/حذف قسم داخل cms/config.yml ───────────────────────────
+   patch = { name_ar, name_en } للتعديل، أو null للحذف.
+   نفس الأسلوب السطري في updateCmsConfig أعلاه: نمرّ على الملف سطراً
+   سطراً محافظين على التعليقات والمحاذاة، بدل round-trip عبر YAML
+   الذي يُسقطهما. الملف فيه 4 كتل options: (category و also_in لكل
+   لغة)، والتسمية تختلف حسب اللغة — لذا نتتبّع الكتلة الحالية. */
+function patchCmsConfig(id, patch) {
+  const cmsPath = path.join(ROOT, 'cms', 'config.yml');
+  if (!fs.existsSync(cmsPath)) return { skipped: 'cms/config.yml غير موجود' };
+
+  try {
+    const lines = fs.readFileSync(cmsPath, 'utf8').split('\n');
+    const optRe = new RegExp(`^(\\s*)- \\{ label: ".*",\\s*value: ${id} \\}\\s*$`);
+    const out = [];
+    let inCol = null;   // 'ar' / 'en'
+    let hits = 0;
+
+    for (const line of lines) {
+      const tr = line.trim();
+      if (tr.startsWith('- name: ar_articles'))      inCol = 'ar';
+      else if (tr.startsWith('- name: en_articles')) inCol = 'en';
+
+      const m = line.match(optRe);
+      if (m) {
+        hits++;
+        if (patch) {
+          const label = inCol === 'en' ? patch.name_en : patch.name_ar;
+          out.push(`${m[1]}- { label: "${label}", value: ${id} }`);
+        }
+        // patch === null ⇒ لا نُضيف السطر أصلاً (حذف)
+        continue;
+      }
+      out.push(line);
+    }
+
+    if (!hits) return { skipped: `القسم "${id}" غير موجود في cms/config.yml` };
+    fs.writeFileSync(cmsPath, out.join('\n'));
+    return { ok: true, updated: hits };
+  } catch (err) {
+    return { error: err.message };
+  }
+}
+
+/* يُنشئ القسم فعلياً: مجلدات + صفحتان + categories.yml + cms/config.yml.
+   مشترك بين POST (إنشاء) و POST /undo (استرجاع بعد الحذف). */
+function createCategoryOnDisk({ id, name_ar, name_en, icon, color }) {
   const cats = readCatsData();
-  if (cats.find(c => c.id === id))
-    return res.status(409).json({ error: `القسم "${id}" موجود مسبقاً` });
+  if (cats.find(c => c.id === id)) return { conflict: true };
 
-  // إنشاء مجلدات المقالات
   fs.mkdirSync(path.join(ROOT, '_ar', id), { recursive: true });
   fs.mkdirSync(path.join(ROOT, '_en', id), { recursive: true });
 
-  // إنشاء صفحات القسم
   const arPage = `---\nlayout: category\nlang: ar\ncategory: ${id}\npermalink: /ar/category/${id}/\n---\n`;
   const enPage = `---\nlayout: category\nlang: en\ncategory: ${id}\npermalink: /en/category/${id}/\n---\n`;
   fs.mkdirSync(path.join(ROOT, 'ar', 'category'), { recursive: true });
@@ -569,15 +645,111 @@ app.post('/api/categories', (req, res) => {
   fs.writeFileSync(path.join(ROOT, 'ar', 'category', `${id}.html`), arPage);
   fs.writeFileSync(path.join(ROOT, 'en', 'category', `${id}.html`), enPage);
 
-  // الإضافة إلى _data/categories.yml
   const newCat = { id, name_ar, name_en, icon: icon || 'fa-solid fa-folder', color: color || '#888888' };
   cats.push(newCat);
   writeCatsData(cats);
 
-  // الإضافة إلى cms/config.yml (Decap CMS)
   const cmsSync = updateCmsConfig(id, name_ar, name_en);
+  return { category: newCat, cmsSync };
+}
 
-  res.json({ ok: true, category: newCat, cmsSync });
+app.post('/api/categories', confirmRequired('create_category', true), (req, res) => {
+  const { id, name_ar, name_en, icon, color } = req.body;
+
+  if (!id || !name_ar || !name_en)
+    return res.status(400).json({ error: 'id, name_ar, name_en مطلوبة' });
+  if (!/^[a-z0-9-]+$/.test(id))
+    return res.status(400).json({ error: 'id: أحرف لاتينية صغيرة وأرقام وشرطات فقط' });
+
+  const r = createCategoryOnDisk({ id, name_ar, name_en, icon, color });
+  if (r.conflict) return res.status(409).json({ error: `القسم "${id}" موجود مسبقاً` });
+
+  res.json({ ok: true, category: r.category, cmsSync: r.cmsSync });
+});
+
+/* Categories — undo delete ─────────────────────────────────────
+   لا confirmRequired هنا: الرمز الموقَّع نفسه هو الإثبات (أصدره الخادم
+   لمن نفّذ الحذف بعد تأكيد كلمة المرور، وصلاحيته 30 ثانية ومرّة واحدة
+   عملياً لأن إعادة الإنشاء تُفشل أي محاولة ثانية بـ409). */
+app.post('/api/categories/undo', (req, res) => {
+  const cat = verifyUndoToken(req.body?.undoToken);
+  if (!cat) return res.status(410).json({ error: 'انتهت مهلة التراجع أو الرمز غير صالح' });
+
+  const r = createCategoryOnDisk(cat);
+  if (r.conflict) return res.status(409).json({ error: `القسم "${cat.id}" موجود مسبقاً` });
+
+  res.json({ ok: true, category: r.category, cmsSync: r.cmsSync });
+});
+
+/* Categories — edit ────────────────────────────────────────────
+   يُعدَّل الاسمان والأيقونة واللون فقط. الـid غير قابل للتعديل عمداً:
+   فهو اسم مجلد المقالات (_ar/<id>) والرابط الدائم (/ar/category/<id>/)
+   وقيمة category/also_in داخل كل مقال — تغييره يكسر كل روابط القسم
+   المنشورة. الطريق الصحيح لتغييره هو إنشاء قسم جديد ونقل المقالات
+   إليه مع إبقاء تحويلات (redirects) من الروابط القديمة. */
+app.put('/api/categories/:id', confirmRequired('edit_category', true), (req, res) => {
+  const { id } = req.params;
+  const { name_ar, name_en, icon, color } = req.body;
+
+  if (!name_ar || !name_en)
+    return res.status(400).json({ error: 'name_ar, name_en مطلوبة' });
+
+  const cats = readCatsData();
+  const idx  = cats.findIndex(c => c.id === id);
+  if (idx < 0) return res.status(404).json({ error: `القسم "${id}" غير موجود` });
+
+  const updated = {
+    ...cats[idx],
+    name_ar,
+    name_en,
+    icon:  icon  || cats[idx].icon  || 'fa-solid fa-folder',
+    color: color || cats[idx].color || '#888888',
+  };
+  cats[idx] = updated;
+  writeCatsData(cats);
+
+  const cmsSync = patchCmsConfig(id, { name_ar, name_en });
+  res.json({ ok: true, category: updated, cmsSync });
+});
+
+/* Categories — delete ──────────────────────────────────────────
+   يُرفض الحذف ما دام القسم مستعملاً — كقسم رئيسي أو ضمن also_in —
+   حتى لا تبقى مقالات تشير إلى قسم غير موجود (روابط ميتة وبطاقات
+   بلا تسمية). الردّ يذكر عدد المقالات ليعرف المستخدم ما ينقله أولاً. */
+app.delete('/api/categories/:id', confirmRequired('delete_category', true), (req, res) => {
+  const { id } = req.params;
+
+  const cats = readCatsData();
+  const idx  = cats.findIndex(c => c.id === id);
+  if (idx < 0) return res.status(404).json({ error: `القسم "${id}" غير موجود` });
+
+  const all      = getAllArticles();
+  const primary  = all.filter(a => a._cat === id);
+  const secondary = all.filter(a => Array.isArray(a.also_in) && a.also_in.includes(id));
+  if (primary.length || secondary.length) {
+    return res.status(409).json({
+      error: `القسم "${id}" ما زال مستعملاً: ${primary.length} مقال رئيسي و${secondary.length} ضمن also_in. انقلها إلى قسم آخر أولاً.`,
+      inUse: { primary: primary.length, also_in: secondary.length },
+    });
+  }
+
+  const removed = cats[idx];
+  cats.splice(idx, 1);
+  writeCatsData(cats);
+
+  // صفحات القسم + مجلداته الفارغة
+  for (const lang of LANGS) {
+    const page = path.join(ROOT, lang, 'category', `${id}.html`);
+    if (fs.existsSync(page)) fs.unlinkSync(page);
+    const dir = path.join(ROOT, `_${lang}`, id);
+    if (fs.existsSync(dir) && fs.readdirSync(dir).length === 0) fs.rmdirSync(dir);
+  }
+
+  const cmsSync = patchCmsConfig(id, null);
+  /* رمز التراجع يحمل بيانات القسم موقَّعة — يستطيع العميل استرجاعه
+     خلال المهلة عبر POST /api/categories/undo */
+  const { token, expiresAt } = makeUndoToken(removed);
+  res.json({ ok: true, id, cmsSync, undoToken: token, undoExpiresAt: expiresAt, undoWindowMs: UNDO_WINDOW_MS });
 });
 
 /* List articles */

@@ -4,7 +4,7 @@
 
 import { makeToken, requireAuth, validatePassword, sha256Hex, makeConfirmToken, requireConfirm } from './lib/auth.js';
 import { getStats } from './routes/stats.js';
-import { getCategories, createCategory } from './routes/categories.js';
+import { getCategories, createCategory, updateCategory, deleteCategory, undoDeleteCategory } from './routes/categories.js';
 import { listArticles, getArticle, createArticle, updateArticle, removeArticle } from './routes/articles.js';
 import { listImages, uploadImage, removeImage, importFromUrl } from './routes/images.js';
 import { listVideos, uploadVideo, removeVideo } from './routes/videos.js';
@@ -118,7 +118,37 @@ async function route(req, env, url) {
   if (p === '/api/article' && m === 'POST')   return createArticle(env, req);
   if (p === '/api/article' && m === 'PUT')    return updateArticle(env, req, params);
   if (p === '/api/article' && m === 'DELETE') return removeArticle(env, params);
-  if (p === '/api/categories' && m === 'POST') return createCategory(env, req);
+  // ── الأقسام ──────────────────────────────────────────────
+  // إنشاء/تعديل/حذف قسم يتطلّب تأكيد كلمة المرور دائماً (مثل
+  // manage_security): القسم بنية للموقع لا محتوى، وحذفه يمسّ روابط
+  // منشورة. مطابق لـ confirmRequired(..., true) في admin/server.js.
+  if (p === '/api/categories' && m === 'POST') {
+    if (!await requireConfirm(req, env)) {
+      return json({ needsConfirm: true, action: 'create_category' }, 401);
+    }
+    return createCategory(env, req);
+  }
+
+  // التراجع عن الحذف: الرمز الموقَّع هو الإثبات، فلا تأكيد إضافي
+  if (p === '/api/categories/undo' && m === 'POST') return undoDeleteCategory(env, req);
+
+  // تعديل/حذف قسم: /api/categories/:id
+  const catMatch = p.match(/^\/api\/categories\/([a-z0-9-]+)$/);
+  if (catMatch) {
+    const catId = catMatch[1];
+    if (m === 'PUT') {
+      if (!await requireConfirm(req, env)) {
+        return json({ needsConfirm: true, action: 'edit_category' }, 401);
+      }
+      return updateCategory(env, req, catId);
+    }
+    if (m === 'DELETE') {
+      if (!await requireConfirm(req, env)) {
+        return json({ needsConfirm: true, action: 'delete_category' }, 401);
+      }
+      return deleteCategory(env, catId);
+    }
+  }
 
   // استيراد من رابط (يجب فحصه قبل نمط :lang لأن "from-url" ليس lang)
   if (p === '/api/images/from-url' && m === 'POST') return importFromUrl(env, req);

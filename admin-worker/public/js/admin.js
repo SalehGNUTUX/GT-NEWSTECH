@@ -79,6 +79,9 @@ const ACTION_LABELS = {
   create_article:  'إنشاء مقال',
   edit_article:    'تعديل مقال',
   delete_article:  'حذف مقال',
+  create_category: 'إنشاء قسم',
+  edit_category:   'تعديل قسم',
+  delete_category: 'حذف قسم',
   push:            'دفع التغييرات إلى GitHub',
   manage_security: 'تعديل إعدادات الأمان',
   remove_password: 'إزالة كلمة المرور'
@@ -952,10 +955,15 @@ const CAT_ICONS = [
   'fa-solid fa-lock','fa-solid fa-palette','fa-solid fa-chart-line',
 ];
 
+/* آخر قائمة أقسام مقروءة — يقرأها openCatEditor/deleteCategory بدل
+   تمرير الكائن كاملاً داخل onclick (يكسره أي اقتباس في الاسم) */
+let CATS_FULL = [];
+
 async function renderCategories(c) {
   await loadCats();
   const d = await api('/api/categories');
   const cats = d.categories || [];
+  CATS_FULL = cats;
 
   c.innerHTML = `
   <div class="card" style="margin-bottom:16px">
@@ -966,19 +974,33 @@ async function renderCategories(c) {
     </div>
     <div class="card-body" style="padding:0">
       <div class="cats-grid">
-        ${cats.map(cat => `
-        <div class="cat-card" style="border-color:${cat.color}33">
+        ${cats.map(cat => {
+          const used = (cat.count_ar || 0) + (cat.count_en || 0);
+          return `
+        <div class="cat-card" style="border-color:${cat.color}33" id="catCard-${cat.id}">
           <div class="cat-card-icon" style="background:${cat.color}22;color:${cat.color}">
             <i class="${cat.icon || 'fa-solid fa-folder'}"></i>
           </div>
           <div class="cat-card-info">
             <div class="cat-card-id" dir="ltr">${cat.id}</div>
-            <div class="cat-card-names">${cat.name_ar} / ${cat.name_en}</div>
+            <div class="cat-card-names">${escapeHtml(cat.name_ar)} / ${escapeHtml(cat.name_en)}</div>
             <div class="cat-card-stats">
               <span><i class="fa-solid fa-language" style="color:#888"></i> AR: ${cat.count_ar} · EN: ${cat.count_en}</span>
             </div>
           </div>
-        </div>`).join('')}
+          <div class="cat-card-actions">
+            <button class="cat-act" title="تعديل القسم"
+                    onclick="openCatEditor('${cat.id}')">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="cat-act cat-act-danger"
+                    title="${used ? `لا يمكن الحذف — ${used} مقال يستعمل هذا القسم` : 'حذف القسم'}"
+                    ${used ? 'disabled' : ''}
+                    onclick="deleteCategory('${cat.id}')">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>`; }).join('')}
       </div>
     </div>
   </div>
@@ -1037,6 +1059,175 @@ window.selectCatIcon = function(icon) {
   $('ncIconPreview').innerHTML = `<i class="${icon}"></i> ${icon}`;
   document.querySelectorAll('.icon-opt').forEach(b => b.classList.toggle('active', b.dataset.icon === icon));
 };
+
+/* ── تعديل قسم ──────────────────────────────────────────────────
+   يُعدَّل الاسمان والأيقونة واللون. الـid ثابت: هو اسم مجلد المقالات
+   والرابط الدائم (/ar/category/<id>/) وقيمة category داخل كل مقال،
+   فتغييره يكسر كل روابط القسم المنشورة. نعرضه للقراءة فقط مع تنويه. */
+window.openCatEditor = function(id) {
+  const cat = CATS_FULL.find(c => c.id === id);
+  if (!cat) return toast('القسم غير موجود', 'error');
+
+  const palette = ['#d4a017','#2ea043','#e95420','#0969da','#8957e5','#7c3aed','#0ea5e9','#ec4899','#f97316','#14b8a6'];
+  const wrap = document.createElement('div');
+  wrap.className = 'modal-overlay';
+  wrap.style.display = 'flex';
+  wrap.innerHTML = `
+    <div class="modal-box" style="max-width:640px">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-pen-to-square" style="color:var(--gold)"></i> تعديل القسم</h2>
+        <button class="btn-icon" id="ceClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" style="padding:1rem 1.25rem">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>معرّف القسم (ID)</label>
+            <input type="text" value="${escapeHtml(cat.id)}" dir="ltr" disabled
+                   style="opacity:.6;cursor:not-allowed">
+            <small style="color:var(--muted)">
+              غير قابل للتعديل — هو مجلد المقالات والرابط الدائم للقسم.
+              لتغييره: أنشئ قسماً جديداً وانقل المقالات إليه.
+            </small>
+          </div>
+          <div class="form-group">
+            <label>الاسم بالعربية <span class="req">*</span></label>
+            <input type="text" id="ceNameAr" value="${escapeHtml(cat.name_ar)}">
+          </div>
+          <div class="form-group">
+            <label>الاسم بالإنجليزية <span class="req">*</span></label>
+            <input type="text" id="ceNameEn" value="${escapeHtml(cat.name_en)}" dir="ltr">
+          </div>
+          <div class="form-group">
+            <label>اللون</label>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <input type="color" id="ceColor" value="${cat.color || '#888888'}"
+                     style="width:48px;height:36px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:none;padding:2px">
+              <div class="color-palette">
+                ${palette.map(p => `<button class="color-dot" style="background:${p}" onclick="$('ceColor').value='${p}'" title="${p}"></button>`).join('')}
+              </div>
+            </div>
+          </div>
+          <div class="form-group fg-full">
+            <label>الأيقونة (Font Awesome)</label>
+            <div class="icon-picker">
+              ${CAT_ICONS.map(ic => `
+                <button class="icon-opt ${ic === cat.icon ? 'active' : ''}" data-ceicon="${ic}"
+                        onclick="selectCatEditIcon('${ic}')" title="${ic}"><i class="${ic}"></i></button>`).join('')}
+            </div>
+            <input type="hidden" id="ceIcon" value="${cat.icon || 'fa-solid fa-folder'}">
+            <div style="margin-top:.4rem;font-size:.78rem;color:var(--muted)">
+              الأيقونة المختارة: <span id="ceIconPreview"><i class="${cat.icon || 'fa-solid fa-folder'}"></i> ${cat.icon || 'fa-solid fa-folder'}</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:1rem;display:flex;gap:.75rem;align-items:center">
+          <button class="btn btn-gold" id="ceSave"><i class="fa-solid fa-check"></i> حفظ التعديلات</button>
+          <button class="btn" id="ceCancel">إلغاء</button>
+          <div id="ceResult" style="font-size:.85rem;color:var(--muted)"></div>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(wrap);
+
+  const close = () => wrap.remove();
+  wrap.querySelector('#ceClose').onclick  = close;
+  wrap.querySelector('#ceCancel').onclick = close;
+  wrap.onclick = e => { if (e.target === wrap) close(); };
+
+  wrap.querySelector('#ceSave').onclick = async () => {
+    const name_ar = $('ceNameAr').value.trim();
+    const name_en = $('ceNameEn').value.trim();
+    const result  = $('ceResult');
+    if (!name_ar || !name_en) {
+      result.innerHTML = '<span style="color:var(--danger)">الاسمان مطلوبان.</span>';
+      return;
+    }
+    result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+    const d = await api(`/api/categories/${encodeURIComponent(cat.id)}`, {
+      method: 'PUT',
+      body: JSON.stringify({ name_ar, name_en, icon: $('ceIcon').value, color: $('ceColor').value }),
+    });
+    if (d.ok) {
+      close();
+      toast(`✓ تم تعديل قسم "${name_ar}"`, 'success');
+      await loadCats();
+      populateCategoryFields();     /* حدّث قوائم المحرّر بالاسم الجديد */
+      renderCategories($('content'));
+    } else {
+      result.innerHTML = `<span style="color:var(--danger)">خطأ: ${escapeHtml(d.error || 'غير معروف')}</span>`;
+    }
+  };
+};
+
+window.selectCatEditIcon = function(icon) {
+  $('ceIcon').value = icon;
+  $('ceIconPreview').innerHTML = `<i class="${icon}"></i> ${icon}`;
+  document.querySelectorAll('[data-ceicon]').forEach(b => b.classList.toggle('active', b.dataset.ceicon === icon));
+};
+
+/* ── حذف قسم ────────────────────────────────────────────────────
+   الخادم يرفض الحذف ما دام القسم مستعملاً (رئيسي أو ضمن also_in)،
+   والزر معطَّل أصلاً حين تكون العدّادات غير صفرية — لكن قد يُضاف مقال
+   من لوحة أخرى بين التحميل والنقر، فنعرض رسالة الخادم كما هي. */
+window.deleteCategory = async function(id) {
+  const cat = CATS_FULL.find(c => c.id === id);
+  const name = cat ? cat.name_ar : id;
+  if (!confirm(`حذف قسم "${name}"؟\n\nسيُحذف من _data/categories.yml و cms/config.yml،\nمع صفحتَي القسم (ar/en).\n\nستتاح لك مهلة للتراجع بعد الحذف.`)) return;
+
+  const d = await api(`/api/categories/${encodeURIComponent(id)}`, { method: 'DELETE' });
+  if (d.cancelled) return;               /* أُلغي تأكيد كلمة المرور */
+  if (!d.ok) return toast(d.error || 'فشل الحذف', 'error', 6000);
+
+  await loadCats();
+  populateCategoryFields();
+  renderCategories($('content'));
+
+  if (d.undoToken) undoToast(name, d.undoToken, d.undoWindowMs || 30000);
+  else toast(`✓ تم حذف قسم "${name}"`, 'success');
+};
+
+/* إشعار مع عدّاد تنازلي وزر تراجع — يبقى حتى انتهاء المهلة.
+   الرمز الموقَّع من الخادم هو ما يسمح بالاسترجاع، لا مجرد الضغط. */
+function undoToast(name, undoToken, windowMs) {
+  const deadline = Date.now() + windowMs;
+  const t = document.createElement('div');
+  t.className = 'toast success toast-undo';
+  t.innerHTML = `
+    <div class="toast-undo-text">✓ حُذف قسم "${escapeHtml(name)}"</div>
+    <button class="toast-undo-btn" type="button">
+      <i class="fa-solid fa-rotate-left"></i> تراجع
+      <span class="toast-undo-count"></span>
+    </button>`;
+  $('toastContainer').appendChild(t);
+
+  const countEl = t.querySelector('.toast-undo-count');
+  let timer = null;
+  const stop = () => { if (timer) clearInterval(timer); timer = null; t.remove(); };
+
+  const tick = () => {
+    const left = Math.ceil((deadline - Date.now()) / 1000);
+    if (left <= 0) return stop();
+    countEl.textContent = `(${left})`;
+  };
+  tick();
+  timer = setInterval(tick, 250);
+
+  t.querySelector('.toast-undo-btn').onclick = async () => {
+    stop();
+    const r = await api('/api/categories/undo', {
+      method: 'POST',
+      body: JSON.stringify({ undoToken }),
+    });
+    if (r.ok) {
+      toast(`✓ استُرجع قسم "${name}"`, 'success');
+      await loadCats();
+      populateCategoryFields();
+      renderCategories($('content'));
+    } else {
+      toast(r.error || 'تعذّر التراجع', 'error', 6000);
+    }
+  };
+}
 
 window.createCategory = async function() {
   const id      = $('ncId')?.value.trim();
@@ -2497,10 +2688,10 @@ async function renderSecurity(c) {
         كل تغيير لهذه الخيارات يتطلّب تأكيد كلمة المرور — حتى لا تعبث بها أيدٍ متطفلة.
       </p>
       ${[
-        ['create_article', 'إنشاء مقال جديد',             'fa-plus'],
-        ['edit_article',   'تعديل مقال موجود',            'fa-pen-to-square'],
-        ['delete_article', 'حذف مقال (نقل للمهملات)',     'fa-trash-can'],
-        ['push',           'دفع التغييرات إلى GitHub',     'fa-upload']
+        ['create_article',  'إنشاء مقال جديد',             'fa-plus'],
+        ['edit_article',    'تعديل مقال موجود',            'fa-pen-to-square'],
+        ['delete_article',  'حذف مقال (نقل للمهملات)',     'fa-trash-can'],
+        ['push',            'دفع التغييرات إلى GitHub',     'fa-upload']
       ].map(([k,label,icon]) => `
         <label class="sec-toggle">
           <input type="checkbox" data-secaction="${k}" ${cf[k]?'checked':''} data-was="${cf[k]?'1':'0'}">
@@ -2509,6 +2700,28 @@ async function renderSecurity(c) {
           <span class="sec-toggle-label">${label}</span>
         </label>
       `).join('')}
+
+      <div class="sec-always">
+        <div class="sec-always-title">
+          <i class="fa-solid fa-lock" style="color:var(--gold)"></i>
+          إجراءات محمية دائماً — لا يمكن تعطيلها
+        </div>
+        <p style="color:var(--muted);font-size:.78rem;margin:.4rem 0 .6rem">
+          تمسّ بنية الموقع أو إعداداته، فتُطلب كلمة المرور لها في كل مرة مهما كانت الخيارات أعلاه.
+        </p>
+        ${[
+          ['إنشاء قسم',                'fa-folder-plus'],
+          ['تعديل قسم',                'fa-layer-group'],
+          ['حذف قسم',                  'fa-folder-minus'],
+          ['تعديل إعدادات الأمان',      'fa-shield-halved'],
+          ['إزالة كلمة المرور',         'fa-key'],
+        ].map(([label, icon]) => `
+          <div class="sec-always-item">
+            <i class="fa-solid ${icon}"></i>
+            <span>${label}</span>
+            <i class="fa-solid fa-lock sec-always-lock"></i>
+          </div>`).join('')}
+      </div>
     </div>
   </div>
 

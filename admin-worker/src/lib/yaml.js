@@ -316,3 +316,43 @@ export function updateCmsConfigText(text, id, nameAr, nameEn) {
 
   return out.join('\n');
 }
+
+/**
+ * تعديل أو حذف قسم داخل نص cms/config.yml.
+ * منفذ مطابق لـ patchCmsConfig في admin/server.js.
+ *
+ * patch = { name_ar, name_en } ⇒ تحديث التسمية في الكتل الأربع
+ *         (category و also_in لكل لغة، والتسمية تختلف بحسب اللغة)
+ * patch = null                 ⇒ حذف سطور القسم
+ *
+ * يُعيد { text, hits }؛ hits = 0 يعني أن القسم غير موجود في الملف
+ * فلا داعي لكتابته من جديد.
+ */
+export function patchCmsConfigText(text, id, patch) {
+  if (!text) return { text: null, hits: 0 };
+
+  const optRe = new RegExp(`^(\\s*)- \\{ label: ".*",\\s*value: ${id} \\}\\s*$`);
+  const lines = text.split('\n');
+  const out = [];
+  let inCol = null;
+  let hits = 0;
+
+  for (const line of lines) {
+    const tr = line.trim();
+    if (tr.startsWith('- name: ar_articles')) inCol = 'ar';
+    else if (tr.startsWith('- name: en_articles')) inCol = 'en';
+
+    const m = line.match(optRe);
+    if (m) {
+      hits++;
+      if (patch) {
+        const label = inCol === 'en' ? patch.name_en : patch.name_ar;
+        out.push(`${m[1]}- { label: "${label}", value: ${id} }`);
+      }
+      continue;   // patch === null ⇒ يُسقَط السطر (حذف)
+    }
+    out.push(line);
+  }
+
+  return { text: out.join('\n'), hits };
+}

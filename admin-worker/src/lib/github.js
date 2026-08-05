@@ -179,6 +179,12 @@ export async function commitFiles(env, files, message, author) {
   // 3) أنشئ blob لكل ملف
   const treeItems = [];
   for (const f of files) {
+    // { path, delete: true } ⇒ حذف الملف ضمن نفس الـcommit.
+    // Git Trees API يحذف المسار حين تكون sha مساوية null.
+    if (f.delete) {
+      treeItems.push({ path: f.path, mode: '100644', type: 'blob', sha: null });
+      continue;
+    }
     const encoded = f.encoding === 'base64'
       ? f.content
       : btoa(unescape(encodeURIComponent(f.content))); // UTF-8 → base64
