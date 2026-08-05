@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-08-04T12:32:56.346Z",
+  "generated_at": "2026-08-05T11:51:34.811Z",
   "ar": [
+    {
+      "name": "gt-salat-post-gnutux.png",
+      "size": 529072,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1785930668,
+      "path": "assets/images/ar/gt-salat-post-gnutux.png"
+    },
+    {
+      "name": "gt-salat-post-gnutux.webp",
+      "size": 115858,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1785930668,
+      "path": "assets/images/ar/gt-salat-post-gnutux.webp"
+    },
     {
       "name": "claudevscodex.avif",
       "size": 38808,
@@ -1356,6 +1372,22 @@
   ],
   "en": [
     {
+      "name": "gt-salat-post-gnutux.png",
+      "size": 529072,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1785930668,
+      "path": "assets/images/en/gt-salat-post-gnutux.png"
+    },
+    {
+      "name": "gt-salat-post-gnutux.webp",
+      "size": 115858,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1785930668,
+      "path": "assets/images/en/gt-salat-post-gnutux.webp"
+    },
+    {
       "name": "claudevscodex.avif",
       "size": 38808,
       "width": 564,
@@ -2709,6 +2741,14 @@
     }
   ],
   "ar_map": {
+    "gt-salat-post-gnutux.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "gt-salat-post-gnutux.webp": {
+      "w": 1536,
+      "h": 1024
+    },
     "claudevscodex.avif": {
       "w": 564,
       "h": 374
@@ -3387,6 +3427,14 @@
     }
   },
   "en_map": {
+    "gt-salat-post-gnutux.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "gt-salat-post-gnutux.webp": {
+      "w": 1536,
+      "h": 1024
+    },
     "claudevscodex.avif": {
       "w": 564,
       "h": 374
@@ -4064,6 +4112,6 @@
       "h": 576
     }
   },
-  "count_ar": 169,
-  "count_en": 169
+  "count_ar": 171,
+  "count_en": 171
 }
