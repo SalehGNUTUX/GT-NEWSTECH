@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T08:29:41.703Z",
+  "generated_at": "2026-08-23T08:45:10.765Z",
   "count": 192,
   "by_lang": {
     "ar": 96,
@@ -37,7 +37,7 @@
       "also_in": [],
       "author": "GNUTUX",
       "excerpt": "Scratch is an open source visual programming language developed by the MIT Media Lab that enables children and teenagers to create interactive stories, games, and animations. Using a colorful drag-and-drop block interface, it fosters creative learning and logical thinking, supported by a vast community for sharing projects.",
-      "image": "https://scratch.mit.edu/images/scratch-logo.png",
+      "image": "scratch-kids-gnutux-en.avif",
       "tags": [
         "Scratch",
         "Coding Education",
