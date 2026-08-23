@@ -3,7 +3,10 @@ layout: post
 title: >-
   Scratch: The Visual Programming Language That Changed How Kids Learn to Code
   Worldwide
+slug: scratch-programming-for-kids
+lang: en
 category: foss
+date: 2026-08-22T08:28:00.000Z
 author: GNUTUX
 excerpt: >-
   Scratch is an open source visual programming language developed by the MIT
@@ -11,7 +14,7 @@ excerpt: >-
   games, and animations. Using a colorful drag-and-drop block interface, it
   fosters creative learning and logical thinking, supported by a vast community
   for sharing projects.
-image: 'https://scratch.mit.edu/images/scratch-logo.png'
+image: scratch-kids-gnutux-en.avif
 tags:
   - Scratch
   - Coding Education
@@ -19,9 +22,6 @@ tags:
   - MIT
   - Free Software
   - Programming Languages
-date: 2026-08-22T08:28:00.000Z
-lang: en
-slug: scratch-programming-for-kids
 ---
 
 ## A Revolution in Teaching Kids to Code
