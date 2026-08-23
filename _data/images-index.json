@@ -1,6 +1,14 @@
 {
-  "generated_at": "2026-08-05T11:51:34.811Z",
+  "generated_at": "2026-08-23T08:29:40.673Z",
   "ar": [
+    {
+      "name": "scratch-kids-gnutux-en.avif",
+      "size": 57495,
+      "width": 1407,
+      "height": 837,
+      "last_modified_ts": 1787473764,
+      "path": "assets/images/ar/scratch-kids-gnutux-en.avif"
+    },
     {
       "name": "gt-salat-post-gnutux.png",
       "size": 529072,
@@ -1372,6 +1380,14 @@
   ],
   "en": [
     {
+      "name": "scratch-kids-gnutux-en.avif",
+      "size": 57495,
+      "width": 1407,
+      "height": 837,
+      "last_modified_ts": 1787473764,
+      "path": "assets/images/en/scratch-kids-gnutux-en.avif"
+    },
+    {
       "name": "gt-salat-post-gnutux.png",
       "size": 529072,
       "width": 1536,
@@ -2741,6 +2757,10 @@
     }
   ],
   "ar_map": {
+    "scratch-kids-gnutux-en.avif": {
+      "w": 1407,
+      "h": 837
+    },
     "gt-salat-post-gnutux.png": {
       "w": 1536,
       "h": 1024
@@ -3427,6 +3447,10 @@
     }
   },
   "en_map": {
+    "scratch-kids-gnutux-en.avif": {
+      "w": 1407,
+      "h": 837
+    },
     "gt-salat-post-gnutux.png": {
       "w": 1536,
       "h": 1024
@@ -4112,6 +4136,6 @@
       "h": 576
     }
   },
-  "count_ar": 171,
-  "count_en": 171
+  "count_ar": 172,
+  "count_en": 172
 }
