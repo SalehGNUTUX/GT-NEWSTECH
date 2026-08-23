@@ -15,6 +15,39 @@ GT-NEWSTECH is a bilingual (Arabic/English) Jekyll static site hosted on GitHub 
 
 ---
 
+## Where things stand (read this first)
+
+### ⚠ Blocked: the Worker is running old code
+
+`admin-worker/` source is committed and builds clean (`npx wrangler deploy --dry-run` → 71.59 KiB), but **it has not been deployed**. The live Worker still serves the previous version, so the **remote** panel has no category edit/delete/undo. The local panel has all of it. The public site is unaffected.
+
+Cause: Cloudflare access was lost. The account was created via GitHub OAuth, GitHub sign-in started failing, and a password reset performed on a *different* email silently created a **new, empty** Cloudflare account rather than recovering the original.
+
+Identifiers of the **correct** account — use these to confirm you are in the right one:
+
+| | |
+|---|---|
+| `account_id` | `f03637899e8ad8c55b649300337eeaa8` (pinned in `admin-worker/wrangler.toml`) |
+| workers.dev subdomain | `gnutux-arabic` |
+| Worker name | `gt-newstech-admin` |
+
+The account ID appears in the dashboard URL (`dash.cloudflare.com/<id>/…`). Recovery requires a password reset on the email that was **primary on GitHub when the account was created** (check GitHub → Settings → Emails, including old addresses), or a support ticket quoting the account ID + subdomain.
+
+**Do not delete `account_id` from `wrangler.toml` to get past a permissions error.** That pin is what makes a deploy from the wrong account fail loudly instead of silently publishing a second admin panel on a different subdomain.
+
+Once access is back, take the dashboard out of the loop permanently — create an API Token (My Profile → API Tokens → "Edit Cloudflare Workers" template), then:
+```bash
+export CLOUDFLARE_API_TOKEN='…'
+cd admin-worker && npx wrangler deploy
+```
+Wrangler here is 3.114.17; 4.x is available and worth upgrading separately, not as part of unblocking this.
+
+### Available but not run: AVIF companion backlog
+
+`cd scripts && npm run optimize:avif` generates `.avif` companions for the whole JPG/PNG library. The templates already prefer them when present, so it is purely opt-in. Measured on this library: **22-38% smaller than the WebP companion, but 3-17 s per image to encode** — which is why it is not wired into `generate-webp.yml`. To make it automatic afterwards, add `--avif` to that workflow's step.
+
+---
+
 ## Commands
 
 ### Run everything locally (recommended)
@@ -296,8 +329,9 @@ GET  /api/config
 - 401 with `sessionExpired: true` → client clears token and shows login
 
 **Sensitive action confirmation (`confirmRequired(actionKey, alwaysRequire=false)`):**
-- Per-action toggle stored in `.admin-security.json` → `confirmFor: {save_article, delete_article, push}`
-- `alwaysRequire=true` for `manage_security` (PUT `/api/auth/security`) and `remove_password` (DELETE `/api/auth/password`) — cannot be disabled (anti-tampering)
+- Per-action toggle stored in `.admin-security.json` → `confirmFor: {create_article, edit_article, delete_article, push}`. `readSecCfg()` migrates the older single `save_article` key into both `create_article` and `edit_article`.
+- `alwaysRequire=true` — cannot be disabled, and deliberately has **no** toggle in the Security page (a toggle that does nothing would be a lie). These appear there in the read-only "إجراءات محمية دائماً" list instead: `manage_security` (PUT `/api/auth/security`), `remove_password` (DELETE `/api/auth/password`), and all three category writes (`create_category`, `edit_category`, `delete_category`).
+- Adding a new always-protected action means updating three places: the route's `confirmRequired(key, true)`, `ACTION_LABELS` in `admin/public/js/admin.js` (so the password prompt names it), and the read-only list in the Security page.
 - Returns `401 { needsConfirm: true, action }` when token missing/expired
 - Client side: `api()` catches this, calls `promptConfirm(action)`, retries with `x-admin-confirm` header
 - Toggle UX: change-listener on `[data-secaction]` triggers PUT immediately; reverts to `data-was` on cancellation/error (no draft state to tamper with)
