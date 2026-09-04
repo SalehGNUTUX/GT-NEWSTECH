@@ -520,7 +520,8 @@ User maintains 34 GitHub repos (all under `SalehGNUTUX`) and mirrors them to two
 
 **Codeberg — Push via GitHub Actions** (Pull Mirror was disabled site-wide):
 - `codeberg_github_sync.sh` is the **old** Pull Mirror script — kept for archive only, returns HTTP 403
-- The current setup uses `.github/workflows/codeberg-mirror.yml` in each repo that does `git push --mirror` to Codeberg on every push (seconds, not 1h)
+- The current setup uses `.github/workflows/codeberg-mirror.yml` in each repo, pushing to Codeberg on every push (seconds, not 1h)
+- **Never `git push --mirror` there.** `refs/heads/` in the runner holds only the pushed branch, so `--mirror` deletes every other branch on Codeberg — silently when the default branch is pushed, and with a full rejection otherwise. Push `+refs/remotes/origin/*:refs/heads/*` and `+refs/tags/*:refs/tags/*` with `--prune` instead (fixed across all repos 2026-09-04)
 - Three operational scripts:
   - `codeberg_workflow_install.sh` — bulk install on all repos (skips already-configured)
   - `codeberg_add_repo.sh REPO_NAME` — single-repo helper after `gh repo create`

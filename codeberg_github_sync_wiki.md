@@ -147,12 +147,18 @@ jobs:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - run: |
-          git remote add codeberg "https://gnutux:${CODEBERG_TOKEN}@codeberg.org/gnutux/${GITHUB_REPOSITORY##*/}.git"
-          git push --mirror codeberg
+          git update-ref -d refs/remotes/origin/HEAD 2>/dev/null || true
+          git push --prune "https://gnutux:${CODEBERG_TOKEN}@codeberg.org/gnutux/${GITHUB_REPOSITORY##*/}.git" \
+            "+refs/remotes/origin/*:refs/heads/*" "+refs/tags/*:refs/tags/*"
 ```
 
-- `fetch-depth: 0` — يجلب كل التاريخ (مطلوب لـ `--mirror`)
-- `git push --mirror` — يدفع كل المراجع كما هي (يحذف ما حُذف)
+- `fetch-depth: 0` — يجلب كل التاريخ وكل الفروع، والفروع تنزل تحت `refs/remotes/origin/*`
+- **الدفع من `refs/remotes/origin/*` لا `git push --mirror`** — وهذا ما كان معطوباً حتى
+  2026-09-04: `--mirror` يعني «اجعل الوجهة نسخة من مراجعي»، وتحت `refs/heads/` لا يوجد
+  إلا الفرع المدفوع وحده (خطوة الجلب فوق الفرع المُستخرَج تفشل دائماً)، فكان يحذف كل
+  فرع سواه. والأثر مقلوب: الدفعة إلى الفرع الافتراضي **تنجح** فتحذف غيره صامتاً،
+  والدفعة إلى غيره تُرفَض كلها لأن Forgejo يأبى حذف الفرع الافتراضي
+- `--prune` — يبقي معنى المرآة: ما حُذف في المصدر يُحذَف في الوجهة، ولا يُحذَف ما لم يُحذَف
 - `concurrency` — يمنع تداخل تشغيلات متعددة
 
 ---
