@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-09-20T12:24:50.381Z",
+  "generated_at": "2026-09-21T21:01:32.744Z",
   "ar": [
+    {
+      "name": "gt-stacer-26.11-ar.png",
+      "size": 416680,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790024475,
+      "path": "assets/images/ar/gt-stacer-26.11-ar.png"
+    },
+    {
+      "name": "gt-stacer-26.11-ar.webp",
+      "size": 117594,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790024475,
+      "path": "assets/images/ar/gt-stacer-26.11-ar.webp"
+    },
     {
       "name": "gt-stacer-ar.png",
       "size": 182634,
@@ -1396,6 +1412,22 @@
   ],
   "en": [
     {
+      "name": "gt-stacer-26.11-en.png",
+      "size": 477402,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790024475,
+      "path": "assets/images/en/gt-stacer-26.11-en.png"
+    },
+    {
+      "name": "gt-stacer-26.11-en.webp",
+      "size": 152460,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790024475,
+      "path": "assets/images/en/gt-stacer-26.11-en.webp"
+    },
+    {
       "name": "scratch-kids-gnutux-en.avif",
       "size": 57495,
       "width": 1407,
@@ -2773,6 +2805,14 @@
     }
   ],
   "ar_map": {
+    "gt-stacer-26.11-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "gt-stacer-26.11-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "gt-stacer-ar.png": {
       "w": 1600,
       "h": 900
@@ -3471,6 +3511,14 @@
     }
   },
   "en_map": {
+    "gt-stacer-26.11-en.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "gt-stacer-26.11-en.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "scratch-kids-gnutux-en.avif": {
       "w": 1407,
       "h": 837
@@ -4160,6 +4208,6 @@
       "h": 576
     }
   },
-  "count_ar": 174,
-  "count_en": 172
+  "count_ar": 176,
+  "count_en": 174
 }
