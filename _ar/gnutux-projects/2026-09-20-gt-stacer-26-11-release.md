@@ -1,14 +1,17 @@
 ---
 layout: post
 title: 'GT-STACER 26.11.3: إصدار مستقر يحوّل الأداة إلى مركز تحكم كامل بنظام غنو/لينكس'
+slug: gt-stacer-26-11-release
+lang: ar
 category: gnutux-projects
+date: 2026-09-21T20:59:00.000Z
 author: GNUTUX
 excerpt: >-
   أصدر مشروع GT-STACER الإصدار المستقر 26.11.3، وهو نسخة مطورة من أداة Stacer،
   مبنية بلغة C++17 و Qt6. يضيف هذا الإصدار مدير حزم وبرامج متكامل، ونسخاً
   احتياطياً ولقطات نظام، وجدار حماية، وإدارة اتصالات حية، وأدوات طاقة، وتحديثاً
   ذاتياً داخل التطبيق، مع إصلاح ثغرة حقن أوامر أمنية.
-image: gt-stacer-ar.png
+image: gt-stacer-26.11-ar.png
 tags:
   - GT-STACER
   - مراقبة النظام
@@ -21,9 +24,6 @@ tags:
   - جدار حماية
 also_in:
   - foss
-date: 2026-09-20T12:23:00.000Z
-lang: ar
-slug: gt-stacer-26-11-release
 ---
 
 ## من مراقب نظام إلى مركز تحكم شامل
