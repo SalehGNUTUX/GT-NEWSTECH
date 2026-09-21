@@ -1,22 +1,50 @@
 {
-  "generated_at": "2026-09-20T12:24:53.268Z",
-  "count": 193,
+  "generated_at": "2026-09-21T21:01:33.349Z",
+  "count": 194,
   "by_lang": {
     "ar": 97,
-    "en": 96
+    "en": 97
   },
   "articles": [
     {
+      "title": "GT-STACER 26.11.3: A Stable Release That Turns the Tool into a Complete Linux Control Center",
+      "slug": "gt-stacer-26-11-release",
+      "date": "2026-09-21T21:01:00.000Z",
+      "category": "gnutux-projects",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The GT-STACER project has released stable version 26.11.3, an updated fork of Stacer built with C++17 and Qt6. This release adds a full package and software manager, system backup and snapshots, a firewall, live connection monitoring, power tools, in-app self-update, and fixes a command-injection security vulnerability.",
+      "image": "gt-stacer-26.11-en.png",
+      "tags": [
+        "GT-STACER",
+        "System Monitoring",
+        "Performance Optimization",
+        "Tools",
+        "Linux",
+        "Qt6",
+        "C++17",
+        "Backup",
+        "Firewall"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-21-gt-stacer-26-11-release.md",
+      "_lang": "en",
+      "_cat": "gnutux-projects"
+    },
+    {
       "title": "GT-STACER 26.11.3: إصدار مستقر يحوّل الأداة إلى مركز تحكم كامل بنظام غنو/لينكس",
       "slug": "gt-stacer-26-11-release",
-      "date": "2026-09-20T12:23:00.000Z",
+      "date": "2026-09-21T20:59:00.000Z",
       "category": "gnutux-projects",
       "also_in": [
         "foss"
       ],
       "author": "GNUTUX",
       "excerpt": "أصدر مشروع GT-STACER الإصدار المستقر 26.11.3، وهو نسخة مطورة من أداة Stacer، مبنية بلغة C++17 و Qt6. يضيف هذا الإصدار مدير حزم وبرامج متكامل، ونسخاً احتياطياً ولقطات نظام، وجدار حماية، وإدارة اتصالات حية، وأدوات طاقة، وتحديثاً ذاتياً داخل التطبيق، مع إصلاح ثغرة حقن أوامر أمنية.",
-      "image": "gt-stacer-ar.png",
+      "image": "gt-stacer-26.11-ar.png",
       "tags": [
         "GT-STACER",
         "مراقبة النظام",
