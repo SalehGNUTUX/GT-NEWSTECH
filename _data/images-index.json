@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-09-21T21:01:32.744Z",
+  "generated_at": "2026-09-22T13:05:41.466Z",
   "ar": [
+    {
+      "name": "gnu-boot-gnutux-ar.png",
+      "size": 444244,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790082318,
+      "path": "assets/images/ar/gnu-boot-gnutux-ar.png"
+    },
+    {
+      "name": "gnu-boot-gnutux-ar.webp",
+      "size": 114378,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790082318,
+      "path": "assets/images/ar/gnu-boot-gnutux-ar.webp"
+    },
     {
       "name": "gt-stacer-26.11-ar.png",
       "size": 416680,
@@ -1412,6 +1428,22 @@
   ],
   "en": [
     {
+      "name": "gnu-boot-gnutux-en.jpg",
+      "size": 149660,
+      "width": 1440,
+      "height": 720,
+      "last_modified_ts": 1790082318,
+      "path": "assets/images/en/gnu-boot-gnutux-en.jpg"
+    },
+    {
+      "name": "gnu-boot-gnutux-en.webp",
+      "size": 98940,
+      "width": 1440,
+      "height": 720,
+      "last_modified_ts": 1790082318,
+      "path": "assets/images/en/gnu-boot-gnutux-en.webp"
+    },
+    {
       "name": "gt-stacer-26.11-en.png",
       "size": 477402,
       "width": 1600,
@@ -2805,6 +2837,14 @@
     }
   ],
   "ar_map": {
+    "gnu-boot-gnutux-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "gnu-boot-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "gt-stacer-26.11-ar.png": {
       "w": 1600,
       "h": 800
@@ -3511,6 +3551,14 @@
     }
   },
   "en_map": {
+    "gnu-boot-gnutux-en.jpg": {
+      "w": 1440,
+      "h": 720
+    },
+    "gnu-boot-gnutux-en.webp": {
+      "w": 1440,
+      "h": 720
+    },
     "gt-stacer-26.11-en.png": {
       "w": 1600,
       "h": 800
@@ -4208,6 +4256,6 @@
       "h": 576
     }
   },
-  "count_ar": 176,
-  "count_en": 174
+  "count_ar": 178,
+  "count_en": 176
 }
