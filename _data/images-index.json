@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-09-22T13:05:41.466Z",
+  "generated_at": "2026-09-24T08:29:18.322Z",
   "ar": [
+    {
+      "name": "agent-reach-gnutux-ar.png",
+      "size": 476813,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790238540,
+      "path": "assets/images/ar/agent-reach-gnutux-ar.png"
+    },
+    {
+      "name": "agent-reach-gnutux-ar.webp",
+      "size": 160170,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790238540,
+      "path": "assets/images/ar/agent-reach-gnutux-ar.webp"
+    },
     {
       "name": "gnu-boot-gnutux-ar.png",
       "size": 444244,
@@ -1428,6 +1444,22 @@
   ],
   "en": [
     {
+      "name": "agent-reach-gnutux-en.png",
+      "size": 508347,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790238540,
+      "path": "assets/images/en/agent-reach-gnutux-en.png"
+    },
+    {
+      "name": "agent-reach-gnutux-en.webp",
+      "size": 173486,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790238540,
+      "path": "assets/images/en/agent-reach-gnutux-en.webp"
+    },
+    {
       "name": "gnu-boot-gnutux-en.jpg",
       "size": 149660,
       "width": 1440,
@@ -2837,6 +2869,14 @@
     }
   ],
   "ar_map": {
+    "agent-reach-gnutux-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "agent-reach-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "gnu-boot-gnutux-ar.png": {
       "w": 1600,
       "h": 800
@@ -3551,6 +3591,14 @@
     }
   },
   "en_map": {
+    "agent-reach-gnutux-en.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "agent-reach-gnutux-en.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "gnu-boot-gnutux-en.jpg": {
       "w": 1440,
       "h": 720
@@ -4256,6 +4304,6 @@
       "h": 576
     }
   },
-  "count_ar": 178,
-  "count_en": 176
+  "count_ar": 180,
+  "count_en": 178
 }
