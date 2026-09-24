@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-09-22T13:05:36.382Z",
-  "count": 196,
+  "generated_at": "2026-09-24T08:29:20.805Z",
+  "count": 198,
   "by_lang": {
-    "ar": 98,
-    "en": 98
+    "ar": 99,
+    "en": 99
   },
   "articles": [
+    {
+      "title": "Agent Reach: One Tool Gives Your AI Agent the Ability to Read the Entire Internet",
+      "slug": "agent-reach-internet-capability",
+      "date": "2026-09-24T08:28:00.000Z",
+      "category": "ai",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Agent Reach is an open source project that gives AI agents like Claude Code, Cursor, and OpenClaw the ability to read and search across multiple platforms including Twitter, Reddit, YouTube, Bilibili, and GitHub, with one command and completely free.",
+      "image": "agent-reach-gnutux-en.png",
+      "tags": [
+        "Agent Reach",
+        "AI Agent",
+        "Automation",
+        "Search",
+        "Open Source",
+        "Claude Code",
+        "OpenClaw",
+        "Cursor"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-24-agent-reach-internet-capability.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "Agent Reach: أداة واحدة تمنح وكيل الذكاء الاصطناعي القدرة على قراءة الإنترنت بالكامل",
+      "slug": "agent-reach-internet-capability",
+      "date": "2026-09-24T08:27:00.000Z",
+      "category": "ai",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Agent Reach هو مشروع مفتوح المصدر يمنح وكلاء الذكاء الاصطناعي مثل Claude Code و Cursor و OpenClaw القدرة على قراءة والبحث في منصات متعددة مثل Twitter و Reddit و YouTube و Bilibili و GitHub، بأمر واحد وبشكل مجاني تماماً.",
+      "image": "agent-reach-gnutux-ar.png",
+      "tags": [
+        "Agent Reach",
+        "وكيل ذكاء اصطناعي",
+        "أتمتة",
+        "بحث",
+        "مفتوح المصدر",
+        "Claude Code",
+        "OpenClaw",
+        "Cursor"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-24-agent-reach-internet-capability.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "GNU Boot ينضم إلى برنامج الرعاية المالية لمؤسسة البرمجيات الحرة",
       "slug": "gnu-boot-joins-fsf",
