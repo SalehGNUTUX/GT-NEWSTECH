@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-09-24T08:29:20.805Z",
-  "count": 198,
+  "generated_at": "2026-09-27T08:44:38.851Z",
+  "count": 200,
   "by_lang": {
-    "ar": 99,
-    "en": 99
+    "ar": 100,
+    "en": 100
   },
   "articles": [
+    {
+      "title": "Obscura: The Lightweight Stealth Browser Built Specifically for AI Agents",
+      "slug": "obscura-headless-browser-ai-agents",
+      "date": "2026-09-27T08:43:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Obscura is an open source headless browser engine written in Rust, built specifically for AI agents and web scraping. It uses up to 85% less memory than Chrome, starts in under 50 milliseconds, and offers full support for CDP, Puppeteer, and Playwright.",
+      "image": "obscura-browser-gnutux-en.jpg",
+      "tags": [
+        "Obscura",
+        "Headless Browser",
+        "AI Agents",
+        "Web Scraping",
+        "Rust",
+        "Open Source",
+        "Apache-2.0"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-27-obscura-headless-browser-ai-agents.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "Obscura: المتصفح الخفي الخفيف المصمم خصيصاً لوكلاء الذكاء الاصطناعي",
+      "slug": "obscura-headless-browser-ai-agents",
+      "date": "2026-09-26T08:40:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Obscura هو محرك متصفح خفي (Headless Browser) مفتوح المصدر مكتوب بلغة Rust، مصمم خصيصاً لوكلاء الذكاء الاصطناعي وعمليات استخراج البيانات. يستهلك ذاكرة أقل بـ 85% من Chrome، ويبدأ في أقل من 50 مللي ثانية، مع دعم كامل لبروتوكول CDP وPuppeteer وPlaywright.",
+      "image": "obscura-browser-gnutux-ar.png",
+      "tags": [
+        "Obscura",
+        "متصفح خفي",
+        "وكلاء ذكاء اصطناعي",
+        "استخراج بيانات",
+        "Rust",
+        "مفتوح المصدر",
+        "Apache-2.0"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-26-obscura-headless-browser-ai-agents.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "Agent Reach: One Tool Gives Your AI Agent the Ability to Read the Entire Internet",
       "slug": "agent-reach-internet-capability",
