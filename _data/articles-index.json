@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-09-27T08:44:38.851Z",
-  "count": 200,
+  "generated_at": "2026-09-27T08:52:58.323Z",
+  "count": 202,
   "by_lang": {
-    "ar": 100,
-    "en": 100
+    "ar": 101,
+    "en": 101
   },
   "articles": [
+    {
+      "title": "GNU's Birthday: 43 Years of Fighting for Software Freedom",
+      "slug": "gnu-project-43rd-anniversary",
+      "date": "2026-09-27T08:51:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "On September 27, 1983, Richard Stallman announced the GNU Project, laying the foundation for the free software movement. Forty-three years later, we look back at the project's history, its achievements, its failures, and the challenges it faces in the age of cloud computing and artificial intelligence.",
+      "image": "gnu-43yers-gnutux-en.jpg",
+      "tags": [
+        "GNU",
+        "Richard Stallman",
+        "Free Software",
+        "FSF",
+        "GPL",
+        "Computing History"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-27-gnu-project-43rd-anniversary.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "ذكرى ميلاد GNU: 43 عاماً من النضال من أجل حرية البرمجيات",
+      "slug": "gnu-project-43rd-anniversary",
+      "date": "2026-09-27T08:49:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "gnulinux"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "في 27 سبتمبر 1983، أعلن ريتشارد ستالمان عن مشروع GNU، ليكون حجر الأساس لحركة البرمجيات الحرة. بعد 43 عاماً، نستعرض تاريخ المشروع، إنجازاته، إخفاقاته، والتحديات التي تواجهه في عصر الحوسبة السحابية والذكاء الاصطناعي.",
+      "image": "gnu-43yers-gnutux-ar.jpg",
+      "tags": [
+        "GNU",
+        "ريتشارد ستالمان",
+        "البرمجيات الحرة",
+        "FSF",
+        "GPL",
+        "تاريخ الحوسبة"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-27-gnu-project-43rd-anniversary.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "Obscura: The Lightweight Stealth Browser Built Specifically for AI Agents",
       "slug": "obscura-headless-browser-ai-agents",
