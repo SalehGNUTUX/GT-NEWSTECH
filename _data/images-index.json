@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-09-27T08:44:40.169Z",
+  "generated_at": "2026-09-27T08:52:55.107Z",
   "ar": [
+    {
+      "name": "gnu-43yers-gnutux-ar.jpg",
+      "size": 242755,
+      "width": 1440,
+      "height": 720,
+      "last_modified_ts": 1790499159,
+      "path": "assets/images/ar/gnu-43yers-gnutux-ar.jpg"
+    },
+    {
+      "name": "gnu-43yers-gnutux-ar.webp",
+      "size": 185846,
+      "width": 1440,
+      "height": 720,
+      "last_modified_ts": 1790499159,
+      "path": "assets/images/ar/gnu-43yers-gnutux-ar.webp"
+    },
     {
       "name": "obscura-browser-gnutux-ar.png",
       "size": 451178,
@@ -1460,6 +1476,22 @@
   ],
   "en": [
     {
+      "name": "gnu-43yers-gnutux-en.jpg",
+      "size": 244150,
+      "width": 1440,
+      "height": 720,
+      "last_modified_ts": 1790499159,
+      "path": "assets/images/en/gnu-43yers-gnutux-en.jpg"
+    },
+    {
+      "name": "gnu-43yers-gnutux-en.webp",
+      "size": 189676,
+      "width": 1440,
+      "height": 720,
+      "last_modified_ts": 1790499159,
+      "path": "assets/images/en/gnu-43yers-gnutux-en.webp"
+    },
+    {
       "name": "obscura-browser-gnutux-en.jpg",
       "size": 171585,
       "width": 1440,
@@ -2901,6 +2933,14 @@
     }
   ],
   "ar_map": {
+    "gnu-43yers-gnutux-ar.jpg": {
+      "w": 1440,
+      "h": 720
+    },
+    "gnu-43yers-gnutux-ar.webp": {
+      "w": 1440,
+      "h": 720
+    },
     "obscura-browser-gnutux-ar.png": {
       "w": 1600,
       "h": 800
@@ -3631,6 +3671,14 @@
     }
   },
   "en_map": {
+    "gnu-43yers-gnutux-en.jpg": {
+      "w": 1440,
+      "h": 720
+    },
+    "gnu-43yers-gnutux-en.webp": {
+      "w": 1440,
+      "h": 720
+    },
     "obscura-browser-gnutux-en.jpg": {
       "w": 1440,
       "h": 720
@@ -4352,6 +4400,6 @@
       "h": 576
     }
   },
-  "count_ar": 182,
-  "count_en": 180
+  "count_ar": 184,
+  "count_en": 182
 }
