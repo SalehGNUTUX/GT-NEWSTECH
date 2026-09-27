@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-09-24T08:29:18.322Z",
+  "generated_at": "2026-09-27T08:44:40.169Z",
   "ar": [
+    {
+      "name": "obscura-browser-gnutux-ar.png",
+      "size": 451178,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790498660,
+      "path": "assets/images/ar/obscura-browser-gnutux-ar.png"
+    },
+    {
+      "name": "obscura-browser-gnutux-ar.webp",
+      "size": 149194,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790498660,
+      "path": "assets/images/ar/obscura-browser-gnutux-ar.webp"
+    },
     {
       "name": "agent-reach-gnutux-ar.png",
       "size": 476813,
@@ -1444,6 +1460,22 @@
   ],
   "en": [
     {
+      "name": "obscura-browser-gnutux-en.jpg",
+      "size": 171585,
+      "width": 1440,
+      "height": 720,
+      "last_modified_ts": 1790498660,
+      "path": "assets/images/en/obscura-browser-gnutux-en.jpg"
+    },
+    {
+      "name": "obscura-browser-gnutux-en.webp",
+      "size": 120726,
+      "width": 1440,
+      "height": 720,
+      "last_modified_ts": 1790498660,
+      "path": "assets/images/en/obscura-browser-gnutux-en.webp"
+    },
+    {
       "name": "agent-reach-gnutux-en.png",
       "size": 508347,
       "width": 1600,
@@ -2869,6 +2901,14 @@
     }
   ],
   "ar_map": {
+    "obscura-browser-gnutux-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "obscura-browser-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "agent-reach-gnutux-ar.png": {
       "w": 1600,
       "h": 800
@@ -3591,6 +3631,14 @@
     }
   },
   "en_map": {
+    "obscura-browser-gnutux-en.jpg": {
+      "w": 1440,
+      "h": 720
+    },
+    "obscura-browser-gnutux-en.webp": {
+      "w": 1440,
+      "h": 720
+    },
     "agent-reach-gnutux-en.png": {
       "w": 1600,
       "h": 800
@@ -4304,6 +4352,6 @@
       "h": 576
     }
   },
-  "count_ar": 180,
-  "count_en": 178
+  "count_ar": 182,
+  "count_en": 180
 }
