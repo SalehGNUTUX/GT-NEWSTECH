@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-09-27T08:52:55.107Z",
+  "generated_at": "2026-09-28T18:16:08.256Z",
   "ar": [
+    {
+      "name": "sixteen-years-of-libreoffice-gnutux-ar.png",
+      "size": 408519,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790619350,
+      "path": "assets/images/ar/sixteen-years-of-libreoffice-gnutux-ar.png"
+    },
+    {
+      "name": "sixteen-years-of-libreoffice-gnutux-ar.webp",
+      "size": 153298,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790619350,
+      "path": "assets/images/ar/sixteen-years-of-libreoffice-gnutux-ar.webp"
+    },
     {
       "name": "gnu-43yers-gnutux-ar.jpg",
       "size": 242755,
@@ -1476,6 +1492,22 @@
   ],
   "en": [
     {
+      "name": "sixteen-years-of-libreoffice-gnutux-en.png",
+      "size": 410835,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790619350,
+      "path": "assets/images/en/sixteen-years-of-libreoffice-gnutux-en.png"
+    },
+    {
+      "name": "sixteen-years-of-libreoffice-gnutux-en.webp",
+      "size": 163384,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1790619350,
+      "path": "assets/images/en/sixteen-years-of-libreoffice-gnutux-en.webp"
+    },
+    {
       "name": "gnu-43yers-gnutux-en.jpg",
       "size": 244150,
       "width": 1440,
@@ -2933,6 +2965,14 @@
     }
   ],
   "ar_map": {
+    "sixteen-years-of-libreoffice-gnutux-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "sixteen-years-of-libreoffice-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "gnu-43yers-gnutux-ar.jpg": {
       "w": 1440,
       "h": 720
@@ -3671,6 +3711,14 @@
     }
   },
   "en_map": {
+    "sixteen-years-of-libreoffice-gnutux-en.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "sixteen-years-of-libreoffice-gnutux-en.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "gnu-43yers-gnutux-en.jpg": {
       "w": 1440,
       "h": 720
@@ -4400,6 +4448,6 @@
       "h": 576
     }
   },
-  "count_ar": 184,
-  "count_en": 182
+  "count_ar": 186,
+  "count_en": 184
 }
