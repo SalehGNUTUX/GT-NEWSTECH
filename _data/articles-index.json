@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-09-27T08:52:58.323Z",
-  "count": 202,
+  "generated_at": "2026-09-28T18:16:12.409Z",
+  "count": 204,
   "by_lang": {
-    "ar": 101,
-    "en": 101
+    "ar": 102,
+    "en": 102
   },
   "articles": [
+    {
+      "title": "Sixteen Years of LibreOffice: Independence, ODF, and Digital Sovereignty",
+      "slug": "sixteen-years-of-libreoffice",
+      "date": "2026-09-28T18:15:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "On September 28, 2026, The Document Foundation celebrated sixteen years since the launch of the LibreOffice project. The foundation celebrates its independence, which has lasted longer than OpenOffice.org's, its strict adoption of the open ODF format, and its defense of digital sovereignty against Microsoft's monopoly.",
+      "image": "sixteen-years-of-libreoffice-gnutux-en.png",
+      "tags": [
+        "LibreOffice",
+        "The Document Foundation",
+        "ODF",
+        "Digital Sovereignty",
+        "Open Source",
+        "Free Software"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-28-sixteen-years-of-libreoffice.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "ستة عشر عاماً من LibreOffice: الاستقلالية، ODF، والسيادة الرقمية",
+      "slug": "sixteen-years-of-libreoffice",
+      "date": "2026-09-28T18:13:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "في 28 سبتمبر 2026، احتفلت مؤسسة المستندات بمرور ستة عشر عاماً على إطلاق مشروع LibreOffice. تحتفل المؤسسة باستقلاليتها الأطول من OpenOffice.org، وبتبنيها الصارم لصيغة ODF المفتوحة، وبدفاعها عن السيادة الرقمية في مواجهة احتكار Microsoft.",
+      "image": "sixteen-years-of-libreoffice-gnutux-ar.png",
+      "tags": [
+        "LibreOffice",
+        "The Document Foundation",
+        "ODF",
+        "سيادة رقمية",
+        "مفتوح المصدر",
+        "برمجيات حرة"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-28-sixteen-years-of-libreoffice.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "GNU's Birthday: 43 Years of Fighting for Software Freedom",
       "slug": "gnu-project-43rd-anniversary",
