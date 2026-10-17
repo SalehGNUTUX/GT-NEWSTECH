@@ -4,14 +4,14 @@ title: 'Audacity 4: أكبر تحديث في تاريخ محرر الصوت مف
 slug: audacity-4-release
 lang: ar
 category: foss
-date: 2026-10-17T06:46:00.000Z
+date: 2026-10-17T05:46:00.000Z
 author: GNUTUX
 excerpt: >-
   أصدر فريق Audacity الإصدار الرابع، وهو أكبر تحديث في تاريخ البرنامج منذ 26
   عاماً. ينتقل التطبيق إلى واجهة مبنية على Qt6، ويقدم نموذج تحرير غير مدمر
   للمقاطع، ومساحات عمل قابلة للتخصيص، وصيغة مشروع جديدة .aup4، مع دعم أوسع
   للمكونات الإضافية.
-image: 'https://www.audacityteam.org/wp-content/uploads/2026/09/audacity-4-hero.png'
+image: audacity-4-future-open-source-audio-ar.png
 tags:
   - Audacity
   - محرر صوت
