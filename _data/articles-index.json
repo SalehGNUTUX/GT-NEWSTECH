@@ -1,11 +1,38 @@
 {
-  "generated_at": "2026-10-17T07:51:30.344Z",
-  "count": 206,
+  "generated_at": "2026-10-17T08:26:49.212Z",
+  "count": 208,
   "by_lang": {
-    "ar": 103,
-    "en": 103
+    "ar": 104,
+    "en": 104
   },
   "articles": [
+    {
+      "title": "ArtCraft: An Open Source Project Building Native Alternatives to Adobe, Office, and AutoCAD",
+      "slug": "artcraft-open-source-adobe-alternative",
+      "date": "2026-10-17T07:25:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "ArtCraft is an open source project developed by Brandon Thomas with the help of AI, offering over 12 native applications written in Rust as alternatives to Adobe, Microsoft Office, and AutoCAD. The applications are lightweight, run on Linux, Windows, and macOS, and some can even open real PSD files while preserving layers.",
+      "image": "artcraft-gnutux-en.png",
+      "tags": [
+        "ArtCraft",
+        "PhotoCraft",
+        "VectorCraft",
+        "FilmCraft",
+        "Rust",
+        "Adobe Alternatives",
+        "Free Software",
+        "Linux"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-17-artcraft-open-source-adobe-alternative.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Audacity 4: أكبر تحديث في تاريخ محرر الصوت مفتوح المصدر الأشهر",
       "slug": "audacity-4-release",
@@ -27,6 +54,33 @@
       "layout": "post",
       "affiliate": null,
       "_file": "2026-10-17-audacity-4-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "ArtCraft: مشروع مفتوح المصدر يبني بدائل أصلية لـ Adobe و Office و AutoCAD",
+      "slug": "artcraft-open-source-adobe-alternative",
+      "date": "2026-10-16T07:21:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "ArtCraft هو مشروع مفتوح المصدر طوره Brandon Thomas بمساعدة الذكاء الاصطناعي، يقدم أكثر من 12 تطبيقاً أصلياً بلغة Rust كبدائل لبرامج Adobe و Microsoft Office و AutoCAD. التطبيقات خفيفة، تعمل على Linux وWindows وmacOS، وبعضها يفتح ملفات PSD الحقيقية مع الحفاظ على الطبقات.",
+      "image": "artcraft-gnutux-ar.png",
+      "tags": [
+        "ArtCraft",
+        "PhotoCraft",
+        "VectorCraft",
+        "FilmCraft",
+        "Rust",
+        "بدائل Adobe",
+        "برمجيات حرة",
+        "Linux"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-16-artcraft-open-source-adobe-alternative.md",
       "_lang": "ar",
       "_cat": "foss"
     },
