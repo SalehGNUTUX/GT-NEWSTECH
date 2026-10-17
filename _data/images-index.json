@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-17T07:47:09.045Z",
+  "generated_at": "2026-10-17T08:26:46.757Z",
   "ar": [
+    {
+      "name": "artcraft-gnutux-ar.png",
+      "size": 455116,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792225590,
+      "path": "assets/images/ar/artcraft-gnutux-ar.png"
+    },
+    {
+      "name": "artcraft-gnutux-ar.webp",
+      "size": 190938,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792225590,
+      "path": "assets/images/ar/artcraft-gnutux-ar.webp"
+    },
     {
       "name": "audacity-4-future-open-source-audio-ar.png",
       "size": 430001,
@@ -1508,6 +1524,22 @@
   ],
   "en": [
     {
+      "name": "artcraft-gnutux-en.png",
+      "size": 457131,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792225590,
+      "path": "assets/images/en/artcraft-gnutux-en.png"
+    },
+    {
+      "name": "artcraft-gnutux-en.webp",
+      "size": 199932,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792225590,
+      "path": "assets/images/en/artcraft-gnutux-en.webp"
+    },
+    {
       "name": "audacity-4-future-open-source-audio-en.png",
       "size": 424273,
       "width": 1600,
@@ -2997,6 +3029,14 @@
     }
   ],
   "ar_map": {
+    "artcraft-gnutux-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "artcraft-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "audacity-4-future-open-source-audio-ar.png": {
       "w": 1600,
       "h": 800
@@ -3751,6 +3791,14 @@
     }
   },
   "en_map": {
+    "artcraft-gnutux-en.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "artcraft-gnutux-en.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "audacity-4-future-open-source-audio-en.png": {
       "w": 1600,
       "h": 800
@@ -4496,6 +4544,6 @@
       "h": 576
     }
   },
-  "count_ar": 188,
-  "count_en": 186
+  "count_ar": 190,
+  "count_en": 188
 }
