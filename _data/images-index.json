@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-09-28T18:16:08.256Z",
+  "generated_at": "2026-10-17T07:47:09.045Z",
   "ar": [
+    {
+      "name": "audacity-4-future-open-source-audio-ar.png",
+      "size": 430001,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792223214,
+      "path": "assets/images/ar/audacity-4-future-open-source-audio-ar.png"
+    },
+    {
+      "name": "audacity-4-future-open-source-audio-ar.webp",
+      "size": 162646,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792223214,
+      "path": "assets/images/ar/audacity-4-future-open-source-audio-ar.webp"
+    },
     {
       "name": "sixteen-years-of-libreoffice-gnutux-ar.png",
       "size": 408519,
@@ -1492,6 +1508,22 @@
   ],
   "en": [
     {
+      "name": "audacity-4-future-open-source-audio-en.png",
+      "size": 424273,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792223214,
+      "path": "assets/images/en/audacity-4-future-open-source-audio-en.png"
+    },
+    {
+      "name": "audacity-4-future-open-source-audio-en.webp",
+      "size": 172204,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792223214,
+      "path": "assets/images/en/audacity-4-future-open-source-audio-en.webp"
+    },
+    {
       "name": "sixteen-years-of-libreoffice-gnutux-en.png",
       "size": 410835,
       "width": 1600,
@@ -2965,6 +2997,14 @@
     }
   ],
   "ar_map": {
+    "audacity-4-future-open-source-audio-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "audacity-4-future-open-source-audio-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "sixteen-years-of-libreoffice-gnutux-ar.png": {
       "w": 1600,
       "h": 800
@@ -3711,6 +3751,14 @@
     }
   },
   "en_map": {
+    "audacity-4-future-open-source-audio-en.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "audacity-4-future-open-source-audio-en.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "sixteen-years-of-libreoffice-gnutux-en.png": {
       "w": 1600,
       "h": 800
@@ -4448,6 +4496,6 @@
       "h": 576
     }
   },
-  "count_ar": 186,
-  "count_en": 184
+  "count_ar": 188,
+  "count_en": 186
 }
