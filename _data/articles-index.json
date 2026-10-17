@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-09-28T18:16:12.409Z",
-  "count": 204,
+  "generated_at": "2026-10-17T07:47:12.601Z",
+  "count": 206,
   "by_lang": {
-    "ar": 102,
-    "en": 102
+    "ar": 103,
+    "en": 103
   },
   "articles": [
+    {
+      "title": "Audacity 4: أكبر تحديث في تاريخ محرر الصوت مفتوح المصدر الأشهر",
+      "slug": "audacity-4-release",
+      "date": "2026-10-17T06:46:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "أصدر فريق Audacity الإصدار الرابع، وهو أكبر تحديث في تاريخ البرنامج منذ 26 عاماً. ينتقل التطبيق إلى واجهة مبنية على Qt6، ويقدم نموذج تحرير غير مدمر للمقاطع، ومساحات عمل قابلة للتخصيص، وصيغة مشروع جديدة .aup4، مع دعم أوسع للمكونات الإضافية.",
+      "image": "https://www.audacityteam.org/wp-content/uploads/2026/09/audacity-4-hero.png",
+      "tags": [
+        "Audacity",
+        "محرر صوت",
+        "مفتوح المصدر",
+        "Qt6",
+        "تحرير غير مدمر",
+        "Muse Group",
+        "GPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-17-audacity-4-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Audacity 4: The Biggest Update in the History of the Beloved Open Source Audio Editor",
+      "slug": "audacity-4-release",
+      "date": "2026-10-11T06:45:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "The Audacity team has released version 4, the biggest update in the program's 26-year history. The application moves to a Qt6-based interface, introduces non-destructive clip editing, customizable workspaces, a new .aup4 project format, and broader plugin support.",
+      "image": "audacity-4-future-open-source-audio-en.png",
+      "tags": [
+        "Audacity",
+        "Audio Editor",
+        "Open Source",
+        "Qt6",
+        "Non-Destructive Editing",
+        "Muse Group",
+        "GPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-11-audacity-4-release.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Sixteen Years of LibreOffice: Independence, ODF, and Digital Sovereignty",
       "slug": "sixteen-years-of-libreoffice",
