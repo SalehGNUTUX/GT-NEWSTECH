@@ -1,11 +1,65 @@
 {
-  "generated_at": "2026-10-17T09:01:15.527Z",
-  "count": 210,
+  "generated_at": "2026-10-18T07:46:37.860Z",
+  "count": 212,
   "by_lang": {
-    "ar": 105,
-    "en": 105
+    "ar": 106,
+    "en": 106
   },
   "articles": [
+    {
+      "title": "REA: An Open Source Bridge Giving AI Agents the Power of Reverse Engineering",
+      "slug": "rea-reverse-engineer-anything-agents",
+      "date": "2026-10-18T06:45:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "REA (Reverse Engineer Anything) is an open source (MIT) project that connects coding agents like Claude Code and Cursor to professional reverse engineering tools (Ghidra, Hopper, IDA) via the MCP protocol. It allows users to ask their agent in natural language how any feature in a closed-source application works, so the agent analyzes it and reconstructs it with evidence.",
+      "image": "rea-reverse-engineer-anything-agents-gnutux-en.png",
+      "tags": [
+        "REA",
+        "Reverse Engineering",
+        "AI Agents",
+        "MCP",
+        "Ghidra",
+        "Hopper",
+        "IDA",
+        "Software Security"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-18-rea-reverse-engineer-anything-agents.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "REA: جسر مفتوح المصدر يمنح وكلاء الذكاء الاصطناعي القدرة على الهندسة العكسية لأي برنامج",
+      "slug": "rea-reverse-engineer-anything-agents",
+      "date": "2026-10-18T06:43:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "REA (Reverse Engineer Anything) هو مشروع مفتوح المصدر (MIT) يربط وكلاء البرمجة مثل Claude Code و Cursor بأدوات الهندسة العكسية الاحترافية (Ghidra, Hopper, IDA) عبر بروتوكول MCP. يتيح للمستخدم سؤال الوكيل بلغة طبيعية عن كيفية عمل أي ميزة في برنامج مغلق المصدر، ليقوم الوكيل بتحليلها وإعادة بنائها مع تقديم الأدلة.",
+      "image": "rea-reverse-engineer-anything-agents-gnutux-ar.png",
+      "tags": [
+        "REA",
+        "هندسة عكسية",
+        "وكلاء ذكاء اصطناعي",
+        "MCP",
+        "Ghidra",
+        "Hopper",
+        "IDA",
+        "أمن برمجيات"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-18-rea-reverse-engineer-anything-agents.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "Winux: A Linux Distro with a Windows 11 Look — Between Easy Transition and the Question of Trust",
       "slug": "winux-linux-windows-clone-review",
