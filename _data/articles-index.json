@@ -1,11 +1,65 @@
 {
-  "generated_at": "2026-10-18T07:46:37.860Z",
-  "count": 212,
+  "generated_at": "2026-10-18T08:26:38.010Z",
+  "count": 214,
   "by_lang": {
-    "ar": 106,
-    "en": 106
+    "ar": 107,
+    "en": 107
   },
   "articles": [
+    {
+      "title": "VoiceStudio: The Fully Local, Open Source Alternative to ElevenLabs for Voice Generation",
+      "slug": "voicestudio-local-elevenlabs-alternative",
+      "date": "2026-10-18T07:23:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "VoiceStudio is an open source (AGPL-3.0) alternative to ElevenLabs that runs entirely on your machine without the need for cloud services or API keys. It offers voice cloning, voice design, video dubbing, dictation, transcription, and audiobook creation in 646 languages, with 16 TTS engines and 11 ASR engines.",
+      "image": "voicestudio-gnutux-en.png",
+      "tags": [
+        "VoiceStudio",
+        "ElevenLabs",
+        "Voice Cloning",
+        "TTS",
+        "ASR",
+        "Open Source",
+        "Privacy",
+        "Local AI"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-18-voicestudio-local-elevenlabs-alternative.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "VoiceStudio: بديل ElevenLabs مفتوح المصدر بالكامل ومحلي لصناعة الصوت",
+      "slug": "voicestudio-local-elevenlabs-alternative",
+      "date": "2026-10-18T07:22:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "VoiceStudio هو بديل مفتوح المصدر (AGPL-3.0) لـ ElevenLabs، يعمل بالكامل على جهازك دون الحاجة إلى سحابة أو مفاتيح API. يقدم استنساخ الصوت، وتصميم الأصوات، ودبلجة الفيديو، والإملاء، والنسخ، وصناعة الكتب الصوتية بـ 646 لغة، مع 16 محرك TTS و11 محرك ASR.",
+      "image": "voicestudio-gnutux-ar.png",
+      "tags": [
+        "VoiceStudio",
+        "ElevenLabs",
+        "استنساخ الصوت",
+        "TTS",
+        "ASR",
+        "مفتوح المصدر",
+        "خصوصية",
+        "ذكاء اصطناعي محلي"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-18-voicestudio-local-elevenlabs-alternative.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "REA: An Open Source Bridge Giving AI Agents the Power of Reverse Engineering",
       "slug": "rea-reverse-engineer-anything-agents",
