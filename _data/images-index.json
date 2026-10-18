@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-18T07:46:39.808Z",
+  "generated_at": "2026-10-18T08:26:37.880Z",
   "ar": [
+    {
+      "name": "voicestudio-gnutux-ar.png",
+      "size": 451566,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792311980,
+      "path": "assets/images/ar/voicestudio-gnutux-ar.png"
+    },
+    {
+      "name": "voicestudio-gnutux-ar.webp",
+      "size": 155918,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792311980,
+      "path": "assets/images/ar/voicestudio-gnutux-ar.webp"
+    },
     {
       "name": "rea-reverse-engineer-anything-agents-gnutux-ar.png",
       "size": 465953,
@@ -1556,6 +1572,22 @@
   ],
   "en": [
     {
+      "name": "voicestudio-gnutux-en.png",
+      "size": 463461,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792311980,
+      "path": "assets/images/en/voicestudio-gnutux-en.png"
+    },
+    {
+      "name": "voicestudio-gnutux-en.webp",
+      "size": 174676,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1792311980,
+      "path": "assets/images/en/voicestudio-gnutux-en.webp"
+    },
+    {
       "name": "rea-reverse-engineer-anything-agents-gnutux-en.png",
       "size": 473668,
       "width": 1600,
@@ -3093,6 +3125,14 @@
     }
   ],
   "ar_map": {
+    "voicestudio-gnutux-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "voicestudio-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "rea-reverse-engineer-anything-agents-gnutux-ar.png": {
       "w": 1600,
       "h": 800
@@ -3871,6 +3911,14 @@
     }
   },
   "en_map": {
+    "voicestudio-gnutux-en.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "voicestudio-gnutux-en.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "rea-reverse-engineer-anything-agents-gnutux-en.png": {
       "w": 1600,
       "h": 800
@@ -4640,6 +4688,6 @@
       "h": 576
     }
   },
-  "count_ar": 194,
-  "count_en": 192
+  "count_ar": 196,
+  "count_en": 194
 }
