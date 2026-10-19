@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-18T08:26:37.880Z",
+  "generated_at": "2026-10-19T07:51:46.425Z",
   "ar": [
+    {
+      "name": "friction-gnutux-ar.png",
+      "size": 504992,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792396283,
+      "path": "assets/images/ar/friction-gnutux-ar.png"
+    },
+    {
+      "name": "friction-gnutux-ar.webp",
+      "size": 204772,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792396283,
+      "path": "assets/images/ar/friction-gnutux-ar.webp"
+    },
     {
       "name": "voicestudio-gnutux-ar.png",
       "size": 451566,
@@ -1572,6 +1588,22 @@
   ],
   "en": [
     {
+      "name": "friction-gnutux-en.png",
+      "size": 504701,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792396283,
+      "path": "assets/images/en/friction-gnutux-en.png"
+    },
+    {
+      "name": "friction-gnutux-en.webp",
+      "size": 217116,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792396283,
+      "path": "assets/images/en/friction-gnutux-en.webp"
+    },
+    {
       "name": "voicestudio-gnutux-en.png",
       "size": 463461,
       "width": 1600,
@@ -3125,6 +3157,14 @@
     }
   ],
   "ar_map": {
+    "friction-gnutux-ar.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "friction-gnutux-ar.webp": {
+      "w": 1536,
+      "h": 1024
+    },
     "voicestudio-gnutux-ar.png": {
       "w": 1600,
       "h": 800
@@ -3911,6 +3951,14 @@
     }
   },
   "en_map": {
+    "friction-gnutux-en.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "friction-gnutux-en.webp": {
+      "w": 1536,
+      "h": 1024
+    },
     "voicestudio-gnutux-en.png": {
       "w": 1600,
       "h": 800
@@ -4688,6 +4736,6 @@
       "h": 576
     }
   },
-  "count_ar": 196,
-  "count_en": 194
+  "count_ar": 198,
+  "count_en": 196
 }
