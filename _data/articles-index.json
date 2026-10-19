@@ -1,11 +1,67 @@
 {
-  "generated_at": "2026-10-18T08:26:38.010Z",
-  "count": 214,
+  "generated_at": "2026-10-19T07:51:44.645Z",
+  "count": 216,
   "by_lang": {
-    "ar": 107,
-    "en": 107
+    "ar": 108,
+    "en": 108
   },
   "articles": [
+    {
+      "title": "Friction: An Open Source Motion Graphics Application Offering a Real Alternative to After Effects",
+      "slug": "friction-motion-graphics-editor",
+      "date": "2026-10-19T06:50:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Friction is an open source (GPL-3.0) motion graphics application that lets you create vector and raster animations for the web and video. Built on Qt, Skia, and FFmpeg, it features multi-scene editing, an ECMAScript expression editor, and SVG export via the SMIL standard. It is a real alternative to Adobe After Effects, with a clear stance against AI-generated code.",
+      "image": "friction-gnutux-en.png",
+      "tags": [
+        "Friction",
+        "Motion Graphics",
+        "After Effects",
+        "SVG",
+        "SMIL",
+        "C++",
+        "Qt",
+        "Skia",
+        "GPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-19-friction-motion-graphics-editor.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "Friction: برنامج موشن جرافيك مفتوح المصدر يقدم بديلاً لـ After Effects",
+      "slug": "friction-motion-graphics-editor",
+      "date": "2026-10-19T06:48:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Friction هو تطبيق موشن جرافيك مفتوح المصدر (GPL-3.0) يسمح بإنشاء رسوم متحركة متجهية ونقطية للويب والفيديو. يعتمد على Qt و Skia و FFmpeg، ويقدم تحريراً متعدد المشاهد، محرر تعبيرات ECMAScript، وتصدير رسوم SVG متحركة عبر معيار SMIL. يعد بديلاً حقيقياً لـ Adobe After Effects، مع موقف واضح ضد استخدام الذكاء الاصطناعي التوليدي في الكود.",
+      "image": "friction-gnutux-ar.png",
+      "tags": [
+        "Friction",
+        "موشن جرافيك",
+        "After Effects",
+        "SVG",
+        "SMIL",
+        "C++",
+        "Qt",
+        "Skia",
+        "GPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-19-friction-motion-graphics-editor.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "VoiceStudio: The Fully Local, Open Source Alternative to ElevenLabs for Voice Generation",
       "slug": "voicestudio-local-elevenlabs-alternative",
