@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-10-19T07:51:44.645Z",
-  "count": 216,
+  "generated_at": "2026-10-20T12:43:34.679Z",
+  "count": 218,
   "by_lang": {
-    "ar": 108,
-    "en": 108
+    "ar": 109,
+    "en": 109
   },
   "articles": [
+    {
+      "title": "الفرق بين رخص البرمجيات الحرة ومفتوحة المصدر: دليل عملي للمطورين",
+      "slug": "free-vs-open-source-licenses-guide",
+      "date": "2026-10-20T11:42:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "الفرق الجوهري بين رخص MIT وApache وGPL وAGPL ليس في كونها مفتوحة المصدر أم لا، بل في ما تسمح به وما تلزم به عند إعادة التوزيع أو التعديل. دليل شامل يشرح الفروق بين البرمجيات الحرة ومفتوحة المصدر، ويقدم نصائح عملية لاختيار الرخصة المناسبة لمشروعك.",
+      "image": "foss-licenses-gnutux-ar.png",
+      "tags": [
+        "رخص برمجية",
+        "MIT",
+        "Apache",
+        "GPL",
+        "AGPL",
+        "برمجيات حرة",
+        "مفتوح المصدر",
+        "OSI",
+        "FSF"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-20-free-vs-open-source-licenses-guide.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "The Difference Between Free Software and Open Source Licenses: A Practical Guide for Developers",
+      "slug": "free-vs-open-source-licenses-guide",
+      "date": "2026-10-20T11:42:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "The core difference between MIT, Apache, GPL, and AGPL licenses is not whether they are open source, but what they allow you to do and what they require when you redistribute, modify, or embed the code. A comprehensive guide explaining the differences between free and open source software and offering practical advice for choosing the right license.",
+      "image": "foss-licenses-gnutux-en.png",
+      "tags": [
+        "Software Licenses",
+        "MIT",
+        "Apache",
+        "GPL",
+        "AGPL",
+        "Free Software",
+        "Open Source",
+        "OSI",
+        "FSF"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-20-free-vs-open-source-licenses-guide.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Friction: An Open Source Motion Graphics Application Offering a Real Alternative to After Effects",
       "slug": "friction-motion-graphics-editor",
