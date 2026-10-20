@@ -1,11 +1,65 @@
 {
-  "generated_at": "2026-10-20T12:43:34.679Z",
-  "count": 218,
+  "generated_at": "2026-10-20T13:13:07.931Z",
+  "count": 220,
   "by_lang": {
-    "ar": 109,
-    "en": 109
+    "ar": 110,
+    "en": 110
   },
   "articles": [
+    {
+      "title": "The Ultimate Guide: How to Set Up Your Linux Distro for Gaming on Steam and Beyond",
+      "slug": "ultimate-linux-gaming-setup-steam",
+      "date": "2026-10-20T12:11:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "gaming"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Linux has become a true gaming platform. This guide explains the ideal way to set up your distribution for gaming, from Steam and Proton components, through third-party game managers like Lutris and Heroic, to essential performance tuning with GameMode and MangoHud.",
+      "image": "steamos-gnutux-en.png",
+      "tags": [
+        "Linux Gaming",
+        "Steam",
+        "SteamOS",
+        "Proton",
+        "Lutris",
+        "Heroic",
+        "Flatpak",
+        "Vulkan"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-20-ultimate-linux-gaming-setup-steam.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "دليل شامل: كيف تجهز توزيعتك للألعاب على منصة ستيم وخارجها",
+      "slug": "ultimate-linux-gaming-setup-steam",
+      "date": "2026-10-20T12:10:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "gaming"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "لينكس أصبح منصة ألعاب حقيقية. هذا الدليل يشرح الطريقة المثالية لإعداد توزيعتك للألعاب، بدءاً من مكونات Steam وProton، مروراً بأدوات إدارة الألعاب الخارجية مثل Lutris وHeroic، وصولاً إلى تحسينات الأداء الأساسية مثل GameMode وMangoHud.",
+      "image": "steamos-gnutux-ar.png",
+      "tags": [
+        "ألعاب لينكس",
+        "Steam",
+        "SteamOS",
+        "Proton",
+        "Lutris",
+        "Heroic",
+        "Flatpak",
+        "Vulkan"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-20-ultimate-linux-gaming-setup-steam.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "الفرق بين رخص البرمجيات الحرة ومفتوحة المصدر: دليل عملي للمطورين",
       "slug": "free-vs-open-source-licenses-guide",
