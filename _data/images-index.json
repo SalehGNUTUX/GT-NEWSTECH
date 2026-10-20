@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-20T12:43:34.749Z",
+  "generated_at": "2026-10-20T13:13:10.916Z",
   "ar": [
+    {
+      "name": "steamos-gnutux-ar.png",
+      "size": 526640,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792501969,
+      "path": "assets/images/ar/steamos-gnutux-ar.png"
+    },
+    {
+      "name": "steamos-gnutux-ar.webp",
+      "size": 202664,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792501969,
+      "path": "assets/images/ar/steamos-gnutux-ar.webp"
+    },
     {
       "name": "foss-licenses-gnutux-ar.png",
       "size": 464014,
@@ -1604,6 +1620,22 @@
   ],
   "en": [
     {
+      "name": "steamos-gnutux-en.png",
+      "size": 516794,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792501969,
+      "path": "assets/images/en/steamos-gnutux-en.png"
+    },
+    {
+      "name": "steamos-gnutux-en.webp",
+      "size": 225348,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792501969,
+      "path": "assets/images/en/steamos-gnutux-en.webp"
+    },
+    {
       "name": "foss-licenses-gnutux-en.png",
       "size": 453920,
       "width": 1536,
@@ -3189,6 +3221,14 @@
     }
   ],
   "ar_map": {
+    "steamos-gnutux-ar.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "steamos-gnutux-ar.webp": {
+      "w": 1536,
+      "h": 1024
+    },
     "foss-licenses-gnutux-ar.png": {
       "w": 1536,
       "h": 1024
@@ -3991,6 +4031,14 @@
     }
   },
   "en_map": {
+    "steamos-gnutux-en.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "steamos-gnutux-en.webp": {
+      "w": 1536,
+      "h": 1024
+    },
     "foss-licenses-gnutux-en.png": {
       "w": 1536,
       "h": 1024
@@ -4784,6 +4832,6 @@
       "h": 576
     }
   },
-  "count_ar": 200,
-  "count_en": 198
+  "count_ar": 202,
+  "count_en": 200
 }
