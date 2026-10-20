@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-19T07:51:46.425Z",
+  "generated_at": "2026-10-20T12:43:34.749Z",
   "ar": [
+    {
+      "name": "foss-licenses-gnutux-ar.png",
+      "size": 464014,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792500194,
+      "path": "assets/images/ar/foss-licenses-gnutux-ar.png"
+    },
+    {
+      "name": "foss-licenses-gnutux-ar.webp",
+      "size": 194042,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792500194,
+      "path": "assets/images/ar/foss-licenses-gnutux-ar.webp"
+    },
     {
       "name": "friction-gnutux-ar.png",
       "size": 504992,
@@ -1588,6 +1604,22 @@
   ],
   "en": [
     {
+      "name": "foss-licenses-gnutux-en.png",
+      "size": 453920,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792500194,
+      "path": "assets/images/en/foss-licenses-gnutux-en.png"
+    },
+    {
+      "name": "foss-licenses-gnutux-en.webp",
+      "size": 176986,
+      "width": 1536,
+      "height": 1024,
+      "last_modified_ts": 1792500194,
+      "path": "assets/images/en/foss-licenses-gnutux-en.webp"
+    },
+    {
       "name": "friction-gnutux-en.png",
       "size": 504701,
       "width": 1536,
@@ -3157,6 +3189,14 @@
     }
   ],
   "ar_map": {
+    "foss-licenses-gnutux-ar.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "foss-licenses-gnutux-ar.webp": {
+      "w": 1536,
+      "h": 1024
+    },
     "friction-gnutux-ar.png": {
       "w": 1536,
       "h": 1024
@@ -3951,6 +3991,14 @@
     }
   },
   "en_map": {
+    "foss-licenses-gnutux-en.png": {
+      "w": 1536,
+      "h": 1024
+    },
+    "foss-licenses-gnutux-en.webp": {
+      "w": 1536,
+      "h": 1024
+    },
     "friction-gnutux-en.png": {
       "w": 1536,
       "h": 1024
@@ -4736,6 +4784,6 @@
       "h": 576
     }
   },
-  "count_ar": 198,
-  "count_en": 196
+  "count_ar": 200,
+  "count_en": 198
 }
