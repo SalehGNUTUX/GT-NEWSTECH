@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-10-21T10:51:11.544Z",
+  "generated_at": "2026-10-21T11:17:13.781Z",
   "ar": [
     {
       "name": "alif-gnutux-ar.jpg",
-      "size": 191916,
+      "size": 181614,
       "width": 1376,
       "height": 768,
-      "last_modified_ts": 1792579854,
+      "last_modified_ts": 1792581415,
       "path": "assets/images/ar/alif-gnutux-ar.jpg"
     },
     {
       "name": "alif-gnutux-ar.webp",
-      "size": 139016,
+      "size": 129912,
       "width": 1376,
       "height": 768,
-      "last_modified_ts": 1792579854,
+      "last_modified_ts": 1792581415,
       "path": "assets/images/ar/alif-gnutux-ar.webp"
     },
     {
@@ -1669,18 +1669,18 @@
   "en": [
     {
       "name": "alif-gnutux-en.jpg",
-      "size": 208741,
+      "size": 194984,
       "width": 1376,
       "height": 768,
-      "last_modified_ts": 1792579854,
+      "last_modified_ts": 1792581415,
       "path": "assets/images/en/alif-gnutux-en.jpg"
     },
     {
       "name": "alif-gnutux-en.webp",
-      "size": 155540,
+      "size": 142530,
       "width": 1376,
       "height": 768,
-      "last_modified_ts": 1792579854,
+      "last_modified_ts": 1792581415,
       "path": "assets/images/en/alif-gnutux-en.webp"
     },
     {
