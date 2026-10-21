@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-20T13:13:10.916Z",
+  "generated_at": "2026-10-21T08:41:55.398Z",
   "ar": [
+    {
+      "name": "anduinos-gnutux-ar.png",
+      "size": 463834,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1792572095,
+      "path": "assets/images/ar/anduinos-gnutux-ar.png"
+    },
+    {
+      "name": "anduinos-gnutux-ar.webp",
+      "size": 185448,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1792572095,
+      "path": "assets/images/ar/anduinos-gnutux-ar.webp"
+    },
     {
       "name": "steamos-gnutux-ar.png",
       "size": 526640,
@@ -1620,6 +1636,22 @@
   ],
   "en": [
     {
+      "name": "anduinos-gnutux-en.png",
+      "size": 450414,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1792572095,
+      "path": "assets/images/en/anduinos-gnutux-en.png"
+    },
+    {
+      "name": "anduinos-gnutux-en.webp",
+      "size": 183940,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1792572095,
+      "path": "assets/images/en/anduinos-gnutux-en.webp"
+    },
+    {
       "name": "steamos-gnutux-en.png",
       "size": 516794,
       "width": 1536,
@@ -3221,6 +3253,14 @@
     }
   ],
   "ar_map": {
+    "anduinos-gnutux-ar.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "anduinos-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 900
+    },
     "steamos-gnutux-ar.png": {
       "w": 1536,
       "h": 1024
@@ -4031,6 +4071,14 @@
     }
   },
   "en_map": {
+    "anduinos-gnutux-en.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "anduinos-gnutux-en.webp": {
+      "w": 1600,
+      "h": 900
+    },
     "steamos-gnutux-en.png": {
       "w": 1536,
       "h": 1024
@@ -4832,6 +4880,6 @@
       "h": 576
     }
   },
-  "count_ar": 202,
-  "count_en": 200
+  "count_ar": 204,
+  "count_en": 202
 }
