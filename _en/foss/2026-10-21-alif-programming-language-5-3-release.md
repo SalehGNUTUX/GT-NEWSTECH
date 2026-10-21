@@ -3,7 +3,10 @@ layout: post
 title: >-
   Alif 5.3.0: A Release Marking the Maturity of the First True Arabic
   Programming Language
+slug: alif-programming-language-5-3-release
+lang: en
 category: foss
+date: 2026-10-21T08:50:00.000Z
 author: GNUTUX
 excerpt: >-
   The Alif community has announced version 5.3.0 of the Arabic programming
@@ -20,9 +23,6 @@ tags:
   - Alif Community
 also_in:
   - tech-news
-date: 2026-10-21T09:50:00.000Z
-lang: en
-slug: alif-programming-language-5-3-release
 ---
 
 ## Alif: When Arabic Leads the World of Programming

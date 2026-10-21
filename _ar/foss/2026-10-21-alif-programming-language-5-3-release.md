@@ -1,7 +1,10 @@
 ---
 layout: post
 title: 'لغة ألف 5.3.0: إصدار يعزز نضج أول لغة برمجة عربية حقيقية'
+slug: alif-programming-language-5-3-release
+lang: ar
 category: foss
+date: 2026-10-21T08:48:00.000Z
 author: GNUTUX
 excerpt: >-
   أعلن مجتمع ألف عن إصدار النسخة 5.3.0 من لغة البرمجة العربية ألف، والذي يركز
@@ -17,9 +20,6 @@ tags:
   - مجتمع ألف
 also_in:
   - tech-news
-date: 2026-10-21T09:48:00.000Z
-lang: ar
-slug: alif-programming-language-5-3-release
 ---
 
 ## لغة ألف: عندما تقود العربية عالم البرمجة
