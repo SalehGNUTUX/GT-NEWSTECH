@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-10-21T09:08:10.042Z",
-  "count": 224,
+  "generated_at": "2026-10-21T10:51:14.054Z",
+  "count": 226,
   "by_lang": {
-    "ar": 112,
-    "en": 112
+    "ar": 113,
+    "en": 113
   },
   "articles": [
+    {
+      "title": "Alif 5.3.0: A Release Marking the Maturity of the First True Arabic Programming Language",
+      "slug": "alif-programming-language-5-3-release",
+      "date": "2026-10-21T09:50:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The Alif community has announced version 5.3.0 of the Arabic programming language Alif, focusing on enhancing system stability and improving data processing efficiency, marking a new step in building an Arabic programming language that competes with global languages.",
+      "image": "alif-gnutux-en.jpg",
+      "tags": [
+        "Alif",
+        "Arabic Programming Language",
+        "Free Software",
+        "Interpreter",
+        "C++",
+        "Alif Community"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-21-alif-programming-language-5-3-release.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "لغة ألف 5.3.0: إصدار يعزز نضج أول لغة برمجة عربية حقيقية",
+      "slug": "alif-programming-language-5-3-release",
+      "date": "2026-10-21T09:48:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أعلن مجتمع ألف عن إصدار النسخة 5.3.0 من لغة البرمجة العربية ألف، والذي يركز على تعزيز استقرار النظام وتحسين كفاءة معالجة البيانات، ليكون خطوة جديدة في مسار بناء لغة برمجة عربية تنافس اللغات العالمية.",
+      "image": "alif-gnutux-ar.jpg",
+      "tags": [
+        "ألف",
+        "لغة برمجة عربية",
+        "برمجيات حرة",
+        "مفسر",
+        "C++",
+        "مجتمع ألف"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-21-alif-programming-language-5-3-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "SynthID: The Invisible Watermark That Reveals AI-Generated Content",
       "slug": "synthid-ai-watermark-detector",
