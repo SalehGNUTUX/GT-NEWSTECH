@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-10-20T13:13:07.931Z",
-  "count": 220,
+  "generated_at": "2026-10-21T08:41:55.124Z",
+  "count": 222,
   "by_lang": {
-    "ar": 110,
-    "en": 110
+    "ar": 111,
+    "en": 111
   },
   "articles": [
+    {
+      "title": "AnduinOS: A GNOME-Based Linux Distro That Mimics the Windows Experience for a Smooth Transition",
+      "slug": "anduinos-gnome-windows-experience",
+      "date": "2026-10-21T07:41:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "AnduinOS is an Ubuntu-based Linux distribution that uses the GNOME desktop environment with deep customizations to make it look and behave like Windows, easing the transition for users. It features a tiny ISO (2.38 GB), long-term support until 2031, no Snap by default, and full compatibility with Ubuntu packages.",
+      "image": "anduinos-gnutux-en.png",
+      "tags": [
+        "AnduinOS",
+        "GNOME",
+        "Ubuntu",
+        "Linux Distributions",
+        "Windows",
+        "Smooth Transition",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-21-anduinos-gnome-windows-experience.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "AnduinOS: توزيعة لينكس بواجهة GNOME تحاكي تجربة ويندوز للانتقال السلس",
+      "slug": "anduinos-gnome-windows-experience",
+      "date": "2026-10-21T07:40:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "AnduinOS هي توزيعة لينكس مبنية على Ubuntu، تستخدم بيئة سطح مكتب GNOME مع تخصيصات عميقة تجعلها تبدو وتتصرف مثل ويندوز، لتسهيل انتقال المستخدمين. تتميز بحجم ISO صغير (2.38 جيجابايت)، ودعم طويل الأمد حتى 2031، وعدم تضمين Snap، وتوافق كامل مع حزم Ubuntu.",
+      "image": "anduinos-gnutux-ar.png",
+      "tags": [
+        "AnduinOS",
+        "GNOME",
+        "Ubuntu",
+        "توزيعات لينكس",
+        "ويندوز",
+        "انتقال سلس",
+        "مفتوح المصدر"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-21-anduinos-gnome-windows-experience.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "The Ultimate Guide: How to Set Up Your Linux Distro for Gaming on Steam and Beyond",
       "slug": "ultimate-linux-gaming-setup-steam",
