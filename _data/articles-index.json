@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-10-21T08:41:55.124Z",
-  "count": 222,
+  "generated_at": "2026-10-21T09:08:10.042Z",
+  "count": 224,
   "by_lang": {
-    "ar": 111,
-    "en": 111
+    "ar": 112,
+    "en": 112
   },
   "articles": [
+    {
+      "title": "SynthID: The Invisible Watermark That Reveals AI-Generated Content",
+      "slug": "synthid-ai-watermark-detector",
+      "date": "2026-10-21T08:07:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "SynthID is a technology from Google DeepMind that embeds an imperceptible digital watermark into AI-generated images, audio, video, and text, which can be detected via the now publicly available SynthID Detector. The technology supports models from Google, OpenAI, NVIDIA, and Kakao, with Apple support coming soon.",
+      "image": "synthid-gnutux-en.png",
+      "tags": [
+        "SynthID",
+        "Artificial Intelligence",
+        "Watermark",
+        "Content Detection",
+        "Privacy",
+        "Google DeepMind",
+        "Information Security"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-21-synthid-ai-watermark-detector.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "SynthID: العلامة المائية الخفية التي تكشف المحتوى المولّد بالذكاء الاصطناعي",
+      "slug": "synthid-ai-watermark-detector",
+      "date": "2026-10-21T08:06:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "SynthID هي تقنية من Google DeepMind تدمج علامة مائية رقمية غير مرئية في الصور والصوت والفيديو والنصوص المولّدة بالذكاء الاصطناعي، ويمكن كشفها عبر أداة SynthID Detector المتاحة للجميع الآن. تدعم التقنية نماذج من Google وOpenAI وNVIDIA وKakao، مع دعم قادم من Apple.",
+      "image": "synthid-gnutux-ar.png",
+      "tags": [
+        "SynthID",
+        "ذكاء اصطناعي",
+        "علامة مائية",
+        "كشف المحتوى",
+        "خصوصية",
+        "Google DeepMind",
+        "أمان معلومات"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-21-synthid-ai-watermark-detector.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "AnduinOS: A GNOME-Based Linux Distro That Mimics the Windows Experience for a Smooth Transition",
       "slug": "anduinos-gnome-windows-experience",
