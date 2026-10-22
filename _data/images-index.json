@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-21T11:17:13.781Z",
+  "generated_at": "2026-10-22T08:23:18.691Z",
   "ar": [
+    {
+      "name": "claude-coding-assistant-gnutux-ar.png",
+      "size": 491257,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792657381,
+      "path": "assets/images/ar/claude-coding-assistant-gnutux-ar.png"
+    },
+    {
+      "name": "claude-coding-assistant-gnutux-ar.webp",
+      "size": 185040,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792657381,
+      "path": "assets/images/ar/claude-coding-assistant-gnutux-ar.webp"
+    },
     {
       "name": "alif-gnutux-ar.jpg",
       "size": 181614,
@@ -1668,6 +1684,22 @@
   ],
   "en": [
     {
+      "name": "claude-coding-assistant-gnutux-en.png",
+      "size": 504284,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792657381,
+      "path": "assets/images/en/claude-coding-assistant-gnutux-en.png"
+    },
+    {
+      "name": "claude-coding-assistant-gnutux-en.webp",
+      "size": 195342,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792657381,
+      "path": "assets/images/en/claude-coding-assistant-gnutux-en.webp"
+    },
+    {
       "name": "alif-gnutux-en.jpg",
       "size": 194984,
       "width": 1376,
@@ -3317,6 +3349,14 @@
     }
   ],
   "ar_map": {
+    "claude-coding-assistant-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "claude-coding-assistant-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "alif-gnutux-ar.jpg": {
       "w": 1376,
       "h": 768
@@ -4151,6 +4191,14 @@
     }
   },
   "en_map": {
+    "claude-coding-assistant-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "claude-coding-assistant-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "alif-gnutux-en.jpg": {
       "w": 1376,
       "h": 768
@@ -4976,6 +5024,6 @@
       "h": 576
     }
   },
-  "count_ar": 208,
-  "count_en": 206
+  "count_ar": 210,
+  "count_en": 208
 }
