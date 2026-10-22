@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-10-21T11:17:12.311Z",
-  "count": 226,
+  "generated_at": "2026-10-22T08:23:19.392Z",
+  "count": 228,
   "by_lang": {
-    "ar": 113,
-    "en": 113
+    "ar": 114,
+    "en": 114
   },
   "articles": [
+    {
+      "title": "The Hidden Arsenal of Claude Code: How to Turn Your Coding Assistant into a Partner That Understands You and Never Forgets",
+      "slug": "claude-code-plugins-omniroute-mem-headroom-observer",
+      "date": "2026-10-22T07:21:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Your coding assistant is powerful, but it forgets everything after each session, burns through your quota quickly, and re-reads the same logs. Discover four open source tools that address these fundamental problems: model routing, persistent memory, context compression, and task observation. Setup guide for all platforms.",
+      "image": "claude-coding-assistant-gnutux-en.png",
+      "tags": [
+        "Claude Code",
+        "Plugins",
+        "Memory",
+        "Model Routing",
+        "Token Compression",
+        "Automation",
+        "AI"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-22-claude-code-plugins-omniroute-mem-headroom-observer.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "الترسانة الخفية لكلود كود: كيف تحول مساعدك البرمجي إلى شريك يفهمك ولا ينساك؟",
+      "slug": "claude-code-plugins-omniroute-mem-headroom-observer",
+      "date": "2026-10-22T07:15:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "مساعدك البرمجي قوي، لكنه ينسى كل شيء بعد كل جلسة، ويستنزف حصتك بسرعة، ويعيد قراءة نفس السجلات. تعرف على أربع أدوات مفتوحة المصدر تعالج هذه المشاكل الجوهرية: التوجيه بين النماذج، الذاكرة الدائمة، ضغط السياق، ومراقبة المهام. دليل الإعداد لمختلف المنصات.",
+      "image": "claude-coding-assistant-gnutux-ar.png",
+      "tags": [
+        "Claude Code",
+        "إضافات",
+        "ذاكرة",
+        "توجيه نماذج",
+        "ضغط توكنات",
+        "أتمتة",
+        "ذكاء اصطناعي"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-22-claude-code-plugins-omniroute-mem-headroom-observer.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "Alif 5.3.0: A Release Marking the Maturity of the First True Arabic Programming Language",
       "slug": "alif-programming-language-5-3-release",
