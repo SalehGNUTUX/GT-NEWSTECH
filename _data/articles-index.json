@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-10-23T08:23:56.466Z",
-  "count": 234,
+  "generated_at": "2026-10-23T08:57:14.837Z",
+  "count": 236,
   "by_lang": {
-    "ar": 117,
-    "en": 117
+    "ar": 118,
+    "en": 118
   },
   "articles": [
+    {
+      "title": "Three Bridges to AI: Building Apps, Free Chat, and Website Generation",
+      "slug": "aibuilder-vibefree-8b-comparison",
+      "date": "2026-10-23T07:56:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Three platforms offer free or low-cost AI services: AIBuilder for unlimited app building, VibeFree for ad-supported chat, and 8B for website generation. We examine what each offers, its business model, and its reliability.",
+      "image": "aibuilder-vibefree-8b-comparison-gnutux-en.jpg",
+      "tags": [
+        "AIBuilder",
+        "VibeFree",
+        "8B",
+        "Artificial Intelligence",
+        "Free Tools",
+        "App Building",
+        "Chat"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-aibuilder-vibefree-8b-comparison.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "ثلاثة جسور نحو الذكاء الاصطناعي: بين بناء التطبيقات، المحادثة المجانية، وتوليد المواقع",
+      "slug": "aibuilder-vibefree-8b-comparison",
+      "date": "2026-10-23T07:55:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "ثلاث منصات تقدم خدمات ذكاء اصطناعي مجانية أو منخفضة التكلفة: AIBuilder لبناء التطبيقات بلا حدود، VibeFree للمحادثة المدعومة بالإعلانات، و8B لتوليد مواقع الويب. نستعرض ما تقدمه كل واحدة، نموذج عملها، ومدى موثوقيتها.",
+      "image": "aibuilder-vibefree-8b-comparison-gnutux-ar.jpg",
+      "tags": [
+        "AIBuilder",
+        "VibeFree",
+        "8B",
+        "ذكاء اصطناعي",
+        "أدوات مجانية",
+        "بناء تطبيقات",
+        "محادثة"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-aibuilder-vibefree-8b-comparison.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "ONLYOFFICE Desktop Editors 10.0: AI Becomes an Optional Module, Not a Mandatory One",
       "slug": "onlyoffice-desktop-10-release",
