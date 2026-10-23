@@ -1,11 +1,36 @@
 {
-  "generated_at": "2026-10-23T08:57:14.837Z",
-  "count": 236,
+  "generated_at": "2026-10-23T09:34:14.578Z",
+  "count": 238,
   "by_lang": {
-    "ar": 118,
-    "en": 118
+    "ar": 119,
+    "en": 119
   },
   "articles": [
+    {
+      "title": "Min: المتصفح البسيط الذي يضع التركيز والخصوصية فوق كل شيء",
+      "slug": "min-browser-minimalist-privacy",
+      "date": "2026-10-23T08:31:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Min هو متصفح ويب مفتوح المصدر خفيف وسريع، مصمم لتقليل التشتيت وحماية الخصوصية. يستخدم واجهة تبويبات ذكية تتلاشى عندما لا تستخدمها، ويدعم البحث النصي الكامل في الصفحات التي زرتها، مع حجب الإعلانات والمتتبعات. متاح لأنظمة لينكس وويندوز وماك.",
+      "image": "min-browser-minimalist-privacy-gnutux-ar.jpg",
+      "tags": [
+        "Min",
+        "متصفح",
+        "خصوصية",
+        "مفتوح المصدر",
+        "Electron",
+        "إنتاجية"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-min-browser-minimalist-privacy.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "Three Bridges to AI: Building Apps, Free Chat, and Website Generation",
       "slug": "aibuilder-vibefree-8b-comparison",
@@ -57,6 +82,31 @@
       "_file": "2026-10-23-aibuilder-vibefree-8b-comparison.md",
       "_lang": "ar",
       "_cat": "ai"
+    },
+    {
+      "title": "Min: The Minimalist Browser That Puts Focus and Privacy Above Everything",
+      "slug": "min-browser-minimalist-privacy",
+      "date": "2026-10-23T07:32:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Min is an open source, lightweight, and fast web browser designed to reduce distractions and protect privacy. It uses a smart tab interface that fades when you don't use it, supports full-text search across pages you've visited, and blocks ads and trackers. Available for Linux, Windows, and macOS.",
+      "image": "min-browser-minimalist-privacy-gnutux-en.jpg",
+      "tags": [
+        "Min",
+        "Browser",
+        "Privacy",
+        "Open Source",
+        "Electron",
+        "Productivity"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-min-browser-minimalist-privacy.md",
+      "_lang": "en",
+      "_cat": "foss"
     },
     {
       "title": "ONLYOFFICE Desktop Editors 10.0: AI Becomes an Optional Module, Not a Mandatory One",
