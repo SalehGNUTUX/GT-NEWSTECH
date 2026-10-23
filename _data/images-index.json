@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-23T08:23:53.787Z",
+  "generated_at": "2026-10-23T08:57:12.065Z",
   "ar": [
+    {
+      "name": "aibuilder-vibefree-8b-comparison-gnutux-ar.jpg",
+      "size": 224023,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792745817,
+      "path": "assets/images/ar/aibuilder-vibefree-8b-comparison-gnutux-ar.jpg"
+    },
+    {
+      "name": "aibuilder-vibefree-8b-comparison-gnutux-ar.webp",
+      "size": 175676,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792745817,
+      "path": "assets/images/ar/aibuilder-vibefree-8b-comparison-gnutux-ar.webp"
+    },
     {
       "name": "onlyoffice-desktop-editors-10-gnutux-ar.png",
       "size": 475255,
@@ -1732,6 +1748,22 @@
   ],
   "en": [
     {
+      "name": "aibuilder-vibefree-8b-comparison-gnutux-en.jpg",
+      "size": 237036,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792745817,
+      "path": "assets/images/en/aibuilder-vibefree-8b-comparison-gnutux-en.jpg"
+    },
+    {
+      "name": "aibuilder-vibefree-8b-comparison-gnutux-en.webp",
+      "size": 189024,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792745817,
+      "path": "assets/images/en/aibuilder-vibefree-8b-comparison-gnutux-en.webp"
+    },
+    {
       "name": "onlyoffice-desktop-editors-10-gnutux-en.jpg",
       "size": 200763,
       "width": 1376,
@@ -3445,6 +3477,14 @@
     }
   ],
   "ar_map": {
+    "aibuilder-vibefree-8b-comparison-gnutux-ar.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "aibuilder-vibefree-8b-comparison-gnutux-ar.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "onlyoffice-desktop-editors-10-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4311,6 +4351,14 @@
     }
   },
   "en_map": {
+    "aibuilder-vibefree-8b-comparison-gnutux-en.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "aibuilder-vibefree-8b-comparison-gnutux-en.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "onlyoffice-desktop-editors-10-gnutux-en.jpg": {
       "w": 1376,
       "h": 768
@@ -5168,6 +5216,6 @@
       "h": 576
     }
   },
-  "count_ar": 216,
-  "count_en": 214
+  "count_ar": 218,
+  "count_en": 216
 }
