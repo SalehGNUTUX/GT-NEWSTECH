@@ -1,11 +1,65 @@
 {
-  "generated_at": "2026-10-23T07:44:40.205Z",
-  "count": 230,
+  "generated_at": "2026-10-23T08:05:08.017Z",
+  "count": 232,
   "by_lang": {
-    "ar": 115,
-    "en": 115
+    "ar": 116,
+    "en": 116
   },
   "articles": [
+    {
+      "title": "Dux Labs: The Desktop Suite That Turns Raw Wayland into a Complete Work Environment",
+      "slug": "dux-shell-wayland-desktop-suite",
+      "date": "2026-10-23T07:04:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "DankMaterialShell has become Dux Shell with the release of DMS 2.0, bringing a complete desktop suite including a shell, file manager, calendar, and system monitor, designed to run on Niri, Hyprland, Sway, and other Wayland compositors. Learn about its components, installation, and who it's for.",
+      "image": "duxlabs-gnutux-en.png",
+      "tags": [
+        "Dux Labs",
+        "Dux Shell",
+        "Wayland",
+        "Niri",
+        "Hyprland",
+        "Desktop Environment",
+        "Quickshell",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-dux-shell-wayland-desktop-suite.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Dux Labs: طقم سطح المكتب الذي يحول Wayland الخام إلى بيئة عمل متكاملة",
+      "slug": "dux-shell-wayland-desktop-suite",
+      "date": "2026-10-23T07:03:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "تحول DankMaterialShell إلى Dux Shell مع إصدار DMS 2.0، حاملاً معه طقماً متكاملاً من سطح المكتب، مدير ملفات، تقويم، ومراقب نظام، ليعمل فوق Niri وHyprland وSway وغيرها من مُركّبات Wayland. تعرف على المكونات، طريقة التثبيت، ومن يناسبها.",
+      "image": "duxlabs-gnutux-ar.png",
+      "tags": [
+        "Dux Labs",
+        "Dux Shell",
+        "Wayland",
+        "Niri",
+        "Hyprland",
+        "سطح مكتب",
+        "Quickshell",
+        "مفتوح المصدر"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-dux-shell-wayland-desktop-suite.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "من جملة واحدة إلى وكيل يعمل نيابة عنك: كيف تختبر أقوى منصات أتمتة الذكاء الاصطناعي دون كتابة كود؟",
       "slug": "creao-ai-no-code-agent-builder",
