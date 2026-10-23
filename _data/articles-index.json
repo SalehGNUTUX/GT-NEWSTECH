@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-10-22T08:23:19.392Z",
-  "count": 228,
+  "generated_at": "2026-10-23T07:44:40.205Z",
+  "count": 230,
   "by_lang": {
-    "ar": 114,
-    "en": 114
+    "ar": 115,
+    "en": 115
   },
   "articles": [
+    {
+      "title": "من جملة واحدة إلى وكيل يعمل نيابة عنك: كيف تختبر أقوى منصات أتمتة الذكاء الاصطناعي دون كتابة كود؟",
+      "slug": "creao-ai-no-code-agent-builder",
+      "date": "2026-10-23T06:43:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Creao AI منصة أتمتة سير عمل بالذكاء الاصطناعي تتيح لك وصف المهام المتكررة بلغة طبيعية، لتبني وكيلاً ينفذها نيابة عنك في أدواتك اليومية مثل Gmail وSlack وGoogle Sheets. تعرف على طريقة عملها، خططها، وحدودها، وكيف تبدأ مجاناً دون بطاقة ائتمان.",
+      "image": "creao.ai-gnutux-ar.png",
+      "tags": [
+        "Creao AI",
+        "أتمتة",
+        "وكلاء ذكاء اصطناعي",
+        "No-Code",
+        "إنتاجية",
+        "أتمتة سير العمل"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-creao-ai-no-code-agent-builder.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
+    {
+      "title": "From One Sentence to an Agent Working on Your Behalf: How to Test a Powerful AI Automation Platform Without Writing Code",
+      "slug": "creao-ai-no-code-agent-builder",
+      "date": "2026-10-23T06:43:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "Creao AI is an AI-powered workflow automation platform that lets you describe repetitive tasks in natural language, building an agent to execute them in your daily tools like Gmail, Slack, and Google Sheets. Learn how it works, its pricing, its limits, and how to start for free without a credit card.",
+      "image": "creao.ai-gnutux-en.png",
+      "tags": [
+        "Creao AI",
+        "Automation",
+        "AI Agents",
+        "No-Code",
+        "Productivity",
+        "Workflow Automation"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-creao-ai-no-code-agent-builder.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
     {
       "title": "The Hidden Arsenal of Claude Code: How to Turn Your Coding Assistant into a Partner That Understands You and Never Forgets",
       "slug": "claude-code-plugins-omniroute-mem-headroom-observer",
