@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-23T08:57:12.065Z",
+  "generated_at": "2026-10-23T09:34:13.401Z",
   "ar": [
+    {
+      "name": "min-browser-minimalist-privacy-gnutux-ar.jpg",
+      "size": 175047,
+      "width": 1358,
+      "height": 784,
+      "last_modified_ts": 1792748036,
+      "path": "assets/images/ar/min-browser-minimalist-privacy-gnutux-ar.jpg"
+    },
+    {
+      "name": "min-browser-minimalist-privacy-gnutux-ar.webp",
+      "size": 123250,
+      "width": 1358,
+      "height": 784,
+      "last_modified_ts": 1792748036,
+      "path": "assets/images/ar/min-browser-minimalist-privacy-gnutux-ar.webp"
+    },
     {
       "name": "aibuilder-vibefree-8b-comparison-gnutux-ar.jpg",
       "size": 224023,
@@ -1748,6 +1764,22 @@
   ],
   "en": [
     {
+      "name": "min-browser-minimalist-privacy-gnutux-en.jpg",
+      "size": 184983,
+      "width": 1358,
+      "height": 784,
+      "last_modified_ts": 1792748036,
+      "path": "assets/images/en/min-browser-minimalist-privacy-gnutux-en.jpg"
+    },
+    {
+      "name": "min-browser-minimalist-privacy-gnutux-en.webp",
+      "size": 133396,
+      "width": 1358,
+      "height": 784,
+      "last_modified_ts": 1792748036,
+      "path": "assets/images/en/min-browser-minimalist-privacy-gnutux-en.webp"
+    },
+    {
       "name": "aibuilder-vibefree-8b-comparison-gnutux-en.jpg",
       "size": 237036,
       "width": 1376,
@@ -3477,6 +3509,14 @@
     }
   ],
   "ar_map": {
+    "min-browser-minimalist-privacy-gnutux-ar.jpg": {
+      "w": 1358,
+      "h": 784
+    },
+    "min-browser-minimalist-privacy-gnutux-ar.webp": {
+      "w": 1358,
+      "h": 784
+    },
     "aibuilder-vibefree-8b-comparison-gnutux-ar.jpg": {
       "w": 1376,
       "h": 768
@@ -4351,6 +4391,14 @@
     }
   },
   "en_map": {
+    "min-browser-minimalist-privacy-gnutux-en.jpg": {
+      "w": 1358,
+      "h": 784
+    },
+    "min-browser-minimalist-privacy-gnutux-en.webp": {
+      "w": 1358,
+      "h": 784
+    },
     "aibuilder-vibefree-8b-comparison-gnutux-en.jpg": {
       "w": 1376,
       "h": 768
@@ -5216,6 +5264,6 @@
       "h": 576
     }
   },
-  "count_ar": 218,
-  "count_en": 216
+  "count_ar": 220,
+  "count_en": 218
 }
