@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-23T07:44:37.696Z",
+  "generated_at": "2026-10-23T08:05:01.113Z",
   "ar": [
+    {
+      "name": "duxlabs-gnutux-ar.png",
+      "size": 498651,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792742684,
+      "path": "assets/images/ar/duxlabs-gnutux-ar.png"
+    },
+    {
+      "name": "duxlabs-gnutux-ar.webp",
+      "size": 170608,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792742684,
+      "path": "assets/images/ar/duxlabs-gnutux-ar.webp"
+    },
     {
       "name": "creao.ai-gnutux-ar.png",
       "size": 472274,
@@ -1700,6 +1716,22 @@
   ],
   "en": [
     {
+      "name": "duxlabs-gnutux-en.png",
+      "size": 515027,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792742684,
+      "path": "assets/images/en/duxlabs-gnutux-en.png"
+    },
+    {
+      "name": "duxlabs-gnutux-en.webp",
+      "size": 188776,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792742684,
+      "path": "assets/images/en/duxlabs-gnutux-en.webp"
+    },
+    {
       "name": "creao.ai-gnutux-en.png",
       "size": 479893,
       "width": 1600,
@@ -3381,6 +3413,14 @@
     }
   ],
   "ar_map": {
+    "duxlabs-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "duxlabs-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "creao.ai-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4231,6 +4271,14 @@
     }
   },
   "en_map": {
+    "duxlabs-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "duxlabs-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "creao.ai-gnutux-en.png": {
       "w": 1600,
       "h": 924
@@ -5072,6 +5120,6 @@
       "h": 576
     }
   },
-  "count_ar": 212,
-  "count_en": 210
+  "count_ar": 214,
+  "count_en": 212
 }
