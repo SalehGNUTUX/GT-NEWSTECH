@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-23T08:05:01.113Z",
+  "generated_at": "2026-10-23T08:23:53.787Z",
   "ar": [
+    {
+      "name": "onlyoffice-desktop-editors-10-gnutux-ar.png",
+      "size": 475255,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792743816,
+      "path": "assets/images/ar/onlyoffice-desktop-editors-10-gnutux-ar.png"
+    },
+    {
+      "name": "onlyoffice-desktop-editors-10-gnutux-ar.webp",
+      "size": 173358,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792743816,
+      "path": "assets/images/ar/onlyoffice-desktop-editors-10-gnutux-ar.webp"
+    },
     {
       "name": "duxlabs-gnutux-ar.png",
       "size": 498651,
@@ -1716,6 +1732,22 @@
   ],
   "en": [
     {
+      "name": "onlyoffice-desktop-editors-10-gnutux-en.jpg",
+      "size": 200763,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792743816,
+      "path": "assets/images/en/onlyoffice-desktop-editors-10-gnutux-en.jpg"
+    },
+    {
+      "name": "onlyoffice-desktop-editors-10-gnutux-en.webp",
+      "size": 144972,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792743816,
+      "path": "assets/images/en/onlyoffice-desktop-editors-10-gnutux-en.webp"
+    },
+    {
       "name": "duxlabs-gnutux-en.png",
       "size": 515027,
       "width": 1600,
@@ -3413,6 +3445,14 @@
     }
   ],
   "ar_map": {
+    "onlyoffice-desktop-editors-10-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "onlyoffice-desktop-editors-10-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "duxlabs-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4271,6 +4311,14 @@
     }
   },
   "en_map": {
+    "onlyoffice-desktop-editors-10-gnutux-en.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "onlyoffice-desktop-editors-10-gnutux-en.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "duxlabs-gnutux-en.png": {
       "w": 1600,
       "h": 924
@@ -5120,6 +5168,6 @@
       "h": 576
     }
   },
-  "count_ar": 214,
-  "count_en": 212
+  "count_ar": 216,
+  "count_en": 214
 }
