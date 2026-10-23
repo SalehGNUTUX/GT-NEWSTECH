@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-10-23T08:05:08.017Z",
-  "count": 232,
+  "generated_at": "2026-10-23T08:23:56.466Z",
+  "count": 234,
   "by_lang": {
-    "ar": 116,
-    "en": 116
+    "ar": 117,
+    "en": 117
   },
   "articles": [
+    {
+      "title": "ONLYOFFICE Desktop Editors 10.0: AI Becomes an Optional Module, Not a Mandatory One",
+      "slug": "onlyoffice-desktop-10-release",
+      "date": "2026-10-23T07:23:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "ONLYOFFICE has released version 10.0 of its desktop editors, a major update that redefines its relationship with AI: instead of forcing it, AI is now an optional module that can be installed and removed. The release also adds a new start window, Odoo support, PDF editing improvements, and platform enhancements for Windows, Linux, and macOS.",
+      "image": "onlyoffice-desktop-editors-10-gnutux-en.jpg",
+      "tags": [
+        "ONLYOFFICE",
+        "Office Suite",
+        "Artificial Intelligence",
+        "PDF",
+        "Odoo",
+        "Open Source",
+        "AGPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-onlyoffice-desktop-10-release.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "ONLYOFFICE Desktop Editors 10.0: الذكاء الاصطناعي يصبح وحدة اختيارية لا إجبارية",
+      "slug": "onlyoffice-desktop-10-release",
+      "date": "2026-10-23T07:22:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أصدرت ONLYOFFICE الإصدار 10.0 من تطبيقات سطح المكتب، وهو تحديث جوهري يعيد تعريف العلاقة مع الذكاء الاصطناعي: بدلاً من دمجه إجبارياً، أصبح وحدة اختيارية قابلة للتثبيت والإزالة. يضيف الإصدار أيضاً واجهة بدء جديدة، ودعم Odoo، وتحسينات في تحرير PDF، وتحسينات لويندوز ولينكس وماك.",
+      "image": "onlyoffice-desktop-editors-10-gnutux-ar.png",
+      "tags": [
+        "ONLYOFFICE",
+        "حزمة مكتبية",
+        "ذكاء اصطناعي",
+        "PDF",
+        "Odoo",
+        "مفتوح المصدر",
+        "AGPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-23-onlyoffice-desktop-10-release.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "Dux Labs: The Desktop Suite That Turns Raw Wayland into a Complete Work Environment",
       "slug": "dux-shell-wayland-desktop-suite",
