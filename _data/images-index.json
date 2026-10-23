@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-22T08:23:18.691Z",
+  "generated_at": "2026-10-23T07:44:37.696Z",
   "ar": [
+    {
+      "name": "creao.ai-gnutux-ar.png",
+      "size": 472274,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792741462,
+      "path": "assets/images/ar/creao.ai-gnutux-ar.png"
+    },
+    {
+      "name": "creao.ai-gnutux-ar.webp",
+      "size": 193432,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792741462,
+      "path": "assets/images/ar/creao.ai-gnutux-ar.webp"
+    },
     {
       "name": "claude-coding-assistant-gnutux-ar.png",
       "size": 491257,
@@ -1684,6 +1700,22 @@
   ],
   "en": [
     {
+      "name": "creao.ai-gnutux-en.png",
+      "size": 479893,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792741462,
+      "path": "assets/images/en/creao.ai-gnutux-en.png"
+    },
+    {
+      "name": "creao.ai-gnutux-en.webp",
+      "size": 197764,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1792741462,
+      "path": "assets/images/en/creao.ai-gnutux-en.webp"
+    },
+    {
       "name": "claude-coding-assistant-gnutux-en.png",
       "size": 504284,
       "width": 1600,
@@ -3349,6 +3381,14 @@
     }
   ],
   "ar_map": {
+    "creao.ai-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "creao.ai-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "claude-coding-assistant-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4191,6 +4231,14 @@
     }
   },
   "en_map": {
+    "creao.ai-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "creao.ai-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "claude-coding-assistant-gnutux-en.png": {
       "w": 1600,
       "h": 924
@@ -5024,6 +5072,6 @@
       "h": 576
     }
   },
-  "count_ar": 210,
-  "count_en": 208
+  "count_ar": 212,
+  "count_en": 210
 }
