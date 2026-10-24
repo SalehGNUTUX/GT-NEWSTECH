@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-23T09:34:13.401Z",
+  "generated_at": "2026-10-24T09:08:59.631Z",
   "ar": [
+    {
+      "name": "ubuntu-derivatives-why-leave-gnutux-ar.jpg",
+      "size": 203131,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792832923,
+      "path": "assets/images/ar/ubuntu-derivatives-why-leave-gnutux-ar.jpg"
+    },
+    {
+      "name": "ubuntu-derivatives-why-leave-gnutux-ar.webp",
+      "size": 146686,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792832923,
+      "path": "assets/images/ar/ubuntu-derivatives-why-leave-gnutux-ar.webp"
+    },
     {
       "name": "min-browser-minimalist-privacy-gnutux-ar.jpg",
       "size": 175047,
@@ -1764,6 +1780,22 @@
   ],
   "en": [
     {
+      "name": "ubuntu-derivatives-why-leave-gnutux-en.jpg",
+      "size": 205613,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792832923,
+      "path": "assets/images/en/ubuntu-derivatives-why-leave-gnutux-en.jpg"
+    },
+    {
+      "name": "ubuntu-derivatives-why-leave-gnutux-en.webp",
+      "size": 151496,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1792832923,
+      "path": "assets/images/en/ubuntu-derivatives-why-leave-gnutux-en.webp"
+    },
+    {
       "name": "min-browser-minimalist-privacy-gnutux-en.jpg",
       "size": 184983,
       "width": 1358,
@@ -3509,6 +3541,14 @@
     }
   ],
   "ar_map": {
+    "ubuntu-derivatives-why-leave-gnutux-ar.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "ubuntu-derivatives-why-leave-gnutux-ar.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "min-browser-minimalist-privacy-gnutux-ar.jpg": {
       "w": 1358,
       "h": 784
@@ -4391,6 +4431,14 @@
     }
   },
   "en_map": {
+    "ubuntu-derivatives-why-leave-gnutux-en.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "ubuntu-derivatives-why-leave-gnutux-en.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "min-browser-minimalist-privacy-gnutux-en.jpg": {
       "w": 1358,
       "h": 784
@@ -5264,6 +5312,6 @@
       "h": 576
     }
   },
-  "count_ar": 220,
-  "count_en": 218
+  "count_ar": 222,
+  "count_en": 220
 }
