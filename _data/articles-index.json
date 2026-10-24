@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-10-23T09:34:14.578Z",
-  "count": 238,
+  "generated_at": "2026-10-24T09:09:04.380Z",
+  "count": 240,
   "by_lang": {
-    "ar": 119,
-    "en": 119
+    "ar": 120,
+    "en": 120
   },
   "articles": [
+    {
+      "title": "Distros Born from Ubuntu... But Defying Some of Its Policies. Why?",
+      "slug": "ubuntu-derivatives-why-leave",
+      "date": "2026-10-24T08:08:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Ubuntu is the starting point for many, but a growing segment of users is looking for alternatives. Discover the real reasons behind the exodus from Ubuntu, how derivative distributions like Linux Mint, Pop!_OS, and Zorin OS address these points, with official download links.",
+      "image": "ubuntu-derivatives-why-leave-gnutux-en.jpg",
+      "tags": [
+        "Ubuntu",
+        "Linux Mint",
+        "Pop!_OS",
+        "Zorin OS",
+        "elementary OS",
+        "Kubuntu",
+        "Linux Distributions"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-24-ubuntu-derivatives-why-leave.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "توزيعات خرجت من رحم أبونتو... لكنها تخالف بعض سياساتها. لماذا؟",
+      "slug": "ubuntu-derivatives-why-leave",
+      "date": "2026-10-24T08:07:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "أبونتو هي نقطة الانطلاق الأولى لكثيرين، لكن شريحة متزايدة من المستخدمين تبحث عن بدائل. تعرف على الأسباب الحقيقية وراء الهروب من أبونتو، وكيف تعالج التوزيعات المشتقة مثل Linux Mint و Pop!_OS و Zorin OS هذه النقاط، مع روابط التحميل الرسمية.",
+      "image": "ubuntu-derivatives-why-leave-gnutux-ar.jpg",
+      "tags": [
+        "أبونتو",
+        "Linux Mint",
+        "Pop!_OS",
+        "Zorin OS",
+        "elementary OS",
+        "Kubuntu",
+        "توزيعات لينكس"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-24-ubuntu-derivatives-why-leave.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "Min: المتصفح البسيط الذي يضع التركيز والخصوصية فوق كل شيء",
       "slug": "min-browser-minimalist-privacy",
