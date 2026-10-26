@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-24T09:08:59.631Z",
+  "generated_at": "2026-10-26T21:56:25.095Z",
   "ar": [
+    {
+      "name": "ubuntu-26-10-release-gnome-51-rust-gnutux-ar.png",
+      "size": 466604,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793051766,
+      "path": "assets/images/ar/ubuntu-26-10-release-gnome-51-rust-gnutux-ar.png"
+    },
+    {
+      "name": "ubuntu-26-10-release-gnome-51-rust-gnutux-ar.webp",
+      "size": 157994,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793051766,
+      "path": "assets/images/ar/ubuntu-26-10-release-gnome-51-rust-gnutux-ar.webp"
+    },
     {
       "name": "ubuntu-derivatives-why-leave-gnutux-ar.jpg",
       "size": 203131,
@@ -1780,6 +1796,22 @@
   ],
   "en": [
     {
+      "name": "ubuntu-26-10-release-gnome-51-rust-gnutux-en.png",
+      "size": 457303,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793051766,
+      "path": "assets/images/en/ubuntu-26-10-release-gnome-51-rust-gnutux-en.png"
+    },
+    {
+      "name": "ubuntu-26-10-release-gnome-51-rust-gnutux-en.webp",
+      "size": 170794,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793051766,
+      "path": "assets/images/en/ubuntu-26-10-release-gnome-51-rust-gnutux-en.webp"
+    },
+    {
       "name": "ubuntu-derivatives-why-leave-gnutux-en.jpg",
       "size": 205613,
       "width": 1376,
@@ -3541,6 +3573,14 @@
     }
   ],
   "ar_map": {
+    "ubuntu-26-10-release-gnome-51-rust-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "ubuntu-26-10-release-gnome-51-rust-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "ubuntu-derivatives-why-leave-gnutux-ar.jpg": {
       "w": 1376,
       "h": 768
@@ -4431,6 +4471,14 @@
     }
   },
   "en_map": {
+    "ubuntu-26-10-release-gnome-51-rust-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "ubuntu-26-10-release-gnome-51-rust-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "ubuntu-derivatives-why-leave-gnutux-en.jpg": {
       "w": 1376,
       "h": 768
@@ -5312,6 +5360,6 @@
       "h": 576
     }
   },
-  "count_ar": 222,
-  "count_en": 220
+  "count_ar": 224,
+  "count_en": 222
 }
