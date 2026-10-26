@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-10-26T21:40:53.474Z",
-  "count": 240,
+  "generated_at": "2026-10-26T21:56:24.396Z",
+  "count": 242,
   "by_lang": {
-    "ar": 120,
-    "en": 120
+    "ar": 121,
+    "en": 121
   },
   "articles": [
+    {
+      "title": "أبونتو 26.10: نظرة على النسخة الجديدة، تحسينات واجهة GNOME 51، وميزات الرست (Rust)",
+      "slug": "ubuntu-26-10-release-gnome-51-rust",
+      "date": "2026-10-26T20:44:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أطلقت Canonical الإصدار الجديد المؤقت أبونتو 26.10 مع حزمة تحسينات تقنية بارزة تشمل بيئة GNOME 51، واجهة ترصيع النوافذ الجديدة، تحسين إدارة الذاكرة العشوائية (RAM)، والانتقال الكامل لأدوات النواة المكتوبة بلغة Rust.",
+      "image": "ubuntu-26-10-release-gnome-51-rust-gnutux-ar.png",
+      "tags": [
+        "أبونتو",
+        "Ubuntu 26.10",
+        "GNOME 51",
+        "لينكس",
+        "توزيعات لينكس",
+        "نواة لينكس",
+        "رستم"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-26-ubuntu-26-10-release-gnome-51-rust.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Ubuntu 26.10: A Deep Dive into the New Features, GNOME 51 Improvements, and Rustification",
+      "slug": "ubuntu-26-10-release-gnome-51-rust",
+      "date": "2026-10-26T19:54:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Canonical has officially released Ubuntu 26.10, featuring GNOME 51 desktop enhancements, a new window tiling layout manager, smarter Out-Of-Memory handling, and a core shift towards Rust-based system utilities.",
+      "image": "ubuntu-26-10-release-gnome-51-rust-gnutux-en.png",
+      "tags": [
+        "Ubuntu",
+        "Ubuntu 26.10",
+        "GNOME 51",
+        "Linux",
+        "Linux Distributions",
+        "Linux Kernel",
+        "Rust"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-26-ubuntu-26-10-release-gnome-51-rust.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
     {
       "title": "Distros Born from Ubuntu... But Defying Some of Its Policies. Why?",
       "slug": "ubuntu-derivatives-why-leave",
