@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-26T21:56:25.095Z",
+  "generated_at": "2026-10-27T13:37:14.765Z",
   "ar": [
+    {
+      "name": "apklayer-android-on-linux-gnutux-ar.png",
+      "size": 456737,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793108215,
+      "path": "assets/images/ar/apklayer-android-on-linux-gnutux-ar.png"
+    },
+    {
+      "name": "apklayer-android-on-linux-gnutux-ar.webp",
+      "size": 156160,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793108215,
+      "path": "assets/images/ar/apklayer-android-on-linux-gnutux-ar.webp"
+    },
     {
       "name": "ubuntu-26-10-release-gnome-51-rust-gnutux-ar.png",
       "size": 466604,
@@ -1796,6 +1812,22 @@
   ],
   "en": [
     {
+      "name": "apklayer-android-on-linux-gnutux-en.png",
+      "size": 470587,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793108215,
+      "path": "assets/images/en/apklayer-android-on-linux-gnutux-en.png"
+    },
+    {
+      "name": "apklayer-android-on-linux-gnutux-en.webp",
+      "size": 167318,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793108215,
+      "path": "assets/images/en/apklayer-android-on-linux-gnutux-en.webp"
+    },
+    {
       "name": "ubuntu-26-10-release-gnome-51-rust-gnutux-en.png",
       "size": 457303,
       "width": 1600,
@@ -3573,6 +3605,14 @@
     }
   ],
   "ar_map": {
+    "apklayer-android-on-linux-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "apklayer-android-on-linux-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "ubuntu-26-10-release-gnome-51-rust-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4471,6 +4511,14 @@
     }
   },
   "en_map": {
+    "apklayer-android-on-linux-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "apklayer-android-on-linux-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "ubuntu-26-10-release-gnome-51-rust-gnutux-en.png": {
       "w": 1600,
       "h": 924
@@ -5360,6 +5408,6 @@
       "h": 576
     }
   },
-  "count_ar": 224,
-  "count_en": 222
+  "count_ar": 226,
+  "count_en": 224
 }
