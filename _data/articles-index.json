@@ -1,11 +1,63 @@
 {
-  "generated_at": "2026-10-26T21:56:24.396Z",
-  "count": 242,
+  "generated_at": "2026-10-27T13:37:14.123Z",
+  "count": 244,
   "by_lang": {
-    "ar": 121,
-    "en": 121
+    "ar": 122,
+    "en": 122
   },
   "articles": [
+    {
+      "title": "APKLayer: Is This a Real Bridge for Running Android Apps on Linux?",
+      "slug": "apklayer-android-on-linux",
+      "date": "2026-10-27T12:36:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The APKLayer project aims to run Android apps on Linux, but what is its current level? Is it a serious project or just an experiment? An analytical look at progress, challenges, and future viability.",
+      "image": "apklayer-android-on-linux-gnutux-en.png",
+      "tags": [
+        "APKLayer",
+        "Android",
+        "Linux",
+        "Waydroid",
+        "Emulation",
+        "erfanoabdi",
+        "Applications"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-27-apklayer-android-on-linux.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
+    {
+      "title": "APKLayer: هل نحن أمام جسر حقيقي لتشغيل تطبيقات أندرويد على لينكس؟",
+      "slug": "apklayer-android-on-linux",
+      "date": "2026-10-27T12:35:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "مشروع APKLayer يهدف إلى تشغيل تطبيقات أندرويد على لينكس، لكن ما هو مستواه الحالي؟ وهل هو مشروع جدي أم مجرد تجربة؟ نظرة تحليلية على التقدم، التحديات، والواقعية المستقبلية.",
+      "image": "apklayer-android-on-linux-gnutux-ar.png",
+      "tags": [
+        "APKLayer",
+        "أندرويد",
+        "لينكس",
+        "Waydroid",
+        "محاكاة",
+        "erfanoabdi",
+        "تطبيقات"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-27-apklayer-android-on-linux.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
     {
       "title": "أبونتو 26.10: نظرة على النسخة الجديدة، تحسينات واجهة GNOME 51، وميزات الرست (Rust)",
       "slug": "ubuntu-26-10-release-gnome-51-rust",
