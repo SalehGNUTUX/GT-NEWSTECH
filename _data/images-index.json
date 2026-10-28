@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-28T08:33:04.893Z",
+  "generated_at": "2026-10-28T09:00:03.943Z",
   "ar": [
+    {
+      "name": "replica-skill-clone-apps-claude-gnutux-ar.png",
+      "size": 531501,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793177987,
+      "path": "assets/images/ar/replica-skill-clone-apps-claude-gnutux-ar.png"
+    },
+    {
+      "name": "replica-skill-clone-apps-claude-gnutux-ar.webp",
+      "size": 168136,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793177987,
+      "path": "assets/images/ar/replica-skill-clone-apps-claude-gnutux-ar.webp"
+    },
     {
       "name": "godmod3-gnutux-ar.png",
       "size": 539269,
@@ -1828,6 +1844,22 @@
   ],
   "en": [
     {
+      "name": "replica-skill-clone-apps-claude-gnutux-en.png",
+      "size": 566988,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793177987,
+      "path": "assets/images/en/replica-skill-clone-apps-claude-gnutux-en.png"
+    },
+    {
+      "name": "replica-skill-clone-apps-claude-gnutux-en.webp",
+      "size": 183216,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793177987,
+      "path": "assets/images/en/replica-skill-clone-apps-claude-gnutux-en.webp"
+    },
+    {
       "name": "godmod3-gnutux-en.png",
       "size": 542260,
       "width": 1600,
@@ -3637,6 +3669,14 @@
     }
   ],
   "ar_map": {
+    "replica-skill-clone-apps-claude-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "replica-skill-clone-apps-claude-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "godmod3-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4551,6 +4591,14 @@
     }
   },
   "en_map": {
+    "replica-skill-clone-apps-claude-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "replica-skill-clone-apps-claude-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "godmod3-gnutux-en.png": {
       "w": 1600,
       "h": 924
@@ -5456,6 +5504,6 @@
       "h": 576
     }
   },
-  "count_ar": 228,
-  "count_en": 226
+  "count_ar": 230,
+  "count_en": 228
 }
