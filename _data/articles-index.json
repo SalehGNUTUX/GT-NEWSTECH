@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-10-27T13:37:14.123Z",
-  "count": 244,
+  "generated_at": "2026-10-28T08:33:08.442Z",
+  "count": 246,
   "by_lang": {
-    "ar": 122,
-    "en": 122
+    "ar": 123,
+    "en": 123
   },
   "articles": [
+    {
+      "title": "G0DM0D3: A Multi-Model Workspace for Hackers and AI Security Researchers",
+      "slug": "godmod3-ai-multi-model-red-teaming",
+      "date": "2026-10-28T07:32:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "G0DM0D3 is an open source (AGPL-3.0) web application that allows querying over 50 AI models simultaneously, with advanced tools for security research and robustness testing. It runs via OpenRouter, stores your keys locally, and offers modes like ULTRAPLINIAN and Parseltongue for deep comparison and model evaluation.",
+      "image": "godmod3-gnutux-en.png",
+      "tags": [
+        "G0DM0D3",
+        "AI Security",
+        "Red Teaming",
+        "Multi-Model",
+        "OpenRouter",
+        "AGPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-godmod3-ai-multi-model-red-teaming.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "G0DM0D3: مساحة عمل متعددة النماذج لهواة الاختراق والباحثين في أمان الذكاء الاصطناعي",
+      "slug": "godmod3-ai-multi-model-red-teaming",
+      "date": "2026-10-28T07:31:00.000Z",
+      "category": "ai",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "G0DM0D3 هو تطبيق ويب مفتوح المصدر (AGPL-3.0) يتيح استعلام أكثر من 50 نموذج ذكاء اصطناعي في وقت واحد، مع أدوات متقدمة للبحث الأمني واختبار المتانة. يعمل عبر OpenRouter، ويخزن مفاتيحك محلياً، ويقدم أوضاعاً مثل ULTRAPLINIAN وParseltongue للمقارنة العميقة وتقييم النماذج.",
+      "image": "godmod3-gnutux-ar.png",
+      "tags": [
+        "G0DM0D3",
+        "أمان ذكاء اصطناعي",
+        "اختبار اختراق",
+        "نماذج متعددة",
+        "OpenRouter",
+        "AGPLv3"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-godmod3-ai-multi-model-red-teaming.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "APKLayer: Is This a Real Bridge for Running Android Apps on Linux?",
       "slug": "apklayer-android-on-linux",
