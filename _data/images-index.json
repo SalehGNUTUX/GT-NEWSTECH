@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-27T13:37:14.765Z",
+  "generated_at": "2026-10-28T08:33:04.893Z",
   "ar": [
+    {
+      "name": "godmod3-gnutux-ar.png",
+      "size": 539269,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793176367,
+      "path": "assets/images/ar/godmod3-gnutux-ar.png"
+    },
+    {
+      "name": "godmod3-gnutux-ar.webp",
+      "size": 161498,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793176367,
+      "path": "assets/images/ar/godmod3-gnutux-ar.webp"
+    },
     {
       "name": "apklayer-android-on-linux-gnutux-ar.png",
       "size": 456737,
@@ -1812,6 +1828,22 @@
   ],
   "en": [
     {
+      "name": "godmod3-gnutux-en.png",
+      "size": 542260,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793176367,
+      "path": "assets/images/en/godmod3-gnutux-en.png"
+    },
+    {
+      "name": "godmod3-gnutux-en.webp",
+      "size": 177414,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793176367,
+      "path": "assets/images/en/godmod3-gnutux-en.webp"
+    },
+    {
       "name": "apklayer-android-on-linux-gnutux-en.png",
       "size": 470587,
       "width": 1600,
@@ -3605,6 +3637,14 @@
     }
   ],
   "ar_map": {
+    "godmod3-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "godmod3-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "apklayer-android-on-linux-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4511,6 +4551,14 @@
     }
   },
   "en_map": {
+    "godmod3-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "godmod3-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "apklayer-android-on-linux-gnutux-en.png": {
       "w": 1600,
       "h": 924
@@ -5408,6 +5456,6 @@
       "h": 576
     }
   },
-  "count_ar": 226,
-  "count_en": 224
+  "count_ar": 228,
+  "count_en": 226
 }
