@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-10-28T08:33:08.442Z",
-  "count": 246,
+  "generated_at": "2026-10-28T09:00:06.071Z",
+  "count": 248,
   "by_lang": {
-    "ar": 123,
-    "en": 123
+    "ar": 124,
+    "en": 124
   },
   "articles": [
+    {
+      "title": "Replica Skill: Eleven Skills That Turn Claude into a Full Development Team for Cloning Any App",
+      "slug": "replica-skill-clone-apps-claude",
+      "date": "2026-10-28T07:59:00.000Z",
+      "category": "ai",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Replica Skill is a set of eleven free skills for Claude that let you reverse-engineer any app, rebuild its features, test it for bugs, then rebrand it and launch it. The project is open source (MIT) and works entirely offline.",
+      "image": "replica-skill-clone-apps-claude-gnutux-en.png",
+      "tags": [
+        "Replica Skill",
+        "Claude",
+        "Reverse Engineering",
+        "App Building",
+        "Automation",
+        "MIT",
+        "OpusJake"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-replica-skill-clone-apps-claude.md",
+      "_lang": "en",
+      "_cat": "ai"
+    },
+    {
+      "title": "Replica Skill: إحدى عشرة مهارة تحول Claude إلى فريق تطوير كامل لبناء نسخة من أي تطبيق",
+      "slug": "replica-skill-clone-apps-claude",
+      "date": "2026-10-28T07:56:00.000Z",
+      "category": "ai",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Replica Skill هي مجموعة من إحدى عشرة مهارة مجانية لـ Claude، تتيح لك هندسة أي تطبيق عكسياً، إعادة بناء ميزاته، اختباره بحثاً عن الأخطاء، ثم إعادة تسميته وبناء علامته التجارية ونشره. المشروع مفتوح المصدر (MIT) ويعمل دون اتصال شبكي.",
+      "image": "replica-skill-clone-apps-claude-gnutux-ar.png",
+      "tags": [
+        "Replica Skill",
+        "Claude",
+        "هندسة عكسية",
+        "بناء تطبيقات",
+        "أتمتة",
+        "MIT",
+        "OpusJake"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-replica-skill-clone-apps-claude.md",
+      "_lang": "ar",
+      "_cat": "ai"
+    },
     {
       "title": "G0DM0D3: A Multi-Model Workspace for Hackers and AI Security Researchers",
       "slug": "godmod3-ai-multi-model-red-teaming",
