@@ -1,11 +1,39 @@
 {
-  "generated_at": "2026-10-28T09:00:06.071Z",
-  "count": 248,
+  "generated_at": "2026-10-28T09:19:24.604Z",
+  "count": 250,
   "by_lang": {
-    "ar": 124,
-    "en": 124
+    "ar": 125,
+    "en": 125
   },
   "articles": [
+    {
+      "title": "PHP2Shell: The 'End of the World' Vulnerability in PHP and How Major Companies Moved to Contain the Disaster",
+      "slug": "php2shell-critical-vulnerability-response",
+      "date": "2026-10-28T08:18:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "On October 21, 2026, the PHP project disclosed PHP2Shell (CVE-2026-109618 and CVE-2026-109619), two critical flaws in the PHP core affecting every version since 5.4 and allowing unauthenticated remote code execution. Here is what happened and how major companies and distributions responded.",
+      "image": "php2shell-gnutux-en.jpg",
+      "tags": [
+        "PHP2Shell",
+        "Cybersecurity",
+        "PHP",
+        "Critical Vulnerabilities",
+        "RCE",
+        "Linux",
+        "Red Hat",
+        "Ubuntu",
+        "Cloudflare"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-php2shell-critical-vulnerability-response.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Replica Skill: Eleven Skills That Turn Claude into a Full Development Team for Cloning Any App",
       "slug": "replica-skill-clone-apps-claude",
@@ -103,6 +131,34 @@
       "_file": "2026-10-28-godmod3-ai-multi-model-red-teaming.md",
       "_lang": "ar",
       "_cat": "ai"
+    },
+    {
+      "title": "PHP2Shell: ثغرة «نهاية العالم» في PHP وكيف تحركت كبرى الشركات لاحتواء الكارثة",
+      "slug": "php2shell-critical-vulnerability-response",
+      "date": "2026-10-28T07:12:00.000Z",
+      "category": "foss",
+      "also_in": [
+        "tech-news"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "في 21 أكتوبر 2026، كشفت ثغرة PHP2Shell (CVE-2026-109618 و CVE-2026-109619) عن ثغرتين حرجتين في نواة PHP، تصيب كل الإصدارات منذ 5.4، وتسمح بتنفيذ أوامر عن بعد دون مصادقة. إليك ما حدث، وكيف استجابت كبرى الشركات والتوزيعات.",
+      "image": "php2shell-gnutux-ar.png",
+      "tags": [
+        "PHP2Shell",
+        "أمن سيبراني",
+        "PHP",
+        "ثغرات حرجة",
+        "RCE",
+        "Linux",
+        "Red Hat",
+        "Ubuntu",
+        "Cloudflare"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-php2shell-critical-vulnerability-response.md",
+      "_lang": "ar",
+      "_cat": "foss"
     },
     {
       "title": "APKLayer: Is This a Real Bridge for Running Android Apps on Linux?",
