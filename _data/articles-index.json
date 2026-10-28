@@ -1,11 +1,65 @@
 {
-  "generated_at": "2026-10-28T09:19:24.604Z",
-  "count": 250,
+  "generated_at": "2026-10-28T10:13:39.347Z",
+  "count": 252,
   "by_lang": {
-    "ar": 125,
-    "en": 125
+    "ar": 126,
+    "en": 126
   },
   "articles": [
+    {
+      "title": "Daemonarchy: عندما ينتقل Omarchy من لينكس إلى FreeBSD بمساعدة الذكاء الاصطناعي",
+      "slug": "daemonarchy-omarchy-freebsd",
+      "date": "2026-10-28T09:12:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "بعد نجاح Omarchy على Arch Linux، قرر أحد مؤسسي FreeBSD، جوردان هوبارد، نقل نفس التجربة إلى FreeBSD في مشروع أطلق عليه Daemonarchy. تعرف على المشروعين، الفروق بينهما، ما تم إنجازه، وما ينتظره المستخدمون.",
+      "image": "daemonarchy-omarchy-freebsd-gnutux-ar.jpg",
+      "tags": [
+        "Daemonarchy",
+        "Omarchy",
+        "FreeBSD",
+        "Hyprland",
+        "Jordan Hubbard",
+        "DHH",
+        "Wayland",
+        "BSD"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-daemonarchy-omarchy-freebsd.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Daemonarchy: When Omarchy Moves from Linux to FreeBSD with the Help of AI",
+      "slug": "daemonarchy-omarchy-freebsd",
+      "date": "2026-10-28T09:12:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "After Omarchy's success on Arch Linux, one of FreeBSD's founders, Jordan Hubbard, decided to bring the same experience to FreeBSD in a project called Daemonarchy. Learn about both projects, their differences, what has been accomplished, and what users can expect.",
+      "image": "daemonarchy-omarchy-freebsd-gnutux-en.jpg",
+      "tags": [
+        "Daemonarchy",
+        "Omarchy",
+        "FreeBSD",
+        "Hyprland",
+        "Jordan Hubbard",
+        "DHH",
+        "Wayland",
+        "BSD"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-daemonarchy-omarchy-freebsd.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
     {
       "title": "PHP2Shell: The 'End of the World' Vulnerability in PHP and How Major Companies Moved to Contain the Disaster",
       "slug": "php2shell-critical-vulnerability-response",
