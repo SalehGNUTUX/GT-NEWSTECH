@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-28T09:19:23.822Z",
+  "generated_at": "2026-10-28T10:13:35.607Z",
   "ar": [
+    {
+      "name": "daemonarchy-omarchy-freebsd-gnutux-ar.jpg",
+      "size": 232062,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1793182397,
+      "path": "assets/images/ar/daemonarchy-omarchy-freebsd-gnutux-ar.jpg"
+    },
+    {
+      "name": "daemonarchy-omarchy-freebsd-gnutux-ar.webp",
+      "size": 177598,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1793182397,
+      "path": "assets/images/ar/daemonarchy-omarchy-freebsd-gnutux-ar.webp"
+    },
     {
       "name": "php2shell-gnutux-ar.png",
       "size": 511827,
@@ -1860,6 +1876,22 @@
   ],
   "en": [
     {
+      "name": "daemonarchy-omarchy-freebsd-gnutux-en.jpg",
+      "size": 234792,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1793182397,
+      "path": "assets/images/en/daemonarchy-omarchy-freebsd-gnutux-en.jpg"
+    },
+    {
+      "name": "daemonarchy-omarchy-freebsd-gnutux-en.webp",
+      "size": 179564,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1793182397,
+      "path": "assets/images/en/daemonarchy-omarchy-freebsd-gnutux-en.webp"
+    },
+    {
       "name": "php2shell-gnutux-en.jpg",
       "size": 235677,
       "width": 1376,
@@ -3701,6 +3733,14 @@
     }
   ],
   "ar_map": {
+    "daemonarchy-omarchy-freebsd-gnutux-ar.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "daemonarchy-omarchy-freebsd-gnutux-ar.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "php2shell-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4631,6 +4671,14 @@
     }
   },
   "en_map": {
+    "daemonarchy-omarchy-freebsd-gnutux-en.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "daemonarchy-omarchy-freebsd-gnutux-en.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "php2shell-gnutux-en.jpg": {
       "w": 1376,
       "h": 768
@@ -5552,6 +5600,6 @@
       "h": 576
     }
   },
-  "count_ar": 232,
-  "count_en": 230
+  "count_ar": 234,
+  "count_en": 232
 }
