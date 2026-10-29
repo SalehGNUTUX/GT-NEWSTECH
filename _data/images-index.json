@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-28T10:13:35.607Z",
+  "generated_at": "2026-10-29T12:28:13.351Z",
   "ar": [
+    {
+      "name": "navaos-gnutux-ar.png",
+      "size": 494936,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793276875,
+      "path": "assets/images/ar/navaos-gnutux-ar.png"
+    },
+    {
+      "name": "navaos-gnutux-ar.webp",
+      "size": 154596,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793276875,
+      "path": "assets/images/ar/navaos-gnutux-ar.webp"
+    },
     {
       "name": "daemonarchy-omarchy-freebsd-gnutux-ar.jpg",
       "size": 232062,
@@ -1876,6 +1892,22 @@
   ],
   "en": [
     {
+      "name": "navaos-gnutux-en.png",
+      "size": 508131,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793276875,
+      "path": "assets/images/en/navaos-gnutux-en.png"
+    },
+    {
+      "name": "navaos-gnutux-en.webp",
+      "size": 173516,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793276875,
+      "path": "assets/images/en/navaos-gnutux-en.webp"
+    },
+    {
       "name": "daemonarchy-omarchy-freebsd-gnutux-en.jpg",
       "size": 234792,
       "width": 1376,
@@ -3733,6 +3765,14 @@
     }
   ],
   "ar_map": {
+    "navaos-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "navaos-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "daemonarchy-omarchy-freebsd-gnutux-ar.jpg": {
       "w": 1376,
       "h": 768
@@ -4671,6 +4711,14 @@
     }
   },
   "en_map": {
+    "navaos-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "navaos-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "daemonarchy-omarchy-freebsd-gnutux-en.jpg": {
       "w": 1376,
       "h": 768
@@ -5600,6 +5648,6 @@
       "h": 576
     }
   },
-  "count_ar": 234,
-  "count_en": 232
+  "count_ar": 236,
+  "count_en": 234
 }
