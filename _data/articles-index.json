@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-10-28T10:13:39.347Z",
-  "count": 252,
+  "generated_at": "2026-10-29T12:28:15.105Z",
+  "count": 254,
   "by_lang": {
-    "ar": 126,
-    "en": 126
+    "ar": 127,
+    "en": 127
   },
   "articles": [
+    {
+      "title": "Nava OS: نظام تشغيل مكتبي جديد من الصفر... البساطة، الزجاج السائل، والتحكم بلوحة المفاتيح",
+      "slug": "nava-os-upcoming-desktop-operating-system",
+      "date": "2026-10-29T11:24:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "بصفحة بيضاء بالكامل، يُطور نظام Nava OS كبيئة تشغيل مكتبية مستقلة ومن الصفر، مع نواة مخصصة، مركب Wayland خاص، وتصميم يجمع بين الهدوء، الزجاج السائل، واعتمادية لوحة المفاتيح.",
+      "image": "navaos-gnutux-ar.png",
+      "tags": [
+        "Nava OS",
+        "أنظمة تشغيل",
+        "لينكس",
+        "Wayland",
+        "تصميم",
+        "تخصيص",
+        "واجهات المستخدم"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-29-nava-os-upcoming-desktop-operating-system.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "Nava OS: A Brand New Desktop Operating System Built from Scratch... Simplicity, Liquid Glass, and Keyboard-Driven",
+      "slug": "nava-os-upcoming-desktop-operating-system",
+      "date": "2026-10-28T11:27:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Built on a blank canvas, Nava OS is an upcoming independent desktop operating system featuring a minimal custom kernel, a custom Wayland compositor, and a calm, glass-inspired, keyboard-centric interface set for 2027.",
+      "image": "navaos-gnutux-en.png",
+      "tags": [
+        "Nava OS",
+        "Operating Systems",
+        "Linux",
+        "Wayland",
+        "Design",
+        "Customization",
+        "UI"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-28-nava-os-upcoming-desktop-operating-system.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
     {
       "title": "Daemonarchy: عندما ينتقل Omarchy من لينكس إلى FreeBSD بمساعدة الذكاء الاصطناعي",
       "slug": "daemonarchy-omarchy-freebsd",
