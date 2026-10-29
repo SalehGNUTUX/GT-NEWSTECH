@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-10-29T12:28:15.105Z",
-  "count": 254,
+  "generated_at": "2026-10-29T12:33:13.497Z",
+  "count": 256,
   "by_lang": {
-    "ar": 127,
-    "en": 127
+    "ar": 128,
+    "en": 128
   },
   "articles": [
+    {
+      "title": "openSUSE: A Comprehensive Guide Between Leap's Stability and Tumbleweed's Continuous Updates",
+      "slug": "opensuse-leap-tumbleweed-guide",
+      "date": "2026-10-29T11:32:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "openSUSE is one of the oldest Linux distributions, offering two distinct tracks: the stable, long-support Leap, and the continuously updated rolling Tumbleweed. Learn about its history, the core differences between the two, and the upcoming Leap 16.1 release with its Immutable mode.",
+      "image": "opensuse-leap-tumbleweed-guide-gnutux-en.png",
+      "tags": [
+        "openSUSE",
+        "Leap",
+        "Tumbleweed",
+        "Linux",
+        "SUSE",
+        "Distributions",
+        "Btrfs",
+        "YaST"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-29-opensuse-leap-tumbleweed-guide.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "openSUSE: دليل شامل بين استقرار Leap وتحديثات Tumbleweed المستمرة",
+      "slug": "opensuse-leap-tumbleweed-guide",
+      "date": "2026-10-29T11:31:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "تعتبر openSUSE من أعرق توزيعات لينكس، وتقدم مسارين مختلفين: Leap المستقر طويل الدعم، وTumbleweed المتدحرج دائم التحديث. تعرف على تاريخ التوزيعة، الفروق الجوهرية بين النسختين، وجديد إصدار Leap 16.1 المرتقب مع ميزة النظام غير القابل للتغيير (Immutable).",
+      "image": "opensuse-leap-tumbleweed-guide-gnutux-ar.png",
+      "tags": [
+        "openSUSE",
+        "Leap",
+        "Tumbleweed",
+        "Linux",
+        "SUSE",
+        "توزيعات",
+        "Btrfs",
+        "YaST"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-29-opensuse-leap-tumbleweed-guide.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "Nava OS: نظام تشغيل مكتبي جديد من الصفر... البساطة، الزجاج السائل، والتحكم بلوحة المفاتيح",
       "slug": "nava-os-upcoming-desktop-operating-system",
