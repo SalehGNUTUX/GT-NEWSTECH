@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-29T12:28:13.351Z",
+  "generated_at": "2026-10-29T12:33:12.749Z",
   "ar": [
+    {
+      "name": "opensuse-leap-tumbleweed-guide-gnutux-ar.png",
+      "size": 488201,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793277174,
+      "path": "assets/images/ar/opensuse-leap-tumbleweed-guide-gnutux-ar.png"
+    },
+    {
+      "name": "opensuse-leap-tumbleweed-guide-gnutux-ar.webp",
+      "size": 163280,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793277174,
+      "path": "assets/images/ar/opensuse-leap-tumbleweed-guide-gnutux-ar.webp"
+    },
     {
       "name": "navaos-gnutux-ar.png",
       "size": 494936,
@@ -1892,6 +1908,22 @@
   ],
   "en": [
     {
+      "name": "opensuse-leap-tumbleweed-guide-gnutux-en.png",
+      "size": 490882,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793277174,
+      "path": "assets/images/en/opensuse-leap-tumbleweed-guide-gnutux-en.png"
+    },
+    {
+      "name": "opensuse-leap-tumbleweed-guide-gnutux-en.webp",
+      "size": 187362,
+      "width": 1600,
+      "height": 924,
+      "last_modified_ts": 1793277174,
+      "path": "assets/images/en/opensuse-leap-tumbleweed-guide-gnutux-en.webp"
+    },
+    {
       "name": "navaos-gnutux-en.png",
       "size": 508131,
       "width": 1600,
@@ -3765,6 +3797,14 @@
     }
   ],
   "ar_map": {
+    "opensuse-leap-tumbleweed-guide-gnutux-ar.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "opensuse-leap-tumbleweed-guide-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "navaos-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4711,6 +4751,14 @@
     }
   },
   "en_map": {
+    "opensuse-leap-tumbleweed-guide-gnutux-en.png": {
+      "w": 1600,
+      "h": 924
+    },
+    "opensuse-leap-tumbleweed-guide-gnutux-en.webp": {
+      "w": 1600,
+      "h": 924
+    },
     "navaos-gnutux-en.png": {
       "w": 1600,
       "h": 924
@@ -5648,6 +5696,6 @@
       "h": 576
     }
   },
-  "count_ar": 236,
-  "count_en": 234
+  "count_ar": 238,
+  "count_en": 236
 }
