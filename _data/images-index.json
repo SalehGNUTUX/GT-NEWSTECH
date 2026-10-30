@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-29T12:33:12.749Z",
+  "generated_at": "2026-10-30T07:45:59.980Z",
   "ar": [
+    {
+      "name": "gnome51-gnutux-ar.jpg",
+      "size": 213824,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1793346340,
+      "path": "assets/images/ar/gnome51-gnutux-ar.jpg"
+    },
+    {
+      "name": "gnome51-gnutux-ar.webp",
+      "size": 155464,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1793346340,
+      "path": "assets/images/ar/gnome51-gnutux-ar.webp"
+    },
     {
       "name": "opensuse-leap-tumbleweed-guide-gnutux-ar.png",
       "size": 488201,
@@ -1908,6 +1924,22 @@
   ],
   "en": [
     {
+      "name": "gnome51-gnutux-en.jpg",
+      "size": 214318,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1793346340,
+      "path": "assets/images/en/gnome51-gnutux-en.jpg"
+    },
+    {
+      "name": "gnome51-gnutux-en.webp",
+      "size": 158948,
+      "width": 1376,
+      "height": 768,
+      "last_modified_ts": 1793346340,
+      "path": "assets/images/en/gnome51-gnutux-en.webp"
+    },
+    {
       "name": "opensuse-leap-tumbleweed-guide-gnutux-en.png",
       "size": 490882,
       "width": 1600,
@@ -3797,6 +3829,14 @@
     }
   ],
   "ar_map": {
+    "gnome51-gnutux-ar.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "gnome51-gnutux-ar.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "opensuse-leap-tumbleweed-guide-gnutux-ar.png": {
       "w": 1600,
       "h": 924
@@ -4751,6 +4791,14 @@
     }
   },
   "en_map": {
+    "gnome51-gnutux-en.jpg": {
+      "w": 1376,
+      "h": 768
+    },
+    "gnome51-gnutux-en.webp": {
+      "w": 1376,
+      "h": 768
+    },
     "opensuse-leap-tumbleweed-guide-gnutux-en.png": {
       "w": 1600,
       "h": 924
@@ -5696,6 +5744,6 @@
       "h": 576
     }
   },
-  "count_ar": 238,
-  "count_en": 236
+  "count_ar": 240,
+  "count_en": 238
 }
