@@ -1,11 +1,62 @@
 {
-  "generated_at": "2026-10-30T07:46:00.315Z",
-  "count": 258,
+  "generated_at": "2026-10-30T08:08:57.159Z",
+  "count": 260,
   "by_lang": {
-    "ar": 129,
-    "en": 129
+    "ar": 130,
+    "en": 130
   },
   "articles": [
+    {
+      "title": "Official Release of GNOME 51: A Comprehensive Look at Key Features and New Improvements",
+      "slug": "GNOME-51-official-release-features",
+      "date": "2026-10-30T07:08:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The GNOME Project has officially released GNOME 51 'A Coruña', introducing widespread updates including offline maps support, refreshed core apps, a redesigned fingerprint workflow, and built-in PDF signatures.",
+      "image": "gnome51-gnutux-en.jpg",
+      "tags": [
+        "GNOME",
+        "GNOME 51",
+        "Linux",
+        "Desktop Environment",
+        "Wayland",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-30-GNOME-51-official-release-features.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "إطلاق بيئة سطح المكتب GNOME 51 رسمياً: نظرة شاملة على أبرز التحسينات والمميزات الجديدة",
+      "slug": "GNOME-51-official-release-features",
+      "date": "2026-10-30T06:06:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أعلن مشروع جنوم رسمياً عن إطلاق بيئة سطح المكتب المرتقبة GNOME 51 'A Coruña'، حاملاً معها تحسينات واسعة النطاق تشمل الخرائط غير المتصلة، تحديثات التطبيقات، إعداد البصمة المحسّن، ودعم التوقيع الرقمي.",
+      "image": "gnome51-gnutux-ar.jpg",
+      "tags": [
+        "GNOME",
+        "GNOME 51",
+        "Linux",
+        "Desktop Environment",
+        "Wayland",
+        "Open Source",
+        "لينكس"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-30-GNOME-51-official-release-features.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "openSUSE: A Comprehensive Guide Between Leap's Stability and Tumbleweed's Continuous Updates",
       "slug": "opensuse-leap-tumbleweed-guide",
