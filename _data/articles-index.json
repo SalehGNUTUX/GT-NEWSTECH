@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-29T12:33:13.497Z",
-  "count": 256,
+  "generated_at": "2026-10-30T07:46:00.315Z",
+  "count": 258,
   "by_lang": {
-    "ar": 128,
-    "en": 128
+    "ar": 129,
+    "en": 129
   },
   "articles": [
     {
@@ -1659,6 +1659,57 @@
       "_file": "2026-09-21-gnu-boot-joins-fsf.md",
       "_lang": "en",
       "_cat": "foss"
+    },
+    {
+      "title": "Official Release of GNOME 51: A Comprehensive Look at Key Features and New Improvements",
+      "slug": "GNOME-51-official-release-features",
+      "date": "2026-09-17T06:44:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "The GNOME Project has officially released GNOME 51 'A Coruña', introducing widespread updates including offline maps support, refreshed core apps, a redesigned fingerprint workflow, and built-in PDF signatures.",
+      "image": "gnome51-gnutux-en.jpg",
+      "tags": [
+        "GNOME",
+        "GNOME 51",
+        "Linux",
+        "Desktop Environment",
+        "Wayland",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-17-GNOME-51-official-release-features.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "إطلاق بيئة سطح المكتب GNOME 51 رسمياً: نظرة شاملة على أبرز التحسينات والمميزات الجديدة",
+      "slug": "GNOME-51-official-release-features",
+      "date": "2026-09-17T06:43:00.000Z",
+      "category": "gnulinux",
+      "also_in": [
+        "foss"
+      ],
+      "author": "GNUTUX",
+      "excerpt": "أعلن مشروع جنوم رسمياً عن إطلاق بيئة سطح المكتب المرتقبة GNOME 51 'A Coruña'، حاملاً معها تحسينات واسعة النطاق تشمل الخرائط غير المتصلة، تحديثات التطبيقات، إعداد البصمة المحسّن، ودعم التوقيع الرقمي.",
+      "image": "gnome51-gnutux-ar.jpg",
+      "tags": [
+        "GNOME",
+        "GNOME 51",
+        "Linux",
+        "Desktop Environment",
+        "Wayland",
+        "Open Source",
+        "لينكس"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-09-17-GNOME-51-official-release-features.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
     },
     {
       "title": "Scratch: لغة البرمجة المرئية للأطفال التي غيرت تعليم البرمجة حول العالم",
