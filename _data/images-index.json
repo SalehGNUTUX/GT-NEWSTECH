@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-11-01T11:40:33.342Z",
+  "generated_at": "2026-11-01T11:56:05.012Z",
   "ar": [
+    {
+      "name": "lordos-gnutux-ar.png",
+      "size": 521115,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793534148,
+      "path": "assets/images/ar/lordos-gnutux-ar.png"
+    },
+    {
+      "name": "lordos-gnutux-ar.webp",
+      "size": 236656,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793534148,
+      "path": "assets/images/ar/lordos-gnutux-ar.webp"
+    },
     {
       "name": "conkio-gnutux-ar.png",
       "size": 395383,
@@ -1940,6 +1956,22 @@
   ],
   "en": [
     {
+      "name": "lordos-gnutux-en.png",
+      "size": 479502,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793534148,
+      "path": "assets/images/en/lordos-gnutux-en.png"
+    },
+    {
+      "name": "lordos-gnutux-en.webp",
+      "size": 199642,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793534148,
+      "path": "assets/images/en/lordos-gnutux-en.webp"
+    },
+    {
       "name": "conkio-gnutux-en.png",
       "size": 461438,
       "width": 1600,
@@ -3861,6 +3893,14 @@
     }
   ],
   "ar_map": {
+    "lordos-gnutux-ar.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "lordos-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 900
+    },
     "conkio-gnutux-ar.png": {
       "w": 1600,
       "h": 800
@@ -4831,6 +4871,14 @@
     }
   },
   "en_map": {
+    "lordos-gnutux-en.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "lordos-gnutux-en.webp": {
+      "w": 1600,
+      "h": 900
+    },
     "conkio-gnutux-en.png": {
       "w": 1600,
       "h": 800
@@ -5792,6 +5840,6 @@
       "h": 576
     }
   },
-  "count_ar": 242,
-  "count_en": 240
+  "count_ar": 244,
+  "count_en": 242
 }
