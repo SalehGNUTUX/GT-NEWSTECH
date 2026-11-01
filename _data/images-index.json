@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-10-30T07:45:59.980Z",
+  "generated_at": "2026-11-01T11:40:33.342Z",
   "ar": [
+    {
+      "name": "conkio-gnutux-ar.png",
+      "size": 395383,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1793533215,
+      "path": "assets/images/ar/conkio-gnutux-ar.png"
+    },
+    {
+      "name": "conkio-gnutux-ar.webp",
+      "size": 157902,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1793533215,
+      "path": "assets/images/ar/conkio-gnutux-ar.webp"
+    },
     {
       "name": "gnome51-gnutux-ar.jpg",
       "size": 213824,
@@ -1924,6 +1940,22 @@
   ],
   "en": [
     {
+      "name": "conkio-gnutux-en.png",
+      "size": 461438,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1793533215,
+      "path": "assets/images/en/conkio-gnutux-en.png"
+    },
+    {
+      "name": "conkio-gnutux-en.webp",
+      "size": 212436,
+      "width": 1600,
+      "height": 800,
+      "last_modified_ts": 1793533215,
+      "path": "assets/images/en/conkio-gnutux-en.webp"
+    },
+    {
       "name": "gnome51-gnutux-en.jpg",
       "size": 214318,
       "width": 1376,
@@ -3829,6 +3861,14 @@
     }
   ],
   "ar_map": {
+    "conkio-gnutux-ar.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "conkio-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "gnome51-gnutux-ar.jpg": {
       "w": 1376,
       "h": 768
@@ -4791,6 +4831,14 @@
     }
   },
   "en_map": {
+    "conkio-gnutux-en.png": {
+      "w": 1600,
+      "h": 800
+    },
+    "conkio-gnutux-en.webp": {
+      "w": 1600,
+      "h": 800
+    },
     "gnome51-gnutux-en.jpg": {
       "w": 1376,
       "h": 768
@@ -5744,6 +5792,6 @@
       "h": 576
     }
   },
-  "count_ar": 240,
-  "count_en": 238
+  "count_ar": 242,
+  "count_en": 240
 }
