@@ -1,11 +1,61 @@
 {
-  "generated_at": "2026-11-01T11:40:36.585Z",
-  "count": 262,
+  "generated_at": "2026-11-01T11:56:06.694Z",
+  "count": 264,
   "by_lang": {
-    "ar": 131,
-    "en": 131
+    "ar": 132,
+    "en": 132
   },
   "articles": [
+    {
+      "title": "LordOS: A Linux Distribution Built from Scratch with a React UI and a C Display Server",
+      "slug": "lordos-custom-linux-desktop",
+      "date": "2026-11-01T10:55:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "LordOS is a new Linux distribution based on Debian, but it differs from almost everything else: a display server and Wayland compositor written in C from scratch, a React UI engine running on QuickJS, and lightweight native apps. It uses only 465 MB of RAM and boots in 16 seconds.",
+      "image": "lordos-gnutux-en.png",
+      "tags": [
+        "LordOS",
+        "Linux Distributions",
+        "Wayland",
+        "C",
+        "React",
+        "QuickJS",
+        "Raspberry Pi",
+        "Debian"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-11-01-lordos-custom-linux-desktop.md",
+      "_lang": "en",
+      "_cat": "gnulinux"
+    },
+    {
+      "title": "LordOS: توزيعة لينكس مبنية من الصفر بواجهة React وخادم عرض بلغة C",
+      "slug": "lordos-custom-linux-desktop",
+      "date": "2026-11-01T10:52:00.000Z",
+      "category": "gnulinux",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "LordOS هي توزيعة لينكس جديدة مبنية على Debian، لكنها تختلف عن كل شيء تقريباً: خادم عرض وWayland Compositor مكتوبان بلغة C من الصفر، محرك واجهة React يعمل على QuickJS، وتطبيقات أصلية خفيفة. تستهلك 465 ميجابايت فقط من الذاكرة وتقلع في 16 ثانية.",
+      "image": "lordos-gnutux-ar.png",
+      "tags": [
+        "LordOS",
+        "توزيعات لينكس",
+        "Wayland",
+        "C",
+        "React",
+        "QuickJS",
+        "Raspberry Pi",
+        "Debian"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-11-01-lordos-custom-linux-desktop.md",
+      "_lang": "ar",
+      "_cat": "gnulinux"
+    },
     {
       "title": "Conkio: مركز التحكم الحديث الذي يروض فوضى سمات Conky على لينكس",
       "slug": "conkio-conky-theme-manager",
