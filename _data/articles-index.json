@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-10-30T08:08:57.159Z",
-  "count": 260,
+  "generated_at": "2026-11-01T11:40:36.585Z",
+  "count": 262,
   "by_lang": {
-    "ar": 130,
-    "en": 130
+    "ar": 131,
+    "en": 131
   },
   "articles": [
+    {
+      "title": "Conkio: مركز التحكم الحديث الذي يروض فوضى سمات Conky على لينكس",
+      "slug": "conkio-conky-theme-manager",
+      "date": "2026-11-01T10:39:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Conkio هو مدير سمات Conky حديث وسريع، مكتوب بلغة Rust وواجهة Slint أصلية. يتيح اكتشاف وتشغيل وتخصيص وإصلاح سمات Conky من تطبيق واحد، مع دعم Wayland وX11، ومتجر سمات مدمج، وفحص صحي يكتشف الملفات والأوامر المفقودة. متاح لجميع التوزيعات الرئيسية.",
+      "image": "conkio-gnutux-ar.png",
+      "tags": [
+        "Conkio",
+        "Conky",
+        "سمات سطح المكتب",
+        "لينكس",
+        "Rust",
+        "Slint",
+        "مفتوح المصدر"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-10-30-conkio-conky-theme-manager.md",
+      "_lang": "ar",
+      "_cat": "foss"
+    },
+    {
+      "title": "Conkio: The Modern Control Center That Tames the Chaos of Conky Themes on Linux",
+      "slug": "conkio-conky-theme-manager",
+      "date": "2026-11-01T10:38:00.000Z",
+      "category": "foss",
+      "also_in": [],
+      "author": "GNUTUX",
+      "excerpt": "Conkio is a modern and fast Conky theme manager, written in Rust with a native Slint interface. It lets you discover, run, customize, and repair Conky themes from a single application, with support for Wayland and X11, a built-in theme marketplace, and a health scan that detects missing assets and commands. Available for all major distributions.",
+      "image": "conkio-gnutux-en.png",
+      "tags": [
+        "Conkio",
+        "Conky",
+        "Desktop Themes",
+        "Linux",
+        "Rust",
+        "Slint",
+        "Open Source"
+      ],
+      "layout": "post",
+      "affiliate": null,
+      "_file": "2026-11-01-conkio-conky-theme-manager.md",
+      "_lang": "en",
+      "_cat": "foss"
+    },
     {
       "title": "Official Release of GNOME 51: A Comprehensive Look at Key Features and New Improvements",
       "slug": "GNOME-51-official-release-features",
