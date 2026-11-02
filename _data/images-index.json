@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-11-01T11:56:05.012Z",
+  "generated_at": "2026-11-02T09:44:32.385Z",
   "ar": [
+    {
+      "name": "mastodon-5.0-gnutux-ar.png",
+      "size": 423675,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793612656,
+      "path": "assets/images/ar/mastodon-5.0-gnutux-ar.png"
+    },
+    {
+      "name": "mastodon-5.0-gnutux-ar.webp",
+      "size": 133636,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793612656,
+      "path": "assets/images/ar/mastodon-5.0-gnutux-ar.webp"
+    },
     {
       "name": "lordos-gnutux-ar.png",
       "size": 521115,
@@ -1956,6 +1972,22 @@
   ],
   "en": [
     {
+      "name": "mastodon-5.0-gnutux-en.png",
+      "size": 435720,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793612656,
+      "path": "assets/images/en/mastodon-5.0-gnutux-en.png"
+    },
+    {
+      "name": "mastodon-5.0-gnutux-en.webp",
+      "size": 174500,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793612656,
+      "path": "assets/images/en/mastodon-5.0-gnutux-en.webp"
+    },
+    {
       "name": "lordos-gnutux-en.png",
       "size": 479502,
       "width": 1600,
@@ -3893,6 +3925,14 @@
     }
   ],
   "ar_map": {
+    "mastodon-5.0-gnutux-ar.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "mastodon-5.0-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 900
+    },
     "lordos-gnutux-ar.png": {
       "w": 1600,
       "h": 900
@@ -4871,6 +4911,14 @@
     }
   },
   "en_map": {
+    "mastodon-5.0-gnutux-en.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "mastodon-5.0-gnutux-en.webp": {
+      "w": 1600,
+      "h": 900
+    },
     "lordos-gnutux-en.png": {
       "w": 1600,
       "h": 900
@@ -5840,6 +5888,6 @@
       "h": 576
     }
   },
-  "count_ar": 244,
-  "count_en": 242
+  "count_ar": 246,
+  "count_en": 244
 }
