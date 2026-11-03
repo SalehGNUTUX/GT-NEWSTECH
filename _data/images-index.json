@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-11-02T09:44:32.385Z",
+  "generated_at": "2026-11-03T12:25:30.450Z",
   "ar": [
+    {
+      "name": "affinity-linux-canva-announcement-gnutux-ar.png",
+      "size": 438820,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793708712,
+      "path": "assets/images/ar/affinity-linux-canva-announcement-gnutux-ar.png"
+    },
+    {
+      "name": "affinity-linux-canva-announcement-gnutux-ar.webp",
+      "size": 190524,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793708712,
+      "path": "assets/images/ar/affinity-linux-canva-announcement-gnutux-ar.webp"
+    },
     {
       "name": "mastodon-5.0-gnutux-ar.png",
       "size": 423675,
@@ -1972,6 +1988,22 @@
   ],
   "en": [
     {
+      "name": "affinity-linux-canva-announcement-gnutux-en.png",
+      "size": 424953,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793708712,
+      "path": "assets/images/en/affinity-linux-canva-announcement-gnutux-en.png"
+    },
+    {
+      "name": "affinity-linux-canva-announcement-gnutux-en.webp",
+      "size": 170358,
+      "width": 1600,
+      "height": 900,
+      "last_modified_ts": 1793708712,
+      "path": "assets/images/en/affinity-linux-canva-announcement-gnutux-en.webp"
+    },
+    {
       "name": "mastodon-5.0-gnutux-en.png",
       "size": 435720,
       "width": 1600,
@@ -3925,6 +3957,14 @@
     }
   ],
   "ar_map": {
+    "affinity-linux-canva-announcement-gnutux-ar.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "affinity-linux-canva-announcement-gnutux-ar.webp": {
+      "w": 1600,
+      "h": 900
+    },
     "mastodon-5.0-gnutux-ar.png": {
       "w": 1600,
       "h": 900
@@ -4911,6 +4951,14 @@
     }
   },
   "en_map": {
+    "affinity-linux-canva-announcement-gnutux-en.png": {
+      "w": 1600,
+      "h": 900
+    },
+    "affinity-linux-canva-announcement-gnutux-en.webp": {
+      "w": 1600,
+      "h": 900
+    },
     "mastodon-5.0-gnutux-en.png": {
       "w": 1600,
       "h": 900
@@ -5888,6 +5936,6 @@
       "h": 576
     }
   },
-  "count_ar": 246,
-  "count_en": 244
+  "count_ar": 248,
+  "count_en": 246
 }
